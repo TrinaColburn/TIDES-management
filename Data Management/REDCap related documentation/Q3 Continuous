@@ -1,0 +1,42 @@
+libname tides3 "/folders/myfolders";
+run;
+
+data T3;
+set tides3.q3_22119;
+run;
+ 
+proc univariate data = T3;
+var T3_Q1_Days T3_Q1_Wks T3_Q1_Wks_recode T3_Q2_wt_lbs T3_Q2_wt_kg T3_Q3_height_ft T3_Q3_height_in T3_Q3_height_cm ;
+run;
+
+proc univariate data = T3;
+var T3_Q26 t3_q27_dad_height_ft t3_q27_dad_height_in t3_q27_dad_weight_lbs t3_q27_dad_height_recode;
+run;
+
+proc univariate data = T3;
+var T3_Q17A T3_Q17B T3_Q17C T3_Q17D T3_Q17E T3_Q17F T3_Q17G T3_Q17H T3_Q17I;
+run;
+
+proc univariate data = T3;
+var T3_Q18 T3_Q18A;
+run;
+
+proc freq data = T3;
+table T3_Q19A_YN T3_Q19B_YN T3_Q19C_YN T3_Q19D_YN T3_Q19E_YN T3_Q19F_YN T3_Q19G_YN T3_Q19H_YN T3_Q19I_YN T3_Q19J_YN/ norow nopercent nocol nocum MISSING;
+run;
+
+proc univariate data = T3;
+var T3_Q19A_Week T3_Q19B_Week T3_Q19C_Week T3_Q19D_Week T3_Q19E_Week T3_Q19F_Week T3_Q19G_Week T3_Q19H_Week T3_Q19I_Week T3_Q19J_Week;
+run;
+
+proc univariate data = T3;
+var T3_Q19A_Wks_recode T3_Q19B_Wks_recode T3_Q19C_Wks_recode T3_Q19D_Wks_recode T3_Q19E_Wks_recode T3_Q19F_Wks_recode T3_Q19G_Wks_recode T3_Q19H_Wks_recode T3_Q19I_Wks_recode T3_Q19J_Wks_recode;
+run;
+
+proc univariate data = T3;
+var T3_Q19A_Day T3_Q19B_Day  T3_Q19C_Day  T3_Q19D_Day  T3_Q19E_Day  T3_Q19F_Day  T3_Q19G_Day  T3_Q19H_Day  T3_Q19I_Day  T3_Q19J_Day ;
+run;
+
+proc univariate data = T3;
+var T3_Q20 T3_Q21;
+run;

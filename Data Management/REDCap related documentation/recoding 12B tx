@@ -1,0 +1,111 @@
+/*Creating new variable flag three for missing both OUTCOME and TX*/
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+if T2_Q12B_2_OUTCOME=. and T2_Q12B_2_TX_Flag=1 then T2_Q12B_2_TX_Flag_three=1; run;
+
+/*Checking N of people who are missing OUTCOME and TX*/
+proc freq data=work.Q2_22119_forimport;
+table T2_Q12B_2_TX_Flag_three/nocum nocol norow nopercent; run;
+
+/*Ideally, should match the number missing here*/
+proc freq data=work.Q2_22119_forimport;
+table T2_Q12B_2_OUTCOME; run;
+
+/*recoding ppt as N/A*/
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+if T2_Q12B_2_TX_Flag_three=1 then T2_Q12B_2_TX_NO=-77;
+if T2_Q12B_2_TX_Flag_three=1 then T2_Q12B_2_TX_INSEM=-77;
+if T2_Q12B_2_TX_Flag_three=1 then T2_Q12B_2_TX_OVINDUCT=-77;
+if T2_Q12B_2_TX_Flag_three=1 then T2_Q12B_2_tx_EGGDONATION=-77;
+if T2_Q12B_2_TX_Flag_three=1 then T2_Q12B_2_TX_other=-77;
+run;
+
+proc freq data=work.Q2_22119_forimport;
+table T2_Q12B_2_TX_other; run;
+
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+if T2_Q12B_3_TX_Flag_three=1 then T2_Q12B_3_TX_NO=-77;
+if T2_Q12B_3_TX_Flag_three=1 then T2_Q12B_3_TX_INSEM=-77;
+if T2_Q12B_3_TX_Flag_three=1 then T2_Q12B_3_TX_OVINDUCT=-77;
+if T2_Q12B_3_TX_Flag_three=1 then T2_Q12B_3_tx_EGGDONATION=-77;
+if T2_Q12B_3_TX_Flag_three=1 then T2_Q12B_3_TX_other=-77;
+run;
+
+proc freq data=work.Q2_22119_forimport;
+table T2_Q12B_3_TX_other; run;
+
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+if T2_Q12B_4_TX_Flag_three=1 then T2_Q12B_4_TX_NO=-77;
+if T2_Q12B_4_TX_Flag_three=1 then T2_Q12B_4_TX_INSEM=-77;
+if T2_Q12B_4_TX_Flag_three=1 then T2_Q12B_4_TX_OVINDUCT=-77;
+if T2_Q12B_4_TX_Flag_three=1 then T2_Q12B_4_tx_EGGDONATION=-77;
+if T2_Q12B_4_TX_Flag_three=1 then T2_Q12B_4_TX_other=-77;
+run;
+
+proc freq data=work.Q2_22119_forimport;
+table T2_Q12B_4_TX_other; run;
+
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+if T2_Q12B_5_TX_Flag_three=1 then T2_Q12B_5_TX_NO=-77;
+if T2_Q12B_5_TX_Flag_three=1 then T2_Q12B_5_TX_INSEM=-77;
+if T2_Q12B_5_TX_Flag_three=1 then T2_Q12B_5_TX_OVINDUCT=-77;
+if T2_Q12B_5_TX_Flag_three=1 then T2_Q12B_5_tx_EGGDONATION=-77;
+if T2_Q12B_5_TX_Flag_three=1 then T2_Q12B_5_TX_other=-77;
+run;
+
+proc freq data=work.Q2_22119_forimport;
+table T2_Q12B_5_TX_other; run;
+
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+if T2_Q12B_6_TX_Flag_three=1 then T2_Q12B_6_TX_NO=-77;
+if T2_Q12B_6_TX_Flag_three=1 then T2_Q12B_6_TX_INSEM=-77;
+if T2_Q12B_6_TX_Flag_three=1 then T2_Q12B_6_TX_OVINDUCT=-77;
+if T2_Q12B_6_TX_Flag_three=1 then T2_Q12B_6_tx_EGGDONATION=-77;
+if T2_Q12B_6_TX_Flag_three=1 then T2_Q12B_6_TX_other=-77;
+run;
+
+proc freq data=work.Q2_22119_forimport;
+table T2_Q12B_6_TX_other; run;
+
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+if T2_Q12B_7_TX_Flag_three=1 then T2_Q12B_7_TX_NO=-77;
+if T2_Q12B_7_TX_Flag_three=1 then T2_Q12B_7_TX_INSEM=-77;
+if T2_Q12B_7_TX_Flag_three=1 then T2_Q12B_7_TX_OVINDUCT=-77;
+if T2_Q12B_7_TX_Flag_three=1 then T2_Q12B_7_tx_EGGDONATION=-77;
+if T2_Q12B_7_TX_Flag_three=1 then T2_Q12B_7_TX_other=-77;
+run;
+
+proc freq data=work.Q2_22119_forimport;
+table T2_Q12B_7_TX_other; run;
+
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+if T2_Q12B_8_TX_Flag_three=1 then T2_Q12B_8_TX_NO=-77;
+if T2_Q12B_8_TX_Flag_three=1 then T2_Q12B_8_TX_INSEM=-77;
+if T2_Q12B_8_TX_Flag_three=1 then T2_Q12B_8_TX_OVINDUCT=-77;
+if T2_Q12B_8_TX_Flag_three=1 then T2_Q12B_8_tx_EGGDONATION=-77;
+if T2_Q12B_8_TX_Flag_three=1 then T2_Q12B_8_TX_other=-77;
+run;
+
+proc freq data=work.Q2_22119_forimport;
+table T2_Q12B_8_TX_other; run;
+
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+if T2_Q12B_9_TX_Flag_three=1 then T2_Q12B_9_TX_NO=-77;
+if T2_Q12B_9_TX_Flag_three=1 then T2_Q12B_9_TX_INSEM=-77;
+if T2_Q12B_9_TX_Flag_three=1 then T2_Q12B_9_TX_OVINDUCT=-77;
+if T2_Q12B_9_TX_Flag_three=1 then T2_Q12B_9_tx_EGGDONATION=-77;
+if T2_Q12B_9_TX_Flag_three=1 then T2_Q12B_9_TX_other=-77;
+run;
+
+proc freq data=work.Q2_22119_forimport;
+table T2_Q12B_10_TX_other; run;
+
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+if T2_Q12B_10_TX_Flag_three=1 then T2_Q12B_10_TX_NO=-77;
+if T2_Q12B_10_TX_Flag_three=1 then T2_Q12B_10_TX_INSEM=-77;
+if T2_Q12B_10_TX_Flag_three=1 then T2_Q12B_10_TX_OVINDUCT=-77;
+if T2_Q12B_10_TX_Flag_three=1 then T2_Q12B_10_tx_EGGDONATION=-77;
+if T2_Q12B_10_TX_Flag_three=1 then T2_Q12B_10_TX_other=-77;
+run;
+
+proc freq data=work.Q2_22119_forimport;
+table T2_Q12B_10_TX_other; run;

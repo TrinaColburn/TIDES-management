@@ -1,0 +1,816 @@
+libname tides '<file path>';
+
+data T1; set tides.q1_20190514; run;
+
+proc freq data = T1;
+table T1_BYPASSED T1_COMPLETE;
+run;
+
+proc freq data = T1;
+table T1_LAST_PAGE;
+run;
+
+proc freq data = T1;
+table T1_Q46_DOB;
+run;
+
+
+proc freq data = T1;
+table T1_QVERSION
+T1_QVERSIONNUMBER T1_SITE T1_SYSID
+T1_TIME_END_RAW
+T1_TIME_STAMP
+T1_TIME_STARTED
+T1_TIME_STARTED_RAW
+T1_USERID
+Dropped;
+run;
+
+proc freq data = T1;
+table T1_Q48_Race T1_Q47_Ethnic center;
+run;
+
+
+proc freq data = T1;
+table T1_TODAY_DT;
+run;
+
+proc freq data = T1;
+table
+T1_PAGENO T1_PAGE_0
+T1_PAGE_1 T1_PAGE_2 T1_PAGE_3
+T1_PAGE_4 T1_PAGE_5 T1_PAGE_6
+T1_PAGE_7 T1_PAGE_8 T1_PAGE_9
+T1_PAGE_10 T1_PAGE_11
+T1_PAPERUSERNAME T1_PAPERYN;
+run;
+
+
+proc freq data = T1;
+table T1_Q1_DAYS T1_Q1_WKS;
+run;
+
+proc print data = T1;
+var T1_Q1_WKS T1_Q1_DAYS;
+where T1_Q1_WKS = .; run;
+
+proc freq data = T1;
+table T1_Q1_DK;
+*where T1_Q1_WKS = . and T1_Q1_DAYS = .;
+run;
+
+proc freq data = T1;
+table T1_Q5_LMP;
+run;
+
+proc freq data = T1;
+where T1_Q5_LMP = .;
+table T1_Q5_DK;
+run;
+
+proc print data = T1;
+where T1_Q5_LMP ne .;
+var T1_Q5_LMP T1_Q5_DK;
+run;
+
+proc freq data = T1;
+*where T1_Q5_DK = .;
+table T1_Q5_NS;
+run;
+
+proc freq data = T1;
+table T1_Q5_NS*T1_Q5_DK/missing;
+run;
+
+
+/*Medications*/
+/*lead-in*/
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_A_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_A_YN*T1_Q6A1_A_OTC  T1_Q6A1_A_YN*T1_Q6A1_A_SCRIPT
+  /missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_B_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_B_YN*T1_Q6A1_B_OTC  T1_Q6A1_B_YN*T1_Q6A1_B_SCRIPT
+  /missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_C_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_C_YN*T1_Q6A1_C_OTC  T1_Q6A1_C_YN*T1_Q6A1_C_SCRIPT
+  /missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_D_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_D_YN*T1_Q6A1_D_OTC  T1_Q6A1_D_YN*T1_Q6A1_D_SCRIPT
+  /missing;
+run;
+
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_E_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_E_YN*T1_Q6A1_E_OTC  T1_Q6A1_E_YN*T1_Q6A1_E_SCRIPT
+  /missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_F_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_F_YN*T1_Q6A1_F_OTC  T1_Q6A1_F_YN*T1_Q6A1_F_SCRIPT
+  /missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_G_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_G_YN*T1_Q6A1_G_OTC  T1_Q6A1_G_YN*T1_Q6A1_G_SCRIPT
+  /missing;
+run;
+
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_H_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_H_YN*T1_Q6A1_H_OTC  T1_Q6A1_H_YN*T1_Q6A1_H_SCRIPT
+  /missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_I_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_I_YN*T1_Q6A1_I_OTC  T1_Q6A1_I_YN*T1_Q6A1_I_SCRIPT
+  /missing;
+run;
+
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_J_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_J_YN*T1_Q6A1_J_OTC  T1_Q6A1_J_YN*T1_Q6A1_J_SCRIPT
+  /missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_K_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_K_YN*T1_Q6A1_K_OTC  T1_Q6A1_K_YN*T1_Q6A1_K_SCRIPT
+  /missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_L_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_L_YN*T1_Q6A1_L_OTC  T1_Q6A1_L_YN*T1_Q6A1_L_SCRIPT
+  /missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_M_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_M_YN*T1_Q6A1_M_OTC  T1_Q6A1_M_YN*T1_Q6A1_M_SCRIPT
+  /missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_N_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_N_YN*T1_Q6A1_N_OTC  T1_Q6A1_N_YN*T1_Q6A1_N_SCRIPT
+  /missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A*T1_Q6A1_O_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6A1_O_YN*T1_Q6A1_O_OTC  T1_Q6A1_O_YN*T1_Q6A1_O_SCRIPT
+  /missing;
+run;
+
+*vitamins and supplements;
+proc freq data = T1;
+table T1_Q6B*T1_Q6B1/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C;
+run;
+
+proc freq data = T1;
+table T1_Q6C*T1_Q6C_M_YN/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_A_YN*T1_Q6C_A_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_B_YN*T1_Q6C_B_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_C_YN*T1_Q6C_C_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_D_YN*T1_Q6C_D_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_E_YN*T1_Q6C_E_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_F_YN*T1_Q6C_F_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_G_YN*T1_Q6C_G_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_H_YN*T1_Q6C_H_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_I_YN*T1_Q6C_I_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_J_YN*T1_Q6C_J_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_K_YN*T1_Q6C_K_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_L_YN*T1_Q6C_L_FORM/missing;
+run;
+
+proc freq data = T1;
+table T1_Q6C_M_YN*T1_Q6C_M_FORM/missing;
+run;
+
+
+*hosp;
+proc freq data = T1;
+table T1_Q6D T1_Q6E T1_Q6F T1_Q6G T1_Q6H T1_Q6I ;
+run;
+
+proc freq data = T1;
+table T1_Q7;
+run;
+
+
+?*Pregnancy Related Qs*/
+proc freq data = T1;
+where T1_Q8 = 1;
+table T1_Q8A;
+run;
+
+proc freq data = T1;
+where T1_Q8 = .;
+table T1_Q8A;
+run;
+
+proc freq data = T1;
+where T1_Q8A1 = .;
+table T1_Q8A;
+run;
+
+
+proc freq data = T1;
+where T1_Q8 = 1 and T1_Q8A = 0;
+table T1_Q8A1;
+run;
+
+proc print data = T1;
+var T1_Q8A1 T1_Q8A T1_Q8;
+where T1_Q8A = 0 and T1_Q8 = 1  ; run;
+
+proc freq data = T1;
+table T1_Q9*T1_Q9b/missing;
+run;
+
+proc freq data = T1;
+table T1_Q9A_YN*T1_Q9A1_F;
+run;
+
+proc freq data = T1;
+table T1_Q9*T1_Q9A_YN/missing;
+run;
+proc freq data = T1;
+table T1_Q9B;
+run;
+
+proc freq data = T1;
+table T1_Q11 T1_Q12;
+run;
+
+/*Pregnancy Complications*/
+proc freq data = T1;
+table (T1_Q12A_A T1_Q12A_B T1_Q12A_C T1_Q12A_D
+T1_Q12A_E T1_Q12A_F T1_Q12A_G T1_Q12A_H T1_Q12A_I) * T1_Q12/missing
+;
+run;
+
+/*Lifestyle and Diet*/
+proc freq data = T1;
+table T1_Q13 T1_Q14 T1_Q15 T1_Q16 T1_Q17;
+run;
+
+proc freq data = T1;
+table T1_Q18;
+run;
+
+proc freq data = T1;
+table (T1_Q19_1 T1_Q19_2 T1_Q19_3
+T1_Q19_4 T1_Q19_5 T1_Q19_6 T1_Q19_7)*T1_Q18;
+run;
+
+proc freq data = T1;
+table T1_Q20 T1_Q21;
+run;
+
+proc freq data = T1;
+table T1_Q22 T1_Q23 T1_Q24 T1_Q25A T1_Q25B T1_Q25C;
+run;
+
+/*Cigarettes, Alcohol, Drugs*/
+proc print data = T1;
+where T1_Q30A_YN = .;
+var T1_Q30A_DAY
+T1_Q30A_WEEK ;
+run;
+
+proc freq data = T1;
+where T1_Q30A_YN = 0;
+table T1_Q30A_DAY
+T1_Q30A_WEEK;
+run;
+
+proc freq data = T1;
+table T1_Q33;
+run;
+
+proc print data = T1;
+where T1_Q30B_YN = 1 and T1_Q30B_DAY = 0 and
+T1_Q30B_WEEK = 0 ;
+var T1_Q30B_YN T1_Q30B_DAY
+T1_Q30B_WEEK;
+run;
+
+proc print data = T1;
+where T1_Q30C_YN = 1 and T1_Q30C_DAY = 0 and
+T1_Q30C_WEEK = 0 ;
+var T1_Q30C_YN T1_Q30C_DAY
+T1_Q30C_WEEK;
+run;
+
+proc print data = T1;
+where T1_Q30E_YN = 1 and T1_Q30E_DAY = 0 and
+T1_Q30E_WEEK = 0 ;
+var T1_Q30E_YN T1_Q30E_DAY
+T1_Q30E_WEEK;
+run;
+
+proc print data = T1;
+where T1_Q30F_YN = 1 and T1_Q30F_DAY = 0 and
+T1_Q30F_WEEK = 0 ;
+var T1_Q30F_YN T1_Q30F_DAY
+T1_Q30F_WEEK;
+run;
+
+proc print data = T1;
+where T1_Q30G_YN = 1 and T1_Q30G_DAY = 0 and
+T1_Q30G_WEEK = 0 ;
+var T1_Q30G_YN T1_Q30G_DAY
+T1_Q30G_WEEK;
+run;
+
+proc print data = T1;
+where T1_Q30H_YN = 1 and T1_Q30H_DAY = 0 and
+T1_Q30H_WEEK = 0 ;
+var T1_Q30H_YN T1_Q30H_DAY
+T1_Q30H_WEEK;
+run;
+
+proc print data = T1;
+where T1_Q30I_YN = 1 and T1_Q30I_DAY = 0 and
+T1_Q30I_WEEK = 0 ;
+var T1_Q30I_YN T1_Q30I_DAY
+T1_Q30I_WEEK;
+run;
+
+proc freq data = T1;
+table T1_Q30J_YN;
+run;
+
+proc freq data = T1;
+where T1_Q30J_YN = 0;
+table T1_Q30J_DAY
+T1_Q30J_WEEK;
+run;
+
+proc print data = T1;
+where T1_Q30J_YN = 1 and T1_Q30J_DAY = 0 and
+T1_Q30J_WEEK = 0 ;
+var T1_Q30J_YN T1_Q30J_DAY
+T1_Q30J_WEEK;
+run;
+
+/*Employment*/
+proc freq data = T1;
+table T1_Q33 T1_Q34;
+run;
+
+proc freq data = T1;
+where T1_Q34 = 3;
+table T1_Q34a;
+run;
+
+proc freq data = T1;
+where T1_Q34 = 9;
+table T1_Q34b;
+run;
+
+proc freq data = T1;
+where T1_Q34 = 10;
+table T1_Q34C_A
+T1_Q34C_B
+T1_Q34C_C
+T1_Q34C_D;
+run;
+
+proc print data = T1;
+where T1_Q34C_B ne . or T1_Q34C_D ne .;
+var T1_Q34 T1_Q34C_A
+T1_Q34C_B
+T1_Q34C_C
+T1_Q34C_D;
+run;
+
+
+proc freq data = T1;
+table T1_Q34;
+run;
+
+proc freq data = T1;
+where T1_Q34 ne 11;
+table T1_Q34D;
+run;
+
+proc freq data = T1;
+where T1_Q34 ne 11 and T1_Q34D ne .;
+table T1_Q34;
+run;
+
+
+proc freq data = T1;
+where T1_Q34 ne 11;
+table (T1_Q34D1_A
+T1_Q34D1_B
+T1_Q34D1_C
+T1_Q34D1_D
+T1_Q34D1_E
+T1_Q34D1_F
+T1_Q34D1_G
+T1_Q34D1_H
+T1_Q34D1_I
+T1_Q34D1_J)*T1_Q34D/missing
+ ;
+run;
+
+proc freq data = T1;
+table T1_Q35*T1_Q33/missing;
+run;
+proc freq data = T1;
+table T1_Q36*T1_Q33/missing;
+run;
+
+proc freq data = T1;
+table T1_Q37*T1_Q33/missing;
+run;
+
+proc freq data = T1;
+table T1_Q37a*T1_Q37/missing;
+run;
+
+proc freq data = T1;
+table T1_Q38*T1_Q33/missing;
+run;
+
+proc freq data = T1;
+table T1_Q39*T1_Q33/missing;
+run;
+
+proc freq data = T1;
+table T1_Q39a*T1_Q39/missing;
+run;
+
+proc freq data = T1;
+table (T1_Q39A1_A
+T1_Q39A1_B
+T1_Q39A1_C
+T1_Q39A1_D
+T1_Q39A1_E
+T1_Q39A1_F
+T1_Q39A1_G
+T1_Q39A1_H
+T1_Q39A1_I)*T1_Q39A
+;
+run;
+
+proc freq data = T1;
+table T1_Q39b*T1_Q39/missing;
+run;
+proc freq data = T1;
+table T1_Q39B1_A
+T1_Q39B1_B
+T1_Q39B1_C
+T1_Q39B1_D
+;
+run;
+
+proc freq data = T1;
+table T1_Q39c*T1_Q39/missing;
+run;
+
+proc freq data = T1;
+table T1_Q40*T1_Q33/missing;;
+run;
+
+/Personal Care products*/
+proc freq data = T1;
+table T1_Q42;
+run;
+
+proc freq data = T1;
+table T1_Q43A_1_days*T1_Q43A_1_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43A_2_days*T1_Q43A_2_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43A_3_days*T1_Q43A_3_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43A_3_days*T1_Q43A_3_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43A_4_days*T1_Q43A_4_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43A_4_days*T1_Q43A_4_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43A_5_days*T1_Q43A_5_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43A_5_days*T1_Q43A_5_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43B_1_days*T1_Q43B_1_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43B_1_days*T1_Q43B_1_FRAG/missing;
+run;
+
+
+proc freq data = T1;
+table T1_Q43B_2_days*T1_Q43B_2_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43B_2_days*T1_Q43B_2_FRAG/missing;
+run;
+
+
+proc freq data = T1;
+table T1_Q43B_3_days*T1_Q43B_3_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43B_3_days*T1_Q43B_3_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43B_4_days*T1_Q43B_4_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43B_4_days*T1_Q43B_4_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43B_5_days*T1_Q43B_5_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43B_5_days*T1_Q43B_5_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43B_6_days*T1_Q43B_6_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43B_6_days*T1_Q43B_6_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43B_7_days*T1_Q43B_7_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43B_7_days*T1_Q43B_7_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43B_8_days*T1_Q43B_8_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43B_8_days*T1_Q43B_8_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43B_9_days*T1_Q43B_9_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43B_9_days*T1_Q43B_9_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43B_10_days*T1_Q43B_10_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43B_10_days*T1_Q43B_10_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43B_11_days*T1_Q43B_11_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43B_11_days*T1_Q43B_11_FRAG/missing;
+run;
+
+
+proc freq data = T1;
+table T1_Q43C_days*T1_Q43C_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43C_days*T1_Q43C_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43D_days*T1_Q43D_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43D_days*T1_Q43D_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43E_days*T1_Q43E_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43E_days*T1_Q43E_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43F_days*T1_Q43F_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43F_days*T1_Q43F_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43G_days*T1_Q43G_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43G_days*T1_Q43G_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43H_days*T1_Q43H_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43H_days*T1_Q43H_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43I_days*T1_Q43I_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43I_days*T1_Q43I_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43J_days*T1_Q43J_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43J_days*T1_Q43J_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43K_days*T1_Q43K_FRAG;
+run;
+
+proc freq data = T1;
+table T1_Q43K_days*T1_Q43K_FRAG/missing;
+run;
+
+proc freq data = T1;
+table T1_Q43L_days T1_Q43L_FRAG;
+run;
+
+/*Demographic (Covariate) Information*/
+
+proc freq data = T1;
+table T1_Q45;
+run;
+
+proc freq data = T1;
+table T1_Q45*T1_Q45A/missing;
+run;
+
+proc freq data = T1;
+table (T1_Q48A
+T1_Q48B
+T1_Q48C
+T1_Q48D
+T1_Q48E
+T1_Q48F)*T1_Q48_Race
+;
+run;
+
+proc freq data = T1;
+table T1_Q48_Race
+;
+run;
+proc freq data = T1;
+table T1_Q49;
+run;
+proc freq data = T1;
+table T1_Q51
+T1_Q52
+T1_Q53
+;
+run;

@@ -1,0 +1,446 @@
+/*TIDES Q2 Editing*/
+
+libname master "J:\PM\TIDES_Data\REDCap Master Database\TIDES I"; run;
+
+proc contents data=master.Q2_22119 order=varnum; run;
+
+ods select basicmeasures extremeobs;
+ods pdf file="J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Q2_continuous.pdf" startpage=never;
+proc univariate data=master.Q2_22119 notabcontents;
+var 
+T2_Q1_DAYS
+T2_Q1_DK
+T2_Q2_WT_KG
+T2_Q2_DK
+T2_Q1_wks_Recode
+T2_Q4J
+T2_Q12
+T2_Q12A
+/*T2_12B_1_BEGIN_MO
+T2_12B_1_BEGIN_YR
+T2_12B_1_DURATION_WKS
+T2_12B_1_SEX
+T2_12B_1_BREASTFEED_WKS
+T2_12B_1_BREASTFEED_MOS
+T2_12B_2_BEGIN_MO
+T2_12B_2_BEGIN_YR
+T2_12B_2_DURATION_WKS
+T2_12B_2_SEX
+T2_12B_2_BREASTFEED_WKS
+T2_12B_2_BREASTFEED_MOS
+T2_12B_3_BEGIN_MO
+T2_12B_3_BEGIN_YR
+T2_12B_3_DURATION_WKS
+T2_12B_3_SEX
+T2_12B_3_BREASTFEED_WKS
+T2_12B_3_BREASTFEED_MOS
+T2_12B_4_BEGIN_MO
+T2_12B_4_BEGIN_YR
+T2_12B_4_DURATION_WKS
+T2_12B_4_SEX
+T2_12B_4_BREASTFEED_WKS
+T2_12B_4_BREASTFEED_MOS
+T2_12B_5_BEGIN_MO
+T2_12B_5_BEGIN_YR
+T2_12B_5_DURATION_WKS
+T2_12B_5_SEX
+T2_12B_5_BREASTFEED_WKS
+T2_12B_5_BREASTFEED_MOS
+T2_12B_6_BEGIN_MO
+T2_12B_6_BEGIN_YR
+T2_12B_6_DURATION_WKS
+T2_12B_6_SEX
+T2_12B_6_BREASTFEED_WKS
+T2_12B_6_BREASTFEED_MOS
+T2_12B_7_BEGIN_MO
+T2_12B_7_BEGIN_YR
+T2_12B_7_DURATION_WKS
+T2_12B_7_SEX
+T2_12B_7_BREASTFEED_WKS
+T2_12B_7_BREASTFEED_MOS
+T2_12B_8_BEGIN_MO
+T2_12B_8_BEGIN_YR
+T2_12B_8_DURATION_WKS
+T2_12B_8_SEX
+T2_12B_8_BREASTFEED_WKS
+T2_12B_8_BREASTFEED_MOS
+T2_12B_9_BEGIN_MO
+T2_12B_9_BEGIN_YR
+T2_12B_9_DURATION_WKS
+T2_12B_9_SEX
+T2_12B_9_BREASTFEED_WKS
+T2_12B_9_BREASTFEED_MOS
+T2_12B_10_BEGIN_MO
+T2_12B_10_BEGIN_YR
+T2_12B_10_DURATION_WKS
+T2_12B_10_SEX
+T2_12B_10_BREASTFEED_WKS
+T2_12B_10_BREASTFEED_MOS
+T2_12B_11_BEGIN_MO
+T2_12B_11_BEGIN_YR
+T2_12B_11_DURATION_WKS
+T2_12B_11_SEX
+T2_12B_11_BREASTFEED_WKS
+T2_12B_11_BREASTFEED_MOS
+T2_12B_12_BEGIN_MO
+T2_12B_12_BEGIN_YR
+T2_12B_12_DURATION_WKS
+T2_12B_12_SEX
+T2_12B_12_BREASTFEED_WKS
+T2_12B_12_BREASTFEED_MOS*/
+T2_Q12b_1_duration_wks_recode
+T2_Q12b_2_duration_wks_recode
+T2_Q12b_3_duration_wks_recode
+T2_Q12b_4_duration_wks_recode
+T2_Q12b_5_duration_wks_recode
+T2_Q12b_6_duration_wks_recode
+T2_Q12b_7_duration_wks_recode
+T2_Q12b_8_duration_wks_recode
+T2_Q12b_9_duration_wks_recode
+T2_Q12b_10_duration_wks_recode
+T2_Q12b_11_duration_wks_recode
+T2_Q17C
+T2_Q18A
+T2_Q18B
+T2_Q18C
+T2_Q18D
+T2_Q18E
+T2_Q18F
+T2_Q18G
+T2_Q18H
+T2_Q18I
+T2_Q19
+T2_Q19A
+T2_Q20A_WKS_Recode
+T2_Q20B_WKS_Recode
+T2_Q20C_WKS_Recode
+T2_Q20D_WKS_Recode
+T2_Q20E_WKS_Recode
+T2_Q20F_WKS_Recode
+T2_Q20G_WKS_Recode
+T2_Q20H_WKS_Recode
+T2_Q20I_WKS_Recode
+T2_Q20A_DAY
+T2_Q20B_DAY
+T2_Q20C_DAY
+T2_Q20D_DAY
+T2_Q20E_DAY
+T2_Q20F_DAY
+T2_Q20G_DAY
+T2_Q20H_DAY
+T2_Q20I_DAY
+T2_Q20J_DAY
+T2_Q20J_WEEK
+T2_Q21; run;
+
+ods pdf close;
+
+
+/*or run macro way*/
+ods select basicmeasures extremeobs;
+ods pdf file="J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Q2 Compiled Outliers and Extreme Observations_v1.pdf" startpage=never;
+
+%macro a(Q2var);
+proc univariate data=master.Q2_22119 notabcontents;
+var &Q2var;
+;
+run;
+%mend;
+
+%a(	T2_Q1_DAYS	);
+%a(	T2_Q1_DK	);
+%a(	T2_Q2_WT_KG	);
+%a(	T2_Q2_DK	);
+%a(	T2_Q1_wks_Recode	);
+%a(	T2_Q4J	);
+%a(	T2_Q12	);
+%a(	T2_Q12A	);
+%a(	T2_Q12B_1_BEGIN_MO	);
+%a(	T2_Q12B_1_BEGIN_YR	);
+%a(	T2_Q12B_1_DURATION_WKS	);
+%a(	T2_Q12B_1_SEX	);
+%a(	T2_Q12B_1_BREASTFEED_WKS	);
+%a(	T2_Q12B_1_BREASTFEED_MOS	);
+%a(	T2_Q12B_2_BEGIN_MO	);
+%a(	T2_Q12B_2_BEGIN_YR	);
+%a(	T2_Q12B_2_DURATION_WKS	);
+%a(	T2_Q12B_2_SEX	);
+%a(	T2_Q12B_2_BREASTFEED_WKS	);
+%a(	T2_Q12B_2_BREASTFEED_MOS	);
+%a(	T2_Q12B_3_BEGIN_MO	);
+%a(	T2_Q12B_3_BEGIN_YR	);
+%a(	T2_Q12B_3_DURATION_WKS	);
+%a(	T2_Q12B_3_SEX	);
+%a(	T2_Q12B_3_BREASTFEED_WKS	);
+%a(	T2_Q12B_3_BREASTFEED_MOS	);
+%a(	T2_Q12B_4_BEGIN_MO	);
+%a(	T2_Q12B_4_BEGIN_YR	);
+%a(	T2_Q12B_4_DURATION_WKS	);
+%a(	T2_Q12B_4_SEX	);
+%a(	T2_Q12B_4_BREASTFEED_WKS	);
+%a(	T2_Q12B_4_BREASTFEED_MOS	);
+%a(	T2_Q12B_5_BEGIN_MO	);
+%a(	T2_Q12B_5_BEGIN_YR	);
+%a(	T2_Q12B_5_DURATION_WKS	);
+%a(	T2_Q12B_5_SEX	);
+%a(	T2_Q12B_5_BREASTFEED_WKS	);
+%a(	T2_Q12B_5_BREASTFEED_MOS	);
+%a(	T2_Q12B_6_BEGIN_MO	);
+%a(	T2_Q12B_6_BEGIN_YR	);
+%a(	T2_Q12B_6_DURATION_WKS	);
+%a(	T2_Q12B_6_SEX	);
+%a(	T2_Q12B_6_BREASTFEED_WKS	);
+%a(	T2_Q12B_6_BREASTFEED_MOS	);
+%a(	T2_Q12B_7_BEGIN_MO	);
+%a(	T2_Q12B_7_BEGIN_YR	);
+%a(	T2_Q12B_7_DURATION_WKS	);
+%a(	T2_Q12B_7_SEX	);
+%a(	T2_Q12B_7_BREASTFEED_WKS	);
+%a(	T2_Q12B_7_BREASTFEED_MOS	);
+%a(	T2_Q12B_8_BEGIN_MO	);
+%a(	T2_Q12B_8_BEGIN_YR	);
+%a(	T2_Q12B_8_DURATION_WKS	);
+%a(	T2_Q12B_8_SEX	);
+%a(	T2_Q12B_8_BREASTFEED_WKS	);
+%a(	T2_Q12B_8_BREASTFEED_MOS	);
+%a(	T2_Q12B_9_BEGIN_MO	);
+%a(	T2_Q12B_9_BEGIN_YR	);
+%a(	T2_Q12B_9_DURATION_WKS	);
+%a(	T2_Q12B_9_SEX	);
+%a(	T2_Q12B_9_BREASTFEED_WKS	);
+%a(	T2_Q12B_9_BREASTFEED_MOS	);
+%a(	T2_Q12B_10_BEGIN_MO	);
+%a(	T2_Q12B_10_BEGIN_YR	);
+%a(	T2_Q12B_10_DURATION_WKS	);
+%a(	T2_Q12B_10_SEX	);
+%a(	T2_Q12B_10_BREASTFEED_WKS	);
+%a(	T2_Q12B_10_BREASTFEED_MOS	);
+%a(	T2_Q12B_11_BEGIN_MO	);
+%a(	T2_Q12B_11_BEGIN_YR	);
+%a(	T2_Q12B_11_DURATION_WKS	);
+%a(	T2_Q12B_11_SEX	);
+%a(	T2_Q12B_11_BREASTFEED_WKS	);
+%a(	T2_Q12B_11_BREASTFEED_MOS	);
+%a(	T2_Q12B_12_BEGIN_MO	);
+%a(	T2_Q12B_12_BEGIN_YR	);
+%a(	T2_Q12B_12_DURATION_WKS	);
+%a(	T2_Q12B_12_SEX	);
+%a(	T2_Q12B_12_BREASTFEED_WKS	);
+%a(	T2_Q12B_12_BREASTFEED_MOS	);
+%a(	T2_Q12b_1_duration_wks_recode	);
+%a(	T2_Q12b_2_duration_wks_recode	);
+%a(	T2_Q12b_3_duration_wks_recode	);
+%a(	T2_Q12b_4_duration_wks_recode	);
+%a(	T2_Q12b_5_duration_wks_recode	);
+%a(	T2_Q12b_6_duration_wks_recode	);
+%a(	T2_Q12b_7_duration_wks_recode	);
+%a(	T2_Q12b_8_duration_wks_recode	);
+%a(	T2_Q12b_9_duration_wks_recode	);
+%a(	T2_Q12b_10_duration_wks_recode	);
+%a(	T2_Q12b_11_duration_wks_recode	);
+%a(	T2_Q17C	);
+%a(	T2_Q18A	);
+%a(	T2_Q18B	);
+%a(	T2_Q18C	);
+%a(	T2_Q18D	);
+%a(	T2_Q18E	);
+%a(	T2_Q18F	);
+%a(	T2_Q18G	);
+%a(	T2_Q18H	);
+%a(	T2_Q18I	);
+%a(	T2_Q19	);
+%a(	T2_Q19A	);
+%a(	T2_Q20A_WKS_Recode	);
+%a(	T2_Q20B_WKS_Recode	);
+%a(	T2_Q20C_WKS_Recode	);
+%a(	T2_Q20D_WKS_Recode	);
+%a(	T2_Q20E_WKS_Recode	);
+%a(	T2_Q20F_WKS_Recode	);
+%a(	T2_Q20G_WKS_Recode	);
+%a(	T2_Q20H_WKS_Recode	);
+%a(	T2_Q20I_WKS_Recode	);
+%a(	T2_Q20A_DAY	);
+%a(	T2_Q20B_DAY	);
+%a(	T2_Q20C_DAY	);
+%a(	T2_Q20D_DAY	);
+%a(	T2_Q20E_DAY	);
+%a(	T2_Q20F_DAY	);
+%a(	T2_Q20G_DAY	);
+%a(	T2_Q20H_DAY	);
+%a(	T2_Q20I_DAY	);
+%a(	T2_Q20J_DAY	);
+%a(	T2_Q20J_WEEK	);
+%a(	T2_Q21	);
+
+
+ods pdf close;
+
+/*Compiled Outliers*/
+ods pdf file="J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Compiled Outliers2.pdf";
+
+proc sort data=master.Q2_22119; by study_id; run;
+%macro s(var);
+proc means data=master.Q2_22119 noprint;
+var &var;
+output out=outliers_1 
+idgroup(max(&var)out[10] (study_id)=)
+idgroup(min(&var)out[10] (study_id)=)
+/autolabel autoname;
+run;
+
+proc transpose data=outliers_1 out=outliers2;
+run;
+
+data outliers2; set outliers2;
+if _name_=:"_" then delete;
+drop _name_;
+rename col1=study_id;
+run;
+
+proc sort data=outliers2;
+by study_id;
+run;
+
+data outliers3;
+merge outliers2(in=a) master.Q2_22119(in=b);
+by study_id;
+if a=1;
+keep study_id &var;
+run;
+
+proc sort data=outliers3;
+by &var;
+run;
+
+proc print data=outliers3 noobs;
+run;
+%mend;
+
+%s(	T2_Q1_DAYS	);
+%s(	T2_Q1_DK	);
+%s(	T2_Q2_WT_KG	);
+%s(	T2_Q2_DK	);
+%s(	T2_Q1_wks_Recode	);
+%s(	T2_Q4J	);
+%s(	T2_Q12	);
+%s(	T2_Q12A	);
+%s(	T2_Q12B_1_BEGIN_MO	);
+%s(	T2_Q12B_1_BEGIN_YR	);
+%s(	T2_Q12B_1_DURATION_WKS	);
+%s(	T2_Q12B_1_SEX	);
+%s(	T2_Q12B_1_BREASTFEED_WKS	);
+%s(	T2_Q12B_1_BREASTFEED_MOS	);
+%s(	T2_Q12B_2_BEGIN_MO	);
+%s(	T2_Q12B_2_BEGIN_YR	);
+%s(	T2_Q12B_2_DURATION_WKS	);
+%s(	T2_Q12B_2_SEX	);
+%s(	T2_Q12B_2_BREASTFEED_WKS	);
+%s(	T2_Q12B_2_BREASTFEED_MOS	);
+%s(	T2_Q12B_3_BEGIN_MO	);
+%s(	T2_Q12B_3_BEGIN_YR	);
+%s(	T2_Q12B_3_DURATION_WKS	);
+%s(	T2_Q12B_3_SEX	);
+%s(	T2_Q12B_3_BREASTFEED_WKS	);
+%s(	T2_Q12B_3_BREASTFEED_MOS	);
+%s(	T2_Q12B_4_BEGIN_MO	);
+%s(	T2_Q12B_4_BEGIN_YR	);
+%s(	T2_Q12B_4_DURATION_WKS	);
+%s(	T2_Q12B_4_SEX	);
+%s(	T2_Q12B_4_BREASTFEED_WKS	);
+%s(	T2_Q12B_4_BREASTFEED_MOS	);
+%s(	T2_Q12B_5_BEGIN_MO	);
+%s(	T2_Q12B_5_BEGIN_YR	);
+%s(	T2_Q12B_5_DURATION_WKS	);
+%s(	T2_Q12B_5_SEX	);
+%s(	T2_Q12B_5_BREASTFEED_WKS	);
+%s(	T2_Q12B_5_BREASTFEED_MOS	);
+%s(	T2_Q12B_6_BEGIN_MO	);
+%s(	T2_Q12B_6_BEGIN_YR	);
+%s(	T2_Q12B_6_DURATION_WKS	);
+%s(	T2_Q12B_6_SEX	);
+%s(	T2_Q12B_6_BREASTFEED_WKS	);
+%s(	T2_Q12B_6_BREASTFEED_MOS	);
+%s(	T2_Q12B_7_BEGIN_MO	);
+%s(	T2_Q12B_7_BEGIN_YR	);
+%s(	T2_Q12B_7_DURATION_WKS	);
+%s(	T2_Q12B_7_SEX	);
+%s(	T2_Q12B_7_BREASTFEED_WKS	);
+%s(	T2_Q12B_7_BREASTFEED_MOS	);
+%s(	T2_Q12B_8_BEGIN_MO	);
+%s(	T2_Q12B_8_BEGIN_YR	);
+%s(	T2_Q12B_8_DURATION_WKS	);
+%s(	T2_Q12B_8_SEX	);
+%s(	T2_Q12B_8_BREASTFEED_WKS	);
+%s(	T2_Q12B_8_BREASTFEED_MOS	);
+%s(	T2_Q12B_9_BEGIN_MO	);
+%s(	T2_Q12B_9_BEGIN_YR	);
+%s(	T2_Q12B_9_DURATION_WKS	);
+%s(	T2_Q12B_9_SEX	);
+%s(	T2_Q12B_9_BREASTFEED_WKS	);
+%s(	T2_Q12B_9_BREASTFEED_MOS	);
+%s(	T2_Q12B_10_BEGIN_MO	);
+%s(	T2_Q12B_10_BEGIN_YR	);
+%s(	T2_Q12B_10_DURATION_WKS	);
+%s(	T2_Q12B_10_SEX	);
+%s(	T2_Q12B_10_BREASTFEED_WKS	);
+%s(	T2_Q12B_10_BREASTFEED_MOS	);
+%s(	T2_Q12B_11_BEGIN_MO	);
+%s(	T2_Q12B_11_BEGIN_YR	);
+%s(	T2_Q12B_11_DURATION_WKS	);
+%s(	T2_Q12B_11_SEX	);
+%s(	T2_Q12B_11_BREASTFEED_WKS	);
+%s(	T2_Q12B_11_BREASTFEED_MOS	);
+%s(	T2_Q12B_12_BEGIN_MO	);
+%s(	T2_Q12B_12_BEGIN_YR	);
+%s(	T2_Q12B_12_DURATION_WKS	);
+%s(	T2_Q12B_12_SEX	);
+%s(	T2_Q12B_12_BREASTFEED_WKS	);
+%s(	T2_Q12B_12_BREASTFEED_MOS	);
+%s(	T2_Q12b_1_duration_wks_recode	);
+%s(	T2_Q12b_2_duration_wks_recode	);
+%s(	T2_Q12b_3_duration_wks_recode	);
+%s(	T2_Q12b_4_duration_wks_recode	);
+%s(	T2_Q12b_5_duration_wks_recode	);
+%s(	T2_Q12b_6_duration_wks_recode	);
+%s(	T2_Q12b_7_duration_wks_recode	);
+%s(	T2_Q12b_8_duration_wks_recode	);
+%s(	T2_Q12b_9_duration_wks_recode	);
+%s(	T2_Q12b_10_duration_wks_recode	);
+%s(	T2_Q12b_11_duration_wks_recode	);
+%s(	T2_Q17C	);
+%s(	T2_Q18A	);
+%s(	T2_Q18B	);
+%s(	T2_Q18C	);
+%s(	T2_Q18D	);
+%s(	T2_Q18E	);
+%s(	T2_Q18F	);
+%s(	T2_Q18G	);
+%s(	T2_Q18H	);
+%s(	T2_Q18I	);
+%s(	T2_Q19	);
+%s(	T2_Q19A	);
+%s(	T2_Q20A_WKS_Recode	);
+%s(	T2_Q20B_WKS_Recode	);
+%s(	T2_Q20C_WKS_Recode	);
+%s(	T2_Q20D_WKS_Recode	);
+%s(	T2_Q20E_WKS_Recode	);
+%s(	T2_Q20F_WKS_Recode	);
+%s(	T2_Q20G_WKS_Recode	);
+%s(	T2_Q20H_WKS_Recode	);
+%s(	T2_Q20I_WKS_Recode	);
+%s(	T2_Q20A_DAY	);
+%s(	T2_Q20B_DAY	);
+%s(	T2_Q20C_DAY	);
+%s(	T2_Q20D_DAY	);
+%s(	T2_Q20E_DAY	);
+%s(	T2_Q20F_DAY	);
+%s(	T2_Q20G_DAY	);
+%s(	T2_Q20H_DAY	);
+%s(	T2_Q20I_DAY	);
+%s(	T2_Q20J_DAY	);
+%s(	T2_Q20J_WEEK	);
+%s(	T2_Q21	);
+
+ods pdf close;
+
+proc contents data=master.Q2_22119 order=varnum; run; 

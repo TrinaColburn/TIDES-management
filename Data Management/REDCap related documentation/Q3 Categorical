@@ -1,0 +1,373 @@
+libname tides3 "/folders/myfolders";
+run;
+
+data T3;
+set tides3.q3_22119;
+run;
+
+/*** Categorical Data***/
+
+proc freq data=T3;
+table t3_q4/nocum nocol norow nopercent;
+run;
+
+/***Medications***/
+
+proc freq data=T3;
+table t3_q5a/nocum nocol norow nopercent;
+run;
+
+
+proc freq data = T3;
+table T3_Q5A1_A_YN*T3_Q5A1_A_OTC  T3_Q5A1_A_YN*T3_Q5A1_A_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+/*Study ID 7181 and 9084 did not answer lead in but answered OTC*/
+proc freq data = T3;
+table study_id T3_Q5A1_A_YN*T3_Q5A1_A_OTC  T3_Q5A1_A_YN*T3_Q5A1_A_SCRIPT/nocum nocol norow nopercent missing;
+where T3_Q5A1_A_YN=. and T3_Q5A1_A_OTC = 1;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_B_YN*T3_Q5A1_B_OTC  T3_Q5A1_B_YN*T3_Q5A1_B_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+/* Only Study ID 9077 uses arhtritis meds (prescription)*/ 
+proc freq data = T3;
+table study_id T3_Q5A1_B_YN*T3_Q5A1_B_OTC  T3_Q5A1_B_YN*T3_Q5A1_B_SCRIPT/nocum nocol norow nopercent missing;
+where T3_Q5A1_B_YN=1 and T3_Q5A1_B_SCRIPT=1;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_C_YN*T3_Q5A1_C_OTC  T3_Q5A1_C_YN*T3_Q5A1_C_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+/*Study ID 8162 answered lead in but did not answer OTC or prescription*/
+proc freq data = T3;
+table study_id T3_Q5A1_C_YN*T3_Q5A1_C_OTC  T3_Q5A1_C_YN*T3_Q5A1_C_SCRIPT/nocum nocol norow nopercent missing;
+where T3_Q5A1_C_YN=1 and T3_Q5A1_C_SCRIPT=.;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_D_YN*T3_Q5A1_D_OTC  T3_Q5A1_D_YN*T3_Q5A1_D_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+/*Study ID 6151 has OTC COPD meds??*/
+proc freq data = T3;
+table study_id T3_Q5A1_D_YN*T3_Q5A1_D_OTC  T3_Q5A1_D_YN*T3_Q5A1_D_SCRIPT/nocum nocol norow nopercent missing;
+where T3_Q5A1_D_YN=1 and T3_Q5A1_D_OTC=1 and T3_Q5A1_D_SCRIPT=1;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_E_YN*T3_Q5A1_E_OTC  T3_Q5A1_E_YN*T3_Q5A1_E_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_F_YN*T3_Q5A1_F_OTC  T3_Q5A1_F_YN*T3_Q5A1_F_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+/* Study ID 9120 answered lead in but did not answer OTC or prescription*/
+proc freq data = T3;
+table study_id T3_Q5A1_F_YN*T3_Q5A1_F_OTC  T3_Q5A1_F_YN*T3_Q5A1_F_SCRIPT/nocum nocol norow nopercent missing;
+where T3_Q5A1_F_YN=1 and T3_Q5A1_F_SCRIPT=.;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_G_YN*T3_Q5A1_G_OTC  T3_Q5A1_G_YN*T3_Q5A1_G_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_H_YN*T3_Q5A1_H_OTC  T3_Q5A1_H_YN*T3_Q5A1_H_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_I_YN*T3_Q5A1_I_OTC  T3_Q5A1_I_YN*T3_Q5A1_I_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+/* Study ID 6183 answered lead in but did not answer OTC or prescription*/
+proc freq data = T3;
+table study_id T3_Q5A1_I_YN*T3_Q5A1_I_OTC  T3_Q5A1_I_YN*T3_Q5A1_I_SCRIPT/nocum nocol norow nopercent missing;
+where T3_Q5A1_I_YN=1 and T3_Q5A1_I_SCRIPT=. and T3_Q5A1_I_OTC=.;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_J_YN*T3_Q5A1_J_OTC  T3_Q5A1_J_YN*T3_Q5A1_J_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_K_YN*T3_Q5A1_K_OTC  T3_Q5A1_K_YN*T3_Q5A1_K_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_L_YN*T3_Q5A1_L_OTC  T3_Q5A1_L_YN*T3_Q5A1_L_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_M_YN*T3_Q5A1_M_OTC  T3_Q5A1_M_YN*T3_Q5A1_M_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+/*Study ID 6218 answered lead in but did not answer OTC or prescription*/
+proc freq data = T3;
+table study_id T3_Q5A1_M_YN*T3_Q5A1_M_OTC  T3_Q5A1_M_YN*T3_Q5A1_M_SCRIPT/nocum nocol norow nopercent missing;
+where T3_Q5A1_M_YN=1 and T3_Q5A1_M_SCRIPT=. and T3_Q5A1_M_OTC=.;
+run;
+
+proc freq data = T3;
+table T3_Q5A1_O_YN*T3_Q5A1_O_OTC  T3_Q5A1_O_YN*T3_Q5A1_O_SCRIPT/nocum nocol norow nopercent missing;
+run;
+
+/* Study IDs 6135, 8168, 8171, 8235, 8272, 8278	, 8279, 9121 answered lead in but did not answer OTC or prescription*/
+proc freq data = T3;
+table study_id T3_Q5A1_O_YN*T3_Q5A1_O_OTC  T3_Q5A1_O_YN*T3_Q5A1_O_SCRIPT/nocum nocol norow nopercent missing;
+where T3_Q5A1_O_YN=1 and T3_Q5A1_O_SCRIPT=. and T3_Q5A1_O_OTC=.;
+run;
+
+/*Prenatal Vitamins and Nutrional Supplements*/
+proc freq data=T3;
+table t3_q5b/nocum nocol norow nopercent;
+run;
+
+proc freq data=T3;
+table t3_q5b1/nocum nocol norow nopercent;
+run;
+
+proc freq data=T3;
+table t3_q5c/nocum nocol norow nopercent;
+run;
+
+proc freq data = T3;
+table T3_Q5C_A_YN*T3_Q5C_A_FORM/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5C_B_YN*T3_Q5C_B_FORM/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5C_C_YN*T3_Q5C_C_FORM/nocum nocol norow nopercent missing;
+run;
+
+/*Study ID 7052 is missing form but answered lead in*/
+proc freq data = T3;
+table study_id T3_Q5C_D_YN*T3_Q5C_D_FORM/nocum nocol norow nopercent missing;
+where T3_Q5C_D_YN=1 and T3_Q5C_D_FORM=.;
+run;
+
+proc freq data = T3;
+table T3_Q5C_E_YN*T3_Q5C_E_FORM/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5C_F_YN*T3_Q5C_F_FORM/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5C_G_YN*T3_Q5C_G_FORM/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5C_H_YN*T3_Q5C_H_FORM/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5C_I_YN*T3_Q5C_I_FORM/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5C_J_YN*T3_Q5C_J_FORM/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5C_K_YN*T3_Q5C_K_FORM/nocum nocol norow nopercent missing;
+run;
+
+proc freq data = T3;
+table T3_Q5C_L_YN*T3_Q5C_L_FORM/nocum nocol norow nopercent missing;
+run;
+
+/*Study ID 9192 is missing form but answered lead in*/
+proc freq data = T3;
+table study_id T3_Q5C_L_YN*T3_Q5C_L_FORM/nocum nocol norow nopercent missing;
+where T3_Q5C_L_YN=1 and T3_Q5C_L_FORM=.;
+run;
+
+proc freq data = T3;
+table T3_Q5C_M_YN*T3_Q5C_M_FORM/nocum nocol norow nopercent missing;
+run;
+
+proc freq data=T3;
+table T3_Q5d T3_Q5e T3_Q5f T3_Q5g T3_Q5g T3_Q5h T3_Q5i/nocum nocol norow nopercent missing;
+run;
+
+proc freq data=T3;
+table T3_Q5j T3_Q5ja T3_Q5ja1 T3_Q5jb T3_Q5k /nocum nocol norow nopercent missing;
+run;
+
+proc freq data=T3;
+table T3_Q7 /nocum nocol norow nopercent missing;
+run;
+
+/* Flag for Pregnancy Complications*/
+/*Study ID 7158 and 9118 missing type of complication depsite saying yes to Q7*/
+
+%macro comp(anemia, intraut, anxiety, placenta, defect, preeclampsia, bleed, rupture, cervical, preterm, diab, other, issue);
+data T3_new; set T3;
+if &anemia=. and &intraut=. and &anxiety=. and &placenta=. and &defect=. and &preeclampsia=. and &bleed=. and &rupture=. and &cervical=. and &preterm=. and &diab=. and &other=. then &issue=1;
+run;
+
+proc freq data=T3_new;
+table &issue/nocum nocol norow nopercent missing;
+run;
+
+%mend;
+
+%comp (T3_Q7A_1, T3_Q7A_2, T3_Q7A_3, T3_Q7A_4, T3_Q7A_5, T3_Q7A_6, T3_Q7A_7, T3_Q7A_8, T3_Q7A_9, T3_Q7A_10,T3_Q7A_11, T3_Q7A_12, T3_Q7A_13, T3_Q7A_Flag);
+
+proc freq data=T3_new;
+table study_id T3_Q7A_Flag/nocum nocol norow nopercent missing;
+where T3_Q7=1 and T3_Q7A_Flag=1;
+run;
+
+/*Lifestyle and Diet*/
+
+proc freq data=T3;
+table T3_Q8 T3_Q9 T3_Q10 T3_Q11 T3_Q12 T3_Q13 T3_Q14 T3_Q15 T3_Q16 T3_Q16A T3_Q16B T3_Q16C/nocum nocol norow nopercent missing;
+run; 
+
+proc freq data = T3;
+table T3_Q19A_YN T3_Q19B_YN T3_Q19C_YN T3_Q19D_YN T3_Q19E_YN T3_Q19F_YN T3_Q19G_YN T3_Q19H_YN T3_Q19I_YN T3_Q19J_YN/ norow nopercent nocol nocum MISSING;
+run;
+
+/*Work Status*/
+
+proc freq data=T3;
+table T3_Q22  /  norow nopercent nocol nocum missing;
+run;
+
+data T3_new; set T3;
+if T3_Q22A1=1 then T3_Q22A_job=1;
+if T3_Q22A2=1 then T3_Q22A_job=2;
+if T3_Q22A3=1 then T3_Q22A_job=3;
+if T3_Q22A4=1 then T3_Q22A_job=4; 
+if T3_Q22A5=1 then T3_Q22A_job=5;
+if T3_Q22A6=1 then T3_Q22A_job=6;
+if T3_Q22A7=1 then T3_Q22A_job=7;
+if T3_Q22A8=1 then T3_Q22A_job=8;
+if T3_Q22A9=1 then T3_Q22A_job=9;
+RUN;
+
+/* Study IDs 7023, 7025, 9011, 9065, 9066, 9077, 9080 did not answer work status change depsite answering lead in*/
+proc freq data=T3_new;
+tables STUDY_ID*T3_Q22A_job/norow nocol nocum nopercent missing; 
+WHERE T3_Q22=1 and T3_Q22A_job = .;
+run;
+
+proc freq data=T3;
+table T3_q22b_a T3_q22b_b T3_q22b_c T3_q22b_d T3_q22b_e /  norow nopercent nocol nocum missing;
+run;
+    
+
+data T3_new; set T3;
+if T3_q22b_a =1 then T3_Q22B_job=1;
+if T3_q22b_b=1 then T3_Q22B_job=2;
+if T3_q22b_c=1 then T3_Q22B_job=3;
+if T3_q22b_d=1 then T3_Q22B_job=4; 
+if T3_q22b_e=1 then T3_Q22B_job=5;
+RUN;
+
+proc freq data=T3_new;
+tables STUDY_ID*T3_Q22B_job/norow nocol nocum nopercent missing; 
+WHERE T3_Q22B_job = .;
+run;
+
+/*Coded as carbonless paper instead of retail worker*/
+proc freq data=T3;
+table T3_Q22b1;
+run;
+
+proc freq data=T3;
+table T3_Q22b2/norow nocol nocum nopercent missing;
+run;
+
+proc freq data=T3;
+table T3_Q22b3_A T3_Q22b3_B T3_Q22b3_C T3_Q22b3_D/norow nocol nocum nopercent missing;
+run;
+
+
+proc freq data=T3;
+table T3_Q22 T3_Q22b4 T3_Q22c T3_Q22d /norow nocol nocum nopercent missing;
+run;
+
+proc freq data=T3;
+table T3_Q22 T3_Q22e T3_Q22e1 T3_Q22f  /norow nocol nocum nopercent missing;
+run;
+
+/*Home life*/
+
+proc freq data=T3;
+table T3_Q23 T3_Q24 /norow nocol nocum nopercent missing;
+run;
+
+proc freq data=T3;
+table T3_Q25a T3_Q25b T3_Q25c T3_Q25d T3_Q25e  /norow nocol nocum nopercent missing;
+run;
+
+/*Father Demographics*/
+
+proc freq data=T3;
+table T3_Q27_Dad_Height_Dk  T3_Q27_Dad_Weight_Dk /norow nocol nocum nopercent missing;
+run;
+
+proc freq data=T3;
+table T3_Q28 T3_Q29 T3_Q30  /norow nocol nocum nopercent missing;
+run;
+
+proc freq data=T3;
+table T3_Q31_YN T3_Q31A T3_Q31B  /norow nocol nocum nopercent missing;
+run;
+
+proc freq data=T3;
+table T3_Q32 T3_Q33 T3_Q34 T3_Q35 T3_Q36  /norow nocol nocum nopercent missing;
+run;
+
+/*Major Events*/
+
+/*Study ID 8111 missing trimester despite answering 'yes' for unemployment*/
+proc freq data=T3;
+table study_ID   /norow nocol nocum nopercent missing;
+where T3_Q37_YN=1 and T3_Q37_t1=. and T3_Q37_t2=. and T3_Q37_t3=.;
+run;
+
+/*Study ID 7077 and 9045 missing trimester despite answering 'yes' for injury/illness*/
+proc freq data=T3;
+table study_ID   /norow nocol nocum nopercent missing;
+where T3_Q38_YN=1 and T3_Q38_t1=. and T3_Q38_t2=. and T3_Q38_t3=.;
+run;
+
+proc freq data=T3;
+table study_ID   /norow nocol nocum nopercent missing;
+where T3_Q39_YN=1 and T3_Q39_t1=. and T3_Q39_t2=. and T3_Q39_t3=.;
+run;
+
+/*Study ID 7094 missing trimester despite answering 'yes' for partner difficulties*/
+proc freq data=T3;
+table study_ID   /norow nocol nocum nopercent missing;
+where T3_Q40_YN=1 and T3_Q40_t1=. and T3_Q40_t2=. and T3_Q40_t3=.;
+run;
+
+/*Study ID 9045 missing trimester despite answering 'yes' for legal issues*/
+proc freq data=T3;
+table study_ID   /norow nocol nocum nopercent missing;
+where T3_Q41_YN=1 and T3_Q41_t1=. and T3_Q41_t2=. and T3_Q41_t3=.;
+run;
+
+/*Study ID 6010, 6022, 7063, and 8251  missing trimester despite answering 'yes' for other major events*/
+proc freq data=T3;
+table study_ID   /norow nocol nocum nopercent missing;
+where T3_Q42_YN=1 and T3_Q42_t1=. and T3_Q42_t2=. and T3_Q42_t3=.;
+run;
+
+proc freq data=T3;
+table T3_Q43  /norow nocol nocum nopercent missing;
+run;
+

@@ -1,0 +1,201 @@
+libname <libname> "<filepath"; run;
+proc contents data=sam.Q1_20190514 order=varnum;
+run;
+
+ods select basicmeasures extremeobs;
+ods pdf file="J:\PM\TIDES_Data\Sam\Data Cleaning\TIDES I\Continuous variable outliers work\Univariate Results.pdf" startpage=never;
+proc univariate data=sam.Q1_20190514 notabcontents;
+var 
+age_yrs
+age_months
+T1_Q1_DAYS
+T1_Q1_WKS T1_Q2_HT_CM
+T1_Q2_HT_FT T1_Q2_HT_IN
+T1_Q2_WT_KG T1_Q2_WT_LBS
+T1_Q3_WT_LBS T1_Q3_WT_KG
+T1_Q1_WKS_Recode
+T1_Q2_ht_in_Recode T1_Q2_wt_lbs_Recode T1_Q3_wt_lbs_Recode
+MomBMI
+T1_Q8A T1_Q9B
+T1_Q26A T1_Q26B T1_Q26C
+T1_Q26D T1_Q26E T1_Q26F
+T1_Q26G T1_Q26H T1_Q26I
+T1_Q27 T1_Q27A
+T1_Q28 T1_Q29
+T1_Q30A_DAY T1_Q30A_WEEK
+T1_Q30B_DAY T1_Q30B_WEEK
+T1_Q30C_DAY T1_Q30C_WEEK
+T1_Q30D_DAY T1_Q30D_WEEK
+T1_Q30E_DAY T1_Q30E_WEEK
+T1_Q30F_DAY T1_Q30F_WEEK
+T1_Q30G_DAY T1_Q30G_WEEK
+T1_Q30H_DAY T1_Q30H_WEEK
+T1_Q30I_DAY T1_Q30I_WEEK
+T1_Q30J_DAY T1_Q30J_WEEK
+T1_Q30a_week_Recode
+T1_Q30b_week_Recode
+T1_Q30c_week_Recode
+T1_Q30d_week_Recode
+T1_Q30e_week_Recode
+T1_Q30f_week_Recode
+T1_Q30g_week_Recode
+T1_Q30h_week_Recode
+T1_Q30i_week_Recode
+T1_Q30j_week_Recode
+T1_Q31 T1_Q32
+T1_Q43A_1_DAYS T1_Q43A_2_DAYS T1_Q43A_3_DAYS T1_Q43A_4_DAYS T1_Q43A_5_DAYS 
+T1_Q43B_1_DAYS T1_Q43B_2_DAYS T1_Q43B_3_DAYS
+T1_Q43B_4_DAYS T1_Q43B_5_DAYS T1_Q43B_6_DAYS
+T1_Q43B_7_DAYS T1_Q43B_8_DAYS T1_Q43B_9_DAYS
+T1_Q43B_10_DAYS T1_Q43B_11_DAYS T1_Q43C_DAYS
+T1_Q43D_DAYS T1_Q43E_DAYS T1_Q43F_DAYS
+T1_Q43G_DAYS T1_Q43H_DAYS T1_Q43I_DAYS
+T1_Q43J_DAYS T1_Q43K_DAYS T1_Q43L_DAYS
+T1_Q44A T1_Q44B T1_Q44C T1_Q44D T1_Q44E
+T1_Q44F T1_Q44G T1_Q44H T1_Q44I T1_Q44J
+T1_Q44K T1_Q50
+;
+run;
+ods pdf close;
+
+/*Macro start*/
+ods pdf file="J:\PM\TIDES_Data\Sam\Data Cleaning\TIDES I\Continuous variable outliers work\Compiled Outliers2.pdf";
+%macro ext(var);
+proc means data=sam.Q1_20190514 noprint;
+var mombmi;
+output out=sam.outliers 
+idgroup(max(&var)out[10] (study_id)=)
+idgroup(min(&var)out[10] (study_id)=)
+/autolabel autoname;
+run;
+
+proc transpose data=sam.outliers out=sam.outliers2;
+run;
+
+data sam.outliers2; set sam.outliers2;
+if _name_=:"_" then delete;
+drop _name_;
+rename col1=study_id;
+run;
+
+proc sort data=sam.outliers2;
+by study_id;
+run;
+
+data sam.outliers3;
+merge sam.outliers2(in=a) sam.Q1_20190514(in=b);
+by study_id;
+if a=1;
+keep study_id &var;
+run;
+
+proc sort data=sam.outliers3;
+by &var;
+run;
+
+proc print data=sam.outliers3 noobs;
+run;
+%mend;
+
+%ext(	T1_Q1_DAYS	);
+%ext(	T1_Q1_WKS	);
+%ext(	T1_Q2_HT_CM	);
+%ext(	T1_Q2_HT_FT	);
+%ext(	T1_Q2_HT_IN	);
+%ext(	T1_Q2_WT_KG	);
+%ext(	T1_Q2_WT_LBS	);
+%ext(	T1_Q3_WT_LBS	);
+%ext(	T1_Q3_WT_KG	);
+%ext(	T1_Q1_WKS_Recode	);
+%ext(	T1_Q2_ht_in_Recode	);
+%ext(	T1_Q2_wt_lbs_Recode	);
+%ext(	T1_Q3_wt_lbs_Recode	);
+%ext(	MomBMI	);
+%ext(	T1_Q8A	);
+%ext(	T1_Q9B	);
+%ext(	T1_Q26A	);
+%ext(	T1_Q26B	);
+%ext(	T1_Q26C	);
+%ext(	T1_Q26D	);
+%ext(	T1_Q26E	);
+%ext(	T1_Q26F	);
+%ext(	T1_Q26G	);
+%ext(	T1_Q26H	);
+%ext(	T1_Q26I	);
+%ext(	T1_Q27	);
+%ext(	T1_Q27A	);
+%ext(	T1_Q28	);
+%ext(	T1_Q29	);
+%ext(	T1_Q30A_DAY	);
+%ext(	T1_Q30A_WEEK	);
+%ext(	T1_Q30B_DAY	);
+%ext(	T1_Q30B_WEEK	);
+%ext(	T1_Q30C_DAY	);
+%ext(	T1_Q30C_WEEK	);
+%ext(	T1_Q30D_DAY	);
+%ext(	T1_Q30D_WEEK	);
+%ext(	T1_Q30E_DAY	);
+%ext(	T1_Q30E_WEEK	);
+%ext(	T1_Q30F_DAY	);
+%ext(	T1_Q30F_WEEK	);
+%ext(	T1_Q30G_DAY	);
+%ext(	T1_Q30G_WEEK	);
+%ext(	T1_Q30H_DAY	);
+%ext(	T1_Q30H_WEEK	);
+%ext(	T1_Q30I_DAY	);
+%ext(	T1_Q30I_WEEK	);
+%ext(	T1_Q30J_DAY	);
+%ext(	T1_Q30J_WEEK	);
+%ext(	T1_Q30a_week_Recode	);
+%ext(	T1_Q30b_week_Recode	);
+%ext(	T1_Q30c_week_Recode	);
+%ext(	T1_Q30d_week_Recode	);
+%ext(	T1_Q30e_week_Recode	);
+%ext(	T1_Q30f_week_Recode	);
+%ext(	T1_Q30g_week_Recode	);
+%ext(	T1_Q30h_week_Recode	);
+%ext(	T1_Q30i_week_Recode	);
+%ext(	T1_Q30j_week_Recode	);
+%ext(	T1_Q31	);
+%ext(	T1_Q32	);
+%ext(	T1_Q43A_1_DAYS	);
+%ext(	T1_Q43A_2_DAYS	);
+%ext(	T1_Q43A_3_DAYS	);
+%ext(	T1_Q43A_4_DAYS	);
+%ext(	T1_Q43A_5_DAYS	);
+%ext(	T1_Q43B_10_DAYS	);
+%ext(	T1_Q43B_11_DAYS	);
+%ext(	T1_Q43B_1_DAYS	);
+%ext(	T1_Q43B_2_DAYS	);
+%ext(	T1_Q43B_3_DAYS	);
+%ext(	T1_Q43B_4_DAYS	);
+%ext(	T1_Q43B_5_DAYS	);
+%ext(	T1_Q43B_6_DAYS	);
+%ext(	T1_Q43B_7_DAYS	);
+%ext(	T1_Q43B_8_DAYS	);
+%ext(	T1_Q43B_9_DAYS	);
+%ext(	T1_Q43C_DAYS	);
+%ext(	T1_Q43D_DAYS	);
+%ext(	T1_Q43E_DAYS	);
+%ext(	T1_Q43F_DAYS	);
+%ext(	T1_Q43G_DAYS	);
+%ext(	T1_Q43H_DAYS	);
+%ext(	T1_Q43I_DAYS	);
+%ext(	T1_Q43J_DAYS	);
+%ext(	T1_Q43K_DAYS	);
+%ext(	T1_Q43L_DAYS	);
+%ext(	T1_Q44A	);
+%ext(	T1_Q44B	);
+%ext(	T1_Q44C	);
+%ext(	T1_Q44D	);
+%ext(	T1_Q44E	);
+%ext(	T1_Q44F	);
+%ext(	T1_Q44G	);
+%ext(	T1_Q44H	);
+%ext(	T1_Q44I	);
+%ext(	T1_Q44J	);
+%ext(	T1_Q44K	);
+%ext(	T1_Q50	);
+ods pdf close;
+
+/*end macro*/

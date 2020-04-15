@@ -1,0 +1,29 @@
+/*Because ppt missing for T2_Q12B_4_OUTCOME does not 
+match T2_Q12B_4_TX_Flag_three=1, we need to find study_ids to recode */
+
+/*identifying participants who answered treatment, but not outcome*/
+proc freq data=work.Q2_22119_forimport;
+table study_id*T2_Q12B_2_OUTCOME/missing;
+where T2_Q12B_2_TX_Flag ne 1 and T2_Q12B_2_OUTCOME=.; run;
+
+/*check for baby*/
+proc print data=work.Q2_22119_forimport noobs ;
+var study_id t2_q12a t2_q12b_2_sex t2_q12b_2_duration_wks T2_Q12B_2_OUTCOME T2_Q12B_2_TX_NO T2_Q12B_2_TX_INSEM T2_Q12B_2_TX_OVINDUCT
+T2_Q12B_2_tx_EGGDONATION T2_Q12B_2_TX_other
+T2_Q12B_2_TX_Flag T2_Q12B_2_TX_Flag_two T2_Q12B_2_TX_Flag_three;
+where study_id=9131 or  study_id=9173;
+run; 
+
+proc print data=work.Q2_22119_forimport noobs ;
+var study_id T2_Q12B_4_OUTCOME T2_Q12B_4_TX_NO T2_Q12B_4_TX_INSEM T2_Q12B_4_TX_OVINDUCT
+T2_Q12B_4_tx_EGGDONATION T2_Q12B_4_TX_other
+T2_Q12B_4_TX_Flag T2_Q12B_4_TX_Flag_two T2_Q12B_4_TX_Flag_three;
+where study_id=9065;
+run; 
+
+
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+if ; run;
+
+data work.Q2_22119_forimport; set work.Q2_22119_forimport;
+drop T2_Q12B_2_TX_Flag_three; run;

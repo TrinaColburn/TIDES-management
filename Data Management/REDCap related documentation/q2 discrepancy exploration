@@ -1,0 +1,73 @@
+libname q2 "J:\PM\TIDES_Data\TIDES I Data\Q2"; run;
+
+proc contents data=q2.Q2_22119 order=varnum; run;
+
+proc freq data=q2.Q2_22119;
+tables T2_Q23B1; run;
+
+proc freq data=q2.Q2_22119;
+tables T2_Q23B_A; run;
+
+proc freq data=q2.Q2_22119;
+tables study_id*T2_Q23B_A/norow nocol nocum nopercent; 
+where 0 < T2_Q23B1 < 6 ; run;
+
+proc print data=q2.Q2_22119;
+var study_id T2_Q23B_A T2_Q23B1;
+where T2_Q23B_A > . or T2_Q23B1 > .; run;
+
+proc freq data=q2.Q2_22119;
+tables T2_Q23/norow nocol nocum nopercent; 
+run;
+
+proc freq data=q2.Q2_22119;
+tables T2_Q23C T2_Q23D T2_Q23E/norow nocol nocum nopercent; 
+run;
+
+proc freq data=q2.Q2_22119;
+tables study_id*T2_Q23C/norow nocol nocum nopercent missing; 
+where T2_Q23=1 and T2_Q23C=.; run;
+
+/*the three people are NOT missing, they answered NO*/
+proc freq data=q2.Q2_22119;
+tables study_id*T2_Q23C/norow nocol nocum nopercent missing; 
+where T2_Q23=0 and T2_Q23C ne .; run;
+
+
+proc freq data=q2.Q2_22119;
+table T2_Q12b_2_outcome 
+T2_Q12B_2_TX_NO
+T2_Q12B_2_TX_INSEM
+T2_Q12B_2_TX_OVINDUCT
+T2_Q12B_2_TX_EGGDONATION
+T2_Q12B_2_TX_OTHER
+/norow nocol nocum nopercent missing;
+run;
+
+proc freq data=q2.Q2_22119;
+tables study_id*T2_Q12B_2_TX_NO/norow nocol nocum nopercent missing;
+where ;
+
+proc print data=q2.Q2_22119;
+var study_id T2_Q12B_2_TX_NO T2_Q12B_2_TX_INSEM T2_Q12B_2_TX_OVINDUCT T2_Q12B_2_TX_EGGDONATION T2_Q12B_2_TX_OTHER;
+where (T2_Q12B_2_TX_NO or T2_Q12B_2_TX_INSEM or T2_Q12B_2_TX_OVINDUCT or T2_Q12B_2_TX_EGGDONATION or T2_Q12B_2_TX_OTHER)=1; run;
+
+data Q2_22119; set q2.Q2_22119;
+rename T2_Q12B_2_TX_NO = T2_Q12B_2_treat; 
+rename T2_Q12B_2_TX_INSEM = T2_Q12B_2_treat; 
+rename T2_Q12B_2_TX_OVINDUCT = T2_Q12B_2_treat; 
+rename T2_Q12B_2_TX_EGGDONATION = T2_Q12B_2_treat; run;
+
+proc freq data=Q2_22119;
+tables T2_Q12B_2_treat/norow nocol nocum nopercent missing; run;
+
+data Q2_22119; set q2.Q2_22119;
+if T2_Q12B_2_TX_NO=1 then T2_Q12B_2_treat=1;
+if T2_Q12B_2_TX_INSEM=1 then T2_Q12B_2_treat=2;
+if T2_Q12B_2_TX_OVINDUCT=1 then T2_Q12B_2_treat=3;
+if T2_Q12B_2_tx_EGGDONATION=1 then T2_Q12B_2_treat=4; RUN;
+
+proc freq data=Q2_22119;
+tables STUDY_ID*T2_Q12B_2_treat/norow nocol nocum nopercent missing; 
+WHERE T2_Q12b_2_outcome > . and T2_Q12B_2_treat = .;
+run;

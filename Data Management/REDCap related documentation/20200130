@@ -1,0 +1,138 @@
+libname tides "J:\PM\TIDES_Data\REDCap Master Database\TIDES I";
+
+data work.q2_time; set tides.Q2_22119_rn;
+keep 
+study_id
+t2_time_stamp 
+t2_time_started	
+t2_time_started_raw 
+t2_time_end_raw	
+t2_q13
+;
+
+run;
+
+
+
+data work.q2_time_1; set work.q2_time;
+ 
+rename t2_time_stamp = t2_time_stamp_og;
+rename t2_time_started = t2_time_started_og;
+rename t2_time_started_raw = t2_time_started_raw_og;
+rename t2_time_end_raw = t2_time_end_raw_og;
+rename t2_q13 = t2_q13_og;
+
+run;
+
+
+data work.q2_time_1; 
+t2_time_stamp =input(t2_time_stamp_og, best32.);
+t2_time_started	=input(t2_time_started_og, best32.);
+t2_time_started_raw = input(t2_time_started_raw_og, best32.);
+t2_time_end_raw	=input(t2_time_end_raw_og, best32.);
+t2_q13 =input(t2_q13_og, best32.);
+set work.q2_time;
+run;
+
+data work.q2_time_2; 
+informat study_id best8.;
+informat t2_time_stamp time.;
+informat t2_time_started time.;
+informat t2_time_started_raw time.;
+informat t2_time_end_raw	time.;
+informat t2_q13 time.;
+	format study_id best8.;
+	format t2_time_stamp time.;
+	format t2_time_started time.;
+	format t2_time_started_raw time.;
+	format t2_time_end_raw	time.;
+	format t2_q13 time.;
+set work.q2_time;
+run;
+
+
+
+ proc contents data=work.q2_time_1
+ order=varnum;
+ run;
+
+data tides.q2_203101; set tides.Q2_22119_rn;
+format 
+t2_time_started	hhmm.;
+
+run;
+
+
+
+
+t2_time_stamp mmss4.2
+t2_time_started	hhmm4.2
+t2_time_started_raw mmss4.2
+t2_time_end_raw	mmss4.2
+t2_q13 hhmm4.2
+;
+run;
+
+/******/
+
+/*Q53*/
+proc freq data=tides.Q2_22119_rn;
+table 
+t2_q53
+t2_q53a
+t2_q53b;
+run;
+
+proc freq data=tides.Q2_22119_rn;
+table 
+study_id*t2_q53 /norow nopercent nocol nocum;
+where t2_q53 = 1;
+run;
+
+proc freq data=tides.Q2_22119_rn;
+table 
+study_id*t2_q53a /norow nopercent nocol nocum;
+where t2_q53 = 1;
+run;
+
+
+proc freq data=tides.Q2_22119_rn;
+table 
+study_id*t2_q53 /missing norow nopercent nocol nocum;
+where t2_q53 = .;
+run;
+
+/*t2_q12b outcome */
+
+%macro outcome(preg);
+proc freq data=tides.Q2_22119_rn;
+table
+t2_q12
+t2_q12a
+&preg /missing norow nopercent nocol nocum;
+run;
+%mend
+;
+%outcome (t2_q12b_1_outcome);
+%outcome (t2_q12b_2_outcome);
+%outcome (t2_q12b_3_outcome);
+%outcome (t2_q12b_4_outcome);
+%outcome (t2_q12b_5_outcome);
+%outcome (t2_q12b_6_outcome);
+%outcome (t2_q12b_7_outcome);
+%outcome (t2_q12b_8_outcome);
+%outcome (t2_q12b_9_outcome);
+%outcome (t2_q12b_10_outcome);
+%outcome (t2_q12b_11_outcome);
+%outcome (t2_q12b_12_outcome);
+
+
+proc freq data=tides.Q2_22119_rn;
+table
+t2_q12
+t2_q12a
+t2_q12b_1_outcome
+t2_q12b_1_begin_mo
+t2_q12b_1_begin_yr
+t2_q12b_1_sex/norow nopercent nocol;
+run;

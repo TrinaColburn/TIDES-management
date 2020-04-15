@@ -1,0 +1,112 @@
+
+libname dwnld "__________" ; run;
+
+
+/************************************************************
+	Recoding MACRO #1: Identifying people who did not 
+	specify a tx from a previous pregnancy (-99)
+************************************************************/
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_2_TX_Flag_two=1 then T2_Q12B_2_TX_NO=-99;
+if T2_Q12B_2_TX_Flag_two=1 then T2_Q12B_2_TX_INSEM=-99;
+if T2_Q12B_2_TX_Flag_two=1 then T2_Q12B_2_TX_OVINDUCT=-99;
+if T2_Q12B_2_TX_Flag_two=1 then T2_Q12B_2_tx_EGGDONATION=-99;
+if T2_Q12B_2_TX_Flag_two=1 then T2_Q12B_2_TX_other=-99;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_3_TX_Flag_two=1 then T2_Q12B_3_TX_NO=-99;
+if T2_Q12B_3_TX_Flag_two=1 then T2_Q12B_3_TX_INSEM=-99;
+if T2_Q12B_3_TX_Flag_two=1 then T2_Q12B_3_TX_OVINDUCT=-99;
+if T2_Q12B_3_TX_Flag_two=1 then T2_Q12B_3_tx_EGGDONATION=-99;
+if T2_Q12B_3_TX_Flag_two=1 then T2_Q12B_3_TX_other=-99;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_4_TX_Flag_two=1 then T2_Q12B_4_TX_NO=-99;
+if T2_Q12B_4_TX_Flag_two=1 then T2_Q12B_4_TX_INSEM=-99;
+if T2_Q12B_4_TX_Flag_two=1 then T2_Q12B_4_TX_OVINDUCT=-99;
+if T2_Q12B_4_TX_Flag_two=1 then T2_Q12B_4_tx_EGGDONATION=-99;
+if T2_Q12B_4_TX_Flag_two=1 then T2_Q12B_4_TX_other=-99;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_5_TX_Flag_two=1 then T2_Q12B_5_TX_NO=-99;
+if T2_Q12B_5_TX_Flag_two=1 then T2_Q12B_5_TX_INSEM=-99;
+if T2_Q12B_5_TX_Flag_two=1 then T2_Q12B_5_TX_OVINDUCT=-99;
+if T2_Q12B_5_TX_Flag_two=1 then T2_Q12B_5_tx_EGGDONATION=-99;
+if T2_Q12B_5_TX_Flag_two=1 then T2_Q12B_5_TX_other=-99;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_6_TX_Flag_two=1 then T2_Q12B_6_TX_NO=-99;
+if T2_Q12B_6_TX_Flag_two=1 then T2_Q12B_6_TX_INSEM=-99;
+if T2_Q12B_6_TX_Flag_two=1 then T2_Q12B_6_TX_OVINDUCT=-99;
+if T2_Q12B_6_TX_Flag_two=1 then T2_Q12B_6_tx_EGGDONATION=-99;
+if T2_Q12B_6_TX_Flag_two=1 then T2_Q12B_6_TX_other=-99;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_7_TX_Flag_two=1 then T2_Q12B_7_TX_NO=-99;
+if T2_Q12B_7_TX_Flag_two=1 then T2_Q12B_7_TX_INSEM=-99;
+if T2_Q12B_7_TX_Flag_two=1 then T2_Q12B_7_TX_OVINDUCT=-99;
+if T2_Q12B_7_TX_Flag_two=1 then T2_Q12B_7_tx_EGGDONATION=-99;
+if T2_Q12B_7_TX_Flag_two=1 then T2_Q12B_7_TX_other=-99;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_8_TX_Flag_two=1 then T2_Q12B_8_TX_NO=-99;
+if T2_Q12B_8_TX_Flag_two=1 then T2_Q12B_8_TX_INSEM=-99;
+if T2_Q12B_8_TX_Flag_two=1 then T2_Q12B_8_TX_OVINDUCT=-99;
+if T2_Q12B_8_TX_Flag_two=1 then T2_Q12B_8_tx_EGGDONATION=-99;
+if T2_Q12B_8_TX_Flag_two=1 then T2_Q12B_8_TX_other=-99;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_9_TX_Flag_two=1 then T2_Q12B_9_TX_NO=-99;
+if T2_Q12B_9_TX_Flag_two=1 then T2_Q12B_9_TX_INSEM=-99;
+if T2_Q12B_9_TX_Flag_two=1 then T2_Q12B_9_TX_OVINDUCT=-99;
+if T2_Q12B_9_TX_Flag_two=1 then T2_Q12B_9_tx_EGGDONATION=-99;
+if T2_Q12B_9_TX_Flag_two=1 then T2_Q12B_9_TX_other=-99;
+run;
+
+/************************************************************
+	Recoding MACRO #2: Identifying people who did not 
+	specify an outcome despite entering other 
+	information in the Q12 matrix 
+************************************************************/
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_2_Outcome=. then T2_Q12B_2_Outcome=1;
+where study_id=9131;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_2_Outcome=. then T2_Q12B_2_Outcome=1;
+where study_id=9173;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_3_Outcome=. then T2_Q12B_3_Outcome=5;
+where study_id=8101;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_3_Outcome=. then T2_Q12B_3_Outcome=1;
+where study_id=8271;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_4_Outcome=. then T2_Q12B_4_Outcome=4;
+where study_id=9065;
+run;
+
+data work.Q2_22119_forimport; set dwnld.Q2_22119_rn; 
+if T2_Q12B_8_Outcome=. then T2_Q12B_8_Outcome=1;
+where study_id=6160;
+run;
+
+
+
+
