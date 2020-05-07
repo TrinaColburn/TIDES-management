@@ -9,7 +9,7 @@ data work.q1; set q1.Q1_20190514; run;
 /*I. Create first_trimester_questionnaire_complete=1*/
 /****************REDCap generated variable***********/
   data work.q1_REDCap_2020; set work.q1;
-  if study_id > 0 then first_trimester_questionnaire_complete=1; run;
+  if study_id > 0 then _complete=1; run;
 
 
 /*II. Edit certain variable names*/
@@ -163,7 +163,7 @@ data work.q1; set q1.Q1_20190514; run;
           t1_q49  t1_q50  t1_q51  t1_q52  t1_q53
           studyid
           id_num
-          first_trimester_questionnaire_complete
+          _complete
 ;
 set work.q1_REDCap_2020; run;
 
@@ -593,7 +593,5 @@ data work.q1_REDCap_2020_1; set work.q1_REDCap_2020_1;
 format t1_q46_dob MMDDYY10. t1_today_dt MMDDYY10. t1_paperdt MMDDYY10.
 t1_time_started hhmm.; run;
 
-/*edits in excel*
-*time formats
-add to first_trimester_questionnaire to _complete*/
-/*first successful import:
+/*add to first_trimester_questionnaire to _complete*/
+/*first successful import: 4/15/2020*/
