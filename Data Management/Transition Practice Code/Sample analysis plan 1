@@ -1,0 +1,71 @@
+/*Code to put together AGD and Age 4*/
+/*AGD and PSAI*/
+libname practice "J:\PM\TIDES_Data\GitHub Folder\datasets"; run;
+
+proc contents data=practice._all_ order=varnum; run;
+
+data practice.tii_4_pvq_2019430_deid; set practice.tii_4_pvq_2019430;
+drop tii_4_date tii_4_child_dob tii_4_end tii_4_end_2; run;
+
+proc sort data=practice.Agdbirth_tidesonly_2019430; by study_id; run;
+proc sort data=practice.tii_4_pvq_2019430_deid; by study_id; run;
+proc sort data=practice.Tides_residual_agd_102519; by study_id; run;
+
+
+
+/*n of agd datasets=758*/
+/*n of Age 4 pvq=543*/
+
+/*merge ppt with only outcome data*/
+
+data practice.agd_tii_4_pvq; merge practice.Agdbirth_tidesonly_2019430 (in=a)
+							 practice.tii_4_pvq_2019430_deid (in=b)
+							 practice.Tides_residual_agd_102519 (in=c); /*in statement creates dummy variables*/
+if b=1; run;
+
+/*n=543 in merged dataset*/
+
+proc contents data=practice.agd_tii_4_pvq order=varnum; run;
+
+/*Keep only necessary variables*/
+/*data practice.agd_tii_4_pvq_limited; set practice.agd_tii_4_pvq;
+keep <variables>; run;*/
+
+/*OR*/
+/*drop unnecessary ones*/
+data practice.agd_tii_4_pvq_limited; set practice.agd_tii_4_pvq;
+drop Cohort ExamDate rater1 rater2 tii_4_isaac_1-tii_4_isaac_20
+	 tii_4_sleep_1a tii_4_sleep_1b tii_4_sleep_2 tii_4_sleep_3
+	 tii_4_sleep_4a tii_4_sleep_4b tii_4_sleep_4c tii_4_sleep_4d
+	 tii_4_sleep_4e	tii_4_sleep_4f;/*applied drop since I'm unsure which exact ones were needed*/
+run;
+
+/*psai calculation*/
+data practice.agd_tii_4_pvq_limited; set practice.agd_tii_4_pvq_limited;
+psai_masc= tii_4_psai_1b + tii_4_psai_1c + tii_4_psai_1e + tii_4_psai_1f +
+		   tii_4_psai_2d + tii_4_psai_2e + tii_4_psai_2g + tii_4_psai_2h +
+		   tii_4_psai_2j +
+		   tii_4_psai_3a + tii_4_psai_3b + tii_4_psai_3c;
+
+psai_fem= tii_4_psai_1a + tii_4_psai_1d + tii_4_psai_1g +
+		  tii_4_psai_2a + tii_4_psai_2b + tii_4_psai_2c + tii_4_psai_2f +
+		  tii_4_psai_2i + tii_4_psai_2k +
+		  tii_4_psai_3d + tii_4_psai_3e + tii_4_psai_3f;
+run;
+
+/*number of variables before: 236
+  number of variables now: 238*/
+/*some missing values, ignore for now. likely either to be imputed by analyst
+  or dropped from dataset.
+  SAS only calculates nonmissing values, so to drop those:
+data; set;
+if psai_masc=. or psai_fem=. then delete; run;*/
+
+/*composite*/
+data practice.agd_tii_4_pvq_limited; set practice.agd_tii_4_pvq_limited;
+psai_composite= 48.25 + 1.1*(psai_masc-psai_fem); run;
+
+/*see distribution and stats*/
+proc univariate data=practice.agd_tii_4_pvq_limited;
+var psai_composite;
+histogram; run;
