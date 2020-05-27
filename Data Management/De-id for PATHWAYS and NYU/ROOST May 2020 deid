@@ -1,0 +1,178 @@
+/*deid for may*/
+
+data roost.ROOST_2020522_PW; set roost.ROOST_2020522;
+keep
+    studyid record_id redcap_data_access_group abstract_init abstract_start bp_date_v1 bp_date_v1_ga sbp_v1 dbp_v1 weight_kg_v1 weight_lb_v1 bp_date_v2 bp_date_v2_ga sbp_v2 dbp_v2 weight_kg_v2 weight_lb_v2 bp_date_v3 bp_date_v3_ga sbp_v3 dbp_v3 weight_kg_v3 weight_lb_v3 bp_notes comp_notes chronic_pain endometriosis chronic_tension_headache migraine tmj_disorder lumbago vulvar_vestibulitis unspec_vulvodynia oth_vulvodynia fibromyalgia dysmenorrhea ibs interstitial_cystitis chronic_pain_notes prev_diab_yn prev_diab_type gdm gdm_diag_date gdm_diag_date_ga gct_date gct_date_ga gct_1hr_g gtt_date gtt_date_ga gtt_fg gtt_1hr_g gtt_2hr_g gtt_3hr_g gdb_notes pe_yn pe_diag_date pe_diag_date_ga pe_notes ptl_yn ptl_dt ptl_dt_ga ptl_icd9_6440 ptl_icd9_6441 ptl_icd9_6442 ptl_icd9_6440_dt ptl_icd9_6440_dt_ga ptl_icd9_6441_dt ptl_icd9_6441_dt_ga ptl_icd9_6442_dt ptl_icd9_6442_dt_ga ptl_icd10_o470 ptl_icd10_o471 ptl_icd10_o479 ptl_icd10_o600 ptl_icd10_o601 ptl_icd10_o602 ptl_icd10_o470_dt ptl_icd10_o470_dt_ga ptl_icd10_o471_dt ptl_icd10_o471_dt_ga ptl_icd10_o479_dt ptl_icd10_o479_dt_ga ptl_icd10_o600_dt ptl_icd10_o600_dt_ga ptl_icd10_o601_dt ptl_icd10_o601_dt_ga ptl_icd10_o602_dt ptl_icd10_o602_dt_ga ptl_notes hosp_pres_sponlabor hosp_pres_prom hosp_pres_ftlstatus hosp_pres_vagbleed hosp_pres_pe hosp_pres_postdue hosp_pres_scheddel hosp_pres hosp_reason_other sched_del_mode del_aug del_ind del_dt_time hosp_dt_time hosp_dt_time_ga del_comp_icd9_660 del_comp_icd9_661 del_comp_icd9_662 del_comp_icd9_663 del_comp_icd9_664 del_comp_icd9_665 del_comp_icd9_666 del_comp_icd9_667 del_comp_icd9_668 del_comp_icd9_669 del_comp_icd10_O61 del_comp_icd10_O62 del_comp_icd10_O63 del_comp_icd10_O64 del_comp_icd10_O65 del_comp_icd10_O66 del_comp_icd10_O67 del_comp_icd10_O68 del_comp_icd10_O69 del_comp_icd10_O70 del_comp_icd10_O71 del_comp_icd10_O72 del_comp_icd10_O73 del_comp_icd10_O74 del_comp_icd10_O75 del_notes del_mode schedc_reas_pe schedc_reas_iugr schedc_reas_priorcsec schedc_reas_priormyomectomy schedc_reas_breech schedc_reas_othmtrnl schedc_reas_othftl unschedc_reas_arrdilation unschedc_reas_arrdescent unschedc_reas_plac_abrup unschedc_reas_pe unschedc_reas_iugr unschedc_reas_oth csect_notes birth_hc birth_length birth_notes plac_weight plac_trim plac_path notes_plac; run;
+
+data roost.ROOST_2020522_PW_deid; set roost.ROOST_2020522_PW; run;
+
+
+%macro deid(original, new_yr, new_mo, new_day);
+data roost.ROOST_2020522_PW_deid; set roost.ROOST_2020522_PW_deid;
+&new_yr =year(&original);
+&new_mo=month(&original);
+&new_day=day(&original); run;
+%mend;
+
+%deid(	bp_date_v1,	bp_date_v1_yr	,	bp_date_v1_mo	,	bp_date_v1_d	);
+%deid(	bp_date_v2,	bp_date_v2_yr	,	bp_date_v2_mo	,	bp_date_v2_d	);
+%deid(	bp_date_v3	,	bp_date_v3_yr	,	bp_date_v3_mo	,	bp_date_v3_d	);
+%deid(	gdm_diag_date	,	gdm_diag_date_yr	,	gdm_diag_date_mo	,	gdm_diag_date_day	);
+%deid(	gct_date	,	gct_date_yr	,	gct_date_mo	,	gct_date_day	);
+%deid(	gtt_date	,	gtt_date_yr	,	gtt_date_mo	,	gtt_date_day	);
+%deid(	pe_diag_date	,	pe_diag_date_yr	,	pe_diag_date_mo	,	pe_diag_date_day	);
+%deid(	ptl_dt	,	ptl_dt_yr	,	ptl_dt_mo	,	ptl_dt_day	);
+%deid(	ptl_icd9_6440_dt	,	ptl_icd9_6440_dt_yr	,	ptl_icd9_6440_dt_mo	,	ptl_icd9_6440_dt_day	);
+%deid(	ptl_icd9_6441_dt	,	ptl_icd9_6441_dt_yr	,	ptl_icd9_6441_dt_mo	,	ptl_icd9_6441_dt_day	);
+%deid(	ptl_icd9_6442_dt	,	ptl_icd9_6442_dt_yr	,	ptl_icd9_6442_dt_mo	,	ptl_icd9_6442_dt_day	);
+%deid(	ptl_icd10_o470_dt	,	ptl_icd10_o470_dt_yr	,	ptl_icd10_o470_dt_mo	,	ptl_icd10_o470_dt_day	);
+%deid(	ptl_icd10_o471_dt	,	ptl_icd10_o471_dt_yr	,	ptl_icd10_o471_dt_mo	,	ptl_icd10_o471_dt_day	);
+%deid(	ptl_icd10_o479_dt	,	ptl_icd10_o479_dt_yr	,	ptl_icd10_o479_dt_mo	,	ptl_icd10_o479_dt_day	);
+%deid(	ptl_icd10_o600_dt	,	ptl_icd10_o600_dt_yr	,	ptl_icd10_o600_dt_mo	,	ptl_icd10_o600_dt_day	);
+%deid(	ptl_icd10_o601_dt	,	ptl_icd10_o601_dt_yr	,	ptl_icd10_o601_dt_mo	,	ptl_icd10_o601_dt_day	);
+%deid(	ptl_icd10_o602_dt	,	ptl_icd10_o602_dt_yr	,	ptl_icd10_o602_dt_mo	,	ptl_icd10_o602_dt_day	);
+%deid(	del_dt_time	,	del_dt_time_yr	,	del_dt_time_mo	,	del_dt_time_day	);
+%deid(	hosp_dt_time	,	hosp_dt_time_yr	,	hosp_dt_time_mo	,	hosp_dt_time_day	);
+
+data roost.ROOST_2020522_PW_deid; set roost.ROOST_2020522_PW_deid;
+rename studyid=study_id; run;
+
+data roost.ROOST_2020522_PW_deid; set roost.ROOST_2020522_PW_deid;
+if	Study_ID=		9005		then	newdeid=1;
+if	Study_ID=		9010		then	newdeid=1;
+if	Study_ID=		9012		then	newdeid=1;
+if	Study_ID=		9014		then	newdeid=1;
+if	Study_ID=		9016		then	newdeid=1;
+if	Study_ID=		9017		then	newdeid=1;
+if	Study_ID=		9018		then	newdeid=1;
+if	Study_ID=		9021		then	newdeid=1;
+if	Study_ID=		9025		then	newdeid=1;
+if	Study_ID=		9032		then	newdeid=1;
+if	Study_ID=		9036		then	newdeid=1;
+if	Study_ID=		9037		then	newdeid=1;
+if	Study_ID=		9042		then	newdeid=1;
+if	Study_ID=		9043		then	newdeid=1;
+if	Study_ID=		9046		then	newdeid=1;
+if	Study_ID=		9049		then	newdeid=1;
+if	Study_ID=		9050		then	newdeid=1;
+if	Study_ID=		9051		then	newdeid=1;
+if	Study_ID=		9053		then	newdeid=1;
+if	Study_ID=		9061		then	newdeid=1;
+if	Study_ID=		9063		then	newdeid=1;
+if	Study_ID=		9064		then	newdeid=1;
+if	Study_ID=		9066		then	newdeid=1;
+if	Study_ID=		9067		then	newdeid=1;
+if	Study_ID=		9071		then	newdeid=1;
+if	Study_ID=		9073		then	newdeid=1;
+if	Study_ID=		9087		then	newdeid=1;
+if	Study_ID=		9088		then	newdeid=1;
+if	Study_ID=		9089		then	newdeid=1;
+if	Study_ID=		9091		then	newdeid=1;
+if	Study_ID=		9095		then	newdeid=1;
+if	Study_ID=		9097		then	newdeid=1;
+if	Study_ID=		9099		then	newdeid=1;
+if	Study_ID=		9100		then	newdeid=1;
+if	Study_ID=		9101		then	newdeid=1;
+if	Study_ID=		9102		then	newdeid=1;
+if	Study_ID=		9103		then	newdeid=1;
+if	Study_ID=		9104		then	newdeid=1;
+if	Study_ID=		9107		then	newdeid=1;
+if	Study_ID=		9108		then	newdeid=1;
+if	Study_ID=		9109		then	newdeid=1;
+if	Study_ID=		9111		then	newdeid=1;
+if	Study_ID=		9112		then	newdeid=1;
+if	Study_ID=		9120		then	newdeid=1;
+if	Study_ID=		9122		then	newdeid=1;
+if	Study_ID=		9123		then	newdeid=1;
+if	Study_ID=		9124		then	newdeid=1;
+if	Study_ID=		9126		then	newdeid=1;
+if	Study_ID=		9133		then	newdeid=1;
+if	Study_ID=		9139		then	newdeid=1;
+if	Study_ID=		9140		then	newdeid=1;
+if	Study_ID=		9142		then	newdeid=1;
+if	Study_ID=		9146		then	newdeid=1;
+if	Study_ID=		9147		then	newdeid=1;
+if	Study_ID=		9150		then	newdeid=1;
+if	Study_ID=		9151		then	newdeid=1;
+if	Study_ID=		9152		then	newdeid=1;
+if	Study_ID=		9155		then	newdeid=1;
+if	Study_ID=		9157		then	newdeid=1;
+if	Study_ID=		9159		then	newdeid=1;
+if	Study_ID=		9160		then	newdeid=1;
+if	Study_ID=		9167		then	newdeid=1;
+if	Study_ID=		9168		then	newdeid=1;
+if	Study_ID=		9170		then	newdeid=1;
+if	Study_ID=		9171		then	newdeid=1;
+if	Study_ID=		9174		then	newdeid=1;
+if	Study_ID=		9175		then	newdeid=1;
+if	Study_ID=		9176		then	newdeid=1;
+if	Study_ID=		9179		then	newdeid=1;
+if	Study_ID=		9180		then	newdeid=1;
+if	Study_ID=		9181		then	newdeid=1;
+if	Study_ID=		9183		then	newdeid=1;
+if	Study_ID=		9186		then	newdeid=1;
+if	Study_ID=		9187		then	newdeid=1;
+if	Study_ID=		9189		then	newdeid=1;
+if	Study_ID=		9190		then	newdeid=1;
+if	Study_ID=		9193		then	newdeid=1;
+if	Study_ID=		9195		then	newdeid=1;
+if	Study_ID=		9198		then	newdeid=1;
+if	Study_ID=		9199		then	newdeid=1;
+if	Study_ID=		9203		then	newdeid=1;
+if	Study_ID=		9204		then	newdeid=1;
+if	Study_ID=		9206		then	newdeid=1;
+if	Study_ID=		9208		then	newdeid=1;
+if	Study_ID=		9210		then	newdeid=1;
+if	Study_ID=		9211		then	newdeid=1;
+run;
+
+proc freq data=roost.ROOST_2020522_PW_deid;
+tables study_id*newdeid/nocol norow nocum nopercent; where newdeid=1; run;
+
+%macro scri(original, day_var);
+data roost.ROOST_2020522_PW_deid; set roost.ROOST_2020522_PW_deid;
+if newdeid=1 then &original=.;
+if newdeid=1 then &day_var=.; run;
+%mend;
+
+%scri(	bp_date_v1	,	bp_date_v1_d	);
+%scri(	bp_date_v2,		bp_date_v2_d	);
+%scri(	bp_date_v3,		bp_date_v3_d	);
+%scri(	gdm_diag_date	,	gdm_diag_date_day	);
+%scri(	gct_date	,	gct_date_day	);
+%scri(	gtt_date	,	gtt_date_day	);
+%scri(	pe_diag_date	,	pe_diag_date_day	);
+%scri(	ptl_dt	,	ptl_dt_day	);
+%scri(	ptl_icd9_6440_dt	,	ptl_icd9_6440_dt_day	);
+%scri(	ptl_icd9_6441_dt	,	ptl_icd9_6441_dt_day	);
+%scri(	ptl_icd9_6442_dt	,	ptl_icd9_6442_dt_day	);
+%scri(	ptl_icd10_o470_dt	,	ptl_icd10_o470_dt_day	);
+%scri(	ptl_icd10_o471_dt	,	ptl_icd10_o471_dt_day	);
+%scri(	ptl_icd10_o479_dt	,	ptl_icd10_o479_dt_day	);
+%scri(	ptl_icd10_o600_dt	,	ptl_icd10_o600_dt_day	);
+%scri(	ptl_icd10_o601_dt	,	ptl_icd10_o601_dt_day	);
+%scri(	ptl_icd10_o602_dt	,	ptl_icd10_o602_dt_day	);
+%scri(	del_dt_time	,	del_dt_time_day	);
+%scri(	hosp_dt_time	,	hosp_dt_time_day	);
+
+proc print data=roost.ROOST_2020522_PW_deid;
+var study_id bp_date_v1		bp_date_v1_d
+bp_date_v2		bp_date_v2_d
+bp_date_v3		bp_date_v3_d
+gdm_diag_date		gdm_diag_date_day
+gct_date		gct_date_day
+gtt_date		gtt_date_day
+pe_diag_date		pe_diag_date_day
+ptl_dt		ptl_dt_day
+ptl_icd9_6440_dt		ptl_icd9_6440_dt_day
+ptl_icd9_6441_dt		ptl_icd9_6441_dt_day
+ptl_icd9_6442_dt		ptl_icd9_6442_dt_day
+ptl_icd10_o470_dt		ptl_icd10_o470_dt_day
+ptl_icd10_o471_dt		ptl_icd10_o471_dt_day
+ptl_icd10_o479_dt		ptl_icd10_o479_dt_day
+ptl_icd10_o600_dt		ptl_icd10_o600_dt_day
+ptl_icd10_o601_dt		ptl_icd10_o601_dt_day
+ptl_icd10_o602_dt		ptl_icd10_o602_dt_day
+del_dt_time		del_dt_time_day
+hosp_dt_time		hosp_dt_time_day newdeid; sum newdeid;
+where newdeid=1; run;

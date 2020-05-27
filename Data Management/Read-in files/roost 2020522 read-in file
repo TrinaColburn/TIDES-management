@@ -1,0 +1,1521 @@
+libname roost "<name>"; run;
+
+data roost.ROOST_2020522; %let _EFIERR_ = 0;
+infile '<filepath>/roost_2020522.csv' delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=2;
+informat	studyid	BEST32.	;
+informat	record_id	$500.;
+informat	redcap_data_access_group	$500.;
+informat	abstract_init	$500.;
+informat	abstract_start	$500. 	;
+informat	bp_date_v1	MMDDYY10.	;
+informat	bp_date_v1_ga	BEST32.	;
+informat	sbp_v1	BEST32.	;
+informat	dbp_v1	BEST32.	;
+informat	weight_kg_v1	BEST32.	;
+informat	weight_lb_v1	BEST32.	;
+informat	bp_date_v2	MMDDYY10.	;
+informat	bp_date_v2_ga	BEST32.	;
+informat	sbp_v2	BEST32.	;
+informat	dbp_v2	BEST32.	;
+informat	weight_kg_v2	BEST32.	;
+informat	weight_lb_v2	BEST32.	;
+informat	bp_date_v3	MMDDYY10.	;
+informat	bp_date_v3_ga	BEST32.	;
+informat	sbp_v3	BEST32.	;
+informat	dbp_v3	BEST32.	;
+informat	weight_kg_v3	BEST32.	;
+informat	weight_lb_v3	BEST32.	;
+informat	bp_notes	$5000. 	;
+informat	comp_icd9_640	BEST32.	;
+informat	comp_icd9_641	BEST32.	;
+informat	comp_icd9_642	BEST32.	;
+informat	comp_icd9_642_1	BEST32.	;
+informat	comp_icd9_642_2	BEST32.	;
+informat	comp_icd9_642_3	BEST32.	;
+informat	comp_icd9_642_4	BEST32.	;
+informat	comp_icd9_642_5	BEST32.	;
+informat	comp_icd9_642_6	BEST32.	;
+informat	comp_icd9_642_7	BEST32.	;
+informat	comp_icd9_643	BEST32.	;
+informat	comp_icd9_644	BEST32.	;
+informat	comp_icd9_645	BEST32.	;
+informat	comp_icd9_646	BEST32.	;
+informat	comp_icd9_647	BEST32.	;
+informat	comp_icd9_648	BEST32.	;
+informat	comp_icd9_649	BEST32.	;
+informat	comp_icd9_640_dt	MMDDYY10.	;
+informat	comp_icd9_640_dt_ga	BEST32.	;
+informat	comp_icd9_641_dt	MMDDYY10.	;
+informat	comp_icd9_641_dt_ga	BEST32.	;
+informat	comp_icd9_642_dt	MMDDYY10.	;
+informat	comp_icd9_642_dt_ga	BEST32.	;
+informat	comp_icd9_642_1_dt	MMDDYY10.	;
+informat	comp_icd9_642_1_dt_ga	BEST32.	;
+informat	comp_icd9_642_2_dt	MMDDYY10.	;
+informat	comp_icd9_642_2_dt_ga	BEST32.	;
+informat	comp_icd9_642_3_dt	MMDDYY10.	;
+informat	comp_icd9_642_3_dt_ga	BEST32.	;
+informat	comp_icd9_642_4_dt	MMDDYY10.	;
+informat	comp_icd9_642_4_dt_ga	BEST32.	;
+informat	comp_icd9_642_5_dt	MMDDYY10.	;
+informat	comp_icd9_642_5_dt_ga	BEST32.	;
+informat	comp_icd9_642_6_dt	MMDDYY10.	;
+informat	comp_icd9_642_6_dt_ga	BEST32.	;
+informat	comp_icd9_642_7_dt	MMDDYY10.	;
+informat	comp_icd9_642_7_dt_ga	BEST32.	;
+informat	comp_icd9_643_dt	MMDDYY10.	;
+informat	comp_icd9_643_dt_ga	BEST32.	;
+informat	comp_icd9_644_dt	MMDDYY10.	;
+informat	comp_icd9_644_dt_ga	BEST32.	;
+informat	comp_icd9_645_dt	MMDDYY10.	;
+informat	comp_icd9_645_dt_ga	BEST32.	;
+informat	comp_icd9_646_dt	MMDDYY10.	;
+informat	comp_icd9_646_dt_ga	BEST32.	;
+informat	comp_icd9_647_dt	MMDDYY10.	;
+informat	comp_icd9_647_dt_ga	BEST32.	;
+informat	comp_icd9_648_dt	MMDDYY10.	;
+informat	comp_icd9_648_dt_ga	BEST32.	;
+informat	comp_icd9_649_dt	MMDDYY10.	;
+informat	comp_icd9_649_dt_ga	BEST32.	;
+informat	comp_icd10_o10	BEST32.	;
+informat	comp_icd10_o11	BEST32.	;
+informat	comp_icd10_o12	BEST32.	;
+informat	comp_icd10_o13	BEST32.	;
+informat	comp_icd10_o14	BEST32.	;
+informat	comp_icd10_o15	BEST32.	;
+informat	comp_icd10_o16	BEST32.	;
+informat	comp_icd10_o20	BEST32.	;
+informat	comp_icd10_o21	BEST32.	;
+informat	comp_icd10_o22	BEST32.	;
+informat	comp_icd10_o23	BEST32.	;
+informat	comp_icd10_o24	BEST32.	;
+informat	comp_icd10_o25	BEST32.	;
+informat	comp_icd10_o32	BEST32.	;
+informat	comp_icd10_o33	BEST32.	;
+informat	comp_icd10_o36	BEST32.	;
+informat	comp_icd10_o40	BEST32.	;
+informat	comp_icd10_o41	BEST32.	;
+informat	comp_icd10_o42	BEST32.	;
+informat	comp_icd10_o43	BEST32.	;
+informat	comp_icd10_o44	BEST32.	;
+informat	comp_icd10_o45	BEST32.	;
+informat	comp_icd10_o46	BEST32.	;
+informat	comp_icd10_o47	BEST32.	;
+informat	comp_icd10_o48	BEST32.	;
+informat	comp_icd10_o10_dt	MMDDYY10.	;
+informat	comp_icd10_o10_dt_ga	BEST32.	;
+informat	comp_icd10_o11_dt	MMDDYY10.	;
+informat	comp_icd10_o11_dt_ga	BEST32.	;
+informat	comp_icd10_o12_dt	MMDDYY10.	;
+informat	comp_icd10_o12_dt_ga	BEST32.	;
+informat	comp_icd10_o13_dt	MMDDYY10.	;
+informat	comp_icd10_o13_dt_ga	BEST32.	;
+informat	comp_icd10_o14_dt	MMDDYY10.	;
+informat	comp_icd10_o14_dt_ga	BEST32.	;
+informat	comp_icd10_o15_dt	MMDDYY10.	;
+informat	comp_icd10_o15_dt_ga	BEST32.	;
+informat	comp_icd10_o16_dt	MMDDYY10.	;
+informat	comp_icd10_o16_dt_ga	BEST32.	;
+informat	comp_icd10_o20_dt	MMDDYY10.	;
+informat	comp_icd10_o20_dt_ga	BEST32.	;
+informat	comp_icd10_o21_dt	MMDDYY10.	;
+informat	comp_icd10_o21_dt_ga	BEST32.	;
+informat	comp_icd10_o22_dt	MMDDYY10.	;
+informat	comp_icd10_o22_dt_ga	BEST32.	;
+informat	comp_icd10_o23_dt	MMDDYY10.	;
+informat	comp_icd10_o23_dt_ga	BEST32.	;
+informat	comp_icd10_o24_dt	MMDDYY10.	;
+informat	comp_icd10_o24_dt_ga	BEST32.	;
+informat	comp_icd10_o25_dt	MMDDYY10.	;
+informat	comp_icd10_o25_dt_ga	BEST32.	;
+informat	comp_icd10_o32_dt	MMDDYY10.	;
+informat	comp_icd10_o32_dt_ga	BEST32.	;
+informat	comp_icd10_o33_dt	MMDDYY10.	;
+informat	comp_icd10_o33_dt_ga	BEST32.	;
+informat	comp_icd10_o36_dt	MMDDYY10.	;
+informat	comp_icd10_o36_dt_ga	BEST32.	;
+informat	comp_icd10_o40_dt	MMDDYY10.	;
+informat	comp_icd10_o40_dt_ga	BEST32.	;
+informat	comp_icd10_o41_dt	MMDDYY10.	;
+informat	comp_icd10_o41_dt_ga	BEST32.	;
+informat	comp_icd10_o42_dt	MMDDYY10.	;
+informat	comp_icd10_o42_dt_ga	BEST32.	;
+informat	comp_icd10_o43_dt	MMDDYY10.	;
+informat	comp_icd10_o43_dt_ga	BEST32.	;
+informat	comp_icd10_o44_dt	MMDDYY10.	;
+informat	comp_icd10_o44_dt_ga	BEST32.	;
+informat	comp_icd10_o45_dt	MMDDYY10.	;
+informat	comp_icd10_o45_dt_ga	BEST32.	;
+informat	comp_icd10_o46_dt	MMDDYY10.	;
+informat	comp_icd10_o46_dt_ga	BEST32.	;
+informat	comp_icd10_o47_dt	MMDDYY10.	;
+informat	comp_icd10_o47_dt_ga	BEST32.	;
+informat	comp_icd10_o48_dt	MMDDYY10.	;
+informat	comp_icd10_o48_dt_ga	BEST32.	;
+informat	comp_notes	$5000. 	;
+informat	chronic_pain	BEST32.	;
+informat	endometriosis	BEST32.	;
+informat	chronic_tension_headache	BEST32.	;
+informat	migraine	BEST32.	;
+informat	tmj_disorder	BEST32.	;
+informat	lumbago	BEST32.	;
+informat	vulvar_vestibulitis	BEST32.	;
+informat	unspec_vulvodynia	BEST32.	;
+informat	oth_vulvodynia	BEST32.	;
+informat	fibromyalgia	BEST32.	;
+informat	dysmenorrhea	BEST32.	;
+informat	ibs	BEST32.	;
+informat	interstitial_cystitis	BEST32.	;
+informat	chronic_pain_notes	$5000. 	;
+informat	us_crl_date	MMDDYY10.	;
+informat	us_crl_date_ga	BEST32.	;
+informat	us_crl	$500. 	;
+informat	us_crl_notes	$5000. 	;
+informat	us_1_date	MMDDYY10.	;
+informat	us_1_date_ga	BEST32.	;
+informat	us_1_ad	BEST32.	;
+informat	us_1_bpd	BEST32.	;
+informat	us_1_hc	BEST32.	;
+informat	us_1_ac	BEST32.	;
+informat	us_1_fl	BEST32.	;
+informat	us_1_ofd	BEST32.	;
+informat	us_1_efw	BEST32.	;
+informat	us_1_mat_weight	BEST32.	;
+informat	us_1_mat_weight_lb	BEST32.	;
+informat	us_1_cvl	BEST32.	;
+informat	us_1_cvl_cm	BEST32.	;
+informat	us_1_plac_pos	BEST32.	;
+informat	us_1_uta_sbp	BEST32.	;
+informat	us_1_uta_dbp	BEST32.	;
+informat	us_1_uta_pi	BEST32.	;
+informat	us_1_uma_sbp	BEST32.	;
+informat	us_1_uma_dbp	BEST32.	;
+informat	us_1_uma_pi	BEST32.	;
+informat	us_1_notch	BEST32.	;
+informat	us_1_notes	$5000. 	;
+informat	us_2_date	MMDDYY10.	;
+informat	us_2_date_ga	BEST32.	;
+informat	us_2_ad	best32.	;
+informat	us_2_bpd	BEST32.	;
+informat	us_2_hc	BEST32.	;
+informat	us_2_ac	BEST32.	;
+informat	us_2_fl	BEST32.	;
+informat	us_2_ofd	BEST32.	;
+informat	us_2_efw	BEST32.	;
+informat	us_2_mat_weight	best32.	;
+informat	us_2_mat_weight_lb	best32.	;
+informat	us_2_cvl	best32.	;
+informat	us_2_cvl_cm	BEST32.	;
+informat	us_2_plac_pos	BEST32.	;
+informat	us_2_uta_sbp	best32.	;
+informat	us_2_uta_dbp	best32.	;
+informat	us_2_uta_pi	best32.	;
+informat	us_2_uma_sbp	best32.	;
+informat	us_2_uma_dbp	best32.	;
+informat	us_2_uma_pi	best32.	;
+informat	us_2_notch	BEST32.	;
+informat	us_2_notes	$5000. 	;
+informat	us_3_date	MMDDYY10.	;
+informat	us_3_date_ga	BEST32.	;
+informat	us_3_ad	best32.	;
+informat	us_3_bpd	BEST32.	;
+informat	us_3_hc	BEST32.	;
+informat	us_3_ac	BEST32.	;
+informat	us_3_fl	BEST32.	;
+informat	us_3_ofd	best32.	;
+informat	us_3_efw	BEST32.	;
+informat	us_3_mat_weight	best32.	;
+informat	us_3_mat_weight_lb	best32.	;
+informat	us_3_cvl	best32.	;
+informat	us_3_cvl_cm	BEST32.	;
+informat	us_3_plac_pos	BEST32.	;
+informat	us_3_uta_sbp	best32.	;
+informat	us_3_uta_dbp	best32.	;
+informat	us_3_uta_pi	best32.	;
+informat	us_3_uma_sbp	best32.	;
+informat	us_3_uma_dbp	best32.	;
+informat	us_3_uma_pi	best32.	;
+informat	us_3_notch	BEST32.	;
+informat	us_3_notes	$5000. 	;
+informat	us_4_date	MMDDYY10.	;
+informat	us_4_date_ga	BEST32.	;
+informat	us_4_ad	best32.	;
+informat	us_4_bpd	BEST32.	;
+informat	us_4_hc	BEST32.	;
+informat	us_4_ac	BEST32.	;
+informat	us_4_fl	BEST32.	;
+informat	us_4_ofd	best32.	;
+informat	us_4_efw	BEST32.	;
+informat	us_4_mat_weight	best32.	;
+informat	us_4_mat_weight_lb	best32.	;
+informat	us_4_cvl	best32.	;
+informat	us_4_cvl_cm	BEST32.	;
+informat	us_4_plac_pos	BEST32.	;
+informat	us_4_uta_sbp	best32.	;
+informat	us_4_uta_dbp	best32.	;
+informat	us_4_uta_pi	best32.	;
+informat	us_4_uma_sbp	best32.	;
+informat	us_4_uma_dbp	best32.	;
+informat	us_4_uma_pi	best32.	;
+informat	us_4_notch	BEST32.	;
+informat	us_4_notes	$5000. 	;
+informat	us_5_date	MMDDYY10.	;
+informat	us_5_date_ga	BEST32.	;
+informat	us_5_ad	best32.	;
+informat	us_5_bpd	best32.	;
+informat	us_5_hc	best32.	;
+informat	us_5_ac	best32.	;
+informat	us_5_fl	best32.	;
+informat	us_5_ofd	best32.	;
+informat	us_5_efw	best32.	;
+informat	us_5_mat_weight	best32.	;
+informat	us_5_mat_weight_lb	best32.	;
+informat	us_5_cvl	best32.	;
+informat	us_5_cvl_cm	BEST32.	;
+informat	us_5_plac_pos	BEST32.	;
+informat	us_5_uta_sbp	best32.	;
+informat	us_5_uta_dbp	best32.	;
+informat	us_5_uta_pi	best32.	;
+informat	us_5_uma_sbp	best32.	;
+informat	us_5_uma_dbp	best32.	;
+informat	us_5_uma_pi	best32.	;
+informat	us_5_notch	BEST32.	;
+informat	us_5_notes	$5000. 	;
+informat	us_6_date	MMDDYY10.	;
+informat	us_6_date_ga	BEST32.	;
+informat	us_6_ad	best32.	;
+informat	us_6_bpd	best32.	;
+informat	us_6_hc	best32.	;
+informat	us_6_ac	best32.	;
+informat	us_6_fl	best32.	;
+informat	us_6_ofd	best32.	;
+informat	us_6_efw	best32.	;
+informat	us_6_mat_weight	best32.	;
+informat	us_6_mat_weight_lb	best32.	;
+informat	us_6_cvl	best32.	;
+informat	us_6_cvl_cm	best32.	;
+informat	us_6_plac_pos	best32.	;
+informat	us_6_uta_sbp	best32.	;
+informat	us_6_uta_dbp	best32.	;
+informat	us_6_uta_pi	best32.	;
+informat	us_6_uma_sbp	best32.	;
+informat	us_6_uma_dbp	best32.	;
+informat	us_6_uma_pi	best32.	;
+informat	us_6_notch	best32.	;
+informat	us_6_notes	$5000. 	;
+informat	us_7_date	MMDDYY10.	;
+informat	us_7_date_ga	BEST32.	;
+informat	us_7_ad	best32.	;
+informat	us_7_bpd	best32.	;
+informat	us_7_hc	best32.	;
+informat	us_7_ac	best32.	;
+informat	us_7_fl	best32.	;
+informat	us_7_ofd	best32.	;
+informat	us_7_efw	best32.	;
+informat	us_7_mat_weight	best32.	;
+informat	us_7_mat_weight_lb	best32.	;
+informat	us_7_cvl	best32.	;
+informat	us_7_cvl_cm	best32.	;
+informat	us_7_plac_pos	best32.	;
+informat	us_7_uta_sbp	best32.	;
+informat	us_7_uta_dbp	best32.	;
+informat	us_7_uta_pi	best32.	;
+informat	us_7_uma_sbp	best32.	;
+informat	us_7_uma_dbp	best32.	;
+informat	us_7_uma_pi	best32.	;
+informat	us_7_notch	best32.	;
+informat	us_7_notes	$5000. 	;
+informat	us_8_date	MMDDYY10.	;
+informat	us_8_date_ga	BEST32.	;
+informat	us_8_ad	best32.	;
+informat	us_8_bpd	best32.	;
+informat	us_8_hc	best32.	;
+informat	us_8_ac	best32.	;
+informat	us_8_fl	best32.	;
+informat	us_8_ofd	best32.	;
+informat	us_8_efw	best32.	;
+informat	us_8_mat_weight	best32.	;
+informat	us_8_mat_weight_lb	best32.	;
+informat	us_8_cvl	best32.	;
+informat	us_8_cvl_cm	best32.	;
+informat	us_8_plac_pos	best32.	;
+informat	us_8_uta_sbp	best32.	;
+informat	us_8_uta_dbp	best32.	;
+informat	us_8_uta_pi	best32.	;
+informat	us_8_uma_sbp	best32.	;
+informat	us_8_uma_dbp	best32.	;
+informat	us_8_uma_pi	best32.	;
+informat	us_8_notch	best32.	;
+informat	us_8_notes	$5000.	;
+informat	us_9_date	MMDDYY10.	;
+informat	us_9_date_ga	BEST32.	;
+informat	us_9_ad	best32.	;
+informat	us_9_bpd	best32.	;
+informat	us_9_hc	best32.	;
+informat	us_9_ac	best32.	;
+informat	us_9_fl	best32.	;
+informat	us_9_ofd	best32.	;
+informat	us_9_efw	best32.	;
+informat	us_9_mat_weight	best32.	;
+informat	us_9_mat_weight_lb	best32.	;
+informat	us_9_cvl	best32.	;
+informat	us_9_cvl_cm	best32.	;
+informat	us_9_plac_pos	best32.	;
+informat	us_9_uta_sbp	best32.	;
+informat	us_9_uta_dbp	best32.	;
+informat	us_9_uta_pi	best32.	;
+informat	us_9_uma_sbp	best32.	;
+informat	us_9_uma_dbp	best32.	;
+informat	us_9_uma_pi	best32.	;
+informat	us_9_notch	best32.	;
+informat	us_9_notes	$5000. 	;
+informat	us_10_date	MMDDYY10.	;
+informat	us_10_date_ga	BEST32.	;
+informat	us_10_ad	best32.	;
+informat	us_10_bpd	best32.	;
+informat	us_10_hc	best32.	;
+informat	us_10_ac	best32.	;
+informat	us_10_fl	best32.	;
+informat	us_10_ofd	best32.	;
+informat	us_10_efw	best32.	;
+informat	us_10_mat_weight	best32.	;
+informat	us_10_mat_weight_lb	best32.	;
+informat	us_10_cvl	best32.	;
+informat	us_10_cvl_cm	best32.	;
+informat	us_10_plac_pos	best32.	;
+informat	us_10_uta_sbp	best32.	;
+informat	us_10_uta_dbp	best32.	;
+informat	us_10_uta_pi	best32.	;
+informat	us_10_uma_sbp	best32.	;
+informat	us_10_uma_dbp	best32.	;
+informat	us_10_uma_pi	best32.	;
+informat	us_10_notch	best32.	;
+informat	us_10_notes	$5000. 	;
+informat	prev_diab_yn	BEST32.	;
+informat	prev_diab_type	BEST32.	;
+informat	gdm	BEST32.	;
+informat	gdm_diag_date	MMDDYY10.	;
+informat	gdm_diag_date_ga	BEST32.	;
+informat	gct_date	MMDDYY10.	;
+informat	gct_date_ga	BEST32.	;
+informat	gct_1hr_g	BEST32.	;
+informat	gtt_date	MMDDYY10.	;
+informat	gtt_date_ga	BEST32.	;
+informat	gtt_fg	BEST32.	;
+informat	gtt_1hr_g	BEST32.	;
+informat	gtt_2hr_g	BEST32.	;
+informat	gtt_3hr_g	BEST32.	;
+informat	gdb_notes	$5000. 	;
+informat	pe_yn	BEST32.	;
+informat	pe_diag_date	MMDDYY10.;
+informat	pe_diag_date_ga	BEST32.	;
+informat	pe_notes	$5000. 	;
+informat	ptl_yn	BEST32.	;
+informat	ptl_dt	MMDDYY10.	;
+informat	ptl_dt_ga	BEST32.	;
+informat	ptl_icd9_6440	BEST32.	;
+informat	ptl_icd9_6441	BEST32.	;
+informat	ptl_icd9_6442	BEST32.	;
+informat	ptl_icd9_6440_dt	MMDDYY10.	;
+informat	ptl_icd9_6440_dt_ga	BEST32.	;
+informat	ptl_icd9_6441_dt	MMDDYY10.	;
+informat	ptl_icd9_6441_dt_ga	BEST32.	;
+informat	ptl_icd9_6442_dt	MMDDYY10.	;
+informat	ptl_icd9_6442_dt_ga	BEST32.	;
+informat	ptl_icd10_o470	BEST32.	;
+informat	ptl_icd10_o471	BEST32.	;
+informat	ptl_icd10_o479	BEST32.	;
+informat	ptl_icd10_o600	BEST32.	;
+informat	ptl_icd10_o601	BEST32.	;
+informat	ptl_icd10_o602	BEST32.	;
+informat	ptl_icd10_o470_dt	MMDDYY10.	;
+informat	ptl_icd10_o470_dt_ga	BEST32.	;
+informat	ptl_icd10_o471_dt	MMDDYY10.	;
+informat	ptl_icd10_o471_dt_ga	BEST32.	;
+informat	ptl_icd10_o479_dt	MMDDYY10.	;
+informat	ptl_icd10_o479_dt_ga	BEST32.	;
+informat	ptl_icd10_o600_dt	MMDDYY10.	;
+informat	ptl_icd10_o600_dt_ga	BEST32.	;
+informat	ptl_icd10_o601_dt	MMDDYY10.	;
+informat	ptl_icd10_o601_dt_ga	BEST32.	;
+informat	ptl_icd10_o602_dt	MMDDYY10.	;
+informat	ptl_icd10_o602_dt_ga	BEST32.	;
+informat	ptl_notes	$5000. 	;
+informat	hosp_pres_sponlabor	BEST32.	;
+informat	hosp_pres_prom	BEST32.	;
+informat	hosp_pres_ftlstatus	BEST32.	;
+informat	hosp_pres_vagbleed	BEST32.	;
+informat	hosp_pres_pe	BEST32.	;
+informat	hosp_pres_postdue	BEST32.	;
+informat	hosp_pres_scheddel	BEST32.	;
+informat	hosp_pres	BEST32.	;
+informat	hosp_reason_other	$5000. 	;
+informat	sched_del_mode	BEST32.	;
+informat	del_aug	BEST32.	;
+informat	del_ind	BEST32.	;
+informat	del_dt_time		MMDDYY10.	;
+informat	hosp_dt_time	MMDDYY10.	;
+informat	hosp_dt_time_ga	best32.	;
+informat	del_comp_icd9_660	BEST32.	;
+informat	del_comp_icd9_661	BEST32.	;
+informat	del_comp_icd9_662	BEST32.	;
+informat	del_comp_icd9_663	BEST32.	;
+informat	del_comp_icd9_664	BEST32.	;
+informat	del_comp_icd9_665	BEST32.	;
+informat	del_comp_icd9_666	BEST32.	;
+informat	del_comp_icd9_667	BEST32.	;
+informat	del_comp_icd9_668	BEST32.	;
+informat	del_comp_icd9_669	BEST32.	;
+informat	del_comp_icd10_O61	BEST32.	;
+informat	del_comp_icd10_O62	BEST32.	;
+informat	del_comp_icd10_O63	BEST32.	;
+informat	del_comp_icd10_O64	BEST32.	;
+informat	del_comp_icd10_O65	BEST32.	;
+informat	del_comp_icd10_O66	BEST32.	;
+informat	del_comp_icd10_O67	BEST32.	;
+informat	del_comp_icd10_O68	BEST32.	;
+informat	del_comp_icd10_O69	BEST32.	;
+informat	del_comp_icd10_O70	BEST32.	;
+informat	del_comp_icd10_O71	BEST32.	;
+informat	del_comp_icd10_O72	BEST32.	;
+informat	del_comp_icd10_O73	BEST32.	;
+informat	del_comp_icd10_O74	BEST32.	;
+informat	del_comp_icd10_O75	BEST32.	;
+informat	del_notes	$5000. 	;
+informat	del_mode	BEST32.	;
+informat	schedc_reas_pe	BEST32.	;
+informat	schedc_reas_iugr	BEST32.	;
+informat	schedc_reas_priorcsec	BEST32.	;
+informat	schedc_reas_priormyomectomy	BEST32.	;
+informat	schedc_reas_breech	BEST32.	;
+informat	schedc_reas_othmtrnl	BEST32.	;
+informat	schedc_reas_othftl	BEST32.	;
+informat	unschedc_reas_arrdilation	BEST32.	;
+informat	unschedc_reas_arrdescent	BEST32.	;
+informat	unschedc_reas_plac_abrup	BEST32.	;
+informat	unschedc_reas_pe	BEST32.	;
+informat	unschedc_reas_iugr	BEST32.	;
+informat	unschedc_reas_oth	BEST32.	;
+informat	csect_notes	$5000. 	;
+informat	birth_hc	best32.	;
+informat	birth_length	best32.	;
+informat	birth_notes	$5000. 	;
+informat	plac_weight	BEST32.	;
+informat	plac_trim	BEST32.	;
+informat	plac_path	BEST32.	;
+informat	notes_plac	$5000. 	;
+informat	abstract_end	best32.	;
+
+		format	studyid	BEST32.	;
+		format	record_id	$500.;
+		format	redcap_data_access_group	$500.;
+		format	abstract_init	$500.;
+		format	abstract_start	$500. 	;
+		format	bp_date_v1	MMDDYY10.	;
+		format	bp_date_v1_ga	BEST32.	;
+		format	sbp_v1	BEST32.	;
+		format	dbp_v1	BEST32.	;
+		format	weight_kg_v1	BEST32.	;
+		format	weight_lb_v1	BEST32.	;
+		format	bp_date_v2	MMDDYY10.	;
+		format	bp_date_v2_ga	BEST32.	;
+		format	sbp_v2	BEST32.	;
+		format	dbp_v2	BEST32.	;
+		format	weight_kg_v2	BEST32.	;
+		format	weight_lb_v2	BEST32.	;
+		format	bp_date_v3	MMDDYY10.	;
+		format	bp_date_v3_ga	BEST32.	;
+		format	sbp_v3	BEST32.	;
+		format	dbp_v3	BEST32.	;
+		format	weight_kg_v3	BEST32.	;
+		format	weight_lb_v3	BEST32.	;
+		format	bp_notes	$5000. 	;
+		format	comp_icd9_640	BEST32.	;
+		format	comp_icd9_641	BEST32.	;
+		format	comp_icd9_642	BEST32.	;
+		format	comp_icd9_642_1	BEST32.	;
+		format	comp_icd9_642_2	BEST32.	;
+		format	comp_icd9_642_3	BEST32.	;
+		format	comp_icd9_642_4	BEST32.	;
+		format	comp_icd9_642_5	BEST32.	;
+		format	comp_icd9_642_6	BEST32.	;
+		format	comp_icd9_642_7	BEST32.	;
+		format	comp_icd9_643	BEST32.	;
+		format	comp_icd9_644	BEST32.	;
+		format	comp_icd9_645	BEST32.	;
+		format	comp_icd9_646	BEST32.	;
+		format	comp_icd9_647	BEST32.	;
+		format	comp_icd9_648	BEST32.	;
+		format	comp_icd9_649	BEST32.	;
+		format	comp_icd9_640_dt	MMDDYY10.	;
+		format	comp_icd9_640_dt_ga	BEST32.	;
+		format	comp_icd9_641_dt	MMDDYY10.	;
+		format	comp_icd9_641_dt_ga	BEST32.	;
+		format	comp_icd9_642_dt	MMDDYY10.	;
+		format	comp_icd9_642_dt_ga	BEST32.	;
+		format	comp_icd9_642_1_dt	MMDDYY10.	;
+		format	comp_icd9_642_1_dt_ga	BEST32.	;
+		format	comp_icd9_642_2_dt	MMDDYY10.	;
+		format	comp_icd9_642_2_dt_ga	BEST32.	;
+		format	comp_icd9_642_3_dt	MMDDYY10.	;
+		format	comp_icd9_642_3_dt_ga	BEST32.	;
+		format	comp_icd9_642_4_dt	MMDDYY10.	;
+		format	comp_icd9_642_4_dt_ga	BEST32.	;
+		format	comp_icd9_642_5_dt	MMDDYY10.	;
+		format	comp_icd9_642_5_dt_ga	BEST32.	;
+		format	comp_icd9_642_6_dt	MMDDYY10.	;
+		format	comp_icd9_642_6_dt_ga	BEST32.	;
+		format	comp_icd9_642_7_dt	MMDDYY10.	;
+		format	comp_icd9_642_7_dt_ga	BEST32.	;
+		format	comp_icd9_643_dt	MMDDYY10.	;
+		format	comp_icd9_643_dt_ga	BEST32.	;
+		format	comp_icd9_644_dt	MMDDYY10.	;
+		format	comp_icd9_644_dt_ga	BEST32.	;
+		format	comp_icd9_645_dt	MMDDYY10.	;
+		format	comp_icd9_645_dt_ga	BEST32.	;
+		format	comp_icd9_646_dt	MMDDYY10.	;
+		format	comp_icd9_646_dt_ga	BEST32.	;
+		format	comp_icd9_647_dt	MMDDYY10.	;
+		format	comp_icd9_647_dt_ga	BEST32.	;
+		format	comp_icd9_648_dt	MMDDYY10.	;
+		format	comp_icd9_648_dt_ga	BEST32.	;
+		format	comp_icd9_649_dt	MMDDYY10.	;
+		format	comp_icd9_649_dt_ga	BEST32.	;
+		format	comp_icd10_o10	BEST32.	;
+		format	comp_icd10_o11	BEST32.	;
+		format	comp_icd10_o12	BEST32.	;
+		format	comp_icd10_o13	BEST32.	;
+		format	comp_icd10_o14	BEST32.	;
+		format	comp_icd10_o15	BEST32.	;
+		format	comp_icd10_o16	BEST32.	;
+		format	comp_icd10_o20	BEST32.	;
+		format	comp_icd10_o21	BEST32.	;
+		format	comp_icd10_o22	BEST32.	;
+		format	comp_icd10_o23	BEST32.	;
+		format	comp_icd10_o24	BEST32.	;
+		format	comp_icd10_o25	BEST32.	;
+		format	comp_icd10_o32	BEST32.	;
+		format	comp_icd10_o33	BEST32.	;
+		format	comp_icd10_o36	BEST32.	;
+		format	comp_icd10_o40	BEST32.	;
+		format	comp_icd10_o41	BEST32.	;
+		format	comp_icd10_o42	BEST32.	;
+		format	comp_icd10_o43	BEST32.	;
+		format	comp_icd10_o44	BEST32.	;
+		format	comp_icd10_o45	BEST32.	;
+		format	comp_icd10_o46	BEST32.	;
+		format	comp_icd10_o47	BEST32.	;
+		format	comp_icd10_o48	BEST32.	;
+		format	comp_icd10_o10_dt	MMDDYY10.	;
+		format	comp_icd10_o10_dt_ga	BEST32.	;
+		format	comp_icd10_o11_dt	MMDDYY10.	;
+		format	comp_icd10_o11_dt_ga	BEST32.	;
+		format	comp_icd10_o12_dt	MMDDYY10.	;
+		format	comp_icd10_o12_dt_ga	BEST32.	;
+		format	comp_icd10_o13_dt	MMDDYY10.	;
+		format	comp_icd10_o13_dt_ga	BEST32.	;
+		format	comp_icd10_o14_dt	MMDDYY10.	;
+		format	comp_icd10_o14_dt_ga	BEST32.	;
+		format	comp_icd10_o15_dt	MMDDYY10.	;
+		format	comp_icd10_o15_dt_ga	BEST32.	;
+		format	comp_icd10_o16_dt	MMDDYY10.	;
+		format	comp_icd10_o16_dt_ga	BEST32.	;
+		format	comp_icd10_o20_dt	MMDDYY10.	;
+		format	comp_icd10_o20_dt_ga	BEST32.	;
+		format	comp_icd10_o21_dt	MMDDYY10.	;
+		format	comp_icd10_o21_dt_ga	BEST32.	;
+		format	comp_icd10_o22_dt	MMDDYY10.	;
+		format	comp_icd10_o22_dt_ga	BEST32.	;
+		format	comp_icd10_o23_dt	MMDDYY10.	;
+		format	comp_icd10_o23_dt_ga	BEST32.	;
+		format	comp_icd10_o24_dt	MMDDYY10.	;
+		format	comp_icd10_o24_dt_ga	BEST32.	;
+		format	comp_icd10_o25_dt	MMDDYY10.	;
+		format	comp_icd10_o25_dt_ga	BEST32.	;
+		format	comp_icd10_o32_dt	MMDDYY10.	;
+		format	comp_icd10_o32_dt_ga	BEST32.	;
+		format	comp_icd10_o33_dt	MMDDYY10.	;
+		format	comp_icd10_o33_dt_ga	BEST32.	;
+		format	comp_icd10_o36_dt	MMDDYY10.	;
+		format	comp_icd10_o36_dt_ga	BEST32.	;
+		format	comp_icd10_o40_dt	MMDDYY10.	;
+		format	comp_icd10_o40_dt_ga	BEST32.	;
+		format	comp_icd10_o41_dt	MMDDYY10.	;
+		format	comp_icd10_o41_dt_ga	BEST32.	;
+		format	comp_icd10_o42_dt	MMDDYY10.	;
+		format	comp_icd10_o42_dt_ga	BEST32.	;
+		format	comp_icd10_o43_dt	MMDDYY10.	;
+		format	comp_icd10_o43_dt_ga	BEST32.	;
+		format	comp_icd10_o44_dt	MMDDYY10.	;
+		format	comp_icd10_o44_dt_ga	BEST32.	;
+		format	comp_icd10_o45_dt	MMDDYY10.	;
+		format	comp_icd10_o45_dt_ga	BEST32.	;
+		format	comp_icd10_o46_dt	MMDDYY10.	;
+		format	comp_icd10_o46_dt_ga	BEST32.	;
+		format	comp_icd10_o47_dt	MMDDYY10.	;
+		format	comp_icd10_o47_dt_ga	BEST32.	;
+		format	comp_icd10_o48_dt	MMDDYY10.	;
+		format	comp_icd10_o48_dt_ga	BEST32.	;
+		format	comp_notes	$5000. 	;
+		format	chronic_pain	BEST32.	;
+		format	endometriosis	BEST32.	;
+		format	chronic_tension_headache	BEST32.	;
+		format	migraine	BEST32.	;
+		format	tmj_disorder	BEST32.	;
+		format	lumbago	BEST32.	;
+		format	vulvar_vestibulitis	BEST32.	;
+		format	unspec_vulvodynia	BEST32.	;
+		format	oth_vulvodynia	BEST32.	;
+		format	fibromyalgia	BEST32.	;
+		format	dysmenorrhea	BEST32.	;
+		format	ibs	BEST32.	;
+		format	interstitial_cystitis	BEST32.	;
+		format	chronic_pain_notes	$5000. 	;
+		format	us_crl_date	MMDDYY10.	;
+		format	us_crl_date_ga	BEST32.	;
+		format	us_crl	$500. 	;
+		format	us_crl_notes	$5000. 	;
+		format	us_1_date	MMDDYY10.	;
+		format	us_1_date_ga	BEST32.	;
+		format	us_1_ad	BEST32.	;
+		format	us_1_bpd	BEST32.	;
+		format	us_1_hc	BEST32.	;
+		format	us_1_ac	BEST32.	;
+		format	us_1_fl	BEST32.	;
+		format	us_1_ofd	BEST32.	;
+		format	us_1_efw	BEST32.	;
+		format	us_1_mat_weight	BEST32.	;
+		format	us_1_mat_weight_lb	BEST32.	;
+		format	us_1_cvl	BEST32.	;
+		format	us_1_cvl_cm	BEST32.	;
+		format	us_1_plac_pos	BEST32.	;
+		format	us_1_uta_sbp	BEST32.	;
+		format	us_1_uta_dbp	BEST32.	;
+		format	us_1_uta_pi	BEST32.	;
+		format	us_1_uma_sbp	BEST32.	;
+		format	us_1_uma_dbp	BEST32.	;
+		format	us_1_uma_pi	BEST32.	;
+		format	us_1_notch	BEST32.	;
+		format	us_1_notes	$5000. 	;
+		format	us_2_date	MMDDYY10.	;
+		format	us_2_date_ga	BEST32.	;
+		format	us_2_ad	best32.	;
+		format	us_2_bpd	BEST32.	;
+		format	us_2_hc	BEST32.	;
+		format	us_2_ac	BEST32.	;
+		format	us_2_fl	BEST32.	;
+		format	us_2_ofd	BEST32.	;
+		format	us_2_efw	BEST32.	;
+		format	us_2_mat_weight	best32.	;
+		format	us_2_mat_weight_lb	best32.	;
+		format	us_2_cvl	best32.	;
+		format	us_2_cvl_cm	BEST32.	;
+		format	us_2_plac_pos	BEST32.	;
+		format	us_2_uta_sbp	best32.	;
+		format	us_2_uta_dbp	best32.	;
+		format	us_2_uta_pi	best32.	;
+		format	us_2_uma_sbp	best32.	;
+		format	us_2_uma_dbp	best32.	;
+		format	us_2_uma_pi	best32.	;
+		format	us_2_notch	BEST32.	;
+		format	us_2_notes	$5000. 	;
+		format	us_3_date	MMDDYY10.	;
+		format	us_3_date_ga	BEST32.	;
+		format	us_3_ad	best32.	;
+		format	us_3_bpd	BEST32.	;
+		format	us_3_hc	BEST32.	;
+		format	us_3_ac	BEST32.	;
+		format	us_3_fl	BEST32.	;
+		format	us_3_ofd	best32.	;
+		format	us_3_efw	BEST32.	;
+		format	us_3_mat_weight	best32.	;
+		format	us_3_mat_weight_lb	best32.	;
+		format	us_3_cvl	best32.	;
+		format	us_3_cvl_cm	BEST32.	;
+		format	us_3_plac_pos	BEST32.	;
+		format	us_3_uta_sbp	best32.	;
+		format	us_3_uta_dbp	best32.	;
+		format	us_3_uta_pi	best32.	;
+		format	us_3_uma_sbp	best32.	;
+		format	us_3_uma_dbp	best32.	;
+		format	us_3_uma_pi	best32.	;
+		format	us_3_notch	BEST32.	;
+		format	us_3_notes	$5000. 	;
+		format	us_4_date	MMDDYY10.	;
+		format	us_4_date_ga	BEST32.	;
+		format	us_4_ad	best32.	;
+		format	us_4_bpd	BEST32.	;
+		format	us_4_hc	BEST32.	;
+		format	us_4_ac	BEST32.	;
+		format	us_4_fl	BEST32.	;
+		format	us_4_ofd	best32.	;
+		format	us_4_efw	BEST32.	;
+		format	us_4_mat_weight	best32.	;
+		format	us_4_mat_weight_lb	best32.	;
+		format	us_4_cvl	best32.	;
+		format	us_4_cvl_cm	BEST32.	;
+		format	us_4_plac_pos	BEST32.	;
+		format	us_4_uta_sbp	best32.	;
+		format	us_4_uta_dbp	best32.	;
+		format	us_4_uta_pi	best32.	;
+		format	us_4_uma_sbp	best32.	;
+		format	us_4_uma_dbp	best32.	;
+		format	us_4_uma_pi	best32.	;
+		format	us_4_notch	BEST32.	;
+		format	us_4_notes	$5000. 	;
+		format	us_5_date	MMDDYY10.	;
+		format	us_5_date_ga	BEST32.	;
+		format	us_5_ad	best32.	;
+		format	us_5_bpd	best32.	;
+		format	us_5_hc	best32.	;
+		format	us_5_ac	best32.	;
+		format	us_5_fl	best32.	;
+		format	us_5_ofd	best32.	;
+		format	us_5_efw	best32.	;
+		format	us_5_mat_weight	best32.	;
+		format	us_5_mat_weight_lb	best32.	;
+		format	us_5_cvl	best32.	;
+		format	us_5_cvl_cm	BEST32.	;
+		format	us_5_plac_pos	BEST32.	;
+		format	us_5_uta_sbp	best32.	;
+		format	us_5_uta_dbp	best32.	;
+		format	us_5_uta_pi	best32.	;
+		format	us_5_uma_sbp	best32.	;
+		format	us_5_uma_dbp	best32.	;
+		format	us_5_uma_pi	best32.	;
+		format	us_5_notch	BEST32.	;
+		format	us_5_notes	$5000. 	;
+		format	us_6_date	MMDDYY10.	;
+		format	us_6_date_ga	BEST32.	;
+		format	us_6_ad	best32.	;
+		format	us_6_bpd	best32.	;
+		format	us_6_hc	best32.	;
+		format	us_6_ac	best32.	;
+		format	us_6_fl	best32.	;
+		format	us_6_ofd	best32.	;
+		format	us_6_efw	best32.	;
+		format	us_6_mat_weight	best32.	;
+		format	us_6_mat_weight_lb	best32.	;
+		format	us_6_cvl	best32.	;
+		format	us_6_cvl_cm	best32.	;
+		format	us_6_plac_pos	best32.	;
+		format	us_6_uta_sbp	best32.	;
+		format	us_6_uta_dbp	best32.	;
+		format	us_6_uta_pi	best32.	;
+		format	us_6_uma_sbp	best32.	;
+		format	us_6_uma_dbp	best32.	;
+		format	us_6_uma_pi	best32.	;
+		format	us_6_notch	best32.	;
+		format	us_6_notes	$5000. 	;
+		format	us_7_date	MMDDYY10.	;
+		format	us_7_date_ga	BEST32.	;
+		format	us_7_ad	best32.	;
+		format	us_7_bpd	best32.	;
+		format	us_7_hc	best32.	;
+		format	us_7_ac	best32.	;
+		format	us_7_fl	best32.	;
+		format	us_7_ofd	best32.	;
+		format	us_7_efw	best32.	;
+		format	us_7_mat_weight	best32.	;
+		format	us_7_mat_weight_lb	best32.	;
+		format	us_7_cvl	best32.	;
+		format	us_7_cvl_cm	best32.	;
+		format	us_7_plac_pos	best32.	;
+		format	us_7_uta_sbp	best32.	;
+		format	us_7_uta_dbp	best32.	;
+		format	us_7_uta_pi	best32.	;
+		format	us_7_uma_sbp	best32.	;
+		format	us_7_uma_dbp	best32.	;
+		format	us_7_uma_pi	best32.	;
+		format	us_7_notch	best32.	;
+		format	us_7_notes	$5000. 	;
+		format	us_8_date	MMDDYY10.	;
+		format	us_8_date_ga	BEST32.	;
+		format	us_8_ad	best32.	;
+		format	us_8_bpd	best32.	;
+		format	us_8_hc	best32.	;
+		format	us_8_ac	best32.	;
+		format	us_8_fl	best32.	;
+		format	us_8_ofd	best32.	;
+		format	us_8_efw	best32.	;
+		format	us_8_mat_weight	best32.	;
+		format	us_8_mat_weight_lb	best32.	;
+		format	us_8_cvl	best32.	;
+		format	us_8_cvl_cm	best32.	;
+		format	us_8_plac_pos	best32.	;
+		format	us_8_uta_sbp	best32.	;
+		format	us_8_uta_dbp	best32.	;
+		format	us_8_uta_pi	best32.	;
+		format	us_8_uma_sbp	best32.	;
+		format	us_8_uma_dbp	best32.	;
+		format	us_8_uma_pi	best32.	;
+		format	us_8_notch	best32.	;
+		format	us_8_notes	$5000.	;
+		format	us_9_date	MMDDYY10.	;
+		format	us_9_date_ga	BEST32.	;
+		format	us_9_ad	best32.	;
+		format	us_9_bpd	best32.	;
+		format	us_9_hc	best32.	;
+		format	us_9_ac	best32.	;
+		format	us_9_fl	best32.	;
+		format	us_9_ofd	best32.	;
+		format	us_9_efw	best32.	;
+		format	us_9_mat_weight	best32.	;
+		format	us_9_mat_weight_lb	best32.	;
+		format	us_9_cvl	best32.	;
+		format	us_9_cvl_cm	best32.	;
+		format	us_9_plac_pos	best32.	;
+		format	us_9_uta_sbp	best32.	;
+		format	us_9_uta_dbp	best32.	;
+		format	us_9_uta_pi	best32.	;
+		format	us_9_uma_sbp	best32.	;
+		format	us_9_uma_dbp	best32.	;
+		format	us_9_uma_pi	best32.	;
+		format	us_9_notch	best32.	;
+		format	us_9_notes	$5000. 	;
+		format	us_10_date	MMDDYY10.	;
+		format	us_10_date_ga	BEST32.	;
+		format	us_10_ad	best32.	;
+		format	us_10_bpd	best32.	;
+		format	us_10_hc	best32.	;
+		format	us_10_ac	best32.	;
+		format	us_10_fl	best32.	;
+		format	us_10_ofd	best32.	;
+		format	us_10_efw	best32.	;
+		format	us_10_mat_weight	best32.	;
+		format	us_10_mat_weight_lb	best32.	;
+		format	us_10_cvl	best32.	;
+		format	us_10_cvl_cm	best32.	;
+		format	us_10_plac_pos	best32.	;
+		format	us_10_uta_sbp	best32.	;
+		format	us_10_uta_dbp	best32.	;
+		format	us_10_uta_pi	best32.	;
+		format	us_10_uma_sbp	best32.	;
+		format	us_10_uma_dbp	best32.	;
+		format	us_10_uma_pi	best32.	;
+		format	us_10_notch	best32.	;
+		format	us_10_notes	$5000. 	;
+		format	prev_diab_yn	BEST32.	;
+		format	prev_diab_type	BEST32.	;
+		format	gdm	BEST32.	;
+		format	gdm_diag_date	MMDDYY10.	;
+		format	gdm_diag_date_ga	BEST32.	;
+		format	gct_date	MMDDYY10.	;
+		format	gct_date_ga	BEST32.	;
+		format	gct_1hr_g	BEST32.	;
+		format	gtt_date	MMDDYY10.	;
+		format	gtt_date_ga	BEST32.	;
+		format	gtt_fg	BEST32.	;
+		format	gtt_1hr_g	BEST32.	;
+		format	gtt_2hr_g	BEST32.	;
+		format	gtt_3hr_g	BEST32.	;
+		format	gdb_notes	$5000. 	;
+		format	pe_yn	BEST32.	;
+		format	pe_diag_date	MMDDYY10.	;
+		format	pe_diag_date_ga	BEST32.	;
+		format	pe_notes	$5000. 	;
+		format	ptl_yn	BEST32.	;
+		format	ptl_dt	MMDDYY10.	;
+		format	ptl_dt_ga	BEST32.	;
+		format	ptl_icd9_6440	BEST32.	;
+		format	ptl_icd9_6441	BEST32.	;
+		format	ptl_icd9_6442	BEST32.	;
+		format	ptl_icd9_6440_dt	MMDDYY10.	;
+		format	ptl_icd9_6440_dt_ga	BEST32.	;
+		format	ptl_icd9_6441_dt	MMDDYY10.	;
+		format	ptl_icd9_6441_dt_ga	BEST32.	;
+		format	ptl_icd9_6442_dt	MMDDYY10.	;
+		format	ptl_icd9_6442_dt_ga	BEST32.	;
+		format	ptl_icd10_o470	BEST32.	;
+		format	ptl_icd10_o471	BEST32.	;
+		format	ptl_icd10_o479	BEST32.	;
+		format	ptl_icd10_o600	BEST32.	;
+		format	ptl_icd10_o601	BEST32.	;
+		format	ptl_icd10_o602	BEST32.	;
+		format	ptl_icd10_o470_dt	MMDDYY10.	;
+		format	ptl_icd10_o470_dt_ga	BEST32.	;
+		format	ptl_icd10_o471_dt	MMDDYY10.	;
+		format	ptl_icd10_o471_dt_ga	BEST32.	;
+		format	ptl_icd10_o479_dt	MMDDYY10.	;
+		format	ptl_icd10_o479_dt_ga	BEST32.	;
+		format	ptl_icd10_o600_dt	MMDDYY10.	;
+		format	ptl_icd10_o600_dt_ga	BEST32.	;
+		format	ptl_icd10_o601_dt	MMDDYY10.	;
+		format	ptl_icd10_o601_dt_ga	BEST32.	;
+		format	ptl_icd10_o602_dt	MMDDYY10.	;
+		format	ptl_icd10_o602_dt_ga	BEST32.	;
+		format	ptl_notes	$5000. 	;
+		format	hosp_pres_sponlabor	BEST32.	;
+		format	hosp_pres_prom	BEST32.	;
+		format	hosp_pres_ftlstatus	BEST32.	;
+		format	hosp_pres_vagbleed	BEST32.	;
+		format	hosp_pres_pe	BEST32.	;
+		format	hosp_pres_postdue	BEST32.	;
+		format	hosp_pres_scheddel	BEST32.	;
+		format	hosp_pres	BEST32.	;
+		format	hosp_reason_other	$5000. 	;
+		format	sched_del_mode	BEST32.	;
+		format	del_aug	BEST32.	;
+		format	del_ind	BEST32.	;
+		format	del_dt_time	MMDDYY10. 	;
+		format	hosp_dt_time	MMDDYY10.	;
+		format	hosp_dt_time_ga	best32.	;
+		format	del_comp_icd9_660	BEST32.	;
+		format	del_comp_icd9_661	BEST32.	;
+		format	del_comp_icd9_662	BEST32.	;
+		format	del_comp_icd9_663	BEST32.	;
+		format	del_comp_icd9_664	BEST32.	;
+		format	del_comp_icd9_665	BEST32.	;
+		format	del_comp_icd9_666	BEST32.	;
+		format	del_comp_icd9_667	BEST32.	;
+		format	del_comp_icd9_668	BEST32.	;
+		format	del_comp_icd9_669	BEST32.	;
+		format	del_comp_icd10_O61	BEST32.	;
+		format	del_comp_icd10_O62	BEST32.	;
+		format	del_comp_icd10_O63	BEST32.	;
+		format	del_comp_icd10_O64	BEST32.	;
+		format	del_comp_icd10_O65	BEST32.	;
+		format	del_comp_icd10_O66	BEST32.	;
+		format	del_comp_icd10_O67	BEST32.	;
+		format	del_comp_icd10_O68	BEST32.	;
+		format	del_comp_icd10_O69	BEST32.	;
+		format	del_comp_icd10_O70	BEST32.	;
+		format	del_comp_icd10_O71	BEST32.	;
+		format	del_comp_icd10_O72	BEST32.	;
+		format	del_comp_icd10_O73	BEST32.	;
+		format	del_comp_icd10_O74	BEST32.	;
+		format	del_comp_icd10_O75	BEST32.	;
+		format	del_notes	$5000. 	;
+		format	del_mode	BEST32.	;
+		format	schedc_reas_pe	BEST32.	;
+		format	schedc_reas_iugr	BEST32.	;
+		format	schedc_reas_priorcsec	BEST32.	;
+		format	schedc_reas_priormyomectomy	BEST32.	;
+		format	schedc_reas_breech	BEST32.	;
+		format	schedc_reas_othmtrnl	BEST32.	;
+		format	schedc_reas_othftl	BEST32.	;
+		format	unschedc_reas_arrdilation	BEST32.	;
+		format	unschedc_reas_arrdescent	BEST32.	;
+		format	unschedc_reas_plac_abrup	BEST32.	;
+		format	unschedc_reas_pe	BEST32.	;
+		format	unschedc_reas_iugr	BEST32.	;
+		format	unschedc_reas_oth	BEST32.	;
+		format	csect_notes	$5000. 	;
+		format	birth_hc	best32.	;
+		format	birth_length	best32.	;
+		format	birth_notes	$5000. 	;
+		format	plac_weight	BEST32.	;
+		format	plac_trim	BEST32.	;
+		format	plac_path	BEST32.	;
+		format	notes_plac	$5000. 	;
+		format	abstract_end	best32.	;
+input
+studyid		$
+record_id		$
+redcap_data_access_group		$
+abstract_init		$
+abstract_start		$
+bp_date_v1
+bp_date_v1_ga
+sbp_v1
+dbp_v1
+weight_kg_v1
+weight_lb_v1
+bp_date_v2
+bp_date_v2_ga
+sbp_v2
+dbp_v2
+weight_kg_v2
+weight_lb_v2
+bp_date_v3
+bp_date_v3_ga
+sbp_v3
+dbp_v3
+weight_kg_v3
+weight_lb_v3
+bp_notes		$
+comp_icd9_640
+comp_icd9_641
+comp_icd9_642
+comp_icd9_642_1
+comp_icd9_642_2
+comp_icd9_642_3
+comp_icd9_642_4
+comp_icd9_642_5
+comp_icd9_642_6
+comp_icd9_642_7
+comp_icd9_643
+comp_icd9_644
+comp_icd9_645
+comp_icd9_646
+comp_icd9_647
+comp_icd9_648
+comp_icd9_649
+comp_icd9_640_dt
+comp_icd9_640_dt_ga
+comp_icd9_641_dt
+comp_icd9_641_dt_ga
+comp_icd9_642_dt
+comp_icd9_642_dt_ga
+comp_icd9_642_1_dt
+comp_icd9_642_1_dt_ga
+comp_icd9_642_2_dt
+comp_icd9_642_2_dt_ga
+comp_icd9_642_3_dt
+comp_icd9_642_3_dt_ga
+comp_icd9_642_4_dt
+comp_icd9_642_4_dt_ga
+comp_icd9_642_5_dt
+comp_icd9_642_5_dt_ga
+comp_icd9_642_6_dt
+comp_icd9_642_6_dt_ga
+comp_icd9_642_7_dt
+comp_icd9_642_7_dt_ga
+comp_icd9_643_dt
+comp_icd9_643_dt_ga
+comp_icd9_644_dt
+comp_icd9_644_dt_ga
+comp_icd9_645_dt
+comp_icd9_645_dt_ga
+comp_icd9_646_dt
+comp_icd9_646_dt_ga
+comp_icd9_647_dt
+comp_icd9_647_dt_ga
+comp_icd9_648_dt
+comp_icd9_648_dt_ga
+comp_icd9_649_dt
+comp_icd9_649_dt_ga
+comp_icd10_o10
+comp_icd10_o11
+comp_icd10_o12
+comp_icd10_o13
+comp_icd10_o14
+comp_icd10_o15
+comp_icd10_o16
+comp_icd10_o20
+comp_icd10_o21
+comp_icd10_o22
+comp_icd10_o23
+comp_icd10_o24
+comp_icd10_o25
+comp_icd10_o32
+comp_icd10_o33
+comp_icd10_o36
+comp_icd10_o40
+comp_icd10_o41
+comp_icd10_o42
+comp_icd10_o43
+comp_icd10_o44
+comp_icd10_o45
+comp_icd10_o46
+comp_icd10_o47
+comp_icd10_o48
+comp_icd10_o10_dt
+comp_icd10_o10_dt_ga
+comp_icd10_o11_dt
+comp_icd10_o11_dt_ga
+comp_icd10_o12_dt
+comp_icd10_o12_dt_ga
+comp_icd10_o13_dt
+comp_icd10_o13_dt_ga
+comp_icd10_o14_dt
+comp_icd10_o14_dt_ga
+comp_icd10_o15_dt
+comp_icd10_o15_dt_ga
+comp_icd10_o16_dt
+comp_icd10_o16_dt_ga
+comp_icd10_o20_dt
+comp_icd10_o20_dt_ga
+comp_icd10_o21_dt
+comp_icd10_o21_dt_ga
+comp_icd10_o22_dt
+comp_icd10_o22_dt_ga
+comp_icd10_o23_dt
+comp_icd10_o23_dt_ga
+comp_icd10_o24_dt
+comp_icd10_o24_dt_ga
+comp_icd10_o25_dt
+comp_icd10_o25_dt_ga
+comp_icd10_o32_dt
+comp_icd10_o32_dt_ga
+comp_icd10_o33_dt
+comp_icd10_o33_dt_ga
+comp_icd10_o36_dt
+comp_icd10_o36_dt_ga
+comp_icd10_o40_dt
+comp_icd10_o40_dt_ga
+comp_icd10_o41_dt
+comp_icd10_o41_dt_ga
+comp_icd10_o42_dt
+comp_icd10_o42_dt_ga
+comp_icd10_o43_dt
+comp_icd10_o43_dt_ga
+comp_icd10_o44_dt
+comp_icd10_o44_dt_ga
+comp_icd10_o45_dt
+comp_icd10_o45_dt_ga
+comp_icd10_o46_dt
+comp_icd10_o46_dt_ga
+comp_icd10_o47_dt
+comp_icd10_o47_dt_ga
+comp_icd10_o48_dt
+comp_icd10_o48_dt_ga
+comp_notes		$
+chronic_pain
+endometriosis
+chronic_tension_headache
+migraine
+tmj_disorder
+lumbago
+vulvar_vestibulitis
+unspec_vulvodynia
+oth_vulvodynia
+fibromyalgia
+dysmenorrhea
+ibs
+interstitial_cystitis
+chronic_pain_notes		$
+us_crl_date
+us_crl_date_ga
+us_crl		$
+us_crl_notes		$
+us_1_date
+us_1_date_ga
+us_1_ad
+us_1_bpd
+us_1_hc
+us_1_ac
+us_1_fl
+us_1_ofd
+us_1_efw
+us_1_mat_weight
+us_1_mat_weight_lb
+us_1_cvl
+us_1_cvl_cm
+us_1_plac_pos
+us_1_uta_sbp
+us_1_uta_dbp
+us_1_uta_pi
+us_1_uma_sbp
+us_1_uma_dbp
+us_1_uma_pi
+us_1_notch
+us_1_notes		$
+us_2_date
+us_2_date_ga
+us_2_ad
+us_2_bpd
+us_2_hc
+us_2_ac
+us_2_fl
+us_2_ofd
+us_2_efw
+us_2_mat_weight
+us_2_mat_weight_lb
+us_2_cvl
+us_2_cvl_cm
+us_2_plac_pos
+us_2_uta_sbp
+us_2_uta_dbp
+us_2_uta_pi
+us_2_uma_sbp
+us_2_uma_dbp
+us_2_uma_pi
+us_2_notch
+us_2_notes		$
+us_3_date
+us_3_date_ga
+us_3_ad
+us_3_bpd
+us_3_hc
+us_3_ac
+us_3_fl
+us_3_ofd
+us_3_efw
+us_3_mat_weight
+us_3_mat_weight_lb
+us_3_cvl
+us_3_cvl_cm
+us_3_plac_pos
+us_3_uta_sbp
+us_3_uta_dbp
+us_3_uta_pi
+us_3_uma_sbp
+us_3_uma_dbp
+us_3_uma_pi
+us_3_notch
+us_3_notes		$
+us_4_date
+us_4_date_ga
+us_4_ad
+us_4_bpd
+us_4_hc
+us_4_ac
+us_4_fl
+us_4_ofd
+us_4_efw
+us_4_mat_weight
+us_4_mat_weight_lb
+us_4_cvl
+us_4_cvl_cm
+us_4_plac_pos
+us_4_uta_sbp
+us_4_uta_dbp
+us_4_uta_pi
+us_4_uma_sbp
+us_4_uma_dbp
+us_4_uma_pi
+us_4_notch
+us_4_notes		$
+us_5_date
+us_5_date_ga
+us_5_ad
+us_5_bpd
+us_5_hc
+us_5_ac
+us_5_fl
+us_5_ofd
+us_5_efw
+us_5_mat_weight
+us_5_mat_weight_lb
+us_5_cvl
+us_5_cvl_cm
+us_5_plac_pos
+us_5_uta_sbp
+us_5_uta_dbp
+us_5_uta_pi
+us_5_uma_sbp
+us_5_uma_dbp
+us_5_uma_pi
+us_5_notch
+us_5_notes		$
+us_6_date
+us_6_date_ga
+us_6_ad
+us_6_bpd
+us_6_hc
+us_6_ac
+us_6_fl
+us_6_ofd
+us_6_efw
+us_6_mat_weight
+us_6_mat_weight_lb
+us_6_cvl
+us_6_cvl_cm
+us_6_plac_pos
+us_6_uta_sbp
+us_6_uta_dbp
+us_6_uta_pi
+us_6_uma_sbp
+us_6_uma_dbp
+us_6_uma_pi
+us_6_notch
+us_6_notes		$
+us_7_date
+us_7_date_ga
+us_7_ad
+us_7_bpd
+us_7_hc
+us_7_ac
+us_7_fl
+us_7_ofd
+us_7_efw
+us_7_mat_weight
+us_7_mat_weight_lb
+us_7_cvl
+us_7_cvl_cm
+us_7_plac_pos
+us_7_uta_sbp
+us_7_uta_dbp
+us_7_uta_pi
+us_7_uma_sbp
+us_7_uma_dbp
+us_7_uma_pi
+us_7_notch
+us_7_notes		$
+us_8_date
+us_8_date_ga
+us_8_ad
+us_8_bpd
+us_8_hc
+us_8_ac
+us_8_fl
+us_8_ofd
+us_8_efw
+us_8_mat_weight
+us_8_mat_weight_lb
+us_8_cvl
+us_8_cvl_cm
+us_8_plac_pos
+us_8_uta_sbp
+us_8_uta_dbp
+us_8_uta_pi
+us_8_uma_sbp
+us_8_uma_dbp
+us_8_uma_pi
+us_8_notch
+us_8_notes		$
+us_9_date
+us_9_date_ga
+us_9_ad
+us_9_bpd
+us_9_hc
+us_9_ac
+us_9_fl
+us_9_ofd
+us_9_efw
+us_9_mat_weight
+us_9_mat_weight_lb
+us_9_cvl
+us_9_cvl_cm
+us_9_plac_pos
+us_9_uta_sbp
+us_9_uta_dbp
+us_9_uta_pi
+us_9_uma_sbp
+us_9_uma_dbp
+us_9_uma_pi
+us_9_notch
+us_9_notes		$
+us_10_date
+us_10_date_ga
+us_10_ad
+us_10_bpd
+us_10_hc
+us_10_ac
+us_10_fl
+us_10_ofd
+us_10_efw
+us_10_mat_weight
+us_10_mat_weight_lb
+us_10_cvl
+us_10_cvl_cm
+us_10_plac_pos
+us_10_uta_sbp
+us_10_uta_dbp
+us_10_uta_pi
+us_10_uma_sbp
+us_10_uma_dbp
+us_10_uma_pi
+us_10_notch
+us_10_notes		$
+prev_diab_yn
+prev_diab_type
+gdm
+gdm_diag_date
+gdm_diag_date_ga
+gct_date
+gct_date_ga
+gct_1hr_g
+gtt_date
+gtt_date_ga
+gtt_fg
+gtt_1hr_g
+gtt_2hr_g
+gtt_3hr_g
+gdb_notes $
+pe_yn
+pe_diag_date
+pe_diag_date_ga
+pe_notes $
+ptl_yn
+ptl_dt
+ptl_dt_ga
+ptl_icd9_6440
+ptl_icd9_6441
+ptl_icd9_6442
+ptl_icd9_6440_dt
+ptl_icd9_6440_dt_ga
+ptl_icd9_6441_dt
+ptl_icd9_6441_dt_ga
+ptl_icd9_6442_dt
+ptl_icd9_6442_dt_ga
+ptl_icd10_o470
+ptl_icd10_o471
+ptl_icd10_o479
+ptl_icd10_o600
+ptl_icd10_o601
+ptl_icd10_o602
+ptl_icd10_o470_dt
+ptl_icd10_o470_dt_ga
+ptl_icd10_o471_dt
+ptl_icd10_o471_dt_ga
+ptl_icd10_o479_dt
+ptl_icd10_o479_dt_ga
+ptl_icd10_o600_dt
+ptl_icd10_o600_dt_ga
+ptl_icd10_o601_dt
+ptl_icd10_o601_dt_ga
+ptl_icd10_o602_dt
+ptl_icd10_o602_dt_ga
+ptl_notes		$
+hosp_pres_sponlabor
+hosp_pres_prom
+hosp_pres_ftlstatus
+hosp_pres_vagbleed
+hosp_pres_pe
+hosp_pres_postdue
+hosp_pres_scheddel
+hosp_pres
+hosp_reason_other		$
+sched_del_mode
+del_aug
+del_ind
+del_dt_time
+hosp_dt_time
+hosp_dt_time_ga
+del_comp_icd9_660
+del_comp_icd9_661
+del_comp_icd9_662
+del_comp_icd9_663
+del_comp_icd9_664
+del_comp_icd9_665
+del_comp_icd9_666
+del_comp_icd9_667
+del_comp_icd9_668
+del_comp_icd9_669
+del_comp_icd10_O61
+del_comp_icd10_O62
+del_comp_icd10_O63
+del_comp_icd10_O64
+del_comp_icd10_O65
+del_comp_icd10_O66
+del_comp_icd10_O67
+del_comp_icd10_O68
+del_comp_icd10_O69
+del_comp_icd10_O70
+del_comp_icd10_O71
+del_comp_icd10_O72
+del_comp_icd10_O73
+del_comp_icd10_O74
+del_comp_icd10_O75
+del_notes		$
+del_mode
+schedc_reas_pe
+schedc_reas_iugr
+schedc_reas_priorcsec
+schedc_reas_priormyomectomy
+schedc_reas_breech
+schedc_reas_othmtrnl
+schedc_reas_othftl
+unschedc_reas_arrdilation
+unschedc_reas_arrdescent
+unschedc_reas_plac_abrup
+unschedc_reas_pe
+unschedc_reas_iugr
+unschedc_reas_oth
+csect_notes		$
+birth_hc
+birth_length
+birth_notes		$
+plac_weight
+plac_trim
+plac_path
+notes_plac		$
+abstract_end
+;
+if _ERROR_ then call symput('_EFIERR_',"1");
+run;
+
+
+proc contents data=roost.Roost_2020522 order=varnum; run;
