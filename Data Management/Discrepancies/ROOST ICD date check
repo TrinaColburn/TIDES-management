@@ -1,0 +1,254 @@
+/*ROOST at large duplicate check*/
+
+/*archive this code*/
+
+      data Roost_dupcheck; set cmd_srs.Roost_prenatal_abstraction; run;
+      proc sort data=work.Roost_dupcheck noduprec dupout=roost_truedups; by study_id; run;
+      proc print data=work.roost_truedups noobs; var study_id; run;
+      /*true dups none*/
+
+
+      /*keep only ICD9/10 codes*/
+      proc contents data=Roost_dupcheck order=varnum; run;
+
+
+      data Roost_dupcheck_icdonly; set Roost_dupcheck_icdonly;
+      if study_id < 7000 then center=6;
+      if 6999 < study_id < 8000 then center=7;
+      if 7999 < study_id < 9000 then center=8;
+      if study_id > 8999 then center=9;  run;
+
+/*start here with clean ROOST data*/
+data Roost_icdonly; set roost_2020522;
+keep study_id complic_icd9___36
+complic_icd9___37
+complic_icd9___38
+complic_icd9___39
+complic_icd9___40
+complic_icd9___41
+complic_icd9___42
+complic_icd9___43
+complic_icd9___44
+complic_icd9___45
+complic_icd9___46
+complic_icd9___47
+complic_icd9___48
+complic_icd9___49
+complic_icd9___50
+complic_icd9___51
+complic_icd9___52
+complic_icd9_640_date
+complic_icd9_641_date
+complic_icd9_642_date
+complic_icd9_642_1_date
+complic_icd9_642_2_date
+complic_icd9_642_3_date
+complic_icd9_642_4_date
+complic_icd9_642_5_date
+complic_icd9_642_6_date
+complic_icd9_642_7_date
+complic_icd9_643_date
+complic_icd9_644_date
+complic_icd9_645_date
+complic_icd9_646_date
+complic_icd9_647_date
+complic_icd9_648_date
+complic_icd9_649_date
+complic_icd10___26
+complic_icd10___27
+complic_icd10___28
+complic_icd10___29
+complic_icd10___30
+complic_icd10___31
+complic_icd10___32
+complic_icd10___33
+complic_icd10___34
+complic_icd10___35
+complic_icd10___36
+complic_icd10___37
+complic_icd10___38
+complic_icd10___39
+complic_icd10___40
+complic_icd10___41
+complic_icd10___42
+complic_icd10___43
+complic_icd10___44
+complic_icd10___45
+complic_icd10___46
+complic_icd10___47
+complic_icd10___48
+complic_icd10___49
+complic_icd10___50
+complic_icd10_o10_date
+complic_icd10_o11_date
+complic_icd10_o12_date
+complic_icd10_o13_date
+complic_icd10_o14_date
+complic_icd10_o15_date
+complic_icd10_o16_date
+complic_icd10_o20_date
+complic_icd10_o21_date
+complic_icd10_o22_date
+complic_icd10_o23_date
+complic_icd10_o24_date
+complic_icd10_o25_date
+complic_icd10_o32_date
+complic_icd10_o33_date
+complic_icd10_o36_date
+complic_icd10_o40_date
+complic_icd10_o41_date
+complic_icd10_o42_date
+complic_icd10_o43_date
+complic_icd10_o44_date
+complic_icd10_o45_date
+complic_icd10_o46_date
+complic_icd10_o47_date
+complic_icd10_o48_date; run;
+
+/*merge q1 date*/
+
+proc contents data=cmd_srs.Q1_20190514 order=varnum; run;
+
+
+data t1_date; set  cmd_srs.Q1_20190514;
+keep study_id T1_TODAY_DT; run;
+
+proc sort data=t1_date; by study_id; run;
+proc sort data=Roost_icdonly; by study_id; run;
+
+data Roost_dupcheck_icdonly_t1date; merge Roost_icdonly t1_date; run;
+
+
+%macro dates(var);
+proc sort data=Roost_dupcheck_icdonly_t1date; by &var; run;
+proc print data=Roost_dupcheck_icdonly_t1date(obs=10) noobs;
+var study_id T1_TODAY_DT  &var ; where &var ne .;
+run;
+%mend;
+
+ods word file="J:\PM\TIDES_Data\TIDES I Data\ROOST\datecheck.docx"
+options (body_title='On') startpage=no;
+%dates(complic_icd9_640_date); /*spot check - fine*/
+%dates(complic_icd9_641_date); /*not fine*/
+		data Roost_datecheck; set Roost_dupcheck_icdonly_t1date;
+		if . < complic_icd9_641_date < T1_TODAY_DT then flag_641=1; run;
+
+		proc print data=Roost_datecheck;
+		var study_id T1_TODAY_DT complic_icd9_641_date; where flag_641=1; run;
+%dates(	complic_icd9_642_date	); /*fine - benign HTN*/
+%dates(	complic_icd9_642_1_date	); /*fine - HTN 2nd to renal dz*/
+%dates(	complic_icd9_642_2_date	); /*fine - other htn*/
+%dates(	complic_icd9_642_3_date	); /*not fine - transient HTN of pregnancy*/
+		data Roost_datecheck; set Roost_datecheck;
+		if . < complic_icd9_642_3_date < T1_TODAY_DT then flag_6423=1; run;
+
+		proc print data=Roost_datecheck;
+		var study_id T1_TODAY_DT complic_icd9_642_3_date; where flag_6423=1; run;
+%dates(	complic_icd9_642_4_date	); /*not fine - mild or unsp preecclampsia*/
+		data Roost_datecheck; set Roost_datecheck;
+		if . < complic_icd9_642_4_date < T1_TODAY_DT then flag_6424=1; run;
+
+		proc print data=Roost_datecheck;
+		var study_id T1_TODAY_DT complic_icd9_642_4_date; where flag_6424=1; run;
+
+%dates(	complic_icd9_642_5_date	);
+%dates(	complic_icd9_642_6_date	);
+%dates(	complic_icd9_642_7_date	);
+%dates(	complic_icd9_643_date	);
+%dates(	complic_icd9_644_date	);
+%dates(	complic_icd9_645_date	);
+%dates(	complic_icd9_646_date	);
+%dates(	complic_icd9_647_date	);
+%dates(	complic_icd9_648_date	);
+%dates(	complic_icd9_649_date	);
+%dates(	complic_icd10_o10_date	);
+%dates(	complic_icd10_o11_date	);
+%dates(	complic_icd10_o12_date	);
+%dates(	complic_icd10_o13_date	);
+%dates(	complic_icd10_o14_date	);
+%dates(	complic_icd10_o15_date	);
+%dates(	complic_icd10_o16_date	);
+%dates(	complic_icd10_o20_date	);
+%dates(	complic_icd10_o21_date	);
+%dates(	complic_icd10_o22_date	);
+%dates(	complic_icd10_o23_date	);
+%dates(	complic_icd10_o24_date	);
+%dates(	complic_icd10_o25_date	);
+%dates(	complic_icd10_o32_date	);
+%dates(	complic_icd10_o33_date	);
+%dates(	complic_icd10_o36_date	);
+%dates(	complic_icd10_o40_date	);
+%dates(	complic_icd10_o41_date	);
+%dates(	complic_icd10_o42_date	);
+%dates(	complic_icd10_o43_date	);
+%dates(	complic_icd10_o44_date	);
+%dates(	complic_icd10_o45_date	);
+%dates(	complic_icd10_o46_date	);
+%dates(	complic_icd10_o47_date	);
+%dates(	complic_icd10_o48_date	);
+
+ods word close;
+
+proc print data=Roost_dupcheck_icdonly noobs;
+var study_id complic_icd10___37 complic_icd10_o24_date gdm gdm_diag_date;
+where study_id= 9001; run;
+
+proc print data=Roost_dupcheck_icdonly noobs;
+var study_id complic_icd9___42 pe_yn;
+title "preeclampsia
+where study_id=8118; run;
+
+
+proc sort data=work.Roost_dupcheck nodupkey dupout=roost_possdups; by study_id; run;
+
+proc print data=roost_possdups noobs; var study_id; run;
+
+data roost_possdups; set roost_possdups;
+if study_id < 7000 then center=6;
+if 6999 < study_id < 8000 then center=7;
+if 7999 < study_id < 9000 then center=8;
+if study_id > 8999 then center=9;  run;
+
+proc freq data=roost_possdups;
+tables center /norow nocol nopercent nocum; run;
+
+proc sort data=work.Roost_dupcheck; by study_id; run;
+proc sort data=work.roost_possdups; by study_id; run;
+
+proc compare base=work.Roost_dupcheck compare=work.roost_possdups; by study_id; run;
+
+data roost_possdups_Forflag; set roost_possdups;
+flag=1;
+run;
+
+data Roost_flag_only; set roost_possdups_Forflag;
+keep study_id flag; run;
+
+
+data work.roost_base_withflag; merge Roost_dupcheck Roost_flag_only(in=a) ;
+	by study_id; if a=1; run;
+
+ods word file="J:\PM\TIDES_Data\TIDES I Data\ROOST\Duplicates.docx" startpage=no;
+proc compare base=work.roost_base_withflag compare=work.roost_possdups briefsummary; by study_Id; run;
+ods word close;
+
+proc compare base=work.roost_base_withflag compare=work.roost_possdups nomiss;
+var gdm pe_yn;
+run;
+
+proc compare base=work.roost_base_withflag compare=work.roost_possdups brief ;
+by study_Id;
+where 6999<study_id<8000;
+run;
+
+PROC COMPARE BASE=in.WA_jul2009 COMPARE=in.WA_feb2010 OUT=outcomp OUTNOEQUAL
+OUTBASE OUTCOMP OUTDIF NOPRINT ;
+TITLE1 'Example 10: Producing an Output data set ';
+ID provnum;
+VAR def5star staff5star provname;
+RUN;
+PROC PRINT DATA = outcomp (OBS = 15);
+BY provnum ;
+ID provnum ;
+RUN;
+W!Nter
