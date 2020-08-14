@@ -1,0 +1,55 @@
+/*Keep from AGD dataset*/
+data gly_jia.Agdbirth_tidesonly_2019430_1; set gly_jia.Agdbirth_tidesonly_2019430;
+keep study_id Birthweight_kg BabyBMI GestAge_birth_Days GestAge_Birth_wks GestAge_U2
+_ZWEI _ZLEN _ZWFL _ZBMI _FWEI _FLEN _FWFL _FBMI
+WAZ WTPCT _BIVWT HAZ HTPCT _BIVHT WHZ WHPCT _BIVWHT; run;
+
+/*keep from Q1*/
+data gly_jia.Q1_20190514_1; set gly_jia.Q1_20190514;
+keep study_id T1_Q46_DOB Age_Months Age_Yrs T1_Q48_Race T1_Q47_Ethnic T1_Q30a_week_Recode; run;
+
+/*keep from Q2*/
+data gly_jia.Q2_22119_1; set gly_jia.Q2_22119;
+keep study_id T2_Q6G_YN T2_Q6G_DRUGS T2_Q6G_OTHER T2_Q6G_SURG; run;
+
+/*keep from subject tracking*/
+data gly_jia.Tides_subject_tracking_1; set gly_jia.Tides_subject_tracking;
+keep study_id T2_UrineDate T2_UrineTime T2_UrineSG1 T2_UrineSG2 T2_Urine_DateLastMeal T2_Urine_TimeLastMeal; run;
+
+/*sort all datasets*/
+
+proc sort data=gly_jia.Agdbirth_tidesonly_2019430_1; by study_id; run;
+proc sort data=gly_jia.Q1_20190514_1; by study_id; run;
+proc sort data=gly_jia.Q2_22119_1; by study_id; run;
+proc sort data=gly_jia.Tides_subject_tracking_1; by study_id; run;
+proc sort data=gly_jia.Birthexam_20191125; by study_id; run;
+proc sort data=gly_jia.Resid_agd_053014; by study_id; run;
+
+data gly_jia.gly_jiaate_analysis_TIDES;
+merge gly_jia.Agdbirth_tidesonly_2019430_1
+	gly_jia.Q1_20190514_1
+	gly_jia.Q2_22119_1
+	gly_jia.Tides_subject_tracking_1
+	gly_jia.Birthexam_20191125
+	gly_jia.Resid_agd_053014;
+by study_id;
+run;
+
+proc sort data=gly_jia.T2_agd_100_sample_idonly; by study_id; run;
+
+
+data gly_jia.gly_jiaate_analysis_TIDES_100; merge gly_jia.gly_jiaate_analysis_TIDES (in=a) gly_jia.T2_agd_100_sample_idonly (in=b);
+by study_id; if b=1; run;
+
+ods pdf file="J:\PM\TIDES_Data\RESEARCH\Output data for analyses\gly_jiaate Pilot - Jia Chen\proc contents 100.pdf";
+proc contents data=gly_jia.gly_jiaate_analysis_TIDES_100 order=varnum; run;
+ods pdf close;
+
+proc sort data=gly_jia.Bpat1phenols368_02202019; by study_id; run;
+
+proc sort data=gly_jia.T1phx_20190514; by study_id; run;
+
+data gly_jia.t1_phx_bpa; merge gly_jia.T2_agd_100_sample_idonly (in=a) ei_bpa.Bpat1phenols368_02202019_ei (in=b) gly_jia.T1phx_20190514 (in=c);
+by study_id; if a=1; run;
+
+data gly_jia.t1_phx_bpa_100; set gly_jia.t1_phx_bpa; run;
