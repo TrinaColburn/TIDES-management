@@ -1,3 +1,5 @@
+/*Scoring conversion*/
+
 data Tii_4_srs_item_check; set tii_4_nd.Tii_4_srs_itemized_20190322;
 ch_srs_16_1=ch_srs_16_1-1; ch_srs_16_2=ch_srs_16_2-1; ch_srs_16_3=4-ch_srs_16_3; ch_srs_16_4=ch_srs_16_4-1; ch_srs_16_5=ch_srs_16_5-1;
 ch_srs_16_6=ch_srs_16_6-1; ch_srs_16_7=4-ch_srs_16_7; ch_srs_16_8=ch_srs_16_8-1; ch_srs_16_9=ch_srs_16_9-1; ch_srs_16_10=ch_srs_16_10-1;
@@ -16,6 +18,8 @@ run;
 
 proc compare base=tii_4_nd.Tii_4_srs_65_converted compare=Tii_4_srs_item_check; run;
 
+
+/*Subscale calcuation*/
 data Tii_4_srs_item_check; set Tii_4_srs_item_check;
 CH_SOC_AWA = ch_srs_16_2 + ch_srs_16_7 + ch_srs_16_25 + ch_srs_16_32 + ch_srs_16_45 + ch_srs_16_52 + ch_srs_16_54 + ch_srs_16_56;
 
@@ -39,17 +43,12 @@ proc sort data=Tii_4_srs_item_check; by subject_id; run;
 
 proc compare base=tii_4_nd.Tii_4_bascsrs_2019411 compare=Tii_4_srs_item_check;
 id subject_id;
-var srs_raw_awr
-rsrs_raw_cog
-srs_raw_com
-srs_raw_mot
+var srs_raw_awr 	rsrs_raw_cog srs_raw_com srs_raw_mot; 
+    with CH_SOC_AWA  	CH_SOC_COG   CH_SOC_COM   CH_SOC_MOT; run; 
 
-
-; 
-with CH_SOC_AWA  CH_SOC_COG CH_SOC_COM CH_SOC_MOT; run; 
-
+/*Run descriptives*/
 proc univariate data=Tii_4_srs_item_check;
-var CH_SOC_AWA  CH_SOC_COG CH_SOC_COM CH_SOC_MOT CH_AUT_MAN; run;
+var CH_SOC_AWA CH_SOC_COG CH_SOC_COM CH_SOC_MOT CH_AUT_MAN; run;
 
 proc univariate data=tii_4_nd.Tii_4_bascsrs_2019411;
-var CH_SOC_AWA  CH_SOC_COG CH_SOC_COM CH_SOC_MOT CH_AUT_MAN; run;
+var CH_SOC_AWA CH_SOC_COG CH_SOC_COM CH_SOC_MOT CH_AUT_MAN; run;
