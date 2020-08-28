@@ -1,0 +1,36 @@
+/*Prefix and Variable rename for Biospecimens*/
+
+libname rc_bio "J:\PM\TIDES_Data\Biospecimens\REDCap import"; run;
+
+/*put in work folder*/
+data T1phx_20190514; set rc_bio.T1phx_20190514; run;
+data T2phx20190514; set rc_bio.T2phx20190514; run;
+data T3_phx_cdc_20190815; set rc_bio.T3_phx_cdc_20190815; run;
+
+/*prefix code*/
+
+%macro addprefix(dsn, prefix);
+  proc contents data=&dsn out=vlist(keep=name) noprint;
+  run;
+  proc sql noprint;
+    select trim(name) || "=&prefix" || trim(name)
+      into: renamestmnt separated by ' '
+    from vlist;
+  quit;
+  proc datasets library=work noprint;
+    modify &dsn;
+    rename &renamestmnt;
+  run;
+%mend;
+
+%addprefix(T1phx_20190514, T1_);
+%addprefix(T2phx20190514, T2_);
+
+/*rename sum_phx variables*/
+data T3_phx_cdc_20190815; set T3_phx_cdc_20190815;
+rename 	SumDEHP	=	T3SumDEHP	;
+rename 	SumDEHP_3_SGadj	=	T3SumDEHP_3_SGadj	;
+rename 	SumDEHP_SGadj	=	T3SumDEHP_SGadj	;
+rename 	SumDBP	=	T3SumDBP	;
+rename 	SumDBP_SGadj	=	T3SumDBP_SGadj	;
+; run;

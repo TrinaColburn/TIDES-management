@@ -1,0 +1,79 @@
+/*This is the code used to import T1
+Phthalates into REDCap*/
+/*Includes new flags for unreliable and fixes
+to LOD*/
+
+/*First, prefix all variable names with "T1"*/
+%macro addprefix(dsn, prefix);
+  proc contents data=&dsn out=vlist(keep=name) noprint;
+  run;
+  proc sql noprint;
+    select trim(name) || "=&prefix" || trim(name)
+      into: renamestmnt separated by ' '
+    from vlist;
+  quit;
+  proc datasets library=work noprint;
+    modify &dsn;
+    rename &renamestmnt;
+  run;
+%mend;
+
+%addprefix(T1phx_20190514, T1_);
+
+/*Check new varaible names*/
+proc contents data=T1phx_20190514 order=varnum; run;
+
+/*Compare actual data*/
+proc compare base=rc_bio.T1phx_20190514  compare=work.T1phx_20190514
+out=phx_diff outnoequal outbase outcomp outdif brief;
+var study_id  StudyID  SubjectID  Center  Sample  batch  Sex  Lab  trimester  T1_UrineDate  T1_UrineTime
+  T1_Urine_DateLastMeal  T1_Urine_TimeLastMeal  U1_DateTime  U1_DateTimeLastMeal  U1MealHour  U1hour
+  T1_UrineSG1  T1_UrineSG2  T1_UrineSG  MMP_LODvl  MCPP_LODvl  MEP_LODvl  MEHHP_LODvl  MiBP_LODvl
+  MECPP_LODvl  MBP_LODvl  MEOHP_LODvl  MBzP_LODvl  MEHP_LODvl  MMP  MCPP  MEP  MEHHP  MiBP  MECPP  MBP
+  MEOHP  MBzP  MEHP  MolarSumDEHP  MolarSumDEHP3  SumDEHP  SumDEHP3  MMP_SGadj  mBP_SGadj  mBzP_SGadj
+  mCPP_SGadj  mECPP_SGadj  mEHHP_SGadj  mEHP_SGadj  mEOHP_SGadj  mEP_SGadj  miBP_SGadj  SumDEHP_SGadj
+  SumDEHP3_SGadj  MolarSumDEHP_SGadj  MolarSumDEHP3_SGadj  MMP_LOD  MCPP_LOD  MEP_LOD  MEHHP_LOD  MiBP_LOD
+  MECPP_LOD  MBP_LOD  MEOHP_LOD  MBzP_LOD  MEHP_LOD  CDCID  MHiNCH  mCNP  mCOP  MHiNCH_LOD  mCNP_LOD
+  mCOP_LOD  MHiNCH_SGadj  mCNP_SGadj  mCOP_SGadj  ReAnaSmp  Blank;
+
+with T1_study_id  T1_StudyID  T1_SubjectID  T1_Center  T1_Sample  T1_batch  T1_Sex  T1_Lab  T1_trimester
+T1_T1_UrineDate  T1_T1_UrineTime  T1_T1_Urine_DateLastMeal  T1_T1_Urine_TimeLastMeal  T1_U1_DateTime
+T1_U1_DateTimeLastMeal  T1_U1MealHour  T1_U1hour  T1_T1_UrineSG1  T1_T1_UrineSG2  T1_T1_UrineSG
+T1_MMP_LODvl  T1_MCPP_LODvl  T1_MEP_LODvl  T1_MEHHP_LODvl  T1_MiBP_LODvl  T1_MECPP_LODvl  T1_MBP_LODvl
+T1_MEOHP_LODvl  T1_MBzP_LODvl  T1_MEHP_LODvl  T1_MMP  T1_MCPP  T1_MEP  T1_MEHHP  T1_MiBP  T1_MECPP  T1_MBP
+T1_MEOHP  T1_MBzP  T1_MEHP  T1_MolarSumDEHP  T1_MolarSumDEHP3  T1_SumDEHP  T1_SumDEHP3  T1_MMP_SGadj
+T1_mBP_SGadj  T1_mBzP_SGadj  T1_mCPP_SGadj  T1_mECPP_SGadj  T1_mEHHP_SGadj  T1_mEHP_SGadj  T1_mEOHP_SGadj
+T1_mEP_SGadj  T1_miBP_SGadj  T1_SumDEHP_SGadj  T1_SumDEHP3_SGadj  T1_MolarSumDEHP_SGadj
+T1_MolarSumDEHP3_SGadj  T1_MMP_LOD  T1_MCPP_LOD  T1_MEP_LOD  T1_MEHHP_LOD  T1_MiBP_LOD  T1_MECPP_LOD
+T1_MBP_LOD  T1_MEOHP_LOD  T1_MBzP_LOD  T1_MEHP_LOD  T1_CDCID  T1_MHiNCH  T1_mCNP  T1_mCOP  T1_MHiNCH_LOD
+T1_mCNP_LOD  T1_mCOP_LOD  T1_MHiNCH_SGadj  T1_mCNP_SGadj  T1_mCOP_SGadj  T1_ReAnaSmp  T1_Blank; run;
+
+/*Print any differences*/
+proc print data=phx_diff;
+by study_id; id study_id; run;
+/*Log should show no differences*/
+
+/*relabel so you don't go crazy*/
+data work.T1phx_20190514_rcedit; set work.T1phx_20190514;
+label  T1_mmp_lodvl  =  "MMP_LODvl - UW lab: LOD value 1, 2, or 0.2  "  ;
+label  T1_mcpp_lodvl  =  "MCPP_LODvl - UW lab: LOD value 1, 2, or 0.2  "  ;
+label  T1_mep_lodvl  =  "MEP_LODvl - UW lab: LOD value 1, 2, or 0.2  "  ;
+label  T1_mehhp_lodvl =  "MEHHP_LODvl - UW lab: LOD value 1, 2, or 0.2  "  ;
+label  T1_mibp_lodvl  =  "MiBP_LODvl - UW lab: LOD value 1, 2, or 0.2  "  ;
+label  T1_mecpp_lodvl = "MECPP_LODvl - UW lab: LOD value 1, 2, or 0.2  "  ;
+label  T1_mbp_lodvl  =  "MBP_LODvl - UW lab: LOD value 1, 2, or 0.2  "  ;
+label  T1_meohp_lodvl  =  "MEOHP_LODvl - UW lab: LOD value 1, 2, or 0.2  "  ;
+label  T1_mbzp_lodvl  =  "MBzP_LODvl - UW lab: LOD value 1, 2, or 0.2  "  ;
+label  T1_mehp_lodvl  =  "MEHP_LODvl - UW lab: LOD value 1, 2, or 0.2  "  ; run;
+
+/*Deal with (^)*/
+%karat(  T1_mmp_lodvl  ,  T1_mmp_lod  ,  T1_mmp  );
+%karat(  T1_mcpp_lodvl  ,  T1_mcpp_lod  ,  T1_mcpp  );
+%karat(  T1_mep_lodvl  ,  T1_mep_lod  ,  T1_mep  );
+%karat(  T1_mehhp_lodvl  ,  T1_mehhp_lod  ,  T1_mehhp  );
+%karat(  T1_mibp_lodvl  ,  T1_mibp_lod  ,  T1_mibp  );
+%karat(  T1_mecpp_lodvl  ,  T1_mecpp_lod  ,  T1_mecpp  );
+%karat(  T1_mbp_lodvl  ,  T1_mbp_lod  ,  T1_mbp  );
+%karat(  T1_meohp_lodvl  ,  T1_meohp_lod  ,  T1_meohp  );
+%karat(  T1_mbzp_lodvl  ,  T1_mbzp_lod  ,  T1_mbzp  );
+%karat(  T1_mehp_lodvl  ,  T1_mehp_lod  ,  T1_mehp  );
