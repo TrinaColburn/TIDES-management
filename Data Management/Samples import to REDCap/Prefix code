@@ -26,11 +26,23 @@ data T3_phx_cdc_20190815; set rc_bio.T3_phx_cdc_20190815; run;
 %addprefix(T1phx_20190514, T1_);
 %addprefix(T2phx20190514, T2_);
 
+/*Edit some overlap*/
+rename 		T1_T1_UrineDate	=	T1_UrineDate	;
+rename 		T1_T1_UrineTime	=	T1_UrineTime	;
+rename 		T1_T1_Urine_DateLastMeal	=	T1_Urine_DateLastMeal	;
+rename 		T1_T1_Urine_TimeLastMeal	=	T1_Urine_TimeLastMeal	;
+rename 		T1_U1MealHour	=	T1_U1_MealHour	;
+rename 		T1_U1hour	=	T1_U1_hour	;
+rename 		T1_T1_UrineSG1	=	T1_UrineSG1	;
+rename 		T1_T1_UrineSG2	=	T1_UrineSG2	;
+rename 		T1_T1_UrineSG	=	T1_UrineSG	;	run;
+
+
 /*rename sum_phx variables*/
 data T3_phx_cdc_20190815; set T3_phx_cdc_20190815;
-rename 	SumDEHP	=	T3SumDEHP	;
-rename 	SumDEHP_3_SGadj	=	T3SumDEHP_3_SGadj	;
-rename 	SumDEHP_SGadj	=	T3SumDEHP_SGadj	;
-rename 	SumDBP	=	T3SumDBP	;
-rename 	SumDBP_SGadj	=	T3SumDBP_SGadj	;
-; run;
+rename 	SumDEHP	=	T3_SumDEHP	;
+rename 	SumDEHP_3_SGadj	=	T3_SumDEHP_3_SGadj	;
+rename 	SumDEHP_SGadj	=	T3_SumDEHP_SGadj	;
+rename 	SumDBP	=	T3_SumDBP	;
+rename 	SumDBP_SGadj	=	T3_SumDBP_SGadj	;
+run;
