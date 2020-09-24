@@ -1,0 +1,27 @@
+/******************************************************/
+/*COMPARE MERGED INDIVIDUAL SITE WISC/WASI
+(TIDESII_Visit2_WISCV_WASI II_SITE)*/
+/*WITH TII_6_WISCWASI PROJECT*/
+/******************************************************/
+
+PROC IMPORT OUT= WORK.wiscwasi_all /*Merged dataset post download from REDCap*/
+            DATAFILE= "J:\PM\TIDES_Data\TIDES II Age 6\WISC WASI\TII6WISCWASI_DATA_2020-09-23_1608.csv"
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2;  RUN
+
+PROC IMPORT OUT= WORK.wiscwasi_post_import /*Dataset from TII_6_WISCWASI PROJECT*/
+            DATAFILE= "J:\PM\TIDES_Data\TIDES II Age 6\WISC WASI\TIDESIIVisit2WISCVWASI_UCSFpost_all.csv"
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; RUN;
+
+proc sort data=wiscwasi_all; by record_id; run;
+
+proc sort data=wiscwasi_post_import; by record_id; run;
+
+proc compare base=wiscwasi_all compare=wiscwasi_post_import LISTOBS;
+id record_id; run;
+
+/*Successful comparison 9/24/2020*/
+/*Archive

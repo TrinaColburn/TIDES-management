@@ -1,0 +1,565 @@
+/* Edit the following line to reflect the full path to your CSV file */
+%let csv_file = 'TIDESIIVisit1InOffic_DATA_NOHDRS_2020-09-24_1656.csv';
+
+proc format;
+	value $redcap_data_access_group_ ucsf='UCSF' umn='UMN'
+		urmc='URMC' uw='UW';
+	value contactinfor_yn_ 1='Yes' 0='No';
+	value other_contact_ 1='Yes' 0='No';
+	value mq1_ 1='Yes' 0='No'
+		-3='DK';
+	value mq2_ 1='Yes' 0='No'
+		-3='DK';
+	value mq2a_ 1='Yes' 0='No'
+		-3='DK';
+	value mq2b_ 1='Yes' 0='No'
+		-3='DK';
+	value mq2c_ 1='Yes' 0='No'
+		-3='DK';
+	value mq2d_ 1='Yes' 0='No'
+		-3='DK';
+	value mq2e_ 1='Yes' 0='No'
+		-3='DK';
+	value mq3a_ 1='Yes' 0='No'
+		-3='DK';
+	value mq3b_ 1='Yes' 0='No'
+		-3='DK';
+	value mq3c_ 1='Yes' 0='No'
+		-3='DK';
+	value mq3d_ 1='Yes' 0='No'
+		-3='DK';
+	value mq3e_ 1='Yes' 0='No'
+		-3='DK';
+	value mq4a_ 1='Yes' 0='No'
+		-3='DK';
+	value mq4b_ 1='Yes' 0='No'
+		-3='DK';
+	value mq4c_ 1='Yes' 0='No'
+		-3='DK';
+	value mq4d_ 1='Yes' 0='No'
+		-3='DK';
+	value mq4e_ 1='Yes' 0='No'
+		-3='DK';
+	value mq4f_ 1='Yes' 0='No'
+		-3='DK';
+	value mq5a_ 1='Yes' 0='No'
+		-3='DK';
+	value mq5b_ 1='Yes' 0='No'
+		-3='DK';
+	value mq5c_ 1='Yes' 0='No'
+		-3='DK';
+	value mq6_ 0='No' 1='Yes (Complete questions 6a-6c)';
+	value mq6a_ 0='No' 1='Yes';
+	value mq6b_ 0='No' 1='Yes';
+	value mq6c_ 0='No' 1='Yes';
+	value mq7_ 1='Yes' 0='No';
+	value tidesii_v1_inoffice__v_0_ 0='Incomplete' 1='Unverified'
+		2='Complete';
+	value center_ 6='UCSF' 7='UMN'
+		8='URMC' 9='UW';
+	value dgtln_hand_ 1='Right' 2='Left';
+	value drink_ 1='Yes' 0='No';
+	value usmp_ 1='Yes' 0='No';
+	value tidesii_v1_inoffice__v_1_ 0='Incomplete' 1='Unverified'
+		2='Complete';
+
+	run;
+
+data work.redcap; %let _EFIERR_ = 0;
+infile &csv_file  delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=1 ;
+
+	informat record_id $500. ;
+	informat redcap_data_access_group $500. ;
+	informat study_id $500. ;
+	informat v1_inoffice_qdate yymmdd10. ;
+	informat contactinfor_yn best32. ;
+	informat mom_name $500. ;
+	informat address $500. ;
+	informat email $500. ;
+	informat homephone $500. ;
+	informat cellphone $500. ;
+	informat workphone $500. ;
+	informat contact $500. ;
+	informat other_contact best32. ;
+	informat oth_name $500. ;
+	informat oth_relation $500. ;
+	informat oth_address $500. ;
+	informat oth_emal $500. ;
+	informat oth_homephone $500. ;
+	informat oth_cellphone $500. ;
+	informat oth_workphone $500. ;
+	informat mq1 best32. ;
+	informat mq2 best32. ;
+	informat mq2a best32. ;
+	informat mq2b best32. ;
+	informat mq2c best32. ;
+	informat mq2d best32. ;
+	informat mq2e best32. ;
+	informat mq2e_oth $500. ;
+	informat mq3a best32. ;
+	informat mq3b best32. ;
+	informat mq3c best32. ;
+	informat mq3d best32. ;
+	informat mq3e best32. ;
+	informat mq4a best32. ;
+	informat mq4b best32. ;
+	informat mq4c best32. ;
+	informat mq4d best32. ;
+	informat mq4e best32. ;
+	informat mq4f best32. ;
+	informat mq5a best32. ;
+	informat mq5b best32. ;
+	informat mq5c best32. ;
+	informat mq6 best32. ;
+	informat mq6a best32. ;
+	informat mq6a1 best32. ;
+	informat mq6b best32. ;
+	informat mq6b1 best32. ;
+	informat mq6c best32. ;
+	informat mq6cn best32. ;
+	informat mq6c1a $500. ;
+	informat mq6c1b best32. ;
+	informat mq6c2a $500. ;
+	informat mq6c2b best32. ;
+	informat mq6c3a $500. ;
+	informat mq6c3b best32. ;
+	informat mq7 best32. ;
+	informat mq7a time5. ;
+	informat tidesii_v1_inoffice__v_0 best32. ;
+	informat sub_id $500. ;
+	informat v1date yymmdd10. ;
+	informat coordinator $500. ;
+	informat assistant $500. ;
+	informat center best32. ;
+	informat site $500. ;
+	informat start_time time5. ;
+	informat end_time time5. ;
+	informat ht1 best32. ;
+	informat ht2 best32. ;
+	informat ht3 best32. ;
+	informat ht_comment $500. ;
+	informat wgt1 best32. ;
+	informat wgt2 best32. ;
+	informat wgt3 best32. ;
+	informat wgt_comment $500. ;
+	informat wgt_scale $500. ;
+	informat triskin1 best32. ;
+	informat triskin2 best32. ;
+	informat triskin3 best32. ;
+	informat triskin_comment $500. ;
+	informat subskin1 best32. ;
+	informat subskin2 best32. ;
+	informat subskin3 best32. ;
+	informat subskin_comment $500. ;
+	informat dgtln_hand best32. ;
+	informat dgtln1_2 best32. ;
+	informat dgtln1_4 best32. ;
+	informat dgtln2_2 best32. ;
+	informat dgtln2_4 best32. ;
+	informat dgtln3_2 best32. ;
+	informat dgtln3_4 best32. ;
+	informat dgtln_comment $500. ;
+	informat bps1 best32. ;
+	informat bpd1 best32. ;
+	informat pulse1 $500. ;
+	informat bps2 best32. ;
+	informat bpd2 best32. ;
+	informat pulse2 $500. ;
+	informat bps3 best32. ;
+	informat bpd3 best32. ;
+	informat pulse3 $500. ;
+	informat bp_comment $500. ;
+	informat drink best32. ;
+	informat usmp best32. ;
+	informat utime time5. ;
+	informat sg1 best32. ;
+	informat sg2 best32. ;
+	informat freez_datetime $500. ;
+	informat freez_box best32. ;
+	informat usmp_comt $500. ;
+	informat notes $5000. ;
+	informat tidesii_v1_inoffice__v_1 best32. ;
+
+	format record_id $500. ;
+	format redcap_data_access_group $redcap_data_access_group_. ;
+	format study_id $500. ;
+	format v1_inoffice_qdate yymmdd10. ;
+	format contactinfor_yn best12. ;
+	format mom_name $500. ;
+	format address $500. ;
+	format email $500. ;
+	format homephone $500. ;
+	format cellphone $500. ;
+	format workphone $500. ;
+	format contact $500. ;
+	format other_contact best12. ;
+	format oth_name $500. ;
+	format oth_relation $500. ;
+	format oth_address $500. ;
+	format oth_emal $500. ;
+	format oth_homephone $500. ;
+	format oth_cellphone $500. ;
+	format oth_workphone $500. ;
+	format mq1 best12. ;
+	format mq2 best12. ;
+	format mq2a best12. ;
+	format mq2b best12. ;
+	format mq2c best12. ;
+	format mq2d best12. ;
+	format mq2e best12. ;
+	format mq2e_oth $500. ;
+	format mq3a best12. ;
+	format mq3b best12. ;
+	format mq3c best12. ;
+	format mq3d best12. ;
+	format mq3e best12. ;
+	format mq4a best12. ;
+	format mq4b best12. ;
+	format mq4c best12. ;
+	format mq4d best12. ;
+	format mq4e best12. ;
+	format mq4f best12. ;
+	format mq5a best12. ;
+	format mq5b best12. ;
+	format mq5c best12. ;
+	format mq6 best12. ;
+	format mq6a best12. ;
+	format mq6a1 best12. ;
+	format mq6b best12. ;
+	format mq6b1 best12. ;
+	format mq6c best12. ;
+	format mq6cn best12. ;
+	format mq6c1a $500. ;
+	format mq6c1b best12. ;
+	format mq6c2a $500. ;
+	format mq6c2b best12. ;
+	format mq6c3a $500. ;
+	format mq6c3b best12. ;
+	format mq7 best12. ;
+	format mq7a time5. ;
+	format tidesii_v1_inoffice__v_0 best12. ;
+	format sub_id $500. ;
+	format v1date yymmdd10. ;
+	format coordinator $500. ;
+	format assistant $500. ;
+	format center best12. ;
+	format site $500. ;
+	format start_time time5. ;
+	format end_time time5. ;
+	format ht1 best12. ;
+	format ht2 best12. ;
+	format ht3 best12. ;
+	format ht_comment $500. ;
+	format wgt1 best12. ;
+	format wgt2 best12. ;
+	format wgt3 best12. ;
+	format wgt_comment $500. ;
+	format wgt_scale $500. ;
+	format triskin1 best12. ;
+	format triskin2 best12. ;
+	format triskin3 best12. ;
+	format triskin_comment $500. ;
+	format subskin1 best12. ;
+	format subskin2 best12. ;
+	format subskin3 best12. ;
+	format subskin_comment $500. ;
+	format dgtln_hand best12. ;
+	format dgtln1_2 best12. ;
+	format dgtln1_4 best12. ;
+	format dgtln2_2 best12. ;
+	format dgtln2_4 best12. ;
+	format dgtln3_2 best12. ;
+	format dgtln3_4 best12. ;
+	format dgtln_comment $500. ;
+	format bps1 best12. ;
+	format bpd1 best12. ;
+	format pulse1 $500. ;
+	format bps2 best12. ;
+	format bpd2 best12. ;
+	format pulse2 $500. ;
+	format bps3 best12. ;
+	format bpd3 best12. ;
+	format pulse3 $500. ;
+	format bp_comment $500. ;
+	format drink best12. ;
+	format usmp best12. ;
+	format utime time5. ;
+	format sg1 best12. ;
+	format sg2 best12. ;
+	format freez_datetime $500. ;
+	format freez_box best12. ;
+	format usmp_comt $500. ;
+	format notes $5000. ;
+	format tidesii_v1_inoffice__v_1 best12. ;
+
+input
+	record_id $
+	redcap_data_access_group $
+	study_id $
+	v1_inoffice_qdate
+	contactinfor_yn
+	mom_name $
+	address $
+	email $
+	homephone $
+	cellphone $
+	workphone $
+	contact $
+	other_contact
+	oth_name $
+	oth_relation $
+	oth_address $
+	oth_emal $
+	oth_homephone $
+	oth_cellphone $
+	oth_workphone $
+	mq1
+	mq2
+	mq2a
+	mq2b
+	mq2c
+	mq2d
+	mq2e
+	mq2e_oth $
+	mq3a
+	mq3b
+	mq3c
+	mq3d
+	mq3e
+	mq4a
+	mq4b
+	mq4c
+	mq4d
+	mq4e
+	mq4f
+	mq5a
+	mq5b
+	mq5c
+	mq6
+	mq6a
+	mq6a1
+	mq6b
+	mq6b1
+	mq6c
+	mq6cn
+	mq6c1a $
+	mq6c1b
+	mq6c2a $
+	mq6c2b
+	mq6c3a $
+	mq6c3b
+	mq7
+	mq7a
+	tidesii_v1_inoffice__v_0
+	sub_id $
+	v1date
+	coordinator $
+	assistant $
+	center
+	site $
+	start_time
+	end_time
+	ht1
+	ht2
+	ht3
+	ht_comment $
+	wgt1
+	wgt2
+	wgt3
+	wgt_comment $
+	wgt_scale $
+	triskin1
+	triskin2
+	triskin3
+	triskin_comment $
+	subskin1
+	subskin2
+	subskin3
+	subskin_comment $
+	dgtln_hand
+	dgtln1_2
+	dgtln1_4
+	dgtln2_2
+	dgtln2_4
+	dgtln3_2
+	dgtln3_4
+	dgtln_comment $
+	bps1
+	bpd1
+	pulse1 $
+	bps2
+	bpd2
+	pulse2 $
+	bps3
+	bpd3
+	pulse3 $
+	bp_comment $
+	drink
+	usmp
+	utime
+	sg1
+	sg2
+	freez_datetime $
+	freez_box
+	usmp_comt $
+	notes $
+	tidesii_v1_inoffice__v_1
+;
+if _ERROR_ then call symput('_EFIERR_',"1");
+run;
+
+proc contents;run;
+
+data redcap;
+	set redcap;
+	label record_id='Record ID';
+	label redcap_data_access_group='Data Access Group';
+	label study_id='Study ID';
+	label v1_inoffice_qdate='Today''s date';
+	label contactinfor_yn='Do you want to enter mom''s contact information?';
+	label mom_name='Name';
+	label address='Address';
+	label email='Email';
+	label homephone='Home phone';
+	label cellphone='Cell phone';
+	label workphone='Work phone';
+	label contact='Preferred method of contact:';
+	label other_contact='Is there someone else that we may contact if we are unable to reach you (for example a spouse or other family member)?';
+	label oth_name='Name';
+	label oth_relation='Relationship to your TIDES child:';
+	label oth_address='Address';
+	label oth_emal='Email';
+	label oth_homephone='Home phone';
+	label oth_cellphone='Cell phone';
+	label oth_workphone='Work phone';
+	label mq1='1. In the past 24 HOURS, did your child eat any food that comes in a cardboard box or container, such as pizza, burgers, fried chicken, take-out food, baked good or food that is wrapped in paper such as a sandwich or hamburger?';
+	label mq2='2. In the past 24 HOURS, did your child eat or drink anything from a can? ';
+	label mq2a='a. Fruit';
+	label mq2b='b. Tomatoes';
+	label mq2c='c. Soup';
+	label mq2d='d. Canned beverages (such as soda, tea, energy drinks or juice)';
+	label mq2e='e. Other';
+	label mq2e_oth='Other  (please specify)';
+	label mq3a='a. Canola Oil';
+	label mq3b='b. Sesame Oil';
+	label mq3c='c. Peanut Oil';
+	label mq3d='d. Sunflower Oil';
+	label mq3e='e. Vegetable Oil';
+	label mq4a='a. Butter';
+	label mq4b='b. Cream';
+	label mq4c='c. Whole milk';
+	label mq4d='d. Whole fat yogurt';
+	label mq4e='e. Cheese';
+	label mq4f='f. Ice Cream';
+	label mq5a='a. Beef';
+	label mq5b='b. Chicken';
+	label mq5c='c. Pork (including bacon)';
+	label mq6='6. Was your child given any prescription or over the counter medication in the past 24 HOURS?';
+	label mq6a='6a. Was your child given Tylenol (or a medications containing acetaminophen)?';
+	label mq6a1='6a1. If yes, how many hours before your visit was this? ';
+	label mq6b='6b. Was your child given Ibuprofen (or a medications containing Ibuprofen)?';
+	label mq6b1='6b1. If yes, how many hours before your visit was this? ';
+	label mq6c='6c. Was you child given any other medications in the past 24 HOURS? ';
+	label mq6cn='If yes, how many medications were given?';
+	label mq6c1a='6c1a. Name of medication 1';
+	label mq6c1b='6c1b. How many hours before your visit was this? ';
+	label mq6c2a='6c2a. Name of medication 2';
+	label mq6c2b='6c2b. How many hours before your visit was this? ';
+	label mq6c3a='6c3a. Name of medication 3';
+	label mq6c3b='6c3b. How many hours before your visit was this? ';
+	label mq7='7. Do you know the last time (before your TIDES visit) that your child urinated? ';
+	label mq7a='7a. If yes, please enter the time ';
+	label tidesii_v1_inoffice__v_0='Complete?';
+	label sub_id='The mother''s Study ID is [study_id]  Please confirm';
+	label v1date='Visit Date';
+	label coordinator='Study Coordinator';
+	label assistant='Assistant';
+	label center='CENTER';
+	label site='Visit Location';
+	label start_time='Visit Start Time';
+	label end_time='Visit End Time';
+	label ht1='1st measure     ';
+	label ht2='2nd measure';
+	label ht3='3rd measure';
+	label ht_comment='Concerns: (i.e. hairstyle, uneven surface, etc.)';
+	label wgt1='1st measure     ';
+	label wgt2='2nd measure ';
+	label wgt3='3rd measure';
+	label wgt_comment='Concerns: (i.e. hairstyle, uneven surface, etc.)';
+	label wgt_scale='Scale used: ';
+	label triskin1='1st measure     ';
+	label triskin2='2nd measure ';
+	label triskin3='3rd measure';
+	label triskin_comment='Concerns: ';
+	label subskin1='1st measure     ';
+	label subskin2='2nd measure ';
+	label subskin3='3rd measure';
+	label subskin_comment='Concerns: ';
+	label dgtln_hand='Dominant hand:  ';
+	label dgtln1_2='1st measure: ----- 2nd ';
+	label dgtln1_4='1st measure: ----- 4th ';
+	label dgtln2_2='2nd measure:  ----- 2nd';
+	label dgtln2_4='2nd measure: ----- 4th  ';
+	label dgtln3_2='3rd measure:  ----- 2nd ';
+	label dgtln3_4='3rd measure: ----- 4th  ';
+	label dgtln_comment='Concerns: ';
+	label bps1='Blood Pressure 1: ';
+	label bpd1='Blood Pressure 1: ';
+	label pulse1='Pulse 1: ';
+	label bps2='Blood Pressure 2: ';
+	label bpd2='Blood Pressure 2: ';
+	label pulse2='Pulse 2: ';
+	label bps3='Blood Pressure 3: ';
+	label bpd3='Blood Pressure 3: ';
+	label pulse3='Pulse 3: ';
+	label bp_comment='Concerns: ';
+	label drink='Did child drink during visit?  ';
+	label usmp='Was sample collected?';
+	label utime='Time of sample collection';
+	label sg1='Specific Gravity (1) ';
+	label sg2='Specific Gravity (2) ';
+	label freez_datetime='Freezer Date / Time';
+	label freez_box='Freezer Box #';
+	label usmp_comt='Overall concerns or reasons for failure to collect sample (i.e., spillage, contamination, etc.): ';
+	label notes='Interviewer Notes';
+	label tidesii_v1_inoffice__v_1='Complete?';
+	format redcap_data_access_group redcap_data_access_group_.;
+	format contactinfor_yn contactinfor_yn_.;
+	format other_contact other_contact_.;
+	format mq1 mq1_.;
+	format mq2 mq2_.;
+	format mq2a mq2a_.;
+	format mq2b mq2b_.;
+	format mq2c mq2c_.;
+	format mq2d mq2d_.;
+	format mq2e mq2e_.;
+	format mq3a mq3a_.;
+	format mq3b mq3b_.;
+	format mq3c mq3c_.;
+	format mq3d mq3d_.;
+	format mq3e mq3e_.;
+	format mq4a mq4a_.;
+	format mq4b mq4b_.;
+	format mq4c mq4c_.;
+	format mq4d mq4d_.;
+	format mq4e mq4e_.;
+	format mq4f mq4f_.;
+	format mq5a mq5a_.;
+	format mq5b mq5b_.;
+	format mq5c mq5c_.;
+	format mq6 mq6_.;
+	format mq6a mq6a_.;
+	format mq6b mq6b_.;
+	format mq6c mq6c_.;
+	format mq7 mq7_.;
+	format tidesii_v1_inoffice__v_0 tidesii_v1_inoffice__v_0_.;
+	format center center_.;
+	format dgtln_hand dgtln_hand_.;
+	format drink drink_.;
+	format usmp usmp_.;
+	format tidesii_v1_inoffice__v_1 tidesii_v1_inoffice__v_1_.;
+run;
+
+proc contents data=redcap;
+proc print data=redcap;
+run;

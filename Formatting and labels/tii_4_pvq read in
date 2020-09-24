@@ -1,0 +1,1270 @@
+/* Edit the following line to reflect the full path to your CSV file */
+%let csv_file = 'TIDESIIVisit1Questio_DATA_NOHDRS_2020-09-24_1649.csv';
+
+proc format;
+	value $redcap_data_access_group_ ucsf='UCSF' umn='UMN'
+		urmc='URMC' uw='UW';
+	value conset_agree_ 1='Yes' 0='No';
+	value qc1_ 1='Excellent' 2='Good'
+		3='Fair' 4='Poor';
+	value qc2_ 1='Yes' 0='No';
+	value qc3a_sex_ 1='Male' 2='Female';
+	value qc3b_sex_ 1='Male' 2='Female';
+	value qc3c_sex_ 1='Male' 2='Female';
+	value qc3d_sex_ 1='Male' 2='Female';
+	value qc3e_sex_ 1='Male' 2='Female';
+	value qc4b2_ 1='Male' 2='Female';
+	value qc4b3_ 1='Parent' 2='Stepparent'
+		3='Grandparent' 4='Aunt or Uncle'
+		5='Other (FILL IN)';
+	value qc4c2_ 1='Male' 2='Female';
+	value qc4c3_ 1='Parent' 2='Stepparent'
+		3='Grandparent' 4='Aunt or Uncle'
+		5='Other (FILL IN)';
+	value qc4d2_ 1='Male' 2='Female';
+	value qc4d3_ 1='Parent' 2='Stepparent'
+		3='Grandparent' 4='Aunt or Uncle'
+		5='Other (FILL IN)';
+	value qc5a1_ 1='Yes' 0='No'
+		-3='Don''t Know';
+	value qc5b1_ 1='Yes' 0='No'
+		-3='Don''t Know';
+	value qc5c1_ 1='Yes' 0='No'
+		-3='Don''t Know';
+	value qc5d1_ 1='Yes' 0='No'
+		-3='Don''t Know';
+	value qc5e1_ 1='Yes' 0='No'
+		-3='Don''t Know';
+	value qc6_ 1='Yes' 0='No';
+	value qc7_ 1='Yes (complete questions 7a-7d )' 0='No';
+	value qc7a_ 1='Yes' 0='No';
+	value qc7b_ 0='None' 1='1 to 3'
+		2='4 to 12' 3='More than 12';
+	value qc7c_ 0='Never woken with wheezing' 1='Less than one night per week'
+		2='One or more nights per week';
+	value qc7d_ 1='Yes' 0='No';
+	value qc8_ 1='Yes' 0='No';
+	value qc9_ 1='Yes' 0='No';
+	value qc10_ 1='Yes' 0='No'
+		-3='Don''t Know';
+	value qc11_ 1='Yes' 0='No';
+	value qc12_ 1='Yes' 0='No';
+	value qc13_ 1='Yes (complete questions 13a-13e)' 0='No';
+	value qc13a_ 1='Yes' 0='No';
+	value qc13b_ 1='Yes' 0='No';
+	value qc13c_ 1='Under 2 years' 2='Age 2-4 years'
+		3='Age 5 or more';
+	value qc13d_ 1='Yes' 0='No';
+	value qc13e_ 0='Never in the last 12 months' 1='Less than one night per week'
+		2='One or more nights per week';
+	value qc14_ 1='Yes' 0='No';
+	value qc15_ 0='Never or occasionally' 1='Once or twice per week'
+		2='Three or more times a week';
+	value qc16_ 1='Less than 1 hour' 2='More than 1 hour but less than 3 hours'
+		3='More than 3 hours but less than 5 hours' 4='5 hours or more';
+	value qc17_ 1='Yes' 0='No';
+	value qs2_ 1='6-7 days/week' 2='4-5 days/week'
+		3='2-3 days/week' 4='1 or fewer days/week';
+	value qs4a_ 1='Usually (5-7 times/week)' 2='Sometimes (2-4 times/week)'
+		3='Rarely (0-1 time/week)';
+	value qs4b_ 1='Usually (5-7 times/week)' 2='Sometimes (2-4 times/week)'
+		3='Rarely (0-1 time/week)';
+	value qs4c_ 1='Usually (5-7 times/week)' 2='Sometimes (2-4 times/week)'
+		3='Rarely (0-1 time/week)';
+	value qs4d_ 1='Usually (5-7 times/week)' 2='Sometimes (2-4 times/week)'
+		3='Rarely (0-1 time/week)';
+	value qs4e_ 1='Usually (5-7 times/week)' 2='Sometimes (2-4 times/week)'
+		3='Rarely (0-1 time/week)';
+	value qs4f_ 1='Usually (5-7 times/week)' 2='Sometimes (2-4 times/week)'
+		3='Rarely (0-1 time/week)';
+	value p1a_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p1b_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p1c_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p1d_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p1e_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p1f_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p1g_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p2a_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p2b_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p2c_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p2d_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p2e_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p2f_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p2g_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p2h_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p2i_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p2j_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p2k_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p3a_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p3b_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p3c_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p3d_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p3e_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p3f_ 1='Never' 2='Hardly Ever'
+		3='Sometimes' 4='Often'
+		5='Very Often';
+	value p4a_ 1='Strongly Encourage' 2='Encourage'
+		3='Neutral' 4='Discourage'
+		5='Strongly Discourage';
+	value p4b_ 1='Strongly Encourage' 2='Encourage'
+		3='Neutral' 4='Discourage'
+		5='Strongly Discourage';
+	value p4c_ 1='Strongly Encourage' 2='Encourage'
+		3='Neutral' 4='Discourage'
+		5='Strongly Discourage';
+	value p4e_ 1='Strongly Encourage' 2='Encourage'
+		3='Neutral' 4='Discourage'
+		5='Strongly Discourage';
+	value q1_ 1='Excellent' 2='Good'
+		3='Fair' 4='Poor';
+	value q2_ 1='Married' 2='Living as married'
+		3='Separated' 4='Divorced'
+		5='Widowed' 6='Single';
+	value q3edu_ 1='Less than college graduate' 2='College graduate or higher';
+	value q4___0_ 0='Unchecked' 1='Checked';
+	value q4___1_ 0='Unchecked' 1='Checked';
+	value q4___2_ 0='Unchecked' 1='Checked';
+	value q5_ 0='No' 1='Yes';
+	value q6a_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6b_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6c_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6d_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6e_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6f_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6g_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6h_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6i_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6j_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6k_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6l_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6m_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6n_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6o_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6p_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6q_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6r_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6s_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6t_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6u_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6v_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6w_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6x_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6y_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q6z_ 0='No' 1='Yes, and it affected me a little'
+		2='Yes, and it affected me a lot';
+	value q7a_ 0='Never' 1='Almost Never'
+		2='Sometimes' 3='Fairly Often'
+		4='Very Often';
+	value q7b_ 0='Never' 1='Almost Never'
+		2='Sometimes' 3='Fairly Often'
+		4='Very Often';
+	value q7c_ 0='Never' 1='Almost Never'
+		2='Sometimes' 3='Fairly Often'
+		4='Very Often';
+	value q7d_ 0='Never' 1='Almost Never'
+		2='Sometimes' 3='Fairly Often'
+		4='Very Often';
+	value q7e_ 0='Never' 1='Almost Never'
+		2='Sometimes' 3='Fairly Often'
+		4='Very Often';
+	value q7f_ 0='Never' 1='Almost Never'
+		2='Sometimes' 3='Fairly Often'
+		4='Very Often';
+	value q7g_ 0='Never' 1='Almost Never'
+		2='Sometimes' 3='Fairly Often'
+		4='Very Often';
+	value q7h_ 0='Never' 1='Almost Never'
+		2='Sometimes' 3='Fairly Often'
+		4='Very Often';
+	value q7i_ 0='Never' 1='Almost Never'
+		2='Sometimes' 3='Fairly Often'
+		4='Very Often';
+	value q7j_ 0='Never' 1='Almost Never'
+		2='Sometimes' 3='Fairly Often'
+		4='Very Often';
+	value q8a_ 1='Not at all' 2='Several days'
+		3='More than half the days' 4='Nearly every day';
+	value q8b_ 1='Not at all' 2='Several days'
+		3='More than half the days' 4='Nearly every day';
+	value q8c_ 1='Not at all' 2='Several days'
+		3='More than half the days' 4='Nearly every day';
+	value q8d_ 1='Not at all' 2='Several days'
+		3='More than half the days' 4='Nearly every day';
+	value q8e_ 1='Not at all' 2='Several days'
+		3='More than half the days' 4='Nearly every day';
+	value q8f_ 1='Not at all' 2='Several days'
+		3='More than half the days' 4='Nearly every day';
+	value q8g_ 1='Not at all' 2='Several days'
+		3='More than half the days' 4='Nearly every day';
+	value q8h_ 1='Not at all' 2='Several days'
+		3='More than half the days' 4='Nearly every day';
+	value q8i_ 1='Not at all' 2='Several days'
+		3='More than half the days' 4='Nearly every day';
+	value q9a_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9b_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9c_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9d_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9e_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9f_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9g_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9h_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9i_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9j_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9k_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9l_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9m_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9n_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9o_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9p_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9q_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9r_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9s_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value q9t_ 1='Definitely true' 2='Probably true'
+		3='Probably false' 4='Definitely false';
+	value tidesii_v1_mom_q_complete_ 0='Incomplete' 1='Unverified'
+		2='Complete';
+
+	run;
+
+data work.redcap; %let _EFIERR_ = 0;
+infile &csv_file  delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=1 ;
+
+	informat record_id $500. ;
+	informat redcap_data_access_group $500. ;
+	informat conset_agree best32. ;
+	informat study_id $500. ;
+	informat v1_qdate yymmdd10. ;
+	informat qcname $500. ;
+	informat qcdob yymmdd10. ;
+	informat qc1 best32. ;
+	informat qc2 best32. ;
+	informat qc2a best32. ;
+	informat qc3 best32. ;
+	informat qc3a_yr best32. ;
+	informat qc3a_mo best32. ;
+	informat qc3a_sex best32. ;
+	informat qc3b_yr best32. ;
+	informat qc3b_mo best32. ;
+	informat qc3b_sex best32. ;
+	informat qc3c_yr best32. ;
+	informat qc3c_mo best32. ;
+	informat qc3c_sex best32. ;
+	informat qc3d_yr best32. ;
+	informat qc3d_mo best32. ;
+	informat qc3d_sex best32. ;
+	informat qc3e_yr best32. ;
+	informat qc3e_mo best32. ;
+	informat qc3e_sex best32. ;
+	informat qc4 best32. ;
+	informat qc4a1 best32. ;
+	informat qc4b1 best32. ;
+	informat qc4b2 best32. ;
+	informat qc4b3 best32. ;
+	informat qc4b3_other $500. ;
+	informat qc4c1 best32. ;
+	informat qc4c2 best32. ;
+	informat qc4c3 best32. ;
+	informat qc4c3_other $500. ;
+	informat qc4d1 best32. ;
+	informat qc4d2 best32. ;
+	informat qc4d3 best32. ;
+	informat qc4d3_other $500. ;
+	informat qc5a1 best32. ;
+	informat qc5b1 best32. ;
+	informat qc5c1 best32. ;
+	informat qc5d1 best32. ;
+	informat qc5e1 best32. ;
+	informat qc5a2 best32. ;
+	informat qc5b2 best32. ;
+	informat qc5c2 best32. ;
+	informat qc5d2 best32. ;
+	informat qc5e2 best32. ;
+	informat qc6 best32. ;
+	informat qc6y best32. ;
+	informat qc6y1a $500. ;
+	informat qc6y1b $500. ;
+	informat qc6y2a $500. ;
+	informat qc6y2b $500. ;
+	informat qc6y3a $500. ;
+	informat qc6y3b $500. ;
+	informat qc6y4a $500. ;
+	informat qc6y4b $500. ;
+	informat qc6y5a $500. ;
+	informat qc6y5b $500. ;
+	informat qc7 best32. ;
+	informat qc7a best32. ;
+	informat qc7b best32. ;
+	informat qc7c best32. ;
+	informat qc7d best32. ;
+	informat qc8 best32. ;
+	informat qc9 best32. ;
+	informat qc10 best32. ;
+	informat qc11 best32. ;
+	informat qc12 best32. ;
+	informat qc13 best32. ;
+	informat qc13a best32. ;
+	informat qc13b best32. ;
+	informat qc13c best32. ;
+	informat qc13d best32. ;
+	informat qc13e best32. ;
+	informat qc14 best32. ;
+	informat qc15 best32. ;
+	informat qc16 best32. ;
+	informat qc17 best32. ;
+	informat qs1a best32. ;
+	informat qs1b best32. ;
+	informat qs2 best32. ;
+	informat qs3 best32. ;
+	informat qs4a best32. ;
+	informat qs4b best32. ;
+	informat qs4c best32. ;
+	informat qs4d best32. ;
+	informat qs4e best32. ;
+	informat qs4f best32. ;
+	informat p1a best32. ;
+	informat p1b best32. ;
+	informat p1c best32. ;
+	informat p1d best32. ;
+	informat p1e best32. ;
+	informat p1f best32. ;
+	informat p1g best32. ;
+	informat p2a best32. ;
+	informat p2b best32. ;
+	informat p2c best32. ;
+	informat p2d best32. ;
+	informat p2e best32. ;
+	informat p2f best32. ;
+	informat p2g best32. ;
+	informat p2h best32. ;
+	informat p2i best32. ;
+	informat p2j best32. ;
+	informat p2k best32. ;
+	informat p3a best32. ;
+	informat p3b best32. ;
+	informat p3c best32. ;
+	informat p3d best32. ;
+	informat p3e best32. ;
+	informat p3f best32. ;
+	informat p4a best32. ;
+	informat p4b best32. ;
+	informat p4c best32. ;
+	informat p4e best32. ;
+	informat q1 best32. ;
+	informat q2 best32. ;
+	informat q3edu best32. ;
+	informat q4___0 best32. ;
+	informat q4___1 best32. ;
+	informat q4___2 best32. ;
+	informat q5 best32. ;
+	informat q6a best32. ;
+	informat q6b best32. ;
+	informat q6c best32. ;
+	informat q6d best32. ;
+	informat q6e best32. ;
+	informat q6f best32. ;
+	informat q6g best32. ;
+	informat q6h best32. ;
+	informat q6i best32. ;
+	informat q6j best32. ;
+	informat q6k best32. ;
+	informat q6l best32. ;
+	informat q6m best32. ;
+	informat q6n best32. ;
+	informat q6o best32. ;
+	informat q6p best32. ;
+	informat q6q best32. ;
+	informat q6r best32. ;
+	informat q6s best32. ;
+	informat q6t best32. ;
+	informat q6u best32. ;
+	informat q6v best32. ;
+	informat q6w best32. ;
+	informat q6x best32. ;
+	informat q6y best32. ;
+	informat q6z best32. ;
+	informat q6oth $500. ;
+	informat q7a best32. ;
+	informat q7b best32. ;
+	informat q7c best32. ;
+	informat q7d best32. ;
+	informat q7e best32. ;
+	informat q7f best32. ;
+	informat q7g best32. ;
+	informat q7h best32. ;
+	informat q7i best32. ;
+	informat q7j best32. ;
+	informat q8a best32. ;
+	informat q8b best32. ;
+	informat q8c best32. ;
+	informat q8d best32. ;
+	informat q8e best32. ;
+	informat q8f best32. ;
+	informat q8g best32. ;
+	informat q8h best32. ;
+	informat q8i best32. ;
+	informat q9a best32. ;
+	informat q9b best32. ;
+	informat q9c best32. ;
+	informat q9d best32. ;
+	informat q9e best32. ;
+	informat q9f best32. ;
+	informat q9g best32. ;
+	informat q9h best32. ;
+	informat q9i best32. ;
+	informat q9j best32. ;
+	informat q9k best32. ;
+	informat q9l best32. ;
+	informat q9m best32. ;
+	informat q9n best32. ;
+	informat q9o best32. ;
+	informat q9p best32. ;
+	informat q9q best32. ;
+	informat q9r best32. ;
+	informat q9s best32. ;
+	informat q9t best32. ;
+	informat q10 $500. ;
+	informat q11 $500. ;
+	informat tidesii_v1_mom_q_complete best32. ;
+
+	format record_id $500. ;
+	format redcap_data_access_group $redcap_data_access_group_. ;
+	format conset_agree best12. ;
+	format study_id $500. ;
+	format v1_qdate yymmdd10. ;
+	format qcname $500. ;
+	format qcdob yymmdd10. ;
+	format qc1 best12. ;
+	format qc2 best12. ;
+	format qc2a best12. ;
+	format qc3 best12. ;
+	format qc3a_yr best12. ;
+	format qc3a_mo best12. ;
+	format qc3a_sex best12. ;
+	format qc3b_yr best12. ;
+	format qc3b_mo best12. ;
+	format qc3b_sex best12. ;
+	format qc3c_yr best12. ;
+	format qc3c_mo best12. ;
+	format qc3c_sex best12. ;
+	format qc3d_yr best12. ;
+	format qc3d_mo best12. ;
+	format qc3d_sex best12. ;
+	format qc3e_yr best12. ;
+	format qc3e_mo best12. ;
+	format qc3e_sex best12. ;
+	format qc4 best12. ;
+	format qc4a1 best12. ;
+	format qc4b1 best12. ;
+	format qc4b2 best12. ;
+	format qc4b3 best12. ;
+	format qc4b3_other $500. ;
+	format qc4c1 best12. ;
+	format qc4c2 best12. ;
+	format qc4c3 best12. ;
+	format qc4c3_other $500. ;
+	format qc4d1 best12. ;
+	format qc4d2 best12. ;
+	format qc4d3 best12. ;
+	format qc4d3_other $500. ;
+	format qc5a1 best12. ;
+	format qc5b1 best12. ;
+	format qc5c1 best12. ;
+	format qc5d1 best12. ;
+	format qc5e1 best12. ;
+	format qc5a2 best12. ;
+	format qc5b2 best12. ;
+	format qc5c2 best12. ;
+	format qc5d2 best12. ;
+	format qc5e2 best12. ;
+	format qc6 best12. ;
+	format qc6y best12. ;
+	format qc6y1a $500. ;
+	format qc6y1b $500. ;
+	format qc6y2a $500. ;
+	format qc6y2b $500. ;
+	format qc6y3a $500. ;
+	format qc6y3b $500. ;
+	format qc6y4a $500. ;
+	format qc6y4b $500. ;
+	format qc6y5a $500. ;
+	format qc6y5b $500. ;
+	format qc7 best12. ;
+	format qc7a best12. ;
+	format qc7b best12. ;
+	format qc7c best12. ;
+	format qc7d best12. ;
+	format qc8 best12. ;
+	format qc9 best12. ;
+	format qc10 best12. ;
+	format qc11 best12. ;
+	format qc12 best12. ;
+	format qc13 best12. ;
+	format qc13a best12. ;
+	format qc13b best12. ;
+	format qc13c best12. ;
+	format qc13d best12. ;
+	format qc13e best12. ;
+	format qc14 best12. ;
+	format qc15 best12. ;
+	format qc16 best12. ;
+	format qc17 best12. ;
+	format qs1a best12. ;
+	format qs1b best12. ;
+	format qs2 best12. ;
+	format qs3 best12. ;
+	format qs4a best12. ;
+	format qs4b best12. ;
+	format qs4c best12. ;
+	format qs4d best12. ;
+	format qs4e best12. ;
+	format qs4f best12. ;
+	format p1a best12. ;
+	format p1b best12. ;
+	format p1c best12. ;
+	format p1d best12. ;
+	format p1e best12. ;
+	format p1f best12. ;
+	format p1g best12. ;
+	format p2a best12. ;
+	format p2b best12. ;
+	format p2c best12. ;
+	format p2d best12. ;
+	format p2e best12. ;
+	format p2f best12. ;
+	format p2g best12. ;
+	format p2h best12. ;
+	format p2i best12. ;
+	format p2j best12. ;
+	format p2k best12. ;
+	format p3a best12. ;
+	format p3b best12. ;
+	format p3c best12. ;
+	format p3d best12. ;
+	format p3e best12. ;
+	format p3f best12. ;
+	format p4a best12. ;
+	format p4b best12. ;
+	format p4c best12. ;
+	format p4e best12. ;
+	format q1 best12. ;
+	format q2 best12. ;
+	format q3edu best12. ;
+	format q4___0 best12. ;
+	format q4___1 best12. ;
+	format q4___2 best12. ;
+	format q5 best12. ;
+	format q6a best12. ;
+	format q6b best12. ;
+	format q6c best12. ;
+	format q6d best12. ;
+	format q6e best12. ;
+	format q6f best12. ;
+	format q6g best12. ;
+	format q6h best12. ;
+	format q6i best12. ;
+	format q6j best12. ;
+	format q6k best12. ;
+	format q6l best12. ;
+	format q6m best12. ;
+	format q6n best12. ;
+	format q6o best12. ;
+	format q6p best12. ;
+	format q6q best12. ;
+	format q6r best12. ;
+	format q6s best12. ;
+	format q6t best12. ;
+	format q6u best12. ;
+	format q6v best12. ;
+	format q6w best12. ;
+	format q6x best12. ;
+	format q6y best12. ;
+	format q6z best12. ;
+	format q6oth $500. ;
+	format q7a best12. ;
+	format q7b best12. ;
+	format q7c best12. ;
+	format q7d best12. ;
+	format q7e best12. ;
+	format q7f best12. ;
+	format q7g best12. ;
+	format q7h best12. ;
+	format q7i best12. ;
+	format q7j best12. ;
+	format q8a best12. ;
+	format q8b best12. ;
+	format q8c best12. ;
+	format q8d best12. ;
+	format q8e best12. ;
+	format q8f best12. ;
+	format q8g best12. ;
+	format q8h best12. ;
+	format q8i best12. ;
+	format q9a best12. ;
+	format q9b best12. ;
+	format q9c best12. ;
+	format q9d best12. ;
+	format q9e best12. ;
+	format q9f best12. ;
+	format q9g best12. ;
+	format q9h best12. ;
+	format q9i best12. ;
+	format q9j best12. ;
+	format q9k best12. ;
+	format q9l best12. ;
+	format q9m best12. ;
+	format q9n best12. ;
+	format q9o best12. ;
+	format q9p best12. ;
+	format q9q best12. ;
+	format q9r best12. ;
+	format q9s best12. ;
+	format q9t best12. ;
+	format q10 $500. ;
+	format q11 $500. ;
+	format tidesii_v1_mom_q_complete best12. ;
+
+input
+	record_id $
+	redcap_data_access_group $
+	conset_agree
+	study_id $
+	v1_qdate
+	qcname $
+	qcdob
+	qc1
+	qc2
+	qc2a
+	qc3
+	qc3a_yr
+	qc3a_mo
+	qc3a_sex
+	qc3b_yr
+	qc3b_mo
+	qc3b_sex
+	qc3c_yr
+	qc3c_mo
+	qc3c_sex
+	qc3d_yr
+	qc3d_mo
+	qc3d_sex
+	qc3e_yr
+	qc3e_mo
+	qc3e_sex
+	qc4
+	qc4a1
+	qc4b1
+	qc4b2
+	qc4b3
+	qc4b3_other $
+	qc4c1
+	qc4c2
+	qc4c3
+	qc4c3_other $
+	qc4d1
+	qc4d2
+	qc4d3
+	qc4d3_other $
+	qc5a1
+	qc5b1
+	qc5c1
+	qc5d1
+	qc5e1
+	qc5a2
+	qc5b2
+	qc5c2
+	qc5d2
+	qc5e2
+	qc6
+	qc6y
+	qc6y1a $
+	qc6y1b $
+	qc6y2a $
+	qc6y2b $
+	qc6y3a $
+	qc6y3b $
+	qc6y4a $
+	qc6y4b $
+	qc6y5a $
+	qc6y5b $
+	qc7
+	qc7a
+	qc7b
+	qc7c
+	qc7d
+	qc8
+	qc9
+	qc10
+	qc11
+	qc12
+	qc13
+	qc13a
+	qc13b
+	qc13c
+	qc13d
+	qc13e
+	qc14
+	qc15
+	qc16
+	qc17
+	qs1a
+	qs1b
+	qs2
+	qs3
+	qs4a
+	qs4b
+	qs4c
+	qs4d
+	qs4e
+	qs4f
+	p1a
+	p1b
+	p1c
+	p1d
+	p1e
+	p1f
+	p1g
+	p2a
+	p2b
+	p2c
+	p2d
+	p2e
+	p2f
+	p2g
+	p2h
+	p2i
+	p2j
+	p2k
+	p3a
+	p3b
+	p3c
+	p3d
+	p3e
+	p3f
+	p4a
+	p4b
+	p4c
+	p4e
+	q1
+	q2
+	q3edu
+	q4___0
+	q4___1
+	q4___2
+	q5
+	q6a
+	q6b
+	q6c
+	q6d
+	q6e
+	q6f
+	q6g
+	q6h
+	q6i
+	q6j
+	q6k
+	q6l
+	q6m
+	q6n
+	q6o
+	q6p
+	q6q
+	q6r
+	q6s
+	q6t
+	q6u
+	q6v
+	q6w
+	q6x
+	q6y
+	q6z
+	q6oth $
+	q7a
+	q7b
+	q7c
+	q7d
+	q7e
+	q7f
+	q7g
+	q7h
+	q7i
+	q7j
+	q8a
+	q8b
+	q8c
+	q8d
+	q8e
+	q8f
+	q8g
+	q8h
+	q8i
+	q9a
+	q9b
+	q9c
+	q9d
+	q9e
+	q9f
+	q9g
+	q9h
+	q9i
+	q9j
+	q9k
+	q9l
+	q9m
+	q9n
+	q9o
+	q9p
+	q9q
+	q9r
+	q9s
+	q9t
+	q10 $
+	q11 $
+	tidesii_v1_mom_q_complete
+;
+if _ERROR_ then call symput('_EFIERR_',"1");
+run;
+
+proc contents;run;
+
+data redcap;
+	set redcap;
+	label record_id='Record ID';
+	label redcap_data_access_group='Data Access Group';
+	label conset_agree='I agree ';
+	label study_id='Study ID';
+	label v1_qdate='Today''s date';
+	label qcname='What is the name of your TIDES child?    ';
+	label qcdob='Date of birth';
+	label qc1='1. In general, how would you rate your child''s overall health? ';
+	label qc2='2. Has your TIDES child [qcname] received regular childcare at least once a week in the last month provided by a school, preschool, state licensed daycare provider, family member or child sitter/nanny?';
+	label qc2a='2a. How many hours per week does your child receive childcare or attend school during a typical week?';
+	label qc3='3. How many children live in your household (including your TIDES child)';
+	label qc3a_yr='Age of your TIDES Child [qcname] ';
+	label qc3a_mo='and / or';
+	label qc3a_sex='Sex of yourTIDES Child [qcname]';
+	label qc3b_yr='Age of Child 2';
+	label qc3b_mo='and / or';
+	label qc3b_sex='Sex of Child Two';
+	label qc3c_yr='Age of Child 3';
+	label qc3c_mo='and / or';
+	label qc3c_sex='Sex of Child Three';
+	label qc3d_yr='Age of Child 4';
+	label qc3d_mo='and / or';
+	label qc3d_sex='Sex of Child Four';
+	label qc3e_yr='Age of Child Five';
+	label qc3e_mo='and / or';
+	label qc3e_sex='Sex of Child 5';
+	label qc4='4. How many adults currently live in your household? ';
+	label qc4a1='Your age';
+	label qc4b1='Age of Adult Two';
+	label qc4b2='Sex of Adult Two';
+	label qc4b3='Relationship of Adult Two to your TIDES Child  [qcname]';
+	label qc4b3_other='Specify Other';
+	label qc4c1='Age of Adult Three';
+	label qc4c2='Sex of Adult Three';
+	label qc4c3='Relationship of Adult Three to your TIDES Child  [qcname]';
+	label qc4c3_other='Specify Other';
+	label qc4d1='Age of Adult Four';
+	label qc4d2='Sex of Adult Four';
+	label qc4d3='Relationship of Adult Four to your TIDES Child [qcname]';
+	label qc4d3_other='Specify Other';
+	label qc5a1='a. You';
+	label qc5b1='b. Your child''s father';
+	label qc5c1='c. Another person living in your same house';
+	label qc5d1='d. Your child''s child care provider';
+	label qc5e1='e. Other';
+	label qc5a2='On average how many hours per week did you smoke around your child?     ';
+	label qc5b2='On average how many hours per week did the child''s father smoke around your child ? ';
+	label qc5c2='On average how many hours per week did this person smoke around your child?   ';
+	label qc5d2='On average how many hours per week did the care provider smoke around your child?  ';
+	label qc5e2='On average how many hours per week did this person smoke around your child?   ';
+	label qc6='6. Has your child been diagnosed with any chronic or severe medical problems in the past 2 years (e.g. problems requiring more than one doctor visit and/or prescription medication)?';
+	label qc6y='how many chronic or severe medical problems in the past 2 years? ';
+	label qc6y1a='6.1a. Name of first medical problem';
+	label qc6y1b='6.1b. Medication prescribed';
+	label qc6y2a='6.2a. Name of second medical problem';
+	label qc6y2b='6.2b. Medication prescribed';
+	label qc6y3a='6.3a. Name of third medical problem';
+	label qc6y3b='6.3b. Medication prescribed';
+	label qc6y4a='6.4a. Name of fourth medical problem';
+	label qc6y4b='6.4b. Medication prescribed';
+	label qc6y5a='6.5a. Name of fifth medical problem';
+	label qc6y5b='6.5b. Medication prescribed';
+	label qc7='7. Has your child ever had wheezing or whistling in the chest at any time in the past?';
+	label qc7a='7a. Has your child had wheezing or whistling in the chest in the last 12 months?';
+	label qc7b='7b. How many attacks of wheezing has your child had in the last 12 months?';
+	label qc7c='7c. In the last 12 months, how often, on average, has your child''s sleep been disturbed due to wheezing?';
+	label qc7d='7d. In the last 12 months, has wheezing ever been severe enough to limit your child''s speech to only one or two words at a time between breaths?';
+	label qc8='8. Has your child ever had asthma?';
+	label qc9='9. Were you ever diagnosed with asthma?';
+	label qc10='10. Was your child''s biological father ever diagnosed with asthma?';
+	label qc11='11. In the last 12 months, has your child''s chest sounded wheezy during or after exercise?';
+	label qc12='12. In the last 12 months, has your child had a dry cough at night, apart from a cough associated with a cold or chest infection?';
+	label qc13='13. Has your child ever had an itchy rash which was coming and going for at least six months?';
+	label qc13a='13a. Has your child had this itchy rash at any time in the last 12 months?';
+	label qc13b='13b. Has this itchy rash at any time affected any of the following places: the folds of the elbows, behind the knees, in front of the ankles, under the buttocks, or around the neck, ears or eyes?';
+	label qc13c='13c. At what age did this itchy rash first occur?';
+	label qc13d='13d. Has this rash cleared completely at any time during the last 12 months?';
+	label qc13e='13e. In the last 12 months, how often, on average, has your child been kept awake at night by this itchy rash?';
+	label qc14='14. Has your child ever had eczema?';
+	label qc15='15. How many times a week does your child engage in vigorous physical activity long enough to make him/her breathe hard?';
+	label qc16='16. During a normal week, how many hours a day (24hours) does your child watch television?:';
+	label qc17='17. In the last 12 months, have you had a dog or cat in your home?';
+	label qs1a='1. In the past month, on average, how many hours per day did your child nap? ';
+	label qs1b='and / or';
+	label qs2='2. In a typical week, how often does your child take a nap? ';
+	label qs3='3. In the past month, on average, how many hours did your child sleep during the night?  ';
+	label qs4a='a. How often does your child go to bed at the same time at night?';
+	label qs4b='b. How often does your child fall asleep within 20 minutes after going to bed?';
+	label qs4c='c. How often does your child wake up during the night?';
+	label qs4d='d. How often does your child wake more than once during the night?';
+	label qs4e='e. How often does your child take a long time to be alert after waking?';
+	label qs4f='f. How often does your child seem tired during the daytime?';
+	label p1a='a) Jewelry';
+	label p1b='b) Guns (or used objects as guns)';
+	label p1c='c) Tool Set';
+	label p1d='d) Dolls, doll clothes or doll carriages';
+	label p1e='e) Trains, cars or airplanes';
+	label p1f='f) Swords (or used objects as swords)';
+	label p1g='g) Tea set';
+	label p2a='a) Playing house (e.g., cleaning, cooking)';
+	label p2b='b) Playing with girls';
+	label p2c='c) Pretending to be a female character (e.g., a princess)';
+	label p2d='d) Playing at having a male occupation (e.g., a soldier)';
+	label p2e='e) Fighting';
+	label p2f='f) Pretending to be a family character';
+	label p2g='g) Sports and ball games';
+	label p2h='h) Climbing (e.g., fences, trees, gym equipment)';
+	label p2i='i) Playing at taking care of babies';
+	label p2j='j) Showing an interest in real cars, trains and equipment';
+	label p2k='k) Dressing up in girls'' clothes';
+	label p3a='a). Likes to explore new surroundings';
+	label p3b='b). Enjoys rough-and-tumble play';
+	label p3c='c). Shows interest in snakes, spiders or insects';
+	label p3d='d). Avoids getting dirty';
+	label p3e='e). Likes pretty things';
+	label p3f='f). Avoids taking risks';
+	label p4a='a) What would you do if you had a boy who preferred toys that girls usually play with?';
+	label p4b='b) What would you do if you had a girl who preferred toys that boys usually play with?';
+	label p4c='c) What do you think your child''s father would do if he had a boy who preferred toys that girls usually play with?';
+	label p4e='d) What do you think your child''s father would do if he had a girl who preferred toys that boys usually play with?';
+	label q1='1. In general how do you rate your health right now? (Select only one)';
+	label q2='2. How would you describe your marital status? Select one       ';
+	label q3edu='3. Which best describes the level of education that you have completed? Select one. ';
+	label q4___0='4. What type(s) of health insurance do you currently have? (Select one or more) (choice=None)';
+	label q4___1='4. What type(s) of health insurance do you currently have? (Select one or more) (choice=Private)';
+	label q4___2='4. What type(s) of health insurance do you currently have? (Select one or more) (choice=Public (government, including Medicaid))';
+	label q5='5. Are you currently employed, either inside or outside of the home?  ';
+	label q6a='a. You were admitted to the hospital.';
+	label q6b='b. You had a serious accident or illness.';
+	label q6c='c. Your partner had a serious accident or illness.';
+	label q6d='d. A friend/family member had a serious accident/illness.';
+	label q6e='e. You were in trouble with the law.';
+	label q6f='f. Your partner was in trouble with the law.';
+	label q6g='g. You were separated/divorced.';
+	label q6h='h. Your partner lost his job.';
+	label q6i='i. You experienced a significant drop in income.';
+	label q6j='j. You had a major financial problem.';
+	label q6k='k. Your car or house was burglarized.';
+	label q6l='l. You became homeless.';
+	label q6m='m. You found that your partner did not want your child.';
+	label q6n='n. You had a serious argument with your partner.';
+	label q6o='o. You had a serious argument with family or friends.';
+	label q6p='p. Your partner was physically cruel to you.';
+	label q6q='q. Your partner was emotionally cruel to you.';
+	label q6r='r. You were physically cruel to your partner.';
+	label q6s='s. You attempted suicide.';
+	label q6t='t. A friend or relative attempted suicide.';
+	label q6u='u. You suffered from mental illness.';
+	label q6v='v. A friend or relative suffered from mental illness.';
+	label q6w='w. Your partner died.';
+	label q6x='x. A friend or relative died.';
+	label q6y='y. You had an extramarital sexual affair.';
+	label q6z='z. Your partner had an extramarital sexual affair.';
+	label q6oth='aa. Other - describe';
+	label q7a='a. How often have you been upset because of something that happened unexpectedly?';
+	label q7b='b. How often have you felt unable to control the important things in your life?';
+	label q7c='c. How often have you felt nervous or stressed?';
+	label q7d='d. How often have you felt confident about your ability to handle personal problems?';
+	label q7e='e How often have you felt that things were going your way?';
+	label q7f='f. How often have you found that you could not cope with all the things you had to do?';
+	label q7g='g. How often have you been able to control irritations in your life?';
+	label q7h='h. How often have you felt that you were on top of things?';
+	label q7i='i. How often have you been angry because of things that happened that were outside of your control?';
+	label q7j='j. How often have you felt that difficulties were piling up so high that you could not overcome them?';
+	label q8a='a. Little interest or pleasure in doing things?';
+	label q8b='b. Feeling down, depressed, or hopeless?';
+	label q8c='c. Trouble falling or staying asleep, or sleeping too much?';
+	label q8d='d. Feeling tired or having little energy?';
+	label q8e='e. Feeling bad about yourself - or that you are a failure or have let yourself or your family down?';
+	label q8f='f. Poor appetite or overeating';
+	label q8g='g. Trouble concentrating on things, such as reading the newspaper or watching television?';
+	label q8h='h. Moving or speaking so slowly that other people could have noticed? Or the opposite - being so fidgety or restless that you have been moving around a lot more than usual?';
+	label q8i='i. Thoughts that you would be better off dead, or of hurting yourself in some way?';
+	label q9a='a. There are several people that I trust to help solve my problems.';
+	label q9b='b. If I needed help fixing an appliance or repairing my car, there is someone who would help me.';
+	label q9c='c. Most of my friends are more interesting than I am.';
+	label q9d='d. There is someone who takes pride in my accomplishments.';
+	label q9e='e. When I feel lonely, there are several people I can talk to.';
+	label q9f='f. There is no one that I feel comfortable to talking about intimate personal problems.';
+	label q9g='g. I often meet or talk with family or friends.';
+	label q9h='h. Most people I know think highly of me.';
+	label q9i='i. If I needed a ride to the airport early in the morning, I would have a hard time finding someone to take me.';
+	label q9j='j. I feel like I''m not always included by my circle of friends.';
+	label q9k='k. There really is no one who can give me an objective view of how I''m handling my problems.';
+	label q9l='l. There are several different people I enjoy spending time with.';
+	label q9m='m. I think that my friends feel that I''m not very good at helping them solve their problems.';
+	label q9n='n. If I were sick and needed someone (friend, family member, or acquaintance) to take me to the doctor, I would have trouble finding someone.';
+	label q9o='o. If I wanted to go on a trip for a day (e.g., to the mountains, beach, or country), I would have a hard time finding someone to go with me.';
+	label q9p='p. If I needed a place to stay for a week because of an emergency (for example, water or electricity out in my apartment or house), I could easily find someone who would put me up.';
+	label q9q='q. I feel that there is no one I can share my most private worries and fears with.';
+	label q9r='r. If I were sick, I could easily find someone to help me with my daily chores.';
+	label q9s='s. There is someone I can turn to for advice about handling problems with my family.';
+	label q9t='t. I am as good at doing things as most other people are.';
+	label q10='10. What are you most looking forward to in the coming year with your TIDES child? ';
+	label q11='11. Is there anything about your child''s development that we haven''t asked about that you think we should know? ';
+	label tidesii_v1_mom_q_complete='Complete?';
+	format redcap_data_access_group redcap_data_access_group_.;
+	format conset_agree conset_agree_.;
+	format qc1 qc1_.;
+	format qc2 qc2_.;
+	format qc3a_sex qc3a_sex_.;
+	format qc3b_sex qc3b_sex_.;
+	format qc3c_sex qc3c_sex_.;
+	format qc3d_sex qc3d_sex_.;
+	format qc3e_sex qc3e_sex_.;
+	format qc4b2 qc4b2_.;
+	format qc4b3 qc4b3_.;
+	format qc4c2 qc4c2_.;
+	format qc4c3 qc4c3_.;
+	format qc4d2 qc4d2_.;
+	format qc4d3 qc4d3_.;
+	format qc5a1 qc5a1_.;
+	format qc5b1 qc5b1_.;
+	format qc5c1 qc5c1_.;
+	format qc5d1 qc5d1_.;
+	format qc5e1 qc5e1_.;
+	format qc6 qc6_.;
+	format qc7 qc7_.;
+	format qc7a qc7a_.;
+	format qc7b qc7b_.;
+	format qc7c qc7c_.;
+	format qc7d qc7d_.;
+	format qc8 qc8_.;
+	format qc9 qc9_.;
+	format qc10 qc10_.;
+	format qc11 qc11_.;
+	format qc12 qc12_.;
+	format qc13 qc13_.;
+	format qc13a qc13a_.;
+	format qc13b qc13b_.;
+	format qc13c qc13c_.;
+	format qc13d qc13d_.;
+	format qc13e qc13e_.;
+	format qc14 qc14_.;
+	format qc15 qc15_.;
+	format qc16 qc16_.;
+	format qc17 qc17_.;
+	format qs2 qs2_.;
+	format qs4a qs4a_.;
+	format qs4b qs4b_.;
+	format qs4c qs4c_.;
+	format qs4d qs4d_.;
+	format qs4e qs4e_.;
+	format qs4f qs4f_.;
+	format p1a p1a_.;
+	format p1b p1b_.;
+	format p1c p1c_.;
+	format p1d p1d_.;
+	format p1e p1e_.;
+	format p1f p1f_.;
+	format p1g p1g_.;
+	format p2a p2a_.;
+	format p2b p2b_.;
+	format p2c p2c_.;
+	format p2d p2d_.;
+	format p2e p2e_.;
+	format p2f p2f_.;
+	format p2g p2g_.;
+	format p2h p2h_.;
+	format p2i p2i_.;
+	format p2j p2j_.;
+	format p2k p2k_.;
+	format p3a p3a_.;
+	format p3b p3b_.;
+	format p3c p3c_.;
+	format p3d p3d_.;
+	format p3e p3e_.;
+	format p3f p3f_.;
+	format p4a p4a_.;
+	format p4b p4b_.;
+	format p4c p4c_.;
+	format p4e p4e_.;
+	format q1 q1_.;
+	format q2 q2_.;
+	format q3edu q3edu_.;
+	format q4___0 q4___0_.;
+	format q4___1 q4___1_.;
+	format q4___2 q4___2_.;
+	format q5 q5_.;
+	format q6a q6a_.;
+	format q6b q6b_.;
+	format q6c q6c_.;
+	format q6d q6d_.;
+	format q6e q6e_.;
+	format q6f q6f_.;
+	format q6g q6g_.;
+	format q6h q6h_.;
+	format q6i q6i_.;
+	format q6j q6j_.;
+	format q6k q6k_.;
+	format q6l q6l_.;
+	format q6m q6m_.;
+	format q6n q6n_.;
+	format q6o q6o_.;
+	format q6p q6p_.;
+	format q6q q6q_.;
+	format q6r q6r_.;
+	format q6s q6s_.;
+	format q6t q6t_.;
+	format q6u q6u_.;
+	format q6v q6v_.;
+	format q6w q6w_.;
+	format q6x q6x_.;
+	format q6y q6y_.;
+	format q6z q6z_.;
+	format q7a q7a_.;
+	format q7b q7b_.;
+	format q7c q7c_.;
+	format q7d q7d_.;
+	format q7e q7e_.;
+	format q7f q7f_.;
+	format q7g q7g_.;
+	format q7h q7h_.;
+	format q7i q7i_.;
+	format q7j q7j_.;
+	format q8a q8a_.;
+	format q8b q8b_.;
+	format q8c q8c_.;
+	format q8d q8d_.;
+	format q8e q8e_.;
+	format q8f q8f_.;
+	format q8g q8g_.;
+	format q8h q8h_.;
+	format q8i q8i_.;
+	format q9a q9a_.;
+	format q9b q9b_.;
+	format q9c q9c_.;
+	format q9d q9d_.;
+	format q9e q9e_.;
+	format q9f q9f_.;
+	format q9g q9g_.;
+	format q9h q9h_.;
+	format q9i q9i_.;
+	format q9j q9j_.;
+	format q9k q9k_.;
+	format q9l q9l_.;
+	format q9m q9m_.;
+	format q9n q9n_.;
+	format q9o q9o_.;
+	format q9p q9p_.;
+	format q9q q9q_.;
+	format q9r q9r_.;
+	format q9s q9s_.;
+	format q9t q9t_.;
+	format tidesii_v1_mom_q_complete tidesii_v1_mom_q_complete_.;
+run;
+
+proc contents data=redcap;
+proc print data=redcap;
+run;

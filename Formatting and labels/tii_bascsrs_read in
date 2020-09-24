@@ -1,0 +1,335 @@
+/* Edit the following line to reflect the full path to your CSV file */
+%let csv_file = 'TIDESIIVisit1BASCSRS_DATA_NOHDRS_2020-09-24_1655.csv';
+
+proc format;
+	value $redcap_data_access_group_ ucsf='UCSF' umn='UMN'
+		urmc='URMC' uw='UW';
+	value basc_sex_ 1='Male' 2='Female';
+	value tidesii_v1_basc_data_v_0_ 0='Incomplete' 1='Unverified'
+		2='Complete';
+	value srs_sex_ 1='Male' 2='Female';
+	value tidesii_v1_srs_data__v_1_ 0='Incomplete' 1='Unverified'
+		2='Complete';
+
+	run;
+
+data work.redcap; %let _EFIERR_ = 0;
+infile &csv_file  delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=1 ;
+
+	informat record_id $500. ;
+	informat redcap_data_access_group $500. ;
+	informat basc_id $500. ;
+	informat basc_v1date yymmdd10. ;
+	informat basc_sex best32. ;
+	informat basc_dob yymmdd10. ;
+	informat raw_ext best32. ;
+	informat t_ext best32. ;
+	informat pct_ext best32. ;
+	informat raw_int best32. ;
+	informat t_int best32. ;
+	informat pct_int best32. ;
+	informat raw_bsi best32. ;
+	informat t_bsi best32. ;
+	informat pct_bsi best32. ;
+	informat raw_ads best32. ;
+	informat t_ads best32. ;
+	informat pct_ads best32. ;
+	informat raw_hyp best32. ;
+	informat t_hyp best32. ;
+	informat pct_hyp best32. ;
+	informat raw_agg best32. ;
+	informat t_agg best32. ;
+	informat pct_agg best32. ;
+	informat raw_anx best32. ;
+	informat t_anx best32. ;
+	informat pct_anx best32. ;
+	informat raw_dep best32. ;
+	informat t_dep best32. ;
+	informat pct_dep best32. ;
+	informat raw_som best32. ;
+	informat t_som best32. ;
+	informat pct_som best32. ;
+	informat raw_atp best32. ;
+	informat t_atp best32. ;
+	informat pct_atp best32. ;
+	informat raw_wth best32. ;
+	informat t_wth best32. ;
+	informat pct_wth best32. ;
+	informat raw_att best32. ;
+	informat t_att best32. ;
+	informat pct_att best32. ;
+	informat raw_adp best32. ;
+	informat t_adp best32. ;
+	informat pct_adp best32. ;
+	informat raw_soc best32. ;
+	informat t_soc best32. ;
+	informat pct_soc best32. ;
+	informat raw_act best32. ;
+	informat t_act best32. ;
+	informat pct_act best32. ;
+	informat raw_com best32. ;
+	informat t_com best32. ;
+	informat pct_com best32. ;
+	informat tidesii_v1_basc_data_v_0 best32. ;
+	informat srs_id $500. ;
+	informat srs_v1date yymmdd10. ;
+	informat srs_sex best32. ;
+	informat srs_dob yymmdd10. ;
+	informat srs_raw_tot best32. ;
+	informat srs_t_tot best32. ;
+	informat srs_raw_awr best32. ;
+	informat srs_t_awr best32. ;
+	informat rsrs_raw_cog best32. ;
+	informat rsrs_t_cog best32. ;
+	informat srs_raw_com best32. ;
+	informat srs_t_com best32. ;
+	informat srs_raw_mot best32. ;
+	informat srs_t_mot best32. ;
+	informat srs_raw_sci best32. ;
+	informat srs_t_sci best32. ;
+	informat srs_raw_rrb best32. ;
+	informat srs_t_rrb best32. ;
+	informat tidesii_v1_srs_data__v_1 best32. ;
+
+	format record_id $500. ;
+	format redcap_data_access_group $redcap_data_access_group_. ;
+	format basc_id $500. ;
+	format basc_v1date yymmdd10. ;
+	format basc_sex best12. ;
+	format basc_dob yymmdd10. ;
+	format raw_ext best12. ;
+	format t_ext best12. ;
+	format pct_ext best12. ;
+	format raw_int best12. ;
+	format t_int best12. ;
+	format pct_int best12. ;
+	format raw_bsi best12. ;
+	format t_bsi best12. ;
+	format pct_bsi best12. ;
+	format raw_ads best12. ;
+	format t_ads best12. ;
+	format pct_ads best12. ;
+	format raw_hyp best12. ;
+	format t_hyp best12. ;
+	format pct_hyp best12. ;
+	format raw_agg best12. ;
+	format t_agg best12. ;
+	format pct_agg best12. ;
+	format raw_anx best12. ;
+	format t_anx best12. ;
+	format pct_anx best12. ;
+	format raw_dep best12. ;
+	format t_dep best12. ;
+	format pct_dep best12. ;
+	format raw_som best12. ;
+	format t_som best12. ;
+	format pct_som best12. ;
+	format raw_atp best12. ;
+	format t_atp best12. ;
+	format pct_atp best12. ;
+	format raw_wth best12. ;
+	format t_wth best12. ;
+	format pct_wth best12. ;
+	format raw_att best12. ;
+	format t_att best12. ;
+	format pct_att best12. ;
+	format raw_adp best12. ;
+	format t_adp best12. ;
+	format pct_adp best12. ;
+	format raw_soc best12. ;
+	format t_soc best12. ;
+	format pct_soc best12. ;
+	format raw_act best12. ;
+	format t_act best12. ;
+	format pct_act best12. ;
+	format raw_com best12. ;
+	format t_com best12. ;
+	format pct_com best12. ;
+	format tidesii_v1_basc_data_v_0 best12. ;
+	format srs_id $500. ;
+	format srs_v1date yymmdd10. ;
+	format srs_sex best12. ;
+	format srs_dob yymmdd10. ;
+	format srs_raw_tot best12. ;
+	format srs_t_tot best12. ;
+	format srs_raw_awr best12. ;
+	format srs_t_awr best12. ;
+	format rsrs_raw_cog best12. ;
+	format rsrs_t_cog best12. ;
+	format srs_raw_com best12. ;
+	format srs_t_com best12. ;
+	format srs_raw_mot best12. ;
+	format srs_t_mot best12. ;
+	format srs_raw_sci best12. ;
+	format srs_t_sci best12. ;
+	format srs_raw_rrb best12. ;
+	format srs_t_rrb best12. ;
+	format tidesii_v1_srs_data__v_1 best12. ;
+
+input
+	record_id $
+	redcap_data_access_group $
+	basc_id $
+	basc_v1date
+	basc_sex
+	basc_dob
+	raw_ext
+	t_ext
+	pct_ext
+	raw_int
+	t_int
+	pct_int
+	raw_bsi
+	t_bsi
+	pct_bsi
+	raw_ads
+	t_ads
+	pct_ads
+	raw_hyp
+	t_hyp
+	pct_hyp
+	raw_agg
+	t_agg
+	pct_agg
+	raw_anx
+	t_anx
+	pct_anx
+	raw_dep
+	t_dep
+	pct_dep
+	raw_som
+	t_som
+	pct_som
+	raw_atp
+	t_atp
+	pct_atp
+	raw_wth
+	t_wth
+	pct_wth
+	raw_att
+	t_att
+	pct_att
+	raw_adp
+	t_adp
+	pct_adp
+	raw_soc
+	t_soc
+	pct_soc
+	raw_act
+	t_act
+	pct_act
+	raw_com
+	t_com
+	pct_com
+	tidesii_v1_basc_data_v_0
+	srs_id $
+	srs_v1date
+	srs_sex
+	srs_dob
+	srs_raw_tot
+	srs_t_tot
+	srs_raw_awr
+	srs_t_awr
+	rsrs_raw_cog
+	rsrs_t_cog
+	srs_raw_com
+	srs_t_com
+	srs_raw_mot
+	srs_t_mot
+	srs_raw_sci
+	srs_t_sci
+	srs_raw_rrb
+	srs_t_rrb
+	tidesii_v1_srs_data__v_1
+;
+if _ERROR_ then call symput('_EFIERR_',"1");
+run;
+
+proc contents;run;
+
+data redcap;
+	set redcap;
+	label record_id='Record ID';
+	label redcap_data_access_group='Data Access Group';
+	label basc_id='Mom''s Study ID  ';
+	label basc_v1date='Test Date';
+	label basc_sex='Child Gender';
+	label basc_dob='Child Birth Date';
+	label raw_ext='Externalizing Problems';
+	label t_ext='';
+	label pct_ext='';
+	label raw_int='Internalizing Problems';
+	label t_int='';
+	label pct_int='';
+	label raw_bsi='Behavioral Symptoms Index ';
+	label t_bsi='';
+	label pct_bsi='';
+	label raw_ads='Adaptive Skills ';
+	label t_ads='';
+	label pct_ads='';
+	label raw_hyp='Hyperactivity';
+	label t_hyp='';
+	label pct_hyp='';
+	label raw_agg='Aggression';
+	label t_agg='';
+	label pct_agg='';
+	label raw_anx='Anxiety';
+	label t_anx='';
+	label pct_anx='';
+	label raw_dep='Depression';
+	label t_dep='';
+	label pct_dep='';
+	label raw_som='Somatization';
+	label t_som='';
+	label pct_som='';
+	label raw_atp='Atypicality';
+	label t_atp='';
+	label pct_atp='';
+	label raw_wth='Withdrawal ';
+	label t_wth='';
+	label pct_wth='';
+	label raw_att='Attention Problems ';
+	label t_att='';
+	label pct_att='';
+	label raw_adp='Adaptability';
+	label t_adp='';
+	label pct_adp='';
+	label raw_soc='Social Skills ';
+	label t_soc='';
+	label pct_soc='';
+	label raw_act='Activities of Daily Living';
+	label t_act='';
+	label pct_act='';
+	label raw_com='Functional Communication';
+	label t_com='';
+	label pct_com='';
+	label tidesii_v1_basc_data_v_0='Complete?';
+	label srs_id='The mother''s Study ID is [basc_id]  Please confirm';
+	label srs_v1date='Test Date';
+	label srs_sex='Child Gender';
+	label srs_dob='Child Birth Date';
+	label srs_raw_tot='Total Score:(Tot)';
+	label srs_t_tot='';
+	label srs_raw_awr='Social Awareness:(Awr)';
+	label srs_t_awr='';
+	label rsrs_raw_cog='Social Cognition:(Cog)';
+	label rsrs_t_cog='';
+	label srs_raw_com='Social Communication:(Com)';
+	label srs_t_com='';
+	label srs_raw_mot='Social Motivation:(Mot)';
+	label srs_t_mot='';
+	label srs_raw_sci='Social Communication and Interaction:(SCI)   ';
+	label srs_t_sci='';
+	label srs_raw_rrb='Restricted Interests and Repetitive Behavior:(RRB) ';
+	label srs_t_rrb='';
+	label tidesii_v1_srs_data__v_1='Complete?';
+	format redcap_data_access_group redcap_data_access_group_.;
+	format basc_sex basc_sex_.;
+	format tidesii_v1_basc_data_v_0 tidesii_v1_basc_data_v_0_.;
+	format srs_sex srs_sex_.;
+	format tidesii_v1_srs_data__v_1 tidesii_v1_srs_data__v_1_.;
+run;
+
+proc contents data=redcap;
+proc print data=redcap;
+run;
