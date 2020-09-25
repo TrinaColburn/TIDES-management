@@ -1,0 +1,56 @@
+/*UCSF Age 6 WISCWASI Double Data Entry Fix*/
+/*Issue: UCSF didn't have DDE properly enabled for users.
+/*Caused an issue with comparing and merging records per protocol
+/*All records were double data entered, however, comparison
+between doubly entered records were completed using the following method:
+  1) Downloaded data from TIDESII_Visit2_WISC-V_WASI II Forms_UCSF PROJECT
+  2) Imported to SAS
+  3) Output --2 records to separate datasets
+  4) Compared non --2 records with --2 records
+  5) Sent discrepancies to SCs for correction
+  6) Corrected non --2 records
+  7) Imported edited dataset to TII_6_WISCWASI
+/**********************************************************************/
+
+
+libname _6_nd "J:\PM\TIDES_Data\TIDES II Age 6\Data to NYU for Cleaning\BASC SRS pre clean"; run;
+
+proc sort data=Tii_6_bascsrs_ucsf dupout=Tii_6_bascsrs_ucsf_dup nodupkey;
+by study_id; run;
+
+
+libname _6_ww "J:\PM\TIDES_Data\TIDES II Age 6\WISC WASI"; run;
+
+PROC IMPORT OUT= WORK.wiscwasi_UCSF
+            DATAFILE= "J:\PM\TIDES_Data\TIDES II Age 6\WISC WASI\
+            TIDESIIVisit2WISCVWA_DATA_2020-09-16_1643.csv"
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; RUN;
+
+proc sort data=WORK.wiscwasi_UCSF dupout=WORK.wiscwasi_UCSF_dup nodupkey;
+by wisc_id; run;
+
+ods pdf file="J:\PM\TIDES_Data\TIDES II Age 6\WISC WASI\UCSF_WW_DIS.pdf" style=minimal startpage=never;
+proc compare base=WORK.wiscwasi_UCSF compare=WORK.wiscwasi_UCSF_dup nodate briefsummary maxprint=300;
+id wisc_id;
+run;
+ods pdf close;
+/*Output sent to UCSF SCs for confirmation/correction*/
+
+/*Corrections*/
+data WORK.wiscwasi_UCSF_post; set WORK.wiscwasi_UCSF;
+if study_id=6124 then wisc_date="05/31/2018";
+if study_id=6035 then child_age_mo=3;
+if study_id=6062 then raw_blk=0;
+if study_id=6008 then scale_matrx=10;
+if study_id=6062 then scale_coding=1;
+if study_id=6012 then wasi_date="02/24/18";
+if study_id=6001 then wasi_sex=1;
+if study_id=6067 then wasi_sex=2;
+if study_id=6008 then mom_age_yr=42;
+if study_id=6044 then mom_age_yr=41;
+if study_id=6127 then mom_age_yr=42;
+if study_id=6023 then wasi_t_fsiq2=106; run;
+
+/*Export to csv for re-import to TII_6_WISCWASI project*/
