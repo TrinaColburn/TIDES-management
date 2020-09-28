@@ -1,15 +1,15 @@
-/*UCSF Age 6 WISCWASI Double Data Entry Fix*/
+/*UCSF Age 6 BASC_SRS Double Data Entry Fix*/
 /*Issue: UCSF didn't have DDE properly enabled for users.
 /*Caused an issue with comparing and merging records per protocol
 /*All records were double data entered, however, comparison
 between doubly entered records were completed using the following method:
-  1) Downloaded data from TIDESII_Visit2_WISC-V_WASI II Forms_UCSF PROJECT
+  1) Downloaded data from TIDESII_Visit2_BASC_SRS Forms_UCSF PROJECT
   2) Imported to SAS
   3) Output --2 records to separate datasets
   4) Compared non --2 records with --2 records
   5) Sent discrepancies to SCs for correction
   6) Corrected non --2 records
-  7) Imported edited dataset to TII_6_WISCWASI
+  7) Imported edited dataset to TII_6_BASCSRS
 /**********************************************************************/
 
 
@@ -21,36 +21,142 @@ by study_id; run;
 
 libname _6_ww "J:\PM\TIDES_Data\TIDES II Age 6\WISC WASI"; run;
 
-PROC IMPORT OUT= WORK.wiscwasi_UCSF
-            DATAFILE= "J:\PM\TIDES_Data\TIDES II Age 6\WISC WASI\
-            TIDESIIVisit2WISCVWA_DATA_2020-09-16_1643.csv"
+/*Preclean comparison*/
+
+PROC IMPORT OUT= WORK.TII_6_BASCSRS_UCSF_2019
+            DATAFILE= "J:\PM\TIDES_Data\Data Management\Age 6 BASC 2020198\TIDESIIVisit2BASCSRS_UCSF.csv"
             DBMS=CSV REPLACE;
      GETNAMES=YES;
      DATAROW=2; RUN;
 
-proc sort data=WORK.wiscwasi_UCSF dupout=WORK.wiscwasi_UCSF_dup nodupkey;
-by wisc_id; run;
+PROC IMPORT OUT= WORK.TII_6_BASCSRS_UCSF_2020
+            DATAFILE= "J:\PM\TIDES_Data\Data Management\Age 6 BASC 2020198\TIDESIIVisit2BASCSRS_ucsf_2020.csv"
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; RUN;
 
-ods pdf file="J:\PM\TIDES_Data\TIDES II Age 6\WISC WASI\UCSF_WW_DIS.pdf" style=minimal startpage=never;
-proc compare base=WORK.wiscwasi_UCSF compare=WORK.wiscwasi_UCSF_dup nodate briefsummary maxprint=300;
-id wisc_id;
-run;
+PROC IMPORT OUT= WORK.TII6BASCSRS_UCSFonly
+            DATAFILE= "J:\PM\TIDES_Data\Data Management\Age 6 BASC 2020198\TII6BASCSRS_2020.csv"
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; RUN;
+
+proc sort data=Tii_6_bascsrs_ucsf_2019 dupout=Tii_6_bascsrs_ucsf_2019_dup nodupkey;
+by basc_id; run;
+
+ods pdf file="J:\PM\TIDES_Data\Data Management\Age 6 BASC 2020198\UCSF_BASCSRS_DDE_2019.pdf"
+			style=minimal startpage=never;
+proc compare base=Tii_6_bascsrs_ucsf_2019 compare=Tii_6_bascsrs_ucsf_2019_dup
+			 nodate maxprint=300;
+			 id basc_id; run;
 ods pdf close;
-/*Output sent to UCSF SCs for confirmation/correction*/
+/*Only difference between UCSF site specific BASC/SRS projects was 6181:
+  Corrected SRS_t_mot from 442 to 42*/
 
-/*Corrections*/
-data WORK.wiscwasi_UCSF_post; set WORK.wiscwasi_UCSF;
-if study_id=6124 then wisc_date="05/31/2018";
-if study_id=6035 then child_age_mo=3;
-if study_id=6062 then raw_blk=0;
-if study_id=6008 then scale_matrx=10;
-if study_id=6062 then scale_coding=1;
-if study_id=6012 then wasi_date="02/24/18";
-if study_id=6001 then wasi_sex=1;
-if study_id=6067 then wasi_sex=2;
-if study_id=6008 then mom_age_yr=42;
-if study_id=6044 then mom_age_yr=41;
-if study_id=6127 then mom_age_yr=42;
-if study_id=6023 then wasi_t_fsiq2=106; run;
+/*Check a dup out 2019 with the 2020 dataset that should have been imported to
+the TII_6_BASCSRS project*/
+proc sort data=WORK.TII_6_BASCSRS_UCSF_2020 dupout=WORK.TII_6_BASCSRS_UCSF_2020_dup nodupkey;
+by basc_id; run;
 
-/*Export to csv for re-import to TII_6_WISCWASI project*/
+proc compare base=Tii_6_bascsrs_ucsf_2019 compare=WORK.TII_6_BASCSRS_UCSF_2020
+			 nodate maxprint=300;
+			 id basc_id; run;
+/*added 61571 -- proceed to comparison between corrected 2020 dataset with data in
+ TII_6_BASCSRS project (UCSF site only)*/
+/*Theoretically, any differences should be corrections from NYU flagged data points during
+  Age 6 clean*/
+proc sort data=WORK.TII6BASCSRS_UCSFonly;
+by basc_id; run;
+
+PROC contents DATA=WORK.TII6BASCSRS_UCSFonly order=varnum; run;
+PROC contents DATA=WORK.TII_6_BASCSRS_UCSF_2020 order=varnum; run;
+
+
+%macro _6_bascsrs(new,old);
+proc compare base=WORK.TII6BASCSRS_UCSFonly compare=WORK.TII_6_BASCSRS_UCSF_2020 briefsummary; id basc_id;
+var &new; with &old; run;
+%mend;
+
+%_6_bascsrs(	basc_ext_raw	,	raw_ext	);
+%_6_bascsrs(	basc_ext_t	,	t_ext	);
+%_6_bascsrs(	basc_ext_pct	,	pct_ext	);
+%_6_bascsrs(	basc_int_raw	,	raw_int	);
+%_6_bascsrs(	basc_int_t	,	t_int	);
+%_6_bascsrs(	basc_int_pct	,	pct_int	);
+%_6_bascsrs(	basc_bsi_raw	,	raw_bsi	);
+%_6_bascsrs(	basc_bsi_t	,	t_bsi	);
+%_6_bascsrs(	basc_bsi_pct	,	pct_bsi	);
+%_6_bascsrs(	basc_ads_raw	,	raw_ads	);
+%_6_bascsrs(	basc_ads_t	,	t_ads	);
+%_6_bascsrs(	basc_ads_pct	,	pct_ads	);
+%_6_bascsrs(	basc_hyp_raw	,	raw_hyp	);
+%_6_bascsrs(	basc_hyp_t	,	t_hyp	);
+%_6_bascsrs(	basc_hyp_pct	,	pct_hyp	);
+%_6_bascsrs(	basc_agg_raw	,	raw_agg	);
+%_6_bascsrs(	basc_agg_t	,	t_agg	);
+%_6_bascsrs(	basc_agg_pct	,	pct_agg	);
+%_6_bascsrs(	basc_con_raw	,	raw_con	);
+%_6_bascsrs(	basc_con_t	,	t_con	);
+%_6_bascsrs(	basc_con_pct	,	pct_con	);
+%_6_bascsrs(	basc_anx_raw	,	raw_anx	);
+%_6_bascsrs(	basc_anx_t	,	t_anx	);
+%_6_bascsrs(	basc_anx_pct	,	pct_anx	);
+%_6_bascsrs(	basc_dep_raw	,	raw_dep	);
+%_6_bascsrs(	basc_dep_t	,	t_dep	);
+%_6_bascsrs(	basc_dep_pct	,	pct_dep	);
+%_6_bascsrs(	basc_som_raw	,	raw_som	);
+%_6_bascsrs(	basc_som_t	,	t_som	);
+%_6_bascsrs(	basc_som_pct	,	pct_som	);
+%_6_bascsrs(	basc_atp_raw	,	raw_atp	);
+%_6_bascsrs(	basc_atp_t	,	t_atp	);
+%_6_bascsrs(	basc_atp_pct	,	pct_atp	);
+%_6_bascsrs(	basc_wth_raw	,	raw_wth	);
+%_6_bascsrs(	basc_wth_t	,	t_wth	);
+%_6_bascsrs(	basc_wth_pct	,	pct_wth	);
+%_6_bascsrs(	basc_att_raw	,	raw_att	);
+%_6_bascsrs(	basc_att_t	,	t_att	);
+%_6_bascsrs(	basc_att_pct	,	pct_att	);
+%_6_bascsrs(	basc_adp_raw	,	raw_adp	);
+%_6_bascsrs(	basc_adp_t	,	t_adp	);
+%_6_bascsrs(	basc_adp_pct	,	pct_adp	);
+%_6_bascsrs(	basc_soc_raw	,	raw_soc	);
+%_6_bascsrs(	basc_soc_t	,	t_soc	);
+%_6_bascsrs(	basc_soc_pct	,	pct_soc	);
+%_6_bascsrs(	basc_lea_raw	,	raw_lea	);
+%_6_bascsrs(	basc_lea_t	,	t_lea	);
+%_6_bascsrs(	basc_lea_pct	,	pct_lea	);
+%_6_bascsrs(	basc_act_raw	,	raw_act	);
+%_6_bascsrs(	basc_act_t	,	t_act	);
+%_6_bascsrs(	basc_act_pct	,	pct_act	);
+%_6_bascsrs(	basc_com_raw	,	raw_com	);
+%_6_bascsrs(	basc_com_t	,	t_com	);
+%_6_bascsrs(	basc_com_pct	,	pct_com	);
+%_6_bascsrs(	srs_id	,	srs_id	);
+%_6_bascsrs(	srs_v2date	,	srs_v2date	);
+%_6_bascsrs(	srs_sex	,	srs_sex	);
+%_6_bascsrs(	srs_dob	,	srs_dob	);
+%_6_bascsrs(	srs_tot_raw	,	srs_raw_tot	);
+%_6_bascsrs(	srs_tot_t	,	srs_t_tot	);
+%_6_bascsrs(	srs_awa_raw	,	srs_raw_awr	);
+%_6_bascsrs(	srs_awa_t	,	srs_t_awr	);
+%_6_bascsrs(	srs_cog_raw	,	srs_raw_cog	);
+%_6_bascsrs(	srs_cog_t	,	rsrs_t_cog	);
+%_6_bascsrs(	srs_com_raw	,	srs_raw_com	);
+%_6_bascsrs(	srs_com_t	,	srs_t_com	);
+%_6_bascsrs(	srs_mot_raw	,	srs_raw_mot	);
+%_6_bascsrs(	srs_mot_t	,	srs_t_mot	);
+%_6_bascsrs(	srs_sci_raw	,	srs_raw_sci	);
+%_6_bascsrs(	srs_sci_t	,	srs_t_sci	);
+%_6_bascsrs(	srs_rrb_raw	,	srs_raw_rrb	);
+%_6_bascsrs(	srs_rrb_t	,	srs_t_rrb	);
+/*Differences include:
+ppt 60941 -- DOB corrected
+
+ppt  61811
+SRS Total from 55 to 57
+SRS Awareness from 64 to 67
+SRS Comm from 59 to 62
+SCI from 55 to 57
+SRS RRB from  56  to 55
+
+Import successful -- will continue to use TII_6_BASCSRS project*/
