@@ -1262,9 +1262,6 @@ data redcap;
 	format q9r q9r_.;
 	format q9s q9s_.;
 	format q9t q9t_.;
-	format tidesii_v1_mom_q_complete tidesii_v1_mom_q_complete_.;
-run;
+	format tidesii_v1_mom_q_complete tidesii_v1_mom_q_complete_.; run;
 
-proc contents data=redcap;
-proc print data=redcap;
-run;
+proc contents data=redcap order=varnum; run;

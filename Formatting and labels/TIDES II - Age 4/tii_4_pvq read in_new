@@ -1,0 +1,817 @@
+/*Age 4 QC against old data*/
+
+/*first libname and imports*/
+libname qc "J:\PM\TIDES_Data\Data Management\qc"; run;
+
+PROC IMPORT OUT= QC.master
+            DATAFILE= "J:\PM\TIDES_Data\Data Management\qc\TIDESMasterDa
+tabase_DATA_2019-04-30_2137.csv"
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2;
+RUN;
+PROC IMPORT OUT= QC.OG
+            DATAFILE= "J:\PM\TIDES_Data\Data Management\qc\TIDESIIVisit1
+Questio_DATA_2019-04-30_2140.csv"
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2;
+RUN;
+
+/*import...with a twist?*/
+data qc.mastertwist;
+%let _EFIERR_ = 0;
+infile "J:\PM\TIDES_Data\Data Management\qc\TIDESMasterDatabase_DATA_2019-04-30_2137.csv" delimiter = "," MISSOVER DSD lrecl=32767 firstobs=2;
+	informat study_id best12. ;
+	informat tii_4_subject_id best12. ;
+	informat tii_4_date mmddyy10. ;
+	informat tii_4_child_dob mmddyy10. ;
+	informat tii_4_1 best32. ;
+	informat tii_4_2 best32. ;
+	informat tii_4_2a best32. ;
+	informat tii_4_dem_3_otherchild best32. ;
+	informat tii_4_dem_3a_yr best32. ;
+	informat tii_4_dem_3a_mo best32. ;
+	informat tii_4_dem_3a_sex best32. ;
+	informat tii_4_dem_3b_yr best32. ;
+	informat tii_4_dem_3b_mo best32. ;
+	informat tii_4_dem_3b_sex best32. ;
+	informat tii_4_dem_3c_yr best32. ;
+	informat tii_4_dem_3c_mo best32. ;
+	informat tii_4_dem_3c_sex best32. ;
+	informat tii_4_dem_3d_yr best32. ;
+	informat tii_4_dem_3d_mo best32. ;
+	informat tii_4_dem_3d_sex best32. ;
+	informat tii_4_dem_3e_yr best32. ;
+	informat tii_4_dem_3e_mo best32. ;
+	informat tii_4_dem_3e_sex best32. ;
+	informat tii_4_dem_4 best32. ;
+	informat tii_4_dem_4a1 best32. ;
+	informat tii_4_dem_4b1 best32. ;
+	informat tii_4_dem_4b2 best32. ;
+	informat tii_4_dem_4b3 best32. ;
+	informat tii_4_dem_4b3_other $500. ;
+	informat tii_4_dem_4c1 best32. ;
+	informat tii_4_dem_4c2 best32. ;
+	informat tii_4_dem_4c3 best32. ;
+	informat tii_4_dem_4c3_other $500. ;
+	informat tii_4_dem_4d1 best32. ;
+	informat tii_4_dem_4d2 best32. ;
+	informat tii_4_dem_4d3 best32. ;
+	informat tii_4_dem_4d3_other $500. ;
+	informat tii_4_dem_5a1 best32. ;
+	informat tii_4_dem_5b1 best32. ;
+	informat tii_4_dem_5c1 best32. ;
+	informat tii_4_dem_5d1 best32. ;
+	informat tii_4_dem_5e1 best32. ;
+	informat tii_4_smoke_5a best32. ;
+	informat tii_4_smoke_5b best32. ;
+	informat tii_4_smoke_5c best32. ;
+	informat tii_4_smoke_5d best32. ;
+	informat tii_4_smoke_5e best32. ;
+	informat tii_4_pmh_yn best32. ;
+	informat tii_4_pmh best32. ;
+	informat tii_4_pmh_1a $50. ;
+	informat tii_4_pmh_1b $50. ;
+	informat tii_4_pmh_2a $50. ;
+	informat tii_4_pmh_2b $50. ;
+	informat tii_4_pmh_3a $50. ;
+	informat tii_4_pmh_3b $50. ;
+	informat tii_4_pmh_4a $50. ;
+	informat tii_4_pmh_4b $50. ;
+	informat tii_4_pmh_5a $50. ;
+	informat tii_4_pmh_5b $50. ;
+	informat tii_4_isaac_1 best32. ;
+	informat tii_4_isaac_2 best32. ;
+	informat tii_4_isaac_3 best32. ;
+	informat tii_4_isaac_4 best32. ;
+	informat tii_4_isaac_5 best32. ;
+	informat tii_4_isaac_6 best32. ;
+	informat tii_4_isaac_7 best32. ;
+	informat tii_4_isaac_8 best32. ;
+	informat tii_4_isaac_9 best32. ;
+	informat tii_4_isaac_10 best32. ;
+	informat tii_4_isaac_11 best32. ;
+	informat tii_4_isaac_12 best32. ;
+	informat tii_4_isaac_13 best32. ;
+	informat tii_4_isaac_14 best32. ;
+	informat tii_4_isaac_15 best32. ;
+	informat tii_4_isaac_16 best32. ;
+	informat tii_4_isaac_17 best32. ;
+	informat tii_4_isaac_18 best32. ;
+	informat tii_4_isaac_19 best32. ;
+	informat tii_4_isaac_20 best32. ;
+	informat tii_4_sleep_1a best32. ;
+	informat tii_4_sleep_1b best32. ;
+	informat tii_4_sleep_2 best32. ;
+	informat tii_4_sleep_3 best32. ;
+	informat tii_4_sleep_4a best32. ;
+	informat tii_4_sleep_4b best32. ;
+	informat tii_4_sleep_4c best32. ;
+	informat tii_4_sleep_4d best32. ;
+	informat tii_4_sleep_4e best32. ;
+	informat tii_4_sleep_4f best32. ;
+	informat tii_4_psai_1a best32. ;
+	informat tii_4_psai_1b best32. ;
+	informat tii_4_psai_1c best32. ;
+	informat tii_4_psai_1d best32. ;
+	informat tii_4_psai_1e best32. ;
+	informat tii_4_psai_1f best32. ;
+	informat tii_4_psai_1g best32. ;
+	informat tii_4_psai_2a best32. ;
+	informat tii_4_psai_2b best32. ;
+	informat tii_4_psai_2c best32. ;
+	informat tii_4_psai_2d best32. ;
+	informat tii_4_psai_2e best32. ;
+	informat tii_4_psai_2f best32. ;
+	informat tii_4_psai_2g best32. ;
+	informat tii_4_psai_2h best32. ;
+	informat tii_4_psai_2i best32. ;
+	informat tii_4_psai_2j best32. ;
+	informat tii_4_psai_2k best32. ;
+	informat tii_4_psai_3a best32. ;
+	informat tii_4_psai_3b best32. ;
+	informat tii_4_psai_3c best32. ;
+	informat tii_4_psai_3d best32. ;
+	informat tii_4_psai_3e best32. ;
+	informat tii_4_psai_3f best32. ;
+	informat tii_4_psai_4a best32. ;
+	informat tii_4_psai_4b best32. ;
+	informat tii_4_psai_4c best32. ;
+	informat tii_4_psai_4d best32. ;
+	informat tii_4_mom_hlth best32. ;
+	informat tii_4_mom_marital best32. ;
+	informat tii_4_mom_edu best32. ;
+	informat tii_4_mom_ins___0 best32. ;
+	informat tii_4_mom_ins___1 best32. ;
+	informat tii_4_mom_ins___2 best32. ;
+	informat tii_4_mom_employ best32. ;
+	informat tii_4_sle_1 best32. ;
+	informat tii_4_sle_2 best32. ;
+	informat tii_4_sle_3 best32. ;
+	informat tii_4_sle_4 best32. ;
+	informat tii_4_sle_5 best32. ;
+	informat tii_4_sle_6 best32. ;
+	informat tii_4_sle_7 best32. ;
+	informat tii_4_sle_8 best32. ;
+	informat tii_4_sle_9 best32. ;
+	informat tii_4_sle_10 best32. ;
+	informat tii_4_sle_11 best32. ;
+	informat tii_4_sle_12 best32. ;
+	informat tii_4_sle_13 best32. ;
+	informat tii_4_sle_14 best32. ;
+	informat tii_4_sle_15 best32. ;
+	informat tii_4_sle_16 best32. ;
+	informat tii_4_sle_17 best32. ;
+	informat tii_4_sle_18 best32. ;
+	informat tii_4_sle_19 best32. ;
+	informat tii_4_sle_20 best32. ;
+	informat tii_4_sle_21 best32. ;
+	informat tii_4_sle_22 best32. ;
+	informat tii_4_sle_23 best32. ;
+	informat tii_4_sle_24 best32. ;
+	informat tii_4_sle_25 best32. ;
+	informat tii_4_sle_26 best32. ;
+	informat tii_4_sle_other $500. ;
+	informat tii_4_cps_1 best32. ;
+	informat tii_4_cps_2 best32. ;
+	informat tii_4_cps_3 best32. ;
+	informat tii_4_cps_4 best32. ;
+	informat tii_4_cps_5 best32. ;
+	informat tii_4_cps_6 best32. ;
+	informat tii_4_cps_7 best32. ;
+	informat tii_4_cps_8 best32. ;
+	informat tii_4_cps_9 best32. ;
+	informat tii_4_cps_10 best32. ;
+	informat tii_4_phq9_1 best32. ;
+	informat tii_4_phq9_2 best32. ;
+	informat tii_4_phq9_3 best32. ;
+	informat tii_4_phq9_4 best32. ;
+	informat tii_4_phq9_5 best32. ;
+	informat tii_4_phq9_6 best32. ;
+	informat tii_4_phq9_7 best32. ;
+	informat tii_4_phq9_8 best32. ;
+	informat tii_4_phq9_9 best32. ;
+	informat tii_4_ss_1 best32. ;
+	informat tii_4_ss_2 best32. ;
+	informat tii_4_ss_3 best32. ;
+	informat tii_4_ss_4 best32. ;
+	informat tii_4_ss_5 best32. ;
+	informat tii_4_ss_6 best32. ;
+	informat tii_4_ss_7 best32. ;
+	informat tii_4_ss_8 best32. ;
+	informat tii_4_ss_9 best32. ;
+	informat tii_4_ss_10 best32. ;
+	informat tii_4_ss_11 best32. ;
+	informat tii_4_ss_12 best32. ;
+	informat tii_4_ss_13 best32. ;
+	informat tii_4_ss_14 best32. ;
+	informat tii_4_ss_15 best32. ;
+	informat tii_4_ss_16 best32. ;
+	informat tii_4_ss_17 best32. ;
+	informat tii_4_ss_18 best32. ;
+	informat tii_4_ss_19 best32. ;
+	informat tii_4_ss_20 best32. ;
+	informat tii_4_end $500. ;
+	informat tii_4_end_2 $500. ;
+
+	format study_id best12. ;
+	format tii_4_subject_id best12. ;
+	format tii_4_date mmddyy10. ;
+	format tii_4_child_dob mmddyy10. ;
+	format tii_4_1 best12. ;
+	format tii_4_2 best12. ;
+	format tii_4_2a best12. ;
+	format tii_4_dem_3_otherchild best12. ;
+	format tii_4_dem_3a_yr best12. ;
+	format tii_4_dem_3a_mo best12. ;
+	format tii_4_dem_3a_sex best12. ;
+	format tii_4_dem_3b_yr best12. ;
+	format tii_4_dem_3b_mo best12. ;
+	format tii_4_dem_3b_sex best12. ;
+	format tii_4_dem_3c_yr best12. ;
+	format tii_4_dem_3c_mo best12. ;
+	format tii_4_dem_3c_sex best12. ;
+	format tii_4_dem_3d_yr best12. ;
+	format tii_4_dem_3d_mo best12. ;
+	format tii_4_dem_3d_sex best12. ;
+	format tii_4_dem_3e_yr best12. ;
+	format tii_4_dem_3e_mo best12. ;
+	format tii_4_dem_3e_sex best12. ;
+	format tii_4_dem_4 best12. ;
+	format tii_4_dem_4a1 best12. ;
+	format tii_4_dem_4b1 best12. ;
+	format tii_4_dem_4b2 best12. ;
+	format tii_4_dem_4b3 best12. ;
+	format tii_4_dem_4b3_other $500. ;
+	format tii_4_dem_4c1 best12. ;
+	format tii_4_dem_4c2 best12. ;
+	format tii_4_dem_4c3 best12. ;
+	format tii_4_dem_4c3_other $500. ;
+	format tii_4_dem_4d1 best12. ;
+	format tii_4_dem_4d2 best12. ;
+	format tii_4_dem_4d3 best12. ;
+	format tii_4_dem_4d3_other $500. ;
+	format tii_4_dem_5a1 best12. ;
+	format tii_4_dem_5b1 best12. ;
+	format tii_4_dem_5c1 best12. ;
+	format tii_4_dem_5d1 best12. ;
+	format tii_4_dem_5e1 best12. ;
+	format tii_4_smoke_5a best12. ;
+	format tii_4_smoke_5b best12. ;
+	format tii_4_smoke_5c best12. ;
+	format tii_4_smoke_5d best12. ;
+	format tii_4_smoke_5e best12. ;
+	format tii_4_pmh_yn best12. ;
+	format tii_4_pmh best12. ;
+	format tii_4_pmh_1a $50. ;
+	format tii_4_pmh_1b $50. ;
+	format tii_4_pmh_2a $50. ;
+	format tii_4_pmh_2b $50. ;
+	format tii_4_pmh_3a $50. ;
+	format tii_4_pmh_3b $50. ;
+	format tii_4_pmh_4a $50. ;
+	format tii_4_pmh_4b $50. ;
+	format tii_4_pmh_5a $50. ;
+	format tii_4_pmh_5b $50. ;
+	format tii_4_isaac_1 best12. ;
+	format tii_4_isaac_2 best12. ;
+	format tii_4_isaac_3 best12. ;
+	format tii_4_isaac_4 best12. ;
+	format tii_4_isaac_5 best12. ;
+	format tii_4_isaac_6 best12. ;
+	format tii_4_isaac_7 best12. ;
+	format tii_4_isaac_8 best12. ;
+	format tii_4_isaac_9 best12. ;
+	format tii_4_isaac_10 best12. ;
+	format tii_4_isaac_11 best12. ;
+	format tii_4_isaac_12 best12. ;
+	format tii_4_isaac_13 best12. ;
+	format tii_4_isaac_14 best12. ;
+	format tii_4_isaac_15 best12. ;
+	format tii_4_isaac_16 best12. ;
+	format tii_4_isaac_17 best12. ;
+	format tii_4_isaac_18 best12. ;
+	format tii_4_isaac_19 best12. ;
+	format tii_4_isaac_20 best12. ;
+	format tii_4_sleep_1a best12. ;
+	format tii_4_sleep_1b best12. ;
+	format tii_4_sleep_2 best12. ;
+	format tii_4_sleep_3 best12. ;
+	format tii_4_sleep_4a best12. ;
+	format tii_4_sleep_4b best12. ;
+	format tii_4_sleep_4c best12. ;
+	format tii_4_sleep_4d best12. ;
+	format tii_4_sleep_4e best12. ;
+	format tii_4_sleep_4f best12. ;
+	format tii_4_psai_1a best12. ;
+	format tii_4_psai_1b best12. ;
+	format tii_4_psai_1c best12. ;
+	format tii_4_psai_1d best12. ;
+	format tii_4_psai_1e best12. ;
+	format tii_4_psai_1f best12. ;
+	format tii_4_psai_1g best12. ;
+	format tii_4_psai_2a best12. ;
+	format tii_4_psai_2b best12. ;
+	format tii_4_psai_2c best12. ;
+	format tii_4_psai_2d best12. ;
+	format tii_4_psai_2e best12. ;
+	format tii_4_psai_2f best12. ;
+	format tii_4_psai_2g best12. ;
+	format tii_4_psai_2h best12. ;
+	format tii_4_psai_2i best12. ;
+	format tii_4_psai_2j best12. ;
+	format tii_4_psai_2k best12. ;
+	format tii_4_psai_3a best12. ;
+	format tii_4_psai_3b best12. ;
+	format tii_4_psai_3c best12. ;
+	format tii_4_psai_3d best12. ;
+	format tii_4_psai_3e best12. ;
+	format tii_4_psai_3f best12. ;
+	format tii_4_psai_4a best12. ;
+	format tii_4_psai_4b best12. ;
+	format tii_4_psai_4c best12. ;
+	format tii_4_psai_4d best12. ;
+	format tii_4_mom_hlth best12. ;
+	format tii_4_mom_marital best12. ;
+	format tii_4_mom_edu best12. ;
+	format tii_4_mom_ins___0 best12. ;
+	format tii_4_mom_ins___1 best12. ;
+	format tii_4_mom_ins___2 best12. ;
+	format tii_4_mom_employ best12. ;
+	format tii_4_sle_1 best12. ;
+	format tii_4_sle_2 best12. ;
+	format tii_4_sle_3 best12. ;
+	format tii_4_sle_4 best12. ;
+	format tii_4_sle_5 best12. ;
+	format tii_4_sle_6 best12. ;
+	format tii_4_sle_7 best12. ;
+	format tii_4_sle_8 best12. ;
+	format tii_4_sle_9 best12. ;
+	format tii_4_sle_10 best12. ;
+	format tii_4_sle_11 best12. ;
+	format tii_4_sle_12 best12. ;
+	format tii_4_sle_13 best12. ;
+	format tii_4_sle_14 best12. ;
+	format tii_4_sle_15 best12. ;
+	format tii_4_sle_16 best12. ;
+	format tii_4_sle_17 best12. ;
+	format tii_4_sle_18 best12. ;
+	format tii_4_sle_19 best12. ;
+	format tii_4_sle_20 best12. ;
+	format tii_4_sle_21 best12. ;
+	format tii_4_sle_22 best12. ;
+	format tii_4_sle_23 best12. ;
+	format tii_4_sle_24 best12. ;
+	format tii_4_sle_25 best12. ;
+	format tii_4_sle_26 best12. ;
+	format tii_4_sle_other $500. ;
+	format tii_4_cps_1 best12. ;
+	format tii_4_cps_2 best12. ;
+	format tii_4_cps_3 best12. ;
+	format tii_4_cps_4 best12. ;
+	format tii_4_cps_5 best12. ;
+	format tii_4_cps_6 best12. ;
+	format tii_4_cps_7 best12. ;
+	format tii_4_cps_8 best12. ;
+	format tii_4_cps_9 best12. ;
+	format tii_4_cps_10 best12. ;
+	format tii_4_phq9_1 best12. ;
+	format tii_4_phq9_2 best12. ;
+	format tii_4_phq9_3 best12. ;
+	format tii_4_phq9_4 best12. ;
+	format tii_4_phq9_5 best12. ;
+	format tii_4_phq9_6 best12. ;
+	format tii_4_phq9_7 best12. ;
+	format tii_4_phq9_8 best12. ;
+	format tii_4_phq9_9 best12. ;
+	format tii_4_ss_1 best12. ;
+	format tii_4_ss_2 best12. ;
+	format tii_4_ss_3 best12. ;
+	format tii_4_ss_4 best12. ;
+	format tii_4_ss_5 best12. ;
+	format tii_4_ss_6 best12. ;
+	format tii_4_ss_7 best12. ;
+	format tii_4_ss_8 best12. ;
+	format tii_4_ss_9 best12. ;
+	format tii_4_ss_10 best12. ;
+	format tii_4_ss_11 best12. ;
+	format tii_4_ss_12 best12. ;
+	format tii_4_ss_13 best12. ;
+	format tii_4_ss_14 best12. ;
+	format tii_4_ss_15 best12. ;
+	format tii_4_ss_16 best12. ;
+	format tii_4_ss_17 best12. ;
+	format tii_4_ss_18 best12. ;
+	format tii_4_ss_19 best12. ;
+	format tii_4_ss_20 best12. ;
+	format tii_4_end $500. ;
+	format tii_4_end_2 $500. ;
+
+input
+		study_id
+		tii_4_subject_id
+		tii_4_date
+		tii_4_child_dob
+		tii_4_1
+		tii_4_2
+		tii_4_2a
+		tii_4_dem_3_otherchild
+		tii_4_dem_3a_yr
+		tii_4_dem_3a_mo
+		tii_4_dem_3a_sex
+		tii_4_dem_3b_yr
+		tii_4_dem_3b_mo
+		tii_4_dem_3b_sex
+		tii_4_dem_3c_yr
+		tii_4_dem_3c_mo
+		tii_4_dem_3c_sex
+		tii_4_dem_3d_yr
+		tii_4_dem_3d_mo
+		tii_4_dem_3d_sex
+		tii_4_dem_3e_yr
+		tii_4_dem_3e_mo
+		tii_4_dem_3e_sex
+		tii_4_dem_4
+		tii_4_dem_4a1
+		tii_4_dem_4b1
+		tii_4_dem_4b2
+		tii_4_dem_4b3
+		tii_4_dem_4b3_other $
+		tii_4_dem_4c1
+		tii_4_dem_4c2
+		tii_4_dem_4c3
+		tii_4_dem_4c3_other $
+		tii_4_dem_4d1
+		tii_4_dem_4d2
+		tii_4_dem_4d3
+		tii_4_dem_4d3_other $
+		tii_4_dem_5a1
+		tii_4_dem_5b1
+		tii_4_dem_5c1
+		tii_4_dem_5d1
+		tii_4_dem_5e1
+		tii_4_smoke_5a
+		tii_4_smoke_5b
+		tii_4_smoke_5c
+		tii_4_smoke_5d
+		tii_4_smoke_5e
+		tii_4_pmh_yn
+		tii_4_pmh
+		tii_4_pmh_1a $
+		tii_4_pmh_1b $
+		tii_4_pmh_2a $
+		tii_4_pmh_2b $
+		tii_4_pmh_3a $
+		tii_4_pmh_3b $
+		tii_4_pmh_4a $
+		tii_4_pmh_4b $
+		tii_4_pmh_5a $
+		tii_4_pmh_5b $
+		tii_4_isaac_1
+		tii_4_isaac_2
+		tii_4_isaac_3
+		tii_4_isaac_4
+		tii_4_isaac_5
+		tii_4_isaac_6
+		tii_4_isaac_7
+		tii_4_isaac_8
+		tii_4_isaac_9
+		tii_4_isaac_10
+		tii_4_isaac_11
+		tii_4_isaac_12
+		tii_4_isaac_13
+		tii_4_isaac_14
+		tii_4_isaac_15
+		tii_4_isaac_16
+		tii_4_isaac_17
+		tii_4_isaac_18
+		tii_4_isaac_19
+		tii_4_isaac_20
+		tii_4_sleep_1a
+		tii_4_sleep_1b
+		tii_4_sleep_2
+		tii_4_sleep_3
+		tii_4_sleep_4a
+		tii_4_sleep_4b
+		tii_4_sleep_4c
+		tii_4_sleep_4d
+		tii_4_sleep_4e
+		tii_4_sleep_4f
+		tii_4_psai_1a
+		tii_4_psai_1b
+		tii_4_psai_1c
+		tii_4_psai_1d
+		tii_4_psai_1e
+		tii_4_psai_1f
+		tii_4_psai_1g
+		tii_4_psai_2a
+		tii_4_psai_2b
+		tii_4_psai_2c
+		tii_4_psai_2d
+		tii_4_psai_2e
+		tii_4_psai_2f
+		tii_4_psai_2g
+		tii_4_psai_2h
+		tii_4_psai_2i
+		tii_4_psai_2j
+		tii_4_psai_2k
+		tii_4_psai_3a
+		tii_4_psai_3b
+		tii_4_psai_3c
+		tii_4_psai_3d
+		tii_4_psai_3e
+		tii_4_psai_3f
+		tii_4_psai_4a
+		tii_4_psai_4b
+		tii_4_psai_4c
+		tii_4_psai_4d
+		tii_4_mom_hlth
+		tii_4_mom_marital
+		tii_4_mom_edu
+		tii_4_mom_ins___0
+		tii_4_mom_ins___1
+		tii_4_mom_ins___2
+		tii_4_mom_employ
+		tii_4_sle_1
+		tii_4_sle_2
+		tii_4_sle_3
+		tii_4_sle_4
+		tii_4_sle_5
+		tii_4_sle_6
+		tii_4_sle_7
+		tii_4_sle_8
+		tii_4_sle_9
+		tii_4_sle_10
+		tii_4_sle_11
+		tii_4_sle_12
+		tii_4_sle_13
+		tii_4_sle_14
+		tii_4_sle_15
+		tii_4_sle_16
+		tii_4_sle_17
+		tii_4_sle_18
+		tii_4_sle_19
+		tii_4_sle_20
+		tii_4_sle_21
+		tii_4_sle_22
+		tii_4_sle_23
+		tii_4_sle_24
+		tii_4_sle_25
+		tii_4_sle_26
+		tii_4_sle_other $
+		tii_4_cps_1
+		tii_4_cps_2
+		tii_4_cps_3
+		tii_4_cps_4
+		tii_4_cps_5
+		tii_4_cps_6
+		tii_4_cps_7
+		tii_4_cps_8
+		tii_4_cps_9
+		tii_4_cps_10
+		tii_4_phq9_1
+		tii_4_phq9_2
+		tii_4_phq9_3
+		tii_4_phq9_4
+		tii_4_phq9_5
+		tii_4_phq9_6
+		tii_4_phq9_7
+		tii_4_phq9_8
+		tii_4_phq9_9
+		tii_4_ss_1
+		tii_4_ss_2
+		tii_4_ss_3
+		tii_4_ss_4
+		tii_4_ss_5
+		tii_4_ss_6
+		tii_4_ss_7
+		tii_4_ss_8
+		tii_4_ss_9
+		tii_4_ss_10
+		tii_4_ss_11
+		tii_4_ss_12
+		tii_4_ss_13
+		tii_4_ss_14
+		tii_4_ss_15
+		tii_4_ss_16
+		tii_4_ss_17
+		tii_4_ss_18
+		tii_4_ss_19
+		tii_4_ss_20
+		tii_4_end $
+		tii_4_end_2 $
+;
+if _ERROR_ then call symput('_EFIERR_',"1");
+run;
+
+
+/*both have 543 observations and 194 variables. yay!*/
+ods pdf file="J:\PM\TIDES_Data\Data Management\qc\pvq contents.pdf";
+proc contents data=qc.og order=varnum;
+run;
+proc contents data=qc.master order=varnum;
+run;
+
+proc sort data=qc.og;
+by study_id;
+run;
+proc sort data=qc.mastertwist;
+by study_id;
+run;
+ods pdf close;
+
+proc compare base=qc.og compare=qc.mastertwist printall;run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	study_id	;	with	tii_4_subject_id	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	v1_qdate	;	with	tii_4_date	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qcdob	;	with	tii_4_child_dob	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc1	;	with	tii_4_1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc2	;	with	tii_4_2	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc2a	;	with	tii_4_2a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3	;	with	tii_4_dem_3_otherchild	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3a_yr	;	with	tii_4_dem_3a_yr	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3a_mo	;	with	tii_4_dem_3a_mo	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3a_sex	;	with	tii_4_dem_3a_sex	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3b_yr	;	with	tii_4_dem_3b_yr	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3b_mo	;	with	tii_4_dem_3b_mo	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3b_sex	;	with	tii_4_dem_3b_sex	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3c_yr	;	with	tii_4_dem_3c_yr	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3c_mo	;	with	tii_4_dem_3c_mo	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3c_sex	;	with	tii_4_dem_3c_sex	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3d_yr	;	with	tii_4_dem_3d_yr	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3d_mo	;	with	tii_4_dem_3d_mo	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3d_sex	;	with	tii_4_dem_3d_sex	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3e_yr	;	with	tii_4_dem_3e_yr	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3e_mo	;	with	tii_4_dem_3e_mo	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc3e_sex	;	with	tii_4_dem_3e_sex	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4	;	with	tii_4_dem_4	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4a1	;	with	tii_4_dem_4a1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4b1	;	with	tii_4_dem_4b1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4b2	;	with	tii_4_dem_4b2	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4b3	;	with	tii_4_dem_4b3	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4b3_other	;	with	tii_4_dem_4b3_other	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4c1	;	with	tii_4_dem_4c1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4c2	;	with	tii_4_dem_4c2	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4c3	;	with	tii_4_dem_4c3	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4c3_other	;	with	tii_4_dem_4c3_other	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4d1	;	with	tii_4_dem_4d1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4d2	;	with	tii_4_dem_4d2	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4d3	;	with	tii_4_dem_4d3	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc4d3_other	;	with	tii_4_dem_4d3_other	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc5a1	;	with	tii_4_dem_5a1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc5b1	;	with	tii_4_dem_5b1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc5c1	;	with	tii_4_dem_5c1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc5d1	;	with	tii_4_dem_5d1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc5e1	;	with	tii_4_dem_5e1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc5a2	;	with	tii_4_smoke_5a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc5b2	;	with	tii_4_smoke_5b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc5c2	;	with	tii_4_smoke_5c	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc5d2	;	with	tii_4_smoke_5d	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc5e2	;	with	tii_4_smoke_5e	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6	;	with	tii_4_pmh_yn	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6y	;	with	tii_4_pmh	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6y1a	;	with	tii_4_pmh_1a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6y1b	;	with	tii_4_pmh_1b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6y2a	;	with	tii_4_pmh_2a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6y2b	;	with	tii_4_pmh_2b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6y3a	;	with	tii_4_pmh_3a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6y3b	;	with	tii_4_pmh_3b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6y4a	;	with	tii_4_pmh_4a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6y4b	;	with	tii_4_pmh_4b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6y5a	;	with	tii_4_pmh_5a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc6y5b	;	with	tii_4_pmh_5b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc7	;	with	tii_4_isaac_1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc7a	;	with	tii_4_isaac_2	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc7b	;	with	tii_4_isaac_3	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc7c	;	with	tii_4_isaac_4	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc7d	;	with	tii_4_isaac_5	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc8	;	with	tii_4_isaac_6	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc9	;	with	tii_4_isaac_7	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc10	;	with	tii_4_isaac_8	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc11	;	with	tii_4_isaac_9	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc12	;	with	tii_4_isaac_10	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc13	;	with	tii_4_isaac_11	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc13a	;	with	tii_4_isaac_12	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc13b	;	with	tii_4_isaac_13	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc13c	;	with	tii_4_isaac_14	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc13d	;	with	tii_4_isaac_15	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc13e	;	with	tii_4_isaac_16	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc14	;	with	tii_4_isaac_17	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc15	;	with	tii_4_isaac_18	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc16	;	with	tii_4_isaac_19	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qc17	;	with	tii_4_isaac_20	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qs1a	;	with	tii_4_sleep_1a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qs1b	;	with	tii_4_sleep_1b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qs2	;	with	tii_4_sleep_2	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qs3	;	with	tii_4_sleep_3	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qs4a	;	with	tii_4_sleep_4a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qs4b	;	with	tii_4_sleep_4b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qs4c	;	with	tii_4_sleep_4c	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qs4d	;	with	tii_4_sleep_4d	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qs4e	;	with	tii_4_sleep_4e	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	qs4f	;	with	tii_4_sleep_4f	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p1a	;	with	tii_4_psai_1a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p1b	;	with	tii_4_psai_1b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p1c	;	with	tii_4_psai_1c	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p1d	;	with	tii_4_psai_1d	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p1e	;	with	tii_4_psai_1e	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p1f	;	with	tii_4_psai_1f	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p1g	;	with	tii_4_psai_1g	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p2a	;	with	tii_4_psai_2a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p2b	;	with	tii_4_psai_2b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p2c	;	with	tii_4_psai_2c	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p2d	;	with	tii_4_psai_2d	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p2e	;	with	tii_4_psai_2e	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p2f	;	with	tii_4_psai_2f	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p2g	;	with	tii_4_psai_2g	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p2h	;	with	tii_4_psai_2h	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p2i	;	with	tii_4_psai_2i	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p2j	;	with	tii_4_psai_2j	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p2k	;	with	tii_4_psai_2k	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p3a	;	with	tii_4_psai_3a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p3b	;	with	tii_4_psai_3b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p3c	;	with	tii_4_psai_3c	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p3d	;	with	tii_4_psai_3d	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p3e	;	with	tii_4_psai_3e	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p3f	;	with	tii_4_psai_3f	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p4a	;	with	tii_4_psai_4a	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p4b	;	with	tii_4_psai_4b	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p4c	;	with	tii_4_psai_4c	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	p4e	;	with	tii_4_psai_4d	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q1	;	with	tii_4_mom_hlth	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q2	;	with	tii_4_mom_marital	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q3edu	;	with	tii_4_mom_edu	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q4	;	with	tii_4_mom_ins	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q5	;	with	tii_4_mom_employ	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6a	;	with	tii_4_sle_1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6b	;	with	tii_4_sle_2	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6c	;	with	tii_4_sle_3	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6d	;	with	tii_4_sle_4	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6e	;	with	tii_4_sle_5	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6f	;	with	tii_4_sle_6	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6g	;	with	tii_4_sle_7	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6h	;	with	tii_4_sle_8	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6i	;	with	tii_4_sle_9	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6j	;	with	tii_4_sle_10	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6k	;	with	tii_4_sle_11	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6l	;	with	tii_4_sle_12	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6m	;	with	tii_4_sle_13	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6n	;	with	tii_4_sle_14	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6o	;	with	tii_4_sle_15	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6p	;	with	tii_4_sle_16	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6q	;	with	tii_4_sle_17	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6r	;	with	tii_4_sle_18	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6s	;	with	tii_4_sle_19	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6t	;	with	tii_4_sle_20	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6u	;	with	tii_4_sle_21	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6v	;	with	tii_4_sle_22	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6w	;	with	tii_4_sle_23	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6x	;	with	tii_4_sle_24	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6y	;	with	tii_4_sle_25	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6z	;	with	tii_4_sle_26	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q6oth	;	with	tii_4_sle_other	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q7a	;	with	tii_4_cps_1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q7b	;	with	tii_4_cps_2	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q7c	;	with	tii_4_cps_3	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q7d	;	with	tii_4_cps_4	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q7e	;	with	tii_4_cps_5	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q7f	;	with	tii_4_cps_6	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q7g	;	with	tii_4_cps_7	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q7h	;	with	tii_4_cps_8	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q7i	;	with	tii_4_cps_9	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q7j	;	with	tii_4_cps_10	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q8a	;	with	tii_4_phq9_1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q8b	;	with	tii_4_phq9_2	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q8c	;	with	tii_4_phq9_3	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q8d	;	with	tii_4_phq9_4	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q8e	;	with	tii_4_phq9_5	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q8f	;	with	tii_4_phq9_6	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q8g	;	with	tii_4_phq9_7	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q8h	;	with	tii_4_phq9_8	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q8i	;	with	tii_4_phq9_9	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9a	;	with	tii_4_ss_1	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9b	;	with	tii_4_ss_2	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9c	;	with	tii_4_ss_3	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9d	;	with	tii_4_ss_4	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9e	;	with	tii_4_ss_5	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9f	;	with	tii_4_ss_6	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9g	;	with	tii_4_ss_7	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9h	;	with	tii_4_ss_8	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9i	;	with	tii_4_ss_9	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9j	;	with	tii_4_ss_10	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9k	;	with	tii_4_ss_11	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9l	;	with	tii_4_ss_12	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9m	;	with	tii_4_ss_13	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9n	;	with	tii_4_ss_14	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9o	;	with	tii_4_ss_15	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9p	;	with	tii_4_ss_16	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9q	;	with	tii_4_ss_17	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9r	;	with	tii_4_ss_18	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9s	;	with	tii_4_ss_19	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q9t	;	with	tii_4_ss_20	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q10	;	with	tii_4_end	;	run;
+proc compare base=qc.og compare=qc.mastertwist briefsummary;	var	q11	;	with	tii_4_end_2	;	run;
+
+/*minor changes in text but overall equal*/
+/*smoke and some dem questions cannot be cross-reffed however, given the overall agreement there shouldn't
+be issues with the import from projects*/
