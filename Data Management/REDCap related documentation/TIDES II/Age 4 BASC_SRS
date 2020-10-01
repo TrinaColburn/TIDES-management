@@ -1,0 +1,226 @@
+/*Proc compare for bascsrs*/
+
+LIBNAME _4_BS "J:\PM\TIDES_Data\REDCap Master Database\TIDES II\Age 4"; run;
+
+PROC IMPORT OUT= WORK._4_BASCSRS_UMN
+            DATAFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES II\Age 4\_4_bascsrs_umn.csv"
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; RUN;
+
+PROC IMPORT OUT= WORK._4_BASCSRS_URMC
+            DATAFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES II\Age 4\_4_bascsrs_urmc.csv"
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; RUN;
+
+PROC IMPORT OUT= WORK._4_BASCSRS_SCRI
+            DATAFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES II\Age 4\_4_bascsrs_uw.csv"
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; RUN;
+
+PROC IMPORT OUT= WORK._4_BASCSRS_UCSF
+            DATAFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES II\Age 4\_4_bascsrs_ucsf.csv"
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; RUN;
+
+
+/*Merge*/
+proc sort data=_4_BASCSRS_UCSF; by basc_id; run;
+proc sort data=_4_BASCSRS_UMN; by basc_id; run;
+proc sort data=_4_BASCSRS_URMC; by basc_id; run;
+proc sort data=_4_BASCSRS_SCRI; by basc_id; run;
+
+
+data _4_BS._4_BASCSRS_old_merged; set _4_BASCSRS_UCSF _4_BASCSRS_UMN
+									 _4_BASCSRS_URMC _4_BASCSRS_SCRI;
+by basc_id; run;
+
+
+/*Compare macro*/
+proc compare base=_4_bs.Tii_4_bascsrs_2019411 compare=_4_BS._4_bascsrs_old_merged
+			 LISTOBS; id basc_id; run;
+
+/*IDs 60101, 71841, 91181, and 91481 have no record of change*/
+/*Double check scatter plot of base which will be imported to new database*/
+
+
+proc contents data=_4_bs.Tii_4_bascsrs_2019411 order=varnum; run;
+
+%macro srsplot(raw, t);
+proc sgplot data=_4_bs.Tii_4_bascsrs_2019411;
+scatter x=&raw y=&t; run;
+%mend;
+
+%srsplot(	srs_raw_awr	,	srs_t_awr	);
+%srsplot(	rsrs_raw_cog,	rsrs_t_cog	);
+%srsplot(	srs_raw_com	,	srs_t_com	);
+%srsplot(	srs_raw_mot	,	srs_t_mot	);
+%srsplot(	srs_raw_rrb	,	srs_t_rrb	);
+%srsplot(	srs_raw_sci	,	srs_t_sci	);
+%srsplot(	srs_raw_tot	,	srs_t_tot	);
+
+/*Scatter plot fine -- will import to master*/
+/*ppt found to have had missing data -- AM calculateed scores via itemized
+data and missing value algorithm*/
+
+
+/*Rename variables*/
+data _4_bs.Tii_4_bascsrs_2020929; set _4_bs.Tii_4_bascsrs_2019411;
+rename 	basc_id	=	basc_id	;
+rename 	basc_v1date	=	basc_date;
+rename 	basc_sex	=	basc_sex;
+rename 	basc_dob	=	basc_dob;
+rename 	raw_ext	=	basc_ext_raw;
+rename 	t_ext	=	basc_ext_t;
+rename 	pct_ext	=	basc_ext_pct;
+rename 	raw_int	=	basc_int_raw;
+rename 	t_int	=	basc_int_t;
+rename 	pct_int	=	basc_int_pct;
+rename 	raw_bsi	=	basc_bsi_raw;
+rename 	t_bsi	=	basc_bsi_t;
+rename 	pct_bsi	=	basc_bsi_pct;
+rename 	raw_ads	=	basc_ads_raw;
+rename 	t_ads	=	basc_ads_t;
+rename 	pct_ads	=	basc_ads_pct;
+rename 	raw_hyp	=	basc_hyp_raw;
+rename 	t_hyp	=	basc_hyp_t;
+rename 	pct_hyp	=	basc_hyp_pct;
+rename 	raw_agg	=	basc_agg_raw;
+rename 	t_agg	=	basc_agg_t;
+rename 	pct_agg	=	basc_agg_pct;
+rename 	raw_anx	=	basc_anx_raw;
+rename 	t_anx	=	basc_anx_t;
+rename 	pct_anx	=	basc_anx_pct;
+rename 	raw_dep	=	basc_dep_raw;
+rename 	t_dep	=	basc_dep_t;
+rename 	pct_dep	=	basc_dep_pct;
+rename 	raw_som	=	basc_som_raw;
+rename 	t_som	=	basc_som_t;
+rename 	pct_som	=	basc_som_pct;
+rename 	raw_atp	=	basc_atp_raw;
+rename 	t_atp	=	basc_atp_t;
+rename 	pct_atp	=	basc_atp_pct;
+rename 	raw_wth	=	basc_wth_raw;
+rename 	t_wth	=	basc_wth_t;
+rename 	pct_wth	=	basc_wth_pct;
+rename 	raw_att	=	basc_att_raw;
+rename 	t_att	=	basc_att_t;
+rename 	pct_att	=	basc_att_pct;
+rename 	raw_adp	=	basc_adp_raw;
+rename 	t_adp	=	basc_adp_t;
+rename 	pct_adp	=	basc_adp_pct;
+rename 	raw_soc	=	basc_soc_raw;
+rename 	t_soc	=	basc_soc_t;
+rename 	pct_soc	=	basc_soc_pct;
+rename 	raw_act	=	basc_act_raw;
+rename 	t_act	=	basc_act_t;
+rename 	pct_act	=	basc_act_pct;
+rename 	raw_com	=	basc_com_raw;
+rename 	t_com	=	basc_com_t;
+rename 	pct_com	=	basc_com_pct;
+rename 	srs_id	=	srs_id;
+rename 	srs_v1date	=	srs_v1date;
+rename 	srs_sex	=	srs_sex;
+rename 	srs_dob	=	srs_dob;
+rename 	srs_raw_tot	=	srs_tot_raw;
+rename 	srs_t_tot	=	srs_tot_t;
+rename 	srs_raw_awr	=	srs_awa_raw;
+rename 	srs_t_awr	=	srs_awa_t;
+rename 	rsrs_raw_cog	=	srs_cog_raw;
+rename 	rsrs_t_cog	=	srs_cog_t;
+rename 	srs_raw_com	=	srs_com_raw;
+rename 	srs_t_com	=	srs_com_t;
+rename 	srs_raw_mot	=	srs_mot_raw;
+rename 	srs_t_mot	=	srs_mot_t;
+rename 	srs_raw_sci	=	srs_sci_raw;
+rename 	srs_t_sci	=	srs_sci_t;
+rename 	srs_raw_rrb	=	srs_rrb_raw;
+rename 	srs_t_rrb	=	srs_rrb_t; run;
+
+
+proc contents data=_4_bs.Tii_4_bascsrs_2020929 order=varnum; run;
+
+data _4_bs.Tii_4_bascsrs_2020929; set _4_bs.Tii_4_bascsrs_2020929;
+drop record_id; run;
+
+data _4_bs.Tii_4_bascsrs_2020929;
+format study_id
+subject_id
+basc_id
+basc_date
+basc_sex
+basc_dob
+basc_ext_raw
+basc_ext_t
+basc_ext_pct
+basc_int_raw
+basc_int_t
+basc_int_pct
+basc_bsi_raw
+basc_bsi_t
+basc_bsi_pct
+basc_ads_raw
+basc_ads_t
+basc_ads_pct
+basc_hyp_raw
+basc_hyp_t
+basc_hyp_pct
+basc_agg_raw
+basc_agg_t
+basc_agg_pct
+basc_anx_raw
+basc_anx_t
+basc_anx_pct
+basc_dep_raw
+basc_dep_t
+basc_dep_pct
+basc_som_raw
+basc_som_t
+basc_som_pct
+basc_atp_raw
+basc_atp_t
+basc_atp_pct
+basc_wth_raw
+basc_wth_t
+basc_wth_pct
+basc_att_raw
+basc_att_t
+basc_att_pct
+basc_adp_raw
+basc_adp_t
+basc_adp_pct
+basc_soc_raw
+basc_soc_t
+basc_soc_pct
+basc_act_raw
+basc_act_t
+basc_act_pct
+basc_com_raw
+basc_com_t
+basc_com_pct
+tidesii_v1_basc_data_sheet_compl
+srs_id
+srs_v1date
+srs_sex
+srs_dob
+srs_tot_raw
+srs_tot_t
+srs_awa_raw
+srs_awa_t
+srs_cog_raw
+srs_cog_t
+srs_com_raw
+srs_com_t
+srs_mot_raw
+srs_mot_t
+srs_sci_raw
+srs_sci_t
+srs_rrb_raw
+srs_rrb_t
+tidesii_v1_srs_data_sheet_comple;
+set _4_bs.Tii_4_bascsrs_2020929; run;
+
+/*successful import 9.29.2020*/
