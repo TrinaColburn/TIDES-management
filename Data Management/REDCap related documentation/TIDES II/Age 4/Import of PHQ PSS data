@@ -1,0 +1,52 @@
+/*Get DAG, survey time, PHQ and PSS for Age 4 PVQ and PSS*/
+/*import*/
+
+data _4_pvq.old_1; set _4_pvq.old;
+keep tii_4_subject_id redcap_data_access_group tidesii_v1_mom_q_timestamp; run;
+
+data _4_pvq.old_1; set _4_pvq.old_1;
+rename tidesii_v1_mom_q_timestamp=tii_4_pvq_timestamp; run;
+
+
+data _4_pvq.old_1; set _4_pvq.old_1;
+child_id=tii_4_subject_id+1; run;
+
+data _4_pvq.old_1; set _4_pvq.old_1;
+if tii_4_subject_id=70742 then child_id=70742;
+if tii_4_subject_id=70743 then child_id=70743; run;
+
+proc sort data=_4_pvq.old_1; by child_id; run;
+
+proc sort data=_4_pvq.Tii_4_phq_pss_sum; by child_id; run;
+
+data _4_pvq.Tii_4_phq_pss_sum_merged; merge _4_pvq.Tii_4_phq_pss_sum _4_pvq.old_1; by child_id; run;
+
+data _4_pvq.Tii_4_phq_pss_sum_merged_1; set _4_pvq.Tii_4_phq_pss_sum_merged;
+drop redcap_data_access_group tii_4_subject_id; run;
+
+data _4_pvq.Tii_4_phq_pss_sum_merged_1; set _4_pvq.Tii_4_phq_pss_sum_merged_1;
+rename site=redcap_data_access_group; run;
+
+data _4_pvq.Tii_4_phq_pss_sum_merged_1;
+format child_id redcap_data_access_group pathways_id tii_4_pvq_timestamp;
+set _4_pvq.Tii_4_phq_pss_sum_merged_1; run;
+
+/*recode age_4_phq_severity*/
+proc freq data=_4_pvq.Tii_4_phq_pss_sum_merged_1;
+table age4_phq_severity; run;
+
+data _4_pvq.Tii_4_phq_pss_sum_merged_2; set _4_pvq.Tii_4_phq_pss_sum_merged_1; 
+if age4_phq_severity="mild" then age_4_phq_severity2=1;
+if age4_phq_severity="minimal" then age_4_phq_severity2=2;
+if age4_phq_severity="moderate" then age_4_phq_severity2=3;
+if age4_phq_severity="moderate-severe" then age_4_phq_severity2=4;
+if age4_phq_severity="severe" then age_4_phq_severity2=5; run;
+
+proc freq data=_4_pvq.Tii_4_phq_pss_sum_merged_2;
+table age_4_phq_severity2; run;
+
+data _4_pvq.Tii_4_phq_pss_sum_merged_2; set _4_pvq.Tii_4_phq_pss_sum_merged_2;
+drop age4_phq_severity; run;
+
+data _4_pvq.Tii_4_phq_pss_sum_merged_2; set _4_pvq.Tii_4_phq_pss_sum_merged_2;
+rename age_4_phq_severity2=age4_phq_severity; run;

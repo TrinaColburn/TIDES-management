@@ -1,0 +1,456 @@
+libname _4_pvq "J:\PM\TIDES_Data\REDCap Master Database\TIDES II\Age 4"; run;
+
+proc import out=compare.master datafile="/folders/myfolders/Master Age 4 previsit.csv"
+dbms=csv;
+getnames=yes;
+run;
+
+proc import out=compare.mom_previsit datafile="/folders/myfolders/Age 4_momprevisit.xlsx"
+dbms=xlsx;
+getnames=yes;
+run;
+
+/*Direct download from REDCap*/
+data _4_pvq.old; set redcap; run;
+
+proc sort data=_4_pvq.old; by study_id; run;
+
+data _4_pvq.old; set _4_pvq.old;
+record_id=substr(study_id, 1, 4); run;
+
+data _4_pvq.old; set _4_pvq.old;
+subject_id= input(study_id, 8.); run;
+
+data _4_pvq.old; set _4_pvq.old;
+if study_id="70741a" then subject_id=70742;
+if study_id="70741b" then subject_id=70743; run;
+
+data _4_pvq.old; set _4_pvq.old;
+drop study_id; run;
+
+data _4_pvq.old; set _4_pvq.old;
+rename record_id=study_id; run;
+
+data _4_pvq.old; set _4_pvq.old;
+study_id= input(record_id, 8.); run;
+
+data _4_pvq.old;
+format study_id subject_id;
+set _4_pvq.old; run;
+
+data _4_pvq.old; set _4_pvq.old;
+drop record_id; run;
+
+data _4_pvq.old; set _4_pvq.old;
+rename subject_id=tii_4_subject_id; run;
+
+/**Rename Datasets**/
+proc sort data=_4_pvq.old; by tii_4_subject_id; run;
+proc sort data=_4_pvq.Tii_4_pvq_2019430; by tii_4_subject_id; run;
+
+%macro a(x,y,z);
+proc compare BASE=_4_pvq.old COMPARE=_4_pvq.Tii_4_pvq_2019430 briefsummary;
+TITLE &x;
+ID tii_4_subject_id;
+VAR &y;
+WITH &z;
+run;
+%mend;
+
+ods word file="J:\PM\TIDES_Data\REDCap Master Database\TIDES II\proc compare output.docx"
+startpage=no
+options(body_title="yes"
+		    keep_next="yes");
+%a("Example 3: Comparing Values for Variable Date", v1_qdate, tii_4_date);
+%a("Example 4: Comparing Values for Variable Name", qcname, tii_4_child_name);
+%a("Example 5: Comparing Values for Variable DOB", qcdob, tii_4_child_dob);
+%a("Example 6: Comparing Values for Variable Child Overall Health", qc1, tii_4_1);
+%a("Example 7: Comparing Values for Variable Reg Childcare Y/N", qc2, tii_4_2);
+%a("Example 8: Comparing Values for Variable Reg Childcare Hrs", qc2a, tii_4_2a);
+%a("Example 9: Comparing Values for Variable # of Children", qc3, tii_4_dem_3_otherchild);
+%a("Example 10:Comparing Values for Variable Age of TIDES Child", qc3a_yr, tii_4_dem_3a_yr);
+%a("Example 11:Comparing Values for Variable And/or", qc3a_mo, tii_4_dem_3a_mo);
+%a("Example 12:Comparing Values for Variable Sex of TIDES Child", qc3a_sex, tii_4_dem_3a_sex);
+%a("Example 13:Comparing Values for Variable Age of Child 2", qc3b_yr, tii_4_dem_3b_yr);
+%a("Example 14:Comparing Values for Variable And/Or", qc3b_mo, tii_4_dem_3b_mo);
+%a("Example 15:Comparing Values for Variable Sex of Child 2", qc3b_sex, tii_4_dem_3b_sex);
+%a("Example 16:Comparing Values for Variable Age of Child 3", qc3c_yr, tii_4_dem_3c_yr);
+%a("Example 17:Comparing Values for Variable And/Or", qc3c_mo, tii_4_dem_3c_mo);
+%a("Example 18:Comparing Values for Variable Sex of Child 3", qc3c_sex, tii_4_dem_3c_sex);
+%a("Example 19:Comparing Values for Variable Age of Child 4", qc3d_yr, tii_4_dem_3d_yr);
+%a("Example 20:Comparing Values for Variable And/Or", qc3d_mo, tii_4_dem_3d_mo);
+%a("Example 21:Comparing Values for Variable Sex of Child 4", qc3d_sex, tii_4_dem_3d_sex);
+%a("Example 22:Comparing Values for Variable Age of Child 5", qc3e_yr, tii_4_dem_3e_yr);
+%a("Example 23:Comparing Values for Variable And/Or", qc3e_mo, tii_4_dem_3e_mo);
+%a("Example 24:Comparing Values for Variable Sex of Child 5", qc3e_sex, tii_4_dem_3e_sex);
+%a("Example 25:Comparing Values for Variable # of Adults", qc4, tii_4_dem_4);
+%a("Example 26:Comparing Values for Variable Your Age", qc4a1, tii_4_dem_4a1);
+%a("Example 27:Comparing Values for Variable Age of Adult 2", qc4b1, tii_4_dem_4b1);
+%a("Example 28:Comparing Values for Variable Sex of Adult 2", qc4b2, tii_4_dem_4b2);
+%a("Example 29:Comparing Values for Variable Relationship of Adult 2 to TIDES child", qc4b3, tii_4_dem_4b3);
+%a("Example 30:Comparing Values for Variable Specify Others", qc4b3_other, tii_4_dem_4b3_other);
+%a("Example 31:Comparing Values for Variable Age of Adult 3", qc4c1, tii_4_dem_4c1);
+%a("Example 32:Comparing Values for Variable Sex of Adult 3", qc4c2, tii_4_dem_4c2);
+%a("Example 33:Comparing Values for Variable Relationship of Adult 3 to TIDES child", qc4c3, tii_4_dem_4c3);
+%a("Example 34:Comparing Values for Variable Specify Others", qc4c3_other, tii_4_dem_4c3_other);
+%a("Example 35:Comparing Values for Variable Age of Adult 4", qc4d1, tii_4_dem_4d1);
+%a("Example 36:Comparing Values for Variable Sex of Adult 4", qc4d2, tii_4_dem_4d2);
+%a("Example 37:Comparing Values for Variable Relationship of Adult 4 to TIDES child", qc4d3, tii_4_dem_4d3);
+%a("Example 38:Comparing Values for Variable Specify Others", qc4d3_other, tii_4_dem_4d3_other);
+%a("Example 39:Comparing Values for Variable You", qc5a1, tii_4_dem_5a1);
+%a("Example 40:Comparing Values for Variable Your Child's father", qc5b1, tii_4_dem_5b1);
+%a("Example 41:Comparing Values for Variable Another person living in your same house", qc5c1, tii_4_dem_5c1);
+%a("Example 42:Comparing Values for Variable Your child's child care provider", qc5d1, tii_4_dem_5d1);
+%a("Example 43:Comparing Values for Variable Other", qc5e1, tii_4_dem_5e1);
+%a("Example 44:Comparing Values for Variable You smoke hrs/week", qc5a2, tii_4_smoke_5a);
+%a("Example 45:Comparing Values for Variable Child's father smoke hrs/week", qc5b2, tii_4_smoke_5b);
+%a("Example 46:Comparing Values for Variable Other person smoke hrs/week", qc5c2, tii_4_smoke_5c);
+%a("Example 47:Comparing Values for Variable Care provider smoke hrs/week", qc5d2, tii_4_smoke_5d);
+%a("Example 48:Comparing Values for Variable Other person smoke hrs/week", qc5e2, tii_4_smoke_5e);
+%a("Example 49:Comparing Values for Variable Chronic or severe medical issues, Y/N", qc6, tii_4_pmh_yn);
+%a("Example 50:Comparing Values for Variable # of Chronic or severe medical issues in past 2 years", qc6y, tii_4_pmh);
+%a("Example 51:Comparing Values for Variable Name of Medical Problem 1", qc6y1a, tii_4_pmh_1a);
+%a("Example 52:Comparing Values for Variable Medication Prescribed for Medical Problem 1", qc6y1b, tii_4_pmh_1b);
+%a("Example 53:Comparing Values for Variable Name of Medical Problem 2", qc6y2a, tii_4_pmh_2a);
+%a("Example 54:Comparing Values for Variable Medication Prescribed for Medical Problem 2", qc6y2b, tii_4_pmh_2b);
+%a("Example 55:Comparing Values for Variable Name of Medical Problem 3", qc6y3a, tii_4_pmh_3a);
+%a("Example 56:Comparing Values for Variable Medication Prescribed for Medical Problem 3", qc6y3b, tii_4_pmh_3b);
+%a("Example 57:Comparing Values for Variable Name of Medical Problem 4", qc6y4a, tii_4_pmh_4a);
+%a("Example 58:Comparing Values for Variable Medication Prescribed for Medical Problem 4", qc6y4b, tii_4_pmh_4b);
+%a("Example 59:Comparing Values for Variable Name of Medical Problem 4", qc6y5a, tii_4_pmh_5a);
+%a("Example 60:Comparing Values for Variable Medication Prescribed for Medical Problem 4", qc6y5b, tii_4_pmh_5b);
+%a("Example 61:Comparing Values for Variable Wheezing or whistling at any time", qc7, tii_4_isaac_1);
+%a("Example 62:Comparing Values for Variable Wheezing or whistling in last 12 months", qc7a, tii_4_isaac_2);
+%a("Example 63:Comparing Values for Variable # of Wheezing attacks in last 12 months", qc7b, tii_4_isaac_3);
+%a("Example 64:Comparing Values for Variable # of sleep disturbance events due to wheezing", qc7c, tii_4_isaac_4);
+%a("Example 65:Comparing Values for Variable Speech limitation due to wheezing", qc7d, tii_4_isaac_5);
+%a("Example 66:Comparing Values for Variable Child Asthma, Y/N", qc8, tii_4_isaac_6);
+%a("Example 67:Comparing Values for Variable Mother Asthma, Y/N", qc9, tii_4_isaac_7);
+%a("Example 68:Comparing Values for Variable Bio father Asthma, Y/N", qc10, tii_4_isaac_8);
+%a("Example 69:Comparing Values for Variable Wheezing during/after exercise", qc11, tii_4_isaac_9);
+%a("Example 70:Comparing Values for Variable Dry cough in the last 12 months", qc12, tii_4_isaac_10);
+%a("Example 71:Comparing Values for Variable Itchy rash on/off for last 6 months", qc13, tii_4_isaac_11);
+%a("Example 72:Comparing Values for Variable Itchy rash anytime for last 12 months", qc13a, tii_4_isaac_12);
+%a("Example 73:Comparing Values for Variable Itchy rash in elbows, knees, ankles, etc", qc13b, tii_4_isaac_13);
+%a("Example 74:Comparing Values for Variable Age during first appearance of itchy rash", qc13c, tii_4_isaac_14);
+%a("Example 75:Comparing Values for Variable Rash clear completely anytime in last 12 months", qc13d, tii_4_isaac_15);
+%a("Example 76:Comparing Values for Variable Kept awake because of rash", qc13e, tii_4_isaac_16);
+%a("Example 77:Comparing Values for Variable Child eczema, Y/N", qc14, tii_4_isaac_17);
+%a("Example 78:Comparing Values for Variable Per week physical activity leading to heavy breathing", qc15, tii_4_isaac_18);
+%a("Example 79:Comparing Values for Variable # of hours of TV/day", qc16, tii_4_isaac_19);
+%a("Example 80:Comparing Values for Variable Pet dog or cat in last 12 months", qc17, tii_4_isaac_20);
+%a("Example 81:Comparing Values for Variable # of hours/day child napped in last 1 month", qs1a, tii_4_sleep_1a);
+%a("Example 82:Comparing Values for Variable and/or", qs1b, tii_4_sleep_1b);
+%a("Example 83:Comparing Values for Variable # of naps/week", qs2, tii_4_sleep_2);
+%a("Example 84:Comparing Values for Variable # of hours slept/night", qs3, tii_4_sleep_3);
+%a("Example 85:Comparing Values for Variable How often child sleep at same bedtime", qs4a, tii_4_sleep_4a);
+%a("Example 86:Comparing Values for Variable How often fall asleep within 20 min", qs4b, tii_4_sleep_4b);
+%a("Example 87:Comparing Values for Variable How often wake up during the night", qs4c, tii_4_sleep_4c);
+%a("Example 88:Comparing Values for Variable How often wake up more than once during the night", qs4d, tii_4_sleep_4d);
+%a("Example 89:Comparing Values for Variable How long to become alert after waking", qs4e, tii_4_sleep_4e);
+%a("Example 90:Comparing Values for Variable How often seem tired during day", qs4f, tii_4_sleep_4f);
+%a("Example 91:Comparing Values for Variable Jewelry", p1a, tii_4_psai_1a);
+%a("Example 92:Comparing Values for Variable Guns", p1b, tii_4_psai_1b);
+%a("Example 93:Comparing Values for Variable Tool set", p1c, tii_4_psai_1c);
+%a("Example 94:Comparing Values for Variable Dolls", p1d, tii_4_psai_1d);
+%a("Example 95:Comparing Values for Variable Trains, cars, planes", p1e, tii_4_psai_1e);
+%a("Example 96:Comparing Values for Variable Swords", p1f, tii_4_psai_1f);
+%a("Example 97:Comparing Values for Variable Tea set", p1g, tii_4_psai_1g);
+%a("Example 98:Comparing Values for Variable Playing house", p2a, tii_4_psai_2a);
+%a("Example 99:Comparing Values for Variable Playing house", p2b, tii_4_psai_2b);
+%a("Example 100:Comparing Values for Variable Pretending to be female character", p2c, tii_4_psai_2c);
+%a("Example 101:Comparing Values for Variable Playing at having a male occupation", p2d, tii_4_psai_2d);
+%a("Example 102:Comparing Values for Variable Fighting", p2e, tii_4_psai_2e);
+%a("Example 103:Comparing Values for Variable Pretending to be family character", p2f, tii_4_psai_2f);
+%a("Example 104:Comparing Values for Variable Sports and balls games", p2g, tii_4_psai_2g);
+%a("Example 105:Comparing Values for Variable Climbing", p2h, tii_4_psai_2h);
+%a("Example 106:Comparing Values for Variable Playing at taking care of babies", p2i, tii_4_psai_2i);
+%a("Example 107:Comparing Values for Variable Show interest in real cars, trains, etc", p2j, tii_4_psai_2j);
+%a("Example 108:Comparing Values for Variable Dressing up in girls clothes", p2k, tii_4_psai_2k);
+%a("Example 109:Comparing Values for Variable Likes to explore new surroundings", p3a, tii_4_psai_3a);
+%a("Example 110:Comparing Values for Variable Enjoys rough and tumble play", p3b, tii_4_psai_3b);
+%a("Example 111:Comparing Values for Variable Shows interest in snakes, spiders, insects", p3c, tii_4_psai_3c);
+%a("Example 112:Comparing Values for Variable Avoids getting dirty", p3d, tii_4_psai_3d);
+%a("Example 113:Comparing Values for Variable Likes pretty things", p3e, tii_4_psai_3e);
+%a("Example 114:Comparing Values for Variable Avoids taking risks", p3f, tii_4_psai_3f);
+%a("Example 115:Comparing Values for Variable What if boy prefers girl toys", p4a, tii_4_psai_4a);
+%a("Example 116:Comparing Values for Variable What if girl prefers boy toys", p4b, tii_4_psai_4b);
+%a("Example 117:Comparing Values for Variable What would father do if boy prefers girl toys", p4c, tii_4_psai_4c);
+%a("Example 118:Comparing Values for Variable What would father do if girl prefers boy toys", p4e, tii_4_psai_4d);
+%a("Example 119:Comparing Values for Variable Mother health now", q1, tii_4_mom_hlth);
+%a("Example 120:Comparing Values for Variable Marital status", q2, tii_4_mom_marital);
+%a("Example 121:Comparing Values for Variable Education level", q3edu, tii_4_mom_edu);
+%a("Example 122a:Comparing Values for Variable Health insurance/None", q4___0, tii_4_mom_ins___0);
+%a("Example 122b:Comparing Values for Variable Health insurance/Private", q4___1, tii_4_mom_ins___1);
+%a("Example 122c:Comparing Values for Variable Health insurance/Public", q4___2, tii_4_mom_ins___2);
+%a("Example 123:Comparing Values for Variable Employment", q5, tii_4_mom_employ);
+%a("Example 124:Comparing Values for Variable Mother hospital admission", q6a, tii_4_sle_1);
+%a("Example 125:Comparing Values for Variable Mother serious accident/illness", q6b, tii_4_sle_2);
+%a("Example 126:Comparing Values for Variable Partner serious accident/illness", q6c, tii_4_sle_3);
+%a("Example 127:Comparing Values for Variable Friend/family serious accident/illness", q6d, tii_4_sle_4);
+%a("Example 128:Comparing Values for Variable Trouble with the law", q6e, tii_4_sle_5);
+%a("Example 129:Comparing Values for Variable Partner trouble with the law", q6f, tii_4_sle_6);
+%a("Example 130:Comparing Values for Variable Mother separated/divorced", q6g, tii_4_sle_7);
+%a("Example 131:Comparing Values for Variable Partner lost job", q6h, tii_4_sle_8);
+%a("Example 132:Comparing Values for Variable Mother significant drop in income", q6i, tii_4_sle_9);
+%a("Example 133:Comparing Values for Variable Mother major financial problem", q6j, tii_4_sle_10);
+%a("Example 134:Comparing Values for Variable Mother car/house burglarized", q6k, tii_4_sle_11);
+%a("Example 135:Comparing Values for Variable Mother homeless", q6l, tii_4_sle_12);
+%a("Example 136:Comparing Values for Variable Partner did not want child", q6m, tii_4_sle_13);
+%a("Example 137:Comparing Values for Variable Serious argument with partner", q6n, tii_4_sle_14);
+%a("Example 138:Comparing Values for Variable Serious argument with family/friends", q6o, tii_4_sle_15);
+%a("Example 139:Comparing Values for Variable Partner physically cruel", q6p, tii_4_sle_16);
+%a("Example 140:Comparing Values for Variable Partner emotionally cruel", q6q, tii_4_sle_17);
+%a("Example 141:Comparing Values for Variable Mother physically cruel to partner", q6r, tii_4_sle_18);
+%a("Example 142:Comparing Values for Variable Mother attempted suicide", q6s, tii_4_sle_19);
+%a("Example 143:Comparing Values for Variable Friend/relative attempted suicide", q6t, tii_4_sle_20);
+%a("Example 144:Comparing Values for Variable Mother suffer mental illness", q6u, tii_4_sle_21);
+%a("Example 145:Comparing Values for Variable Friend/relative suffer mental illness", q6v, tii_4_sle_22);
+%a("Example 146:Comparing Values for Variable Partner died", q6w, tii_4_sle_23);
+%a("Example 147:Comparing Values for Variable Friend/relative died", q6x, tii_4_sle_24);
+%a("Example 148:Comparing Values for Variable Mother extramartital sexual affair", q6y, tii_4_sle_25);
+%a("Example 149:Comparing Values for Variable Partner extramartital sexual affair", q6z, tii_4_sle_26);
+%a("Example 150:Comparing Values for Variable Other", q6oth, tii_4_sle_other);
+%a("Example 151:Comparing Values for Variable How often mother upset due to unexpected event", q7a, tii_4_cps_1);
+%a("Example 152:Comparing Values for Variable How often felt unable to control important things", q7b, tii_4_cps_2);
+%a("Example 153:Comparing Values for Variable How often nervous or stressed", q7c, tii_4_cps_3);
+%a("Example 154:Comparing Values for Variable How often confident about ability to handle personal prob", q7d, tii_4_cps_4);
+%a("Example 155:Comparing Values for Variable How often feel things go your way", q7e, tii_4_cps_5);
+%a("Example 156:Comparing Values for Variable How often could not cope with all tasks", q7f, tii_4_cps_6);
+%a("Example 157:Comparing Values for Variable How often control irritations", q7g, tii_4_cps_7);
+%a("Example 158:Comparing Values for Variable How often feel on top of things", q7h, tii_4_cps_8);
+%a("Example 159:Comparing Values for Variable How often feel angry", q7i, tii_4_cps_9);
+%a("Example 160:Comparing Values for Variable How often feel difficulties pile up", q7j, tii_4_cps_10);
+%a("Example 161:Comparing Values for Variable Little interest or pleasure in doing things", q8a, tii_4_phq9_1);
+%a("Example 162:Comparing Values for Variable Feeling down, depressed, or hopeless", q8b, tii_4_phq9_2);
+%a("Example 163:Comparing Values for Variable Trouble falling or staying asleep or sleeping too much", q8c, tii_4_phq9_3);
+%a("Example 164:Comparing Values for Variable Feeling tired or have little energy", q8d, tii_4_phq9_4);
+%a("Example 165:Comparing Values for Variable Feeling bas about yourself", q8e, tii_4_phq9_5);
+%a("Example 166:Comparing Values for Variable Poor appetite or overeating", q8f, tii_4_phq9_6);
+%a("Example 167:Comparing Values for Variable Trouble concentrating", q8g, tii_4_phq9_7);
+%a("Example 168:Comparing Values for Variable Trouble concentrating", q8h, tii_4_phq9_8);
+%a("Example 169:Comparing Values for Variable Thoughts you would be better dead", q8i, tii_4_phq9_9);
+%a("Example 170:Comparing Values for Variable There are several people I trust", q9a, tii_4_ss_1);
+%a("Example 171:Comparing Values for Variable Have someone who can help me fix appliance or repair car", q9b, tii_4_ss_2);
+%a("Example 172:Comparing Values for Variable Most of my friends are more interesting than I am", q9c, tii_4_ss_3);
+%a("Example 173:Comparing Values for Variable There is someone who takes pride in my accomplishments", q9d, tii_4_ss_4);
+%a("Example 174:Comparing Values for Variable If I feel lonely, there are people I can talk to", q9e, tii_4_ss_5);
+%a("Example 175:Comparing Values for Variable There is no one I feel comfortable to talking about intimate personal prob", q9f, tii_4_ss_6);
+%a("Example 176:Comparing Values for Variable I often meet or talk with family/friends", q9g, tii_4_ss_7);
+%a("Example 177:Comparing Values for Variable Most people I know think highly of me", q9h, tii_4_ss_8);
+%a("Example 178:Comparing Values for Variable Hard time finding someone to take me to airport in morning", q9i, tii_4_ss_9);
+%a("Example 179:Comparing Values for Variable I feel like I am not always included by my circle of friends", q9j, tii_4_ss_10);
+%a("Example 180:Comparing Values for Variable No one with objective view of how I'm handling my problems", q9k, tii_4_ss_11);
+%a("Example 181:Comparing Values for Variable Several people I enjoy spending time with", q9l, tii_4_ss_12);
+%a("Example 182:Comparing Values for Variable I think that my friends feel that I'm not very good at helping them solve their problems.", q9m, tii_4_ss_13);
+%a("Example 183:Comparing Values for Variable I would have trouble finding someone to take me to doctor", q9n, tii_4_ss_14);
+%a("Example 184:Comparing Values for Variable I would have trouble finding someone to go on a day trip with me", q9o, tii_4_ss_15);
+%a("Example 185:Comparing Values for Variable I could easily find someone to put me up in case of an emergency", q9p, tii_4_ss_16);
+%a("Example 186:Comparing Values for Variable There is no one I can share my private worries with", q9q, tii_4_ss_17);
+%a("Example 187:Comparing Values for Variable If I were sick, I could easily find someone to help me with my daily chores", q9r, tii_4_ss_18);
+%a("Example 188:Comparing Values for Variable There is someone I can turn to for advice about handling problems with my family", q9s, tii_4_ss_19);
+%a("Example 189:Comparing Values for Variable I am as good at doing things as most other people are", q9t, tii_4_ss_20);
+%a("Example 190:Comparing Values for Variable What are you most looking forward to in the coming year with your TIDES child", q10, tii_4_end);
+%a("Example 191:Comparing Values for Variable Anything else about TIDES child", q11, tii_4_end_2);
+
+ods word close;
+
+proc contents data=_4_pvq.Tii_4_pvq_2020930 order=varnum; run;
+
+
+/*fix text for some open ended q's*/
+data _4_pvq.Tii_4_pvq_2020930;
+format tii_4_pmh_1a $500.  tii_4_pmh_1b $500. tii_4_pmh_3a $500.;
+set _4_pvq.Tii_4_pvq_2020930; run;
+
+data _4_pvq.Tii_4_pvq_2020930;
+format
+study_id tii_4_subject_id tii_4_date
+tii_4_child_dob tii_4_1 tii_4_2 tii_4_2a
+tii_4_dem_3_otherchild
+tii_4_dem_3a_yr tii_4_dem_3a_mo tii_4_dem_3a_sex
+tii_4_dem_3b_yr tii_4_dem_3b_mo tii_4_dem_3b_sex
+tii_4_dem_3c_yr tii_4_dem_3c_mo tii_4_dem_3c_sex
+tii_4_dem_3d_yr tii_4_dem_3d_mo tii_4_dem_3d_sex
+tii_4_dem_3e_yr tii_4_dem_3e_mo tii_4_dem_3e_sex
+tii_4_dem_4 tii_4_dem_4a1 tii_4_dem_4b1 tii_4_dem_4b2 tii_4_dem_4b3 tii_4_dem_4b3_other
+tii_4_dem_4c1 tii_4_dem_4c2 tii_4_dem_4c3 tii_4_dem_4c3_other
+tii_4_dem_4d1 tii_4_dem_4d2 tii_4_dem_4d3 tii_4_dem_4d3_other
+tii_4_dem_5a1 tii_4_dem_5b1 tii_4_dem_5c1 tii_4_dem_5d1 tii_4_dem_5e1
+tii_4_smoke_5a tii_4_smoke_5b tii_4_smoke_5c tii_4_smoke_5d tii_4_smoke_5e
+tii_4_pmh_yn tii_4_pmh
+tii_4_pmh_1a tii_4_pmh_1b tii_4_pmh_2a tii_4_pmh_2b tii_4_pmh_3a
+tii_4_pmh_3b tii_4_pmh_4a tii_4_pmh_4b tii_4_pmh_5a tii_4_pmh_5b
+tii_4_isaac_1 tii_4_isaac_2 tii_4_isaac_3 tii_4_isaac_4 tii_4_isaac_5
+tii_4_isaac_6 tii_4_isaac_7 tii_4_isaac_8 tii_4_isaac_9 tii_4_isaac_10
+tii_4_isaac_11 tii_4_isaac_12 tii_4_isaac_13 tii_4_isaac_14 tii_4_isaac_15
+tii_4_isaac_16 tii_4_isaac_17 tii_4_isaac_18 tii_4_isaac_19 tii_4_isaac_20
+tii_4_sleep_1a tii_4_sleep_1b tii_4_sleep_2 tii_4_sleep_3
+tii_4_sleep_4a tii_4_sleep_4b tii_4_sleep_4c tii_4_sleep_4d
+tii_4_sleep_4e tii_4_sleep_4f
+tii_4_psai_1a tii_4_psai_1b tii_4_psai_1c tii_4_psai_1d tii_4_psai_1e tii_4_psai_1f tii_4_psai_1g
+tii_4_psai_2a tii_4_psai_2b tii_4_psai_2c tii_4_psai_2d tii_4_psai_2e tii_4_psai_2f tii_4_psai_2g
+tii_4_psai_2h tii_4_psai_2i tii_4_psai_2j tii_4_psai_2k
+tii_4_psai_3a tii_4_psai_3b tii_4_psai_3c tii_4_psai_3d tii_4_psai_3e tii_4_psai_3f
+tii_4_psai_4a tii_4_psai_4b tii_4_psai_4c tii_4_psai_4d
+tii_4_mom_hlth tii_4_mom_marital tii_4_mom_edu
+tii_4_mom_ins___0 tii_4_mom_ins___1 tii_4_mom_ins___2 tii_4_mom_employ
+tii_4_sle_1 tii_4_sle_2 tii_4_sle_3 tii_4_sle_4 tii_4_sle_5 tii_4_sle_6
+tii_4_sle_7 tii_4_sle_8 tii_4_sle_9 tii_4_sle_10 tii_4_sle_11 tii_4_sle_12
+tii_4_sle_13 tii_4_sle_14 tii_4_sle_15 tii_4_sle_16 tii_4_sle_17 tii_4_sle_18
+tii_4_sle_19 tii_4_sle_20 tii_4_sle_21 tii_4_sle_22 tii_4_sle_23 tii_4_sle_24
+tii_4_sle_25 tii_4_sle_26 tii_4_sle_other
+tii_4_cps_1 tii_4_cps_2 tii_4_cps_3 tii_4_cps_4 tii_4_cps_5 tii_4_cps_6 tii_4_cps_7
+tii_4_cps_8 tii_4_cps_9 tii_4_cps_10
+tii_4_phq9_1 tii_4_phq9_2 tii_4_phq9_3 tii_4_phq9_4 tii_4_phq9_5 tii_4_phq9_6 tii_4_phq9_7
+tii_4_phq9_8 tii_4_phq9_9
+tii_4_ss_1 tii_4_ss_2 tii_4_ss_3 tii_4_ss_4 tii_4_ss_5 tii_4_ss_6
+tii_4_ss_7 tii_4_ss_8 tii_4_ss_9 tii_4_ss_10 tii_4_ss_11
+tii_4_ss_12 tii_4_ss_13 tii_4_ss_14 tii_4_ss_15 tii_4_ss_16
+tii_4_ss_17 tii_4_ss_18 tii_4_ss_19 tii_4_ss_20 tii_4_end tii_4_end_2; set _4_pvq.Tii_4_pvq_2020930; run;
+
+
+data _4_pvq.Tii_4_pvq_2020930; set _4_pvq.Tii_4_pvq_2020930;
+if tii_4_subject_id=62031 then tii_4_pmh_1a="asthma symptoms associated with respiratory infections";
+if tii_4_subject_id=72251 then tii_4_pmh_1a="Bilateral mild to Moderate sensorineural (genetic) hearing loss";
+if tii_4_subject_id=60161 then tii_4_pmh_1b="Iron Supplements - but not using - raising through nutrition";
+if tii_4_subject_id=71711 then tii_4_pmh_1b="flonase, several antibiotics, benadryl, sudafed, nasal saline";
+if tii_4_subject_id=91781 then tii_4_pmh_1b="Lens implants and Medication post-surgery only, all ophthalmic";
+if tii_4_subject_id=70451 then tii_4_pmh_3a="had his tonsils removed a year ago, 2-3 visits before that with an ear infection";
+run;
+/*only difference is 62031, where spelling for "associated" was corrected*/
+
+/*fix age in years and months (because you can)*/
+data _4_pvq.Tii_4_pvq_2020930_1; set _4_pvq.Tii_4_pvq_2020930;
+if tii_4_dem_3a_yr=. then tii_4_dem_3a_yr=intck("year",tii_4_child_dob, tii_4_date,"continuous"); run;
+
+data _4_pvq.Tii_4_pvq_2020930_1; set _4_pvq.Tii_4_pvq_2020930_1;
+dummy=intnx("year", tii_4_child_dob, tii_4_dem_3a_yr, "same");
+format dummy MMDDYY10.;
+run;
+
+data _4_pvq.Tii_4_pvq_2020930_2; set _4_pvq.Tii_4_pvq_2020930_1;
+if tii_4_dem_3a_mo=. then tii_4_dem_3a_mo=intck("month", dummy, tii_4_date,"continuous"); run;
+
+
+
+proc freq data=_4_pvq.Tii_4_pvq_2020930_2;
+table tii_4_dem_3a_yr tii_4_dem_3a_mo; run;
+
+proc print data=_4_pvq.Tii_4_pvq_2020930_2;
+var study_id tii_4_date tii_4_child_dob tii_4_dem_3a_yr tii_4_dem_3a_mo;
+where tii_4_dem_3a_mo=-1; run;
+
+/*fix -1s*/
+data _4_pvq.Tii_4_pvq_2020930_2; set _4_pvq.Tii_4_pvq_2020930_2;
+if tii_4_dem_3a_mo=-1 then tii_4_dem_3a_mo=0; run;
+
+/*fix missing sex*/
+proc print data=_4_pvq.Tii_4_pvq_2020930_2;
+var study_id ;
+where tii_4_dem_3a_sex=.; run;
+
+data _4_pvq.Tii_4_pvq_2020930_2; set _4_pvq.Tii_4_pvq_2020930_2;
+if study_id=6031 then tii_4_dem_3a_sex=2;
+if study_id=6087 then tii_4_dem_3a_sex=2;
+if study_id=6171 then tii_4_dem_3a_sex=2;
+if study_id=6174 then tii_4_dem_3a_sex=1;
+if study_id=6232 then tii_4_dem_3a_sex=2;
+if study_id=8081 then tii_4_dem_3a_sex=1; /*no data past age 4, checked TIDES I data*/
+if study_id=8144 then tii_4_dem_3a_sex=1;
+if study_id=8184 then tii_4_dem_3a_sex=2;
+if study_id=8233 then tii_4_dem_3a_sex=1;
+if study_id=8240 then tii_4_dem_3a_sex=2;
+if study_id=8255 then tii_4_dem_3a_sex=1;
+if study_id=9031 then tii_4_dem_3a_sex=1;
+if study_id=9045 then tii_4_dem_3a_sex=1;
+if study_id=9077 then tii_4_dem_3a_sex=2; run;
+
+data _4_pvq.Tii_4_pvq_2020930_2; set _4_pvq.Tii_4_pvq_2020930_2;
+drop dummy; run;
+
+data _4_pvq.Tii_4_pvq_2020930_2; set _4_pvq.Tii_4_pvq_2020930_2;
+_complete=2; run;
+
+data _4_pvq.Tii_4_pvq_2020930_2; set _4_pvq.Tii_4_pvq_2020930_2;
+child_id=tii_4_subject_id+1; run;
+
+data _4_pvq.Tii_4_pvq_2020930_2;
+format child_id
+study_id tii_4_subject_id tii_4_date
+tii_4_child_dob tii_4_1 tii_4_2 tii_4_2a
+tii_4_dem_3_otherchild
+tii_4_dem_3a_yr tii_4_dem_3a_mo tii_4_dem_3a_sex
+tii_4_dem_3b_yr tii_4_dem_3b_mo tii_4_dem_3b_sex
+tii_4_dem_3c_yr tii_4_dem_3c_mo tii_4_dem_3c_sex
+tii_4_dem_3d_yr tii_4_dem_3d_mo tii_4_dem_3d_sex
+tii_4_dem_3e_yr tii_4_dem_3e_mo tii_4_dem_3e_sex
+tii_4_dem_4 tii_4_dem_4a1 tii_4_dem_4b1 tii_4_dem_4b2 tii_4_dem_4b3 tii_4_dem_4b3_other
+tii_4_dem_4c1 tii_4_dem_4c2 tii_4_dem_4c3 tii_4_dem_4c3_other
+tii_4_dem_4d1 tii_4_dem_4d2 tii_4_dem_4d3 tii_4_dem_4d3_other
+tii_4_dem_5a1 tii_4_dem_5b1 tii_4_dem_5c1 tii_4_dem_5d1 tii_4_dem_5e1
+tii_4_smoke_5a tii_4_smoke_5b tii_4_smoke_5c tii_4_smoke_5d tii_4_smoke_5e
+tii_4_pmh_yn tii_4_pmh
+tii_4_pmh_1a tii_4_pmh_1b tii_4_pmh_2a tii_4_pmh_2b tii_4_pmh_3a
+tii_4_pmh_3b tii_4_pmh_4a tii_4_pmh_4b tii_4_pmh_5a tii_4_pmh_5b
+tii_4_isaac_1 tii_4_isaac_2 tii_4_isaac_3 tii_4_isaac_4 tii_4_isaac_5
+tii_4_isaac_6 tii_4_isaac_7 tii_4_isaac_8 tii_4_isaac_9 tii_4_isaac_10
+tii_4_isaac_11 tii_4_isaac_12 tii_4_isaac_13 tii_4_isaac_14 tii_4_isaac_15
+tii_4_isaac_16 tii_4_isaac_17 tii_4_isaac_18 tii_4_isaac_19 tii_4_isaac_20
+tii_4_sleep_1a tii_4_sleep_1b tii_4_sleep_2 tii_4_sleep_3
+tii_4_sleep_4a tii_4_sleep_4b tii_4_sleep_4c tii_4_sleep_4d
+tii_4_sleep_4e tii_4_sleep_4f
+tii_4_psai_1a tii_4_psai_1b tii_4_psai_1c tii_4_psai_1d tii_4_psai_1e tii_4_psai_1f tii_4_psai_1g
+tii_4_psai_2a tii_4_psai_2b tii_4_psai_2c tii_4_psai_2d tii_4_psai_2e tii_4_psai_2f tii_4_psai_2g
+tii_4_psai_2h tii_4_psai_2i tii_4_psai_2j tii_4_psai_2k
+tii_4_psai_3a tii_4_psai_3b tii_4_psai_3c tii_4_psai_3d tii_4_psai_3e tii_4_psai_3f
+tii_4_psai_4a tii_4_psai_4b tii_4_psai_4c tii_4_psai_4d
+tii_4_mom_hlth tii_4_mom_marital tii_4_mom_edu
+tii_4_mom_ins___0 tii_4_mom_ins___1 tii_4_mom_ins___2 tii_4_mom_employ
+tii_4_sle_1 tii_4_sle_2 tii_4_sle_3 tii_4_sle_4 tii_4_sle_5 tii_4_sle_6
+tii_4_sle_7 tii_4_sle_8 tii_4_sle_9 tii_4_sle_10 tii_4_sle_11 tii_4_sle_12
+tii_4_sle_13 tii_4_sle_14 tii_4_sle_15 tii_4_sle_16 tii_4_sle_17 tii_4_sle_18
+tii_4_sle_19 tii_4_sle_20 tii_4_sle_21 tii_4_sle_22 tii_4_sle_23 tii_4_sle_24
+tii_4_sle_25 tii_4_sle_26 tii_4_sle_other
+tii_4_cps_1 tii_4_cps_2 tii_4_cps_3 tii_4_cps_4 tii_4_cps_5 tii_4_cps_6 tii_4_cps_7
+tii_4_cps_8 tii_4_cps_9 tii_4_cps_10
+tii_4_phq9_1 tii_4_phq9_2 tii_4_phq9_3 tii_4_phq9_4 tii_4_phq9_5 tii_4_phq9_6 tii_4_phq9_7
+tii_4_phq9_8 tii_4_phq9_9
+tii_4_ss_1 tii_4_ss_2 tii_4_ss_3 tii_4_ss_4 tii_4_ss_5 tii_4_ss_6
+tii_4_ss_7 tii_4_ss_8 tii_4_ss_9 tii_4_ss_10 tii_4_ss_11
+tii_4_ss_12 tii_4_ss_13 tii_4_ss_14 tii_4_ss_15 tii_4_ss_16
+tii_4_ss_17 tii_4_ss_18 tii_4_ss_19 tii_4_ss_20 tii_4_end tii_4_end_2; set _4_pvq.Tii_4_pvq_2020930_2; run;
+
+data _4_pvq.Tii_4_pvq_2020930_ucsf; set _4_pvq.Tii_4_pvq_2020930_2;
+if study_id <7000; run;
+
+data _4_pvq.Tii_4_pvq_2020930_umn; set _4_pvq.Tii_4_pvq_2020930_2;
+if 6999 < study_id < 8000; run;
+
+data _4_pvq.Tii_4_pvq_2020930_urmc; set _4_pvq.Tii_4_pvq_2020930_2;
+if 7999 < study_id < 9000; run;
+
+data _4_pvq.Tii_4_pvq_2020930_uw; set _4_pvq.Tii_4_pvq_2020930_2;
+if  study_id > 9000; run;
+
+PROC EXPORT DATA= _4_PVQ.Tii_4_pvq_2020930_ucsf
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES II\Age 4\tii_4_pvq_2020930_ucsf.csv"
+            DBMS=CSV REPLACE;
+     PUTNAMES=YES; RUN;
+
+PROC EXPORT DATA= _4_PVQ.Tii_4_pvq_2020930_umn
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES II\Age 4\tii_4_pvq_2020930_umn.csv"
+            DBMS=CSV REPLACE;
+     PUTNAMES=YES; RUN;
+
+PROC EXPORT DATA= _4_PVQ.Tii_4_pvq_2020930_urmc
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES II\Age 4\tii_4_pvq_2020930_urmc.csv"
+            DBMS=CSV REPLACE;
+     PUTNAMES=YES; RUN;
+
+PROC EXPORT DATA= _4_PVQ.Tii_4_pvq_2020930_uw
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES II\Age 4\tii_4_pvq_2020930_uw.csv"
+            DBMS=CSV REPLACE;
+     PUTNAMES=YES; RUN;
+
+/*import sucessful 9/30/2020*/
