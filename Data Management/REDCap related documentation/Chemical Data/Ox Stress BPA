@@ -11,8 +11,12 @@ table dilution; run;
 data Bpat1phenols368_02202019; set Bpat1phenols368_02202019;
 drop studyid dilution center T1_UrineSG1 T1_UrineSG2 T1_UrineSG; run;
 
+<<<<<<< HEAD
 /*rename _24DCP, _25DCP, etc because
 REDCap hates you*/
+=======
+/*rename _24DCP, _25DCP*/
+>>>>>>> d03bf624872a47f6251d369e89dfaefb61fcca4b
 data Bpat1phenols368_02202019; set Bpat1phenols368_02202019;
 rename	_24DCP	=	two_four_dcp	;
 rename	_25DCP	=	two_five_dcp	;
