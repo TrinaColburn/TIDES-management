@@ -1,0 +1,311 @@
+proc contents data=T3phx20190628 order=varnum; run;
+
+proc contents data=T3_phx_cdc_20190815 order=varnum; run;
+
+/***************************************/
+/**Third Trimester Phthalates from CDC**/
+/*********169 Moms of Boys**************/
+/***************************************/
+
+/*Amend data dictionary in REDCap to adjust for
+two different third trimester assays*/
+data T3phx20190628_1; set T3phx20190628;
+rename	T3_MHiNCH	=	T3_MHiNCH_169	;
+rename	T3_mBP	=	T3_mBP_169	;
+rename	T3_mBzP	=	T3_mBzP_169	;
+rename	T3_mCNP	=	T3_mCNP_169	;
+rename	T3_mCOP	=	T3_mCOP_169	;
+rename	T3_mCPP	=	T3_mCPP_169	;
+rename	T3_mECPP	=	T3_mECPP_169	;
+rename	T3_mEHHP	=	T3_mEHHP_169	;
+rename	T3_mEHP	=	T3_mEHP_169	;
+rename	T3_mEOHP	=	T3_mEOHP_169	;
+rename	T3_mEP	=	T3_mEP_169	;
+rename	T3_miBP	=	T3_miBP_169	;
+rename	T3_MHiNCH_LOD	=	T3_MHiNCH_LOD_169	;
+rename	T3_mBP_LOD	=	T3_mBP_LOD_169	;
+rename	T3_mBzP_LOD	=	T3_mBzP_LOD_169	;
+rename	T3_mCNP_LOD	=	T3_mCNP_LOD_169	;
+rename	T3_mCOP_LOD	=	T3_mCOP_LOD_169	;
+rename	T3_mCPP_LOD	=	T3_mCPP_LOD_169	;
+rename	T3_mECPP_LOD	=	T3_mECPP_LOD_169	;
+rename	T3_mEHHP_LOD	=	T3_mEHHP_LOD_169	;
+rename	T3_mEHP_LOD	=	T3_mEHP_LOD_169	;
+rename	T3_mEOHP_LOD	=	T3_mEOHP_LOD_169	;
+rename	T3_mEP_LOD	=	T3_mEP_LOD_169	;
+rename	T3_miBP_LOD	=	T3_miBP_LOD_169	;
+rename	T3_MolarSumDEHP	=	T3_MolarSumDEHP_169	;
+rename	T3_MolarSumDEHP3	=	T3_MolarSumDEHP3_169	;
+rename	T3_SumDEHP	=	T3_SumDEHP_169	;
+rename	T3_SumDEHP3	=	T3_SumDEHP3_169	;
+rename	T3_MHiNCH_SGadj	=	T3_MHiNCH_SGadj_169	;
+rename	T3_mBP_SGadj	=	T3_mBP_SGadj_169	;
+rename	T3_mBzP_SGadj	=	T3_mBzP_SGadj_169	;
+rename	T3_mCNP_SGadj	=	T3_mCNP_SGadj_169	;
+rename	T3_mCOP_SGadj	=	T3_mCOP_SGadj_169	;
+rename	T3_mCPP_SGadj	=	T3_mCPP_SGadj_169	;
+rename	T3_mECPP_SGadj	=	T3_mECPP_SGadj_169	;
+rename	T3_mEHHP_SGadj	=	T3_mEHHP_SGadj_169	;
+rename	T3_mEHP_SGadj	=	T3_mEHP_SGadj_169	;
+rename	T3_mEOHP_SGadj	=	T3_mEOHP_SGadj_169	;
+rename	T3_mEP_SGadj	=	T3_mEP_SGadj_169	;
+rename	T3_miBP_SGadj	=	T3_miBP_SGadj_169	;
+rename	T3_SumDEHP_SGadj	=	T3_SumDEHP_SGadj_169	;
+rename	T3_SumDEHP3_SGadj	=	T3_SumDEHP3_SGadj_169	;
+rename	T3_MolarSumDEHP_SGadj	=	T3_MolarSumDEHP_SGadj_169	;
+rename	T3_MolarSumDEHP3_SGadj	=	T3_MolarSumDEHP3_SGadj_169	;
+run;
+
+proc contents data=T3phx20190628_1 order=varnum; run;
+
+/* keep only phthalate data and reorder to
+match order in REDCap*/
+data T3phx20190628_2; set T3phx20190628_1;
+keep T3_study_id T3_CDCID T3_SubjectID
+T3_MHiNCH_169
+T3_mBP_169
+T3_mBzP_169
+T3_mCNP_169
+T3_mCOP_169
+T3_mCPP_169
+T3_mECPP_169
+T3_mEHHP_169
+T3_mEHP_169
+T3_mEOHP_169
+T3_mEP_169
+T3_miBP_169
+T3_MolarSumDEHP_169
+T3_MolarSumDEHP3_169
+T3_SumDEHP_169
+T3_SumDEHP3_169
+T3_MHiNCH_SGadj_169
+T3_mBP_SGadj_169
+T3_mBzP_SGadj_169
+T3_mCNP_SGadj_169
+T3_mCOP_SGadj_169
+T3_mCPP_SGadj_169
+T3_mECPP_SGadj_169
+T3_mEHHP_SGadj_169
+T3_mEHP_SGadj_169
+T3_mEOHP_SGadj_169
+T3_mEP_SGadj_169
+T3_miBP_SGadj_169
+T3_SumDEHP_SGadj_169
+T3_SumDEHP3_SGadj_169
+T3_MolarSumDEHP_SGadj_169
+T3_MolarSumDEHP3_SGadj_169
+T3_MHiNCH_LOD_169
+T3_mBP_LOD_169
+T3_mBzP_LOD_169
+T3_mCNP_LOD_169
+T3_mCOP_LOD_169
+T3_mCPP_LOD_169
+T3_mECPP_LOD_169
+T3_mEHHP_LOD_169
+T3_mEHP_LOD_169
+T3_mEOHP_LOD_169
+T3_mEP_LOD_169
+T3_miBP_LOD_169; run;
+
+data T3phx20190628_2;
+format T3_study_id T3_CDCID T3_SubjectID
+T3_MHiNCH_169
+T3_mBP_169
+T3_mBzP_169
+T3_mCNP_169
+T3_mCOP_169
+T3_mCPP_169
+T3_mECPP_169
+T3_mEHHP_169
+T3_mEHP_169
+T3_mEOHP_169
+T3_mEP_169
+T3_miBP_169
+T3_MolarSumDEHP_169
+T3_MolarSumDEHP3_169
+T3_SumDEHP_169
+T3_SumDEHP3_169
+T3_MHiNCH_SGadj_169
+T3_mBP_SGadj_169
+T3_mBzP_SGadj_169
+T3_mCNP_SGadj_169
+T3_mCOP_SGadj_169
+T3_mCPP_SGadj_169
+T3_mECPP_SGadj_169
+T3_mEHHP_SGadj_169
+T3_mEHP_SGadj_169
+T3_mEOHP_SGadj_169
+T3_mEP_SGadj_169
+T3_miBP_SGadj_169
+T3_SumDEHP_SGadj_169
+T3_SumDEHP3_SGadj_169
+T3_MolarSumDEHP_SGadj_169
+T3_MolarSumDEHP3_SGadj_169
+T3_MHiNCH_LOD_169
+T3_mBP_LOD_169
+T3_mBzP_LOD_169
+T3_mCNP_LOD_169
+T3_mCOP_LOD_169
+T3_mCPP_LOD_169
+T3_mECPP_LOD_169
+T3_mEHHP_LOD_169
+T3_mEHP_LOD_169
+T3_mEOHP_LOD_169
+T3_mEP_LOD_169
+T3_miBP_LOD_169; set T3phx20190628_2; run;
+/*Import successful 10/02/2020*/
+
+/***************************************/
+/**Third Trimester Phthalates from CDC**/
+/********Remaining Participants*********/
+/***************************************/
+
+data T3_phx_cdc_20190815_1; set T3_phx_cdc_20190815;
+rename subjectid=t3_specimen_id;
+rename cdcid=t3_cdcid_main; run;
+
+
+proc contents data=T3_phx_cdc_20190815_1 order=varnum; run;
+
+ data T3_phx_cdc_20190815_2; set T3_phx_cdc_20190815_1;
+ rename SumDEHP_3=t3_sumdehp3;
+ rename T3_SumDEHP_3_SGadj=t3_sumdehp3_sgadj; run;
+
+proc contents data=T3_phx_cdc_20190815_2 order=varnum; run;
+
+/*Reorder variables*/
+data T3_phx_cdc_20190815_2;
+format study_id t3_specimen_id
+t3_cdcid_main
+t3_mehp
+t3_mehhp
+t3_meohp
+t3_mecpp
+t3_mbzp
+t3_mbp
+t3_mibp
+t3_mep
+t3_mcpp
+t3_mcop
+t3_mcnp
+t3_mhbp
+t3_mhibp
+t3_mehhtp
+t3_mecptp
+t3_mnp2
+t3_monp
+t3_sumdbp
+t3_sumdehp3
+t3_sumdehp
+t3_mehp_sgadj
+t3_mehhp_sgadj
+t3_meohp_sgadj
+t3_mecpp_sgadj
+t3_mbzp_sgadj
+t3_mbp_sgadj
+t3_mibp_sgadj
+t3_mep_sgadj
+t3_mcpp_sgadj
+t3_mcop_sgadj
+t3_mcnp_sgadj
+t3_mhinch_sgadj
+t3_mhbp_sgadj
+t3_mhibp_sgadj
+t3_mehhtp_sgadj
+t3_mecptp_sgadj
+t3_mcoch_sgadj
+t3_mnp2_sgadj
+t3_monp_sgadj
+t3_sumdehp3_sgadj
+t3_sumdehp_sgadj
+t3_sumdbp_sgadj
+t3_mhinch
+t3_mcoch
+t3_mehp_lod
+t3_mehhp_lod
+t3_meohp_lod
+t3_mecpp_lod
+t3_mbzp_lod
+t3_mbp_lod
+t3_mibp_lod
+t3_mep_lod
+t3_mcpp_lod
+t3_mcop_lod
+t3_mcnp_lod
+t3_mhinch_lod
+t3_mhbp_lod
+t3_mhibp_lod
+t3_mehhtp_lod
+t3_mecptp_lod
+t3_mcoch_lod
+t3_mnp2_lod
+t3_monp_lod;
+set T3_phx_cdc_20190815_2; run;
+
+data T3_phx_cdc_20190815_2; set T3_phx_cdc_20190815_2;
+keep study_id t3_specimen_id
+t3_cdcid_main
+t3_mehp
+t3_mehhp
+t3_meohp
+t3_mecpp
+t3_mbzp
+t3_mbp
+t3_mibp
+t3_mep
+t3_mcpp
+t3_mcop
+t3_mcnp
+t3_mhbp
+t3_mhibp
+t3_mehhtp
+t3_mecptp
+t3_mnp2
+t3_monp
+t3_sumdbp
+t3_sumdehp3
+t3_sumdehp
+t3_mehp_sgadj
+t3_mehhp_sgadj
+t3_meohp_sgadj
+t3_mecpp_sgadj
+t3_mbzp_sgadj
+t3_mbp_sgadj
+t3_mibp_sgadj
+t3_mep_sgadj
+t3_mcpp_sgadj
+t3_mcop_sgadj
+t3_mcnp_sgadj
+t3_mhinch_sgadj
+t3_mhbp_sgadj
+t3_mhibp_sgadj
+t3_mehhtp_sgadj
+t3_mecptp_sgadj
+t3_mcoch_sgadj
+t3_mnp2_sgadj
+t3_monp_sgadj
+t3_sumdehp3_sgadj
+t3_sumdehp_sgadj
+t3_sumdbp_sgadj
+t3_mhinch
+t3_mcoch
+t3_mehp_lod
+t3_mehhp_lod
+t3_meohp_lod
+t3_mecpp_lod
+t3_mbzp_lod
+t3_mbp_lod
+t3_mibp_lod
+t3_mep_lod
+t3_mcpp_lod
+t3_mcop_lod
+t3_mcnp_lod
+t3_mhinch_lod
+t3_mhbp_lod
+t3_mhibp_lod
+t3_mehhtp_lod
+t3_mecptp_lod
+t3_mcoch_lod
+t3_mnp2_lod
+t3_monp_lod; run;
+/*Import successful 10/02/2020*/
