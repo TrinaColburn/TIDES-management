@@ -1,0 +1,61 @@
+data q1.q1_22119; set q1.q1_22119;
+if studyid="P6001" then study_id="60011";
+if studyid="P6002" then study_id="60021";
+if studyid="P6003" then study_id="60031";
+if studyid="P6004" then study_id="60041";
+if studyid="P6005" then study_id="60051";
+if studyid="P6006" then study_id="60061";
+if studyid="P7001" then study_id="70011";
+if studyid="P7002" then study_id="70021";
+if studyid="P7003" then study_id="70031";
+if studyid="P7004" then study_id="70041";
+if studyid="P7005" then study_id="70051";
+if studyid="P8001" then study_id="80011";
+if studyid="P8002" then study_id="80021";
+if studyid="P8003" then study_id="80031";
+if studyid="P8004" then study_id="80041";
+if studyid="P8005" then study_id="80051";
+if studyid="P9001" then study_id="90011";
+if studyid="P9002" then study_id="90021";
+if studyid="P9003" then study_id="90031";
+if studyid="P9004" then study_id="90041";
+if studyid="P9005" then study_id="90051";
+run;
+
+/*reorder subject tracker*/
+Study_ID StudyID CENTER
+ConsentDate
+T1_ApptDate T2_ApptDate T3_ApptDate
+Q1date Q2date Q3date Q1Date_paper
+Q1Date_portal Q2Date_paper Q2Date_portal Q3Date_paper Q3Date_portal
+LMP EDD EDD_method US_Date EDD_US InfantDOB Dday
+T1_UrineDate T1_UrineTime T1_UrineSG1 T1_UrineSG2 T1_Urine_DateLastMeal T1_Urine_TimeLastMeal
+T1_BloodDate T1_BloodTime
+T2_UrineDate T2_UrineTime T2_UrineSG1 T2_UrineSG2 T2_Urine_DateLastMeal T2_Urine_TimeLastMeal
+T3_UrineDate T3_UrineTime T3_UrineSG1 T3_UrineSG2 T3_Urine_DateLastMeal T3_Urine_TimeLastMeal
+BirthExamDate
+yr1exam_date yr1date_paper Yr1date_portal Yr1date
+MayMtSinaiContact Sub Dropped ReasonDropped ReasonDroppedFromStudy
+
+
+if studyid="P6001" then studyid="6001";
+if studyid="P6002" then studyid="6002";
+if studyid="P6003" then studyid="6003";
+if studyid="P6004" then studyid="6004";
+if studyid="P6005" then studyid="6005";
+if studyid="P6006" then studyid="6006";
+if studyid="P7001" then studyid="7001";
+if studyid="P7002" then studyid="7002";
+if studyid="P7003" then studyid="7003";
+if studyid="P7004" then studyid="7004";
+if studyid="P7005" then studyid="7005";
+if studyid="P8001" then studyid="8001";
+if studyid="P8002" then studyid="8002";
+if studyid="P8003" then studyid="8003";
+if studyid="P8004" then studyid="8004";
+if studyid="P8005" then studyid="8005";
+if studyid="P9001" then studyid="9001";
+if studyid="P9002" then studyid="9002";
+if studyid="P9003" then studyid="9003";
+if studyid="P9004" then studyid="9004";
+if studyid="P9005" then studyid="9005";
