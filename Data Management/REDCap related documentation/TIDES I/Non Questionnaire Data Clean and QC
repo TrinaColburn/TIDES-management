@@ -1,0 +1,503 @@
+libname ti_nonq "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Mass upload"; run;
+
+/**************************************************************/
+/***Code exploring and looking at TIDES I Non Trimester Q data*/
+/**************************************************************/
+
+/***Includes:
+	-Common covariate data (DOB, race/eth, etc)
+	-QC of selected Variables
+	-minor recoding
+	-
+
+/*Macro to put contents in excel file*/
+	ods output variables=work.nonqall;
+	proc contents data=ti_nonq._all_ ; run;
+	proc sort data=work.nonqall; by member num; run;
+	options nobyline;
+	ods excel file="J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Mass upload\nonqdatadictionary.xlsx";
+	proc print data=work.nonqall noobs;
+	by member;
+	pageby member;
+	title "Variables in the #BYVal(member) table"; run;
+	ods excel close;
+
+/*********************/
+/*fix Live birth file n=969*/
+	data ti_nonq.Livebirths_tidesonly_20201029; set ti_nonq.Livebirths_tidesonly_02202019;
+	study_id=input(studyid,best8.);
+	child_id=input(SubID,best8.);
+	run;
+
+	data ti_nonq.Livebirths_tidesonly_20201029;
+	format study_id child_id Sample Dup
+	LiveBirthDOB LiveBirthGender BrIn
+	ExamIn BrExamDate Y1ExamDate BuclCollected
+	BuclDate Dropped;
+	set ti_nonq.Livebirths_tidesonly_20201029; run;
+
+	data ti_nonq.Livebirths_tidesonly_20201029; set ti_nonq.Livebirths_tidesonly_20201029;
+	drop studyID subID; run;
+
+
+/*proc compare birth exam and AGD birth*/
+	proc compare base=ti_nonq.Birthexam_20191125
+				 compare=ti_nonq.Agdbirth_tidesonly_20190430 listequalvar;
+	id study_id; run;
+/*Based on Fan's Code, use the compare dataset which is the AGD*/
+/*Create master dataset with vars from AGD plus the other ones from BE that are unique*/
+	/*First qc BW (exists in BRR)*/
+	/*Birthweight*/
+	proc univariate data=ti_nonq.Agdbirth_tidesonly_20190430;
+	var  birthweight_kg;
+	histogram; run;
+	proc print data=ti_nonq.Agdbirth_tidesonly_20190430;
+	var study_id sex age_exam;
+	where birthweight_kg=.; run;
+		/*check BRR*/
+		proc sort data=ti_nonq.Agdbirth_tidesonly_20190430; by study_id; run;
+		proc sort data=ti_nonq.Brr_2019430; by study_id; run;
+		proc compare base=ti_nonq.Agdbirth_tidesonly_20190430
+					 compare=ti_nonq.Brr_2019430;
+		id study_id; var birthweight_kg; run;
+
+		/*8142 Missing, will hardcode 9207 with BW of 3.2*/
+		data ti_nonq.Agdbirth_tidesonly_20190430; set ti_nonq.Agdbirth_tidesonly_20190430;
+		if study_id=9207 then birthweight_kg=3.2; run;
+		/*Keep BIRTHWEIGHT_KG FROM BRR*/
+
+	/*Now select and Merge BE and AGD*/
+	data ti_nonq.birthexam_vars; set ti_nonq.Birthexam_20191125;
+	keep study_id CV_AGDas_af1 CV_AGDap_ac1 CV_PW1 CV_AGDas_af2 CV_AGDap_ac2 CV_PW2
+		 RAD_AGDas_af t_AGDas_af RAD_AGDap_ac t_AGDap_ac RAD_PW t_PW Photo
+		 TestLocat_left TestLocat_Right TestUSdone
+		 CommentsLeft CommentsRight CommentsUltra
+		 TestVol_Pad TestVol_Orchidometer TestVol_Left TestVol_Right
+		 Phimosis Hydrocele_left Hydrocele_right
+		 InguiHernia_Left InguiHernia_Right
+		 Hypospadias_distal Hypospadias_medial Hypospadias_proximal
+		 Chordee Cryptorchidism_Left Cryptorchidism_Right
+		 Micropenis Malformed_Foreskin Ambiguous_Genitalia Other_Comments
+		 Circumcised Bucl BuclDate; run;
+
+
+	data ti_nonq.Agdbirth_vars; set ti_nonq.Agdbirth_tidesonly_20190430;
+	keep study_id BabyBMI Rater1 AGDas1_1 AGDas1_2 AGDas1_3 AGDap1_1
+		 AGDap1_2 AGDap1_3 AGDaf1_1 AGDaf1_2 AGDaf1_3 AGDac1_1 AGDac1_2
+		 AGDac1_3 AGDas_af1 AGDas_af2 PW1_1 PW1_2 PW1_3 PW1 Rater2 AGDas2_1
+		 AGDas2_2 AGDas2_3 AGDap2_1 AGDap2_2 AGDap2_3 AGDaf2_1 AGDaf2_2 AGDaf2_3
+		 AGDac2_1 AGDac2_2 AGDac2_3 AGDap_ac1 AGDap_ac2
+		 PW2_1 PW2_2 PW2_3 PW2 Weight Length
+		_ZWEI _ZLEN	_ZWFL _ZBMI	_FWEI _FLEN	_FWFL _FBMI	WAZ	WTPCT
+		_BIVWT	HAZ	HTPCT	_BIVHT	WHZ	WHPCT _BIVWHT; run;
+
+		proc sort data=ti_nonq.Agdbirth_vars; by study_id; run;
+		proc sort data=ti_nonq.birthexam_vars; by study_id; run;
+				/*FIX STUDY_iD In RESID*/
+				data ti_nonq.Tides_residual_agd_20191025; set ti_nonq.Tides_residual_agd_20191025;
+				if StudyID="P6001" then Study_ID=6001;
+				if StudyID="P6002" then Study_ID=6002;
+				if StudyID="P6003" then Study_ID=6003;
+				if StudyID="P6004" then Study_ID=6004;
+				if StudyID="P7001" then Study_ID=7001;
+				if StudyID="P7002" then Study_ID=7002;
+				if StudyID="P7004" then Study_ID=7004;
+				if StudyID="P7005" then Study_ID=7005;
+				if StudyID="P8001" then Study_ID=8001;
+				if StudyID="P8002" then Study_ID=8002;
+				if StudyID="P8003" then Study_ID=8003;
+				if StudyID="P9001" then Study_ID=9001;
+				if StudyID="P9002" then Study_ID=9002;
+				if StudyID="P9003" then Study_ID=9003;
+				if StudyID="P9004" then Study_ID=9004;
+				if StudyID="P9005" then Study_ID=9005; run;
+
+		proc sort data=ti_nonq.Tides_residual_agd_20191025; by study_id; run;
+
+	data ti_nonq.BE_AGD_import; merge ti_nonq.Agdbirth_vars
+									  ti_nonq.birthexam_vars
+									  ti_nonq.Tides_residual_agd_20191025;
+	by study_id; run;
+
+	/*Re configure vars*/
+	data ti_nonq.BE_AGD_import; format
+	study_id studyid Weight Length BabyBMI
+	Rater1 AGDas1_1 AGDas1_2 AGDas1_3
+	AGDap1_1 AGDap1_2 AGDap1_3
+	AGDaf1_1 AGDaf1_2 AGDaf1_3 CV_AGDas_af1
+	AGDac1_1 AGDac1_2 AGDac1_3 CV_AGDap_ac1
+	AGDas_af1 AGDas_af2
+	PW1_1 PW1_2 PW1_3 PW1 CV_PW1
+	Rater2 AGDas2_1 AGDas2_2 AGDas2_3 AGDap2_1
+	AGDap2_2 AGDap2_3 AGDaf2_1 AGDaf2_2 AGDaf2_3 CV_AGDas_af2
+	AGDac2_1 AGDac2_2 AGDac2_3 CV_AGDap_ac2 AGDap_ac1 AGDap_ac2
+	PW2_1 PW2_2 PW2_3 PW2 CV_PW2
+	RAD_AGDas_af t_AGDas_af RAD_AGDap_ac t_AGDap_ac RAD_PW t_PW
+	Photo TestLocat_left TestLocat_Right TestUSdone CommentsLeft
+	CommentsRight CommentsUltra TestVol_Pad
+	TestVol_Orchidometer TestVol_Left TestVol_Right
+	Phimosis Hydrocele_left Hydrocele_right InguiHernia_Left
+	InguiHernia_Right Hypospadias_distal Hypospadias_medial
+	Hypospadias_proximal Chordee
+	Cryptorchidism_Left Cryptorchidism_Right
+	Micropenis Malformed_Foreskin Ambiguous_Genitalia Other_Comments
+	Circumcised Bucl BuclDate
+	_ZWEI _ZLEN _ZWFL _ZBMI _FWEI _FLEN _FWFL _FBMI WAZ WTPCT _BIVWT
+	HAZ HTPCT _BIVHT WHZ WHPCT _BIVWHT; set ti_nonq.BE_AGD_import; run;
+
+	/*Compare BE_AGD data with Live birth*/
+		data agd_2_livebirth; set ti_nonq.Agdbirth_tidesonly_20190430;
+		keep study_id child_id StudyID SubID CENTER Cohort Sample
+		SEX ExamDate; run;
+
+		data be_2_livebirth; set ti_nonq.Birthexam_20191125;
+		keep study_id Smp Gender DOB BirthTime ExamTime; run;
+
+		proc sort data=agd_2_livebirth; by study_id; run;
+		proc sort data=be_2_livebirth; by study_id; run;
+
+		/*merge*/
+		data agdbe_2_livebirth; merge agd_2_livebirth be_2_livebirth; by study_id; run;
+
+		/*rename common variables in livebirth*/
+		data  livebirths_import; set ti_nonq.Livebirths_tidesonly_20201029;
+		rename sample=lb_sample; run;
+
+		proc sort data=agdbe_2_livebirth; by study_id; run;
+		proc sort data=livebirths_import; by study_id; run;
+
+		/*merge together*/
+		data ti_nonq.livebirths_import_1; merge agdbe_2_livebirth livebirths_import; by study_id; run;
+
+		proc contents data=ti_nonq.livebirths_import_1 order=varnum; run;
+
+		data ti_nonq.livebirths_import_1; format
+		study_id child_id StudyID SubID CENTER Dup
+		Cohort Sample Smp
+		SEX LiveBirthGender Gender
+		LiveBirthDOB DOB BirthTime
+		lb_sample BrIn
+		BrExamDate ExamIn ExamDate ExamTime
+		Y1ExamDate BuclCollected BuclDate Dropped;
+		set ti_nonq.livebirths_import_1; run;
+		/*fix label for Y1ExamDate*/
+			data ti_nonq.livebirths_import_1; set ti_nonq.livebirths_import_1;
+			label Y1ExamDate="Date of Year One Exam"; run;
+
+/***************************************************************/
+/*Resolve overlapping and/or unique variables between datasets*/
+/*For now, create one dataset --> use Keep/Drop
+  to create three different import datasets*/
+/**************************************************************/
+/*Dataset Agdbirth_gestage_only to compare to gestational age dataset*/
+	data ti_nonq.Agdbirth_gestage_only; set ti_nonq.Agdbirth_tidesonly_20190430;
+	keep study_id child_id Age_Exam
+	GestAge_birth_Days GestAge_Birth_wks
+	GestAge_U1 GestAge_U2 GestAge_U3 GestAge_B1
+	Ethnicity ExRace InfantEthnicity InfantRace TwoRace; run;
+
+	/*Compare with gest_age file*/
+	proc sort data=ti_nonq.Agdbirth_gestage_only; by study_id; run;
+	proc sort data=ti_nonq.Gestages_02202019; by study_id; run;
+	proc compare base=ti_nonq.Agdbirth_gestage_only
+				 compare=ti_nonq.Gestages_02202019;
+	id study_id; run;
+	/*Values equal -- will import GESTAGE file*/
+
+/***************************************************************/
+/****dataset Agdbirth_race_eth to compare with race/eth only****/
+/***************************************************************/
+data ti_nonq.Agdbirth_race_eth; set ti_nonq.Agdbirth_tidesonly_20190430;
+keep study_id Ethnicity ExRace InfantEthnicity InfantRace TwoRace; run;
+	/*Check mini race/eth which only has infant with main racedate file*/
+	proc compare base=nonq_RC.Agdbirth_race_eth compare=nonq_RC.Ti_racedates_20190514; id study_id; run;
+	/*Values equal KEEP RACE DATE DATASET but merge tworace variable*/
+
+	/*Merge tworace var*/
+	data nonq_RC.Agdbirth_race_eth; set nonq_RC.Agdbirth_race_eth;
+	keep study_id TwoRace; run;
+
+	data nonq_RC.Ti_racedates_import; merge nonq_RC.Ti_racedates_20190514
+											nonq_RC.Agdbirth_race_eth;
+	by study_id; run;
+
+		/*delete unnecessary obs and reformat new merged file*/
+		/*First check Infant sex and livebirthgender*/
+			proc print data= nonq_RC.Ti_racedates_import;
+			var study_id InfantSex_InExam LiveBirthGender;
+			where InfantSex_InExam ne InfantSex_InExam LiveBirthGender; run;
+			/*No obs in log, drop*/
+
+		/*Drop redundant variables*/
+		data nonq_RC.Ti_racedates_import; set nonq_RC.Ti_racedates_import;
+		drop StudyID subject_id SubID CENTER LiveBirthGender LiveBirthdob; run;
+
+		/*Restructure*/
+		data nonq_RC.Ti_racedates_import; format
+		MomAge_Yrs MomRace MomDOB MomEthnic
+		DadAge_Yrs DadRace DadEthnic
+		BrExEthnicity InfantRace InfantEthnicity BrExRace TwoRace
+		Q1date Q1done Q2date Q2done Q3date Q3done AnyQ MayMtSinaiContact
+		TIDESII_N1 TIDESII_N2 Dropped ReasonDropped; set nonq_RC.Ti_racedates_import; run;
+
+
+/*******************************************************************/
+/**Tackle major covariates:
+	- Center
+	- Baby DOB
+ 	- Baby Sex
+	- Multiple?
+	- gestage_birth_days
+	- gestage_birth_wks
+	- Infant Race/Ethnicity
+/*******************************************************************/
+	/*Clean merged dataset*/
+		proc print data=ti_nonq.livebirths_import_2 noobs;
+		var study_id child_id CENTER lb_sample SEX LiveBirthGender Gender;
+		where SEX ne LiveBirthGender; run;
+
+		/*Fix 7074*/
+		data ti_nonq.livebirths_import_2; set ti_nonq.livebirths_import_1;
+		drop StudyID SubID;
+		if child_id=70743 then Gender="F"; run;
+
+	/*look at lb_sample*/
+		%macro lb(type, name);
+		proc print data=ti_nonq.livebirths_import_1 noobs;
+		where lb_sample=&type; title &name; run;
+		%mend;
+
+		%lb(2, "Reported from Center but no BR");
+		%lb(3, "Have DOB in tracking but no BR");
+		%lb(5, "No baby");
+
+	/*check liverbirth x gender*/
+		proc print data=ti_nonq.livebirths_import_2 noobs;
+		var study_id LiveBirthGender;
+		where gender="F" and LiveBirthGender=1; run;
+	/*no obs -- yay!*/
+
+	/*check sex with DOBs*/
+		proc print data=ti_nonq.livebirths_import_2 noobs;
+		var study_id LiveBirthGender LiveBirthDOB lb_sample;
+		title ;
+		where (LiveBirthGender=. and LiveBirthDOB ne .) or (LiveBirthGender ne . and LiveBirthDOB=.) ; run;
+
+		/*Study ids 6096, 6209, 9036, 9067*/
+		/*fix 6209 (m) and 9067 (m)*/
+		data ti_nonq.livebirths_import_2; set ti_nonq.livebirths_import_2;
+		if study_id=6209 then LiveBirthGender=1;
+		if study_id=9067 then LiveBirthGender=1; run;
+
+	/*drop variables with missing data and keep variable
+      with more complete data*/
+		data ti_nonq.livebirths_import_2; set ti_nonq.livebirths_import_2;
+		drop dob gender sex; run;
+
+	/*Compare live births with gestage just in case*/
+	proc sort data=ti_nonq.Agdbirth_gestage_only; by study_id; run;
+	proc sort data=ti_nonq.Gestages_02202019; by study_id; run;
+	proc compare base=ti_nonq.livebirths_import_2
+				 compare=ti_nonq.Gestages_02202019;
+	id study_id; run;
+	/*Keep base, ti_nonq.livebirths_import_2*/
+
+/***************************************/
+/*copy "import" files to import folder*/
+data nonq_RC.livebirths_import_2; set ti_nonq.livebirths_import_2; run;
+data nonq_RC.BE_AGD_import; set ti_nonq.BE_AGD_import; run;
+data nonq_RC.Gestages_02202019; set ti_nonq.Gestages_02202019; run;
+data nonq_RC.Brr_2019430; set ti_nonq.Brr_2019430; run;
+data nonq_RC.Agdbirth_race_eth; set ti_nonq.Agdbirth_race_eth; run;
+
+/*use this Proc Contents as base to create data dictionary for REDCap*/
+		libname nonq_RC "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Mass upload\final imported files"; run;
+		ods output variables=work.nonq4import;
+		proc contents data=nonq_RC._all_ ; run;
+		proc sort data=work.nonq4import; by member num; run;
+		options nobyline;
+		ods excel file="J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Mass upload\final imported files\RC base.xlsx";
+		proc print data=work.nonq4import noobs;
+		by member;
+		pageby member;
+		title "RC base"; run;
+		ods excel close;
+
+/*clean btwn brr and live birth quick*/
+	/*Multiple*/
+	data nonq_RC.Brr_2019430; set nonq_RC.Brr_2019430;
+	if multiple="Y" then dup=1; else dup=.; run;
+
+	/*babysex and gender*/
+	data nonq_RC.Brr_2019430; set nonq_RC.Brr_2019430;
+	if gender="M" then livebirthgender=1;
+	if gender="F" then livebirthgender=2; run;
+
+	proc print data=nonq_RC.Brr_2019430;
+	var study_id BabySex gender livebirthgender;
+	where BabySex ne livebirthgender; run;
+	/*no obs selected*/
+
+
+	proc compare base=ti_nonq.livebirths_import_2
+				 compare=nonq_RC.Brr_2019430;
+	id study_id; var livebirthgender dup; run;
+	/*dup more reliable in BRR, will keep that*/
+
+/*drop repeated/less complete vars*/
+	data nonq_RC.Gestages_02202019; set nonq_RC.Gestages_02202019;
+	drop studyid subid center LiveBirthGender LiveBirthDOB; run;
+
+	data nonq_RC.livebirths_import_2; set nonq_RC.livebirths_import_2;
+	 rename livebirthgender=childsex;
+	 drop Dup Cohort Sample Smp; run;
+
+	 data nonq_RC.Brr_2019430; set nonq_RC.Brr_2019430;
+	 rename Lenth_of_Labor=Length_of_Labor; run;
+
+	 data nonq_RC.Gestages_02202019; set nonq_RC.Gestages_02202019;
+	 drop StudyID SubID Center LiveBirthGender LiveBirthDOB; run;
+
+
+/*Check funky vars in BRR*/
+	 data nonq_RC.Brr_2019430; set  nonq_RC.Brr_2019430;
+	 drop StudyID SubID CENTER Smp Gender livebirthgender Multiple ; run;
+
+	 proc freq data=nonq_RC.Brr_2019430;
+	 run;
+
+ods word file="J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Mass upload\final imported files\vars in BRR to delete.docx";
+	 proc freq data=nonq_RC.Brr_2019430;
+	 table Specify_labor Specify_other_reason Specify_other_complications; run;
+
+	 proc print data=nonq_RC.Brr_2019430;
+	 var study_id Specify_labor; where Specify_labor="dfsfasfas"; run;
+
+	 proc print data=nonq_RC.Brr_2019430;
+	 var study_id Specify_other_reason; where Specify_other_reason="fgfg"; run;
+
+	 proc print data=nonq_RC.Brr_2019430;
+	 var study_id Specify_other_complications; where Specify_other_complications="dfdfd"; run;
+	 ods word close; run;
+
+	 data nonq_RC.Brr_import; set  nonq_RC.Brr_2019430;
+	 drop Specify_labor Specify_other_reason Specify_other_complications; run;
+
+/*edit race date*/
+	proc contents data=nonq_RC.Ti_racedates_20190514 order=varnum; run;
+
+	/*Merge race date with live birth*/
+	proc compare base=nonq_RC.Livebirths_import_2 compare=nonq_RC.Ti_racedates_import briefsummary; by study_id; run;
+
+	/*Dropped equal -- will drop from racedate*/
+	data nonq_RC.Ti_racedates_import; set nonq_RC.Ti_racedates_import;
+	drop dropped; run;
+
+	proc contents data=nonq_RC.Livebirths_import_2 order=varnum; run;
+	proc contents data=nonq_RC.Ti_racedates_import order=varnum; run;
+
+
+	proc sort data=nonq_RC.Livebirths_import_2; by study_id; run;
+	proc sort data=nonq_RC.Ti_racedates_import; by study_id; run;
+
+	data nonq_RC.livebirth_racedate; merge nonq_RC.Livebirths_import_2 nonq_RC.Ti_racedates_import; by study_id; run;
+
+	/*restructure*/
+	data nonq_RC.livebirth_racedate; format
+	study_id child_id Consented
+	CENTER Cohort lb_sample Sample Smp
+	LiveBirthDOB BirthTime LiveBirthGender dup BrExEthnicity InfantRace InfantEthnicity BrExRace TwoRace
+	MomDOB MomAge_Yrs MomRace MomEthnic DadAge_Yrs DadRace DadEthnic
+	Q1date Q1done Q2date Q2done Q3date Q3done AnyQ
+	BrIn BrExamDate ExamIn ExamDate ExamTime Y1ExamDate BuclCollected BuclDate MayMtSinaiContact
+	TIDESII_N1 TIDESII_N2 Dropped ReasonDropped; set nonq_RC.livebirth_racedate; run;
+
+	data nonq_RC.livebirth_racedate; set nonq_RC.livebirth_racedate;
+	drop InfantSex_InExam BrExamDate; run;
+
+	proc print data=nonq_RC.livebirth_racedate;
+	var study_id ExamDate BrExamDate;
+	where ExamDate ne BrExamDate; run;
+
+	data nonq_RC.livebirth_racedate; set nonq_RC.livebirth_racedate;
+	rename LiveBirthDOB=child_dob;
+	rename LiveBirthGender=child_sex;
+	rename examdate=birthexam_date; run;
+
+	proc contents data=nonq_RC.livebirth_racedate order=varnum; run;
+
+/*poss recode*/
+ods word file="J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Mass upload\final imported files\vars to recode.docx";
+proc freq data=nonq_RC.Be_agd_import;
+table Photo -- TestUSdone TestVol_Pad Phimosis -- Ambiguous_Genitalia Circumcised Bucl; run;
+
+proc freq data=nonq_RC.Brr_import;
+table Labor_Induction Pain_medication Antibiotics Neonatal_Resuscitation Adverse_conditions Abnormal_PE_Findings; run;
+ods word close;
+
+/*recode testicle location*/
+data nonq_RC.Be_agd_import_1; set nonq_RC.Be_agd_import;
+if TestLocat_left="Descended" then TestLocat_left_recode=1;
+if TestLocat_right="Descended" then TestLocat_right_recode=1;
+if TestLocat_left="Undescend" then TestLocat_left_recode=2;
+if TestLocat_right="Undescend" then TestLocat_right_recode=2; run;
+
+	proc freq data=nonq_RC.Be_agd_import_1;
+	table TestLocat_left_recode TestLocat_right_recode; run;
+
+/*************************/
+/*recode other vars (y/n)*/
+/*************************/
+	/*Birth Exam*/
+	%macro berecode(orig, rec);
+	data nonq_RC.Be_agd_import_1; set nonq_RC.Be_agd_import_1;
+	if &orig="N" then &rec=0;
+	if &orig="Y" then &rec=1;
+	run;
+		proc freq data=nonq_RC.Be_agd_import_1;
+		table &orig &rec; run;
+	%mend;
+
+	%berecode(Photo, Photo_recode);
+	%berecode(TestUSdone, TestUSdone_recode);
+	%berecode(TestVol_Pad, TestVol_Pad_recode);
+	%berecode(Phimosis, Phimosis_recode);
+	%berecode(Hydrocele_left, Hydrocele_left_recode);
+	%berecode(Hydrocele_right, Hydrocele_right_recode);
+	%berecode(Hypospadias_distal, Hypospadias_distal_recode);
+	%berecode(Chordee, Chordee_recode);
+	%berecode(Malformed_Foreskin, Malformed_Foreskin_recode);
+	%berecode(Circumcised,Circumcised_recode);
+	%berecode(Bucl,Bucl_recode);
+
+	data nonq_RC.Brr_import_1; set nonq_RC.Brr_import;
+	if Labor_Induction="N" then Labor_Induction_recode=0;
+	if Labor_Induction="NA (scheduled c-section)" then Labor_Induction_recode=77;
+	if Labor_Induction="Other" then Labor_Induction_recode=33;
+	if Labor_Induction="Y" then Labor_Induction_recode=1;
+		run;
+	proc freq data=nonq_RC.Brr_import_1;
+	table Labor_Induction Labor_Induction_recode; run;
+
+/*BRR*/
+	%macro brrecode(orig, rec);
+	data nonq_RC.Brr_import_1; set nonq_RC.Brr_import_1;
+	if &orig="N" then &rec=0;
+	if &orig="Y" then &rec=1;
+	run;
+		proc freq data=nonq_RC.Brr_import_1;
+		table &orig &rec; run;
+	%mend;
+
+	%brrecode(Pain_medication, Pain_medication_recode);
+	%brrecode(Antibiotics, Antibiotics_recode);
+	%brrecode(Neonatal_Resuscitation, Neonatal_Resuscitation_recode);
+	%brrecode(Adverse_conditions, Adverse_conditions_recode);
+	%brrecode(Abnormal_PE_Findings, Abnormal_PE_Findings_recode);
+
+/*Nov 6th*/
+/*You are:
+	-using contents to mae data dictionary
+	-making minor edits as needed, but specifically to recoded vars
+	-Figuring out Birth exam vs. One year exam
+		-program all birth exam, then have it repeat for year one.

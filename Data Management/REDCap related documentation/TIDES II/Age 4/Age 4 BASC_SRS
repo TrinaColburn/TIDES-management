@@ -148,78 +148,13 @@ drop record_id; run;
 
 data _4_bs.Tii_4_bascsrs_2020929;
 format study_id
-subject_id
-basc_id
-basc_date
-basc_sex
-basc_dob
-basc_ext_raw
-basc_ext_t
-basc_ext_pct
-basc_int_raw
-basc_int_t
-basc_int_pct
-basc_bsi_raw
-basc_bsi_t
-basc_bsi_pct
-basc_ads_raw
-basc_ads_t
-basc_ads_pct
-basc_hyp_raw
-basc_hyp_t
-basc_hyp_pct
-basc_agg_raw
-basc_agg_t
-basc_agg_pct
-basc_anx_raw
-basc_anx_t
-basc_anx_pct
-basc_dep_raw
-basc_dep_t
-basc_dep_pct
-basc_som_raw
-basc_som_t
-basc_som_pct
-basc_atp_raw
-basc_atp_t
-basc_atp_pct
-basc_wth_raw
-basc_wth_t
-basc_wth_pct
-basc_att_raw
-basc_att_t
-basc_att_pct
-basc_adp_raw
-basc_adp_t
-basc_adp_pct
-basc_soc_raw
-basc_soc_t
-basc_soc_pct
-basc_act_raw
-basc_act_t
-basc_act_pct
-basc_com_raw
-basc_com_t
-basc_com_pct
-tidesii_v1_basc_data_sheet_compl
-srs_id
-srs_v1date
-srs_sex
-srs_dob
-srs_tot_raw
-srs_tot_t
-srs_awa_raw
-srs_awa_t
-srs_cog_raw
-srs_cog_t
-srs_com_raw
-srs_com_t
-srs_mot_raw
-srs_mot_t
-srs_sci_raw
-srs_sci_t
-srs_rrb_raw
-srs_rrb_t
+subject_id  basc_id  basc_date  basc_sex  basc_dob  basc_ext_raw  basc_ext_t  basc_ext_pct  basc_int_raw  basc_int_t  basc_int_pct  basc_bsi_raw
+basc_bsi_t  basc_bsi_pct  basc_ads_raw  basc_ads_t  basc_ads_pct  basc_hyp_raw  basc_hyp_t  basc_hyp_pct  basc_agg_raw  basc_agg_t  basc_agg_pct
+basc_anx_raw  basc_anx_t  basc_anx_pct  basc_dep_raw  basc_dep_t  basc_dep_pct  basc_som_raw  basc_som_t  basc_som_pct  basc_atp_raw  basc_atp_t
+basc_atp_pct  basc_wth_raw  basc_wth_t  basc_wth_pct  basc_att_raw  basc_att_t  basc_att_pct  basc_adp_raw  basc_adp_t  basc_adp_pct  basc_soc_raw
+basc_soc_t  basc_soc_pct  basc_act_raw  basc_act_t  basc_act_pct  basc_com_raw  basc_com_t  basc_com_pct  tidesii_v1_basc_data_sheet_compl  srs_id
+srs_v1date  srs_sex  srs_dob  srs_tot_raw  srs_tot_t  srs_awa_raw  srs_awa_t  srs_cog_raw  srs_cog_t  srs_com_raw  srs_com_t  srs_mot_raw  srs_mot_t
+srs_sci_raw  srs_sci_t  srs_rrb_raw  srs_rrb_t
 tidesii_v1_srs_data_sheet_comple;
 set _4_bs.Tii_4_bascsrs_2020929; run;
 
