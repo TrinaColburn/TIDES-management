@@ -1,0 +1,406 @@
+OPTIONS REPLACE NUMBER=1 PAGENO=1 NODATE LS=138 PS=1000 label=1;* FORMDLIM ='-';
+
+/* ======================= Q1 DATA ====================== */
+%LET Q1date=071315; * Q1 data, last run 071113 050613 021513(for 3/21/13 report) 012913 042512 012512;
+LIBNAME Q1data "J:\PM\TIDES_Data\Q1\Data071315\";
+data q1(keep=StudyID Center Q1_Done TODAY_DT q1days Q5_LMP EstQ5lmp DiffQ5lmp);
+set Q1DATA.TIEDS_Q1_&Q1date;
+Q1_Done=1;
+* ------------- Fix Q5_LMP;
+if StudyID='6050' then Q5_LMP='02JUL11'D;
+if StudyID='6170' then Q5_LMP='22DEC11'D;
+if StudyID='8040' then Q5_LMP='25JAN11'D;
+if StudyID='8069' then Q5_LMP='08JAN11'D;
+if StudyID='8077' then Q5_LMP='02FEB11'D;
+if StudyID='8158' then Q5_LMP='20AUG11'D;
+if StudyID='8225' then Q5_LMP='16NOV11'D;
+if StudyID='8235' then Q5_LMP='31DEC11'D;
+
+* ------------- Estimated Q5_LMP;
+q1days=Q1_WKS_Recode*7;
+EstQ5lmp=TODAY_DT-q1days;
+DiffQ5lmp=EstQ5lmp-Q5_LMP;
+
+format q1days 8. Q5_LMP estq5lmp mmddyy.;
+proc sort data=q1; by STUDYID;
+proc contents data=q1;
+run;
+
+proc print data=q1 n;
+where Q5_LMP ne estq5lmp;
+where diffq5lmp<30 or diffq5lmp > 30;
+var StudyID q1days TODAY_DT Q5_LMP estq5lmp diffq5lmp;
+run;
+
+/* ======================= Tracking DATA ====================== */
+%let trkdate=0315;  *last 0314 1113, 0813;
+LIBNAME indata "J:\PM\TIDES\Data\Reports\ForReport\";
+data trk(keep=StudyID center InfantDOB LMP EDD EDD_method EDD_US US_date dropped);
+set indata.sub_trck_rpt_&trkdate;
+                if Study_ID ne '0'; *!!!!!!!!!!;
+
+* ---------- Fix EDD;
+if StudyID='8276' then EDD='30JAN2013'D;
+* ------------- Fix EDD_US;
+
+if StudyID='7083' then do;
+     US_Date='15APR2011'D;
+     EDD_US='01DEC2011'D;
+end;
+if StudyID='7091' then US_Date='27MAY2011'D;
+if StudyID='7092' then US_Date='08JUN2011'D;
+if StudyID='7181' then US_Date='09DEC2011'D;
+if StudyID='9099' then US_Date='31AUG2011'D;
+
+if StudyID='7125' then EDD_US='29MAR2012'D;
+if StudyID='7156' then EDD_US='21JUN2012'D;
+if StudyID='7160' then EDD_US='25JUN2012'D;
+if StudyID='P9005' then EDD_US='31MAR2011'D;
+if StudyID='9085' then EDD_US='25JAN2012'D;
+if StudyID='9133' then EDD_US='02JUN2012'D;
+if StudyID='9143' then EDD_US='24JUN2012'D;
+
+proc sort data=trk; by StudyID;
+proc contents data=trk varnum;
+run;
+
+/* =============================== Import infant DOB data ===================================== */
+LIBNAME outdata "J:\PM\TIDES\Data\DataFiles\LiveBirths\";
+* ------- 978 total, 807 TIDES, 171 Supplemental, 3 twins;
+%let expdate=0816;
+LIBNAME lvdata "J:\PM\TIDES\Data\DataFiles\LiveBirths\";
+data babyDOB(keep=StudyID ExamIn LiveBirthDOB LiveBirthGender);
+set lvdata.tides_livebirths_&expdate;
+if sample in(1,2,3) and dup ne 1;
+proc sort data=babydob; by studyid;
+run;
+
+proc contents data=babydob;
+run;
+
+/* =============================== Import BRR data ===================================== */
+%let brrdate=final_0916;  * v2_0314, v1_0913, v1_0513 v1_0413 v1_0213, v1_1212;
+LIBNAME brrdata "J:\PM\TIDES_Data\BirthRecordReview (BRR)\";
+data br(keep=StudyID SubID BRin GestAge_birth_days GestAgeEstLMP);
+set brrdata.tides_brr_&brrdate;
+BrIn=1; *951;
+IF SMP IN(1,2);
+* --------------- ;
+GestAgeEstLMP=Date_of_Delivery - GestAge_birth_days;
+format GestAgeEstLMP mmddyy.;
+proc sort data=br nodupkey; by StudyID;
+run;
+
+* ------------------------------- Of 790, 789 who have GestAgeEstLMP;
+* ----------------------- #9171 missing on gestational age;
+proc print n data=br;
+*where StudyID='9067';
+*where GestAgeEstLMP = .;
+var StudyID SubID BRin GestAge_birth_days GestAgeEstLMP;
+run;
+
+
+
+* ------------ merge data;
+data all;
+merge babyDOB br q1 trk;
+by StudyID;
+
+* ------------------- Fix LMP;
+if Study_ID='60491' then  LMP='18DEC2010'D;
+if Study_ID='71951' then  LMP='18DEC2011'D;
+if Study_ID='72051' then  LMP='15DEC2011'D;
+if Study_ID='82351' then  LMP='31DEC2011'D;
+
+* ------------ US estimated LMP ;
+USestLMP=EDD_US-280;
+Diff_USlmp_LMP=USestLMP-LMP;
+
+* ------------ EDD estimated LMP;
+EDDestLMP=EDD-280;
+Diff_EDDlmp_LMP=EDDestLMP-LMP;
+
+* ------------ ;
+Diff_DOB_EDD=LiveBirthDOB-EDD_US;
+Diff_EDD=EDD_US-EDD;
+* ------------ ;
+Diff_USlmp_GAlmp=GestAgeEstLMP-USestLMP;
+
+* ==================== Set up true LMP;
+* ---- Step 1;
+TIDES_Women_LMP=GestAgeEstLMP;
+* ---- Step 2 for 180 without BR data;
+ IF (GestAgeEstLMP =.) THEN DO;
+* ---- Step 2a, 57 women;
+	if Q5_LMP = LMP then TIDES_Women_LMP=LMP;
+* ---- Step 2b, 52 women;
+    if (Q5_LMP ne LMP) and (-10 < Diff_USlmp_LMP < 10) then TIDES_Women_LMP=LMP;
+END;
+* ---- Step 3, 13 women;
+  IF (TIDES_Women_LMP =.) then TIDES_Women_LMP = USestLMP;
+* ---- Step 4, 58 women;
+  IF (TIDES_Women_LMP =.) then TIDES_Women_LMP = EDDestLMP;
+
+format LMP USestLMP EDDestLMP TIDES_Women_LMP mmddyy.;* Q5_LMP LMP 8.;
+run;
+
+proc contents data=all;
+run;
+
+proc print n data=all;
+*where StudyID='9067';
+*where StudyID='8276';
+*where StudyID='7083';
+*where StudyID='9099';
+*where LiveBirthDOB ne .;
+where brin ne .;
+var StudyID TODAY_DT Q5_LMP LMP EstQ5lmp USestLMP DiffQ5lmp Diff_USlmp_LMP TIDES_Women_LMP EDD EDD_method EDD_US Diff_EDD Diff_DOB_EDD LiveBirthDOB GestAge_birth_days;
+run;
+
+proc print data=all n width=min;
+where (TIDES_Women_LMP =.);
+var StudyID TODAY_DT Q5_LMP LMP EstQ5lmp USestLMP DiffQ5lmp Diff_USlmp_LMP TIDES_Women_LMP EDD EDD_method EDD_US Diff_EDD Diff_DOB_EDD LiveBirthDOB GestAge_birth_days;
+run;
+
+* ================================== Step 1, it is OK to use GestAgeEstLMP;
+* ----------- for #9099, using LMP or USlmp instead;
+* ------------------------------------------------------------------------------------------------ ;
+proc means data=all n nmiss mean std median min max;
+var DiffQ5lmp Diff_USlmp_GAlmp;
+run;
+
+* ----------------------------------- Diff_USlmp_GAlmp ----------------------------------- ;
+proc print data=all n width=min;
+where (GestAgeEstLMP ne USestLMP) and (Diff_USlmp_GAlmp <-10 or Diff_USlmp_GAlmp >10);
+var StudyID TODAY_DT Q5_LMP LMP EstQ5lmp USestLMP TIDES_Women_LMP DiffQ5lmp Diff_USlmp_GAlmp;
+run;
+
+* --------------------------------- Fix P9005 ;
+proc print data=all n width=min;
+where (Diff_USlmp_GAlmp ne .) and (Diff_USlmp_GAlmp < -10);
+var StudyID TODAY_DT Q5_LMP LMP EstQ5lmp USestLMP TIDES_Women_LMP DiffQ5lmp Diff_USlmp_GAlmp EDD EDD_method EDD_US LiveBirthDOB US_date GestAge_birth_days;
+run;
+
+proc print data=all n width=min;
+where (Diff_USlmp_GAlmp ne .) and (Diff_USlmp_GAlmp > 10);
+var StudyID TODAY_DT Q5_LMP LMP EstQ5lmp USestLMP TIDES_Women_LMP DiffQ5lmp Diff_USlmp_GAlmp EDD EDD_method EDD_US LiveBirthDOB US_date GestAge_birth_days;
+run;
+
+* ================================== Step 2, for those who don't have data in BRR;
+* ----------- DiffQ5lmp=EstQ5lmp-Q5_LMP, Diff_USlmp_LMP=USestLMP-LMP;
+* ------------------------------------------------------------------------------------------------ ;
+proc print data=all n width=min;
+where EDD_US < US_date;
+var StudyID TODAY_DT Q5_LMP LMP EstQ5lmp USestLMP DiffQ5lmp Diff_USlmp_LMP TIDES_Women_LMP EDD EDD_US US_date Diff_EDD Diff_DOB_EDD LiveBirthDOB GestAge_birth_days;
+run;
+
+proc print data=all n width=min;
+where (GestAgeEstLMP =.);* and (Q5_LMP ne .) and (LMP ne .) and (Q5_LMP ne LMP) and (-3 > DiffQ5lmp or DiffQ5lmp >3);
+var StudyID TODAY_DT Q5_LMP LMP EstQ5lmp USestLMP DiffQ5lmp Diff_USlmp_LMP TIDES_Women_LMP EDD EDD_method EDD_US Diff_EDD Diff_DOB_EDD LiveBirthDOB GestAge_birth_days;
+run;
+
+* -----------------------------------2a,  57 ;
+proc print data=all n width=min;
+where (GestAgeEstLMP =.) and (Q5_LMP ne .) and (LMP ne .) and (Q5_LMP = LMP);
+var StudyID TODAY_DT Q5_LMP LMP EstQ5lmp DiffQ5lmp USestLMP Diff_USlmp_LMP TIDES_Women_LMP EDD EDD_method EDD_US Diff_EDD Diff_DOB_EDD LiveBirthDOB GestAge_birth_days;
+run;
+
+* -----------------------------------2b,  52;
+proc print data=all n width=min;
+where (GestAgeEstLMP =.) and (Q5_LMP ne LMP) and (-10 < Diff_USlmp_LMP < 10);
+var StudyID TODAY_DT Q5_LMP LMP EstQ5lmp DiffQ5lmp USestLMP Diff_USlmp_LMP TIDES_Women_LMP EDD EDD_method EDD_US Diff_EDD Diff_DOB_EDD LiveBirthDOB GestAge_birth_days;
+run;
+
+* ================================== Step 4, for 58 those who only have LMP and EDD reported in Tracking data;
+* ------------ EDD estimated LMP;
+*EDDestLMP=EDD-280;
+*Diff_EDDlmp_LMP=EDDestLMP-LMP;
+proc print data=all n width=min;
+where (TIDES_Women_LMP =.);
+var StudyID TODAY_DT Q5_LMP LMP EstQ5lmp DiffQ5lmp EDDestLMP Diff_EDDlmp_LMP TIDES_Women_LMP EDD EDD_method LiveBirthDOB GestAge_birth_days;
+run;
+
+
+
+* --------------------------------------------------------- Check EDD, EDD_US;
+proc print data=all n;
+where EDD ne EDD_US ;
+var StudyID TODAY_DT Q5_LMP LMP estq5lmp EDD EDD_method EDD_US US_date;
+run;
+
+proc print data=all n width=min;
+*where EDD_US ne LiveBirthDOB;
+where (0< DiffEDD < -50) or DiffEDD > 50 ;
+var StudyID TODAY_DT Q5_LMP LMP USestLMP estq5lmp EDD EDD_method EDD_US LiveBirthDOB DiffEDD US_date;
+run;
+
+* ========================================== Summary stat =========================================== ;
+proc print data=all n width=min;
+var StudyID TODAY_DT Q5_LMP LMP EDDestLMP USestLMP GestAgeEstLMP TIDES_Women_LMP EDD_method EDD EDD_US LiveBirthDOB GestAge_birth_days;
+run;
+
+proc means data=all n nmiss mean std median min max;
+var GestAge_birth_days center;
+run;
+
+* ====================================== Rxport DATA SET =========================================== ;
+%LET lmpdate=112116;
+LIBNAME lmpdata "J:\PM\TIDES\Data\DataFiles\GestationalAges\11-2016\";
+
+data lmpdata.tides_lmp_data_&lmpdate (keep=StudyID SubID Center BRin ExamIn dropped
+                                           LiveBirthGender LiveBirthDOB
+                                           Q5_LMP LMP EDDestLMP USestLMP GestAgeEstLMP TIDES_Women_LMP
+                                           EDD_method EDD EDD_US US_date
+                                           GestAge_birth_days);
+set all;
+LABEL
+   BrIn                  = 'Infant have birth record review form'
+   ExamIn                ='Infnat take a birth exam'
+   Center                = ' 6=UCSF 7=UMN 8=URMC 9=UW'
+   Dropped               = ' Dropped from study, 1=Yes 0=No'
+   EDD                   = ' EDD reported in Tracking data base'
+   EDD_US                = ' EDD by Ultrasound'
+   EDD_method            = ' EDD method'
+   EDDestLMP             = ' Estimated EDD by EDD - 280'
+   GestAgeEstLMP         = ' Date_of_Delivery - GestAge_birth_days reported in BRR'
+   TIDES_Women_LMP       = ' Estimated TIDES women LMP'
+   GestAge_birth_Days    = ' Gestational age at birth, days'
+   LMP                   = ' LMP reported in Tracking data base'
+   LiveBirthDOB          = ' Infant date of birth'
+   LiveBirthGender       = ' Infant Gender 1=Boy 2=Girl'
+   Q5_LMP                = ' T1Q,q5, Last menstrual period'
+   StudyID               = ' Study ID to merge TIDES data'
+   SubID                 = ' TIDES infant ID'
+   US_Date               = ' Ultrasound date'
+   USestLMP              = ' Ultrasound estimated LMP by US_EDD - 280'
+   ;
+run;
+
+proc sort data=lmpdata.tides_lmp_data_&lmpdate;
+by studyid;
+run;
+
+
+ods rtf file="J:\PM\TIDES\Data\DataFiles\GestationalAges\11-2016\Contents of TIDES LMP-EDD data, &lmpdate..rtf";
+proc contents data=lmpdata.tides_lmp_data_&lmpdate;
+title "Contents of TIDES LMP-EDD data set, &lmpdate";
+run;
+ods rtf close;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                             TIDES women: mean gestational age at Birth, U1, U2, U3 and B1 collection, 12OCT16                          34
+
+                                                   ++++++++++++++ Total ++++++++++++++
+
+       Study                                                                                                   Live      Diff
+ Obs    ID     TODAY_DT      Q5_LMP      LMP      USestLMP   estq5lmp         EDD   EDD_method    EDD_US     BirthDOB     EDD    US_Date
+
+ 349   7125    11OCT2011   06/17/11   20JUN2011   06/22/10   06/28/11           .   US           29MAR2011   29FEB2012    337   08AUG2011
+ 380   7156    08NOV2011   09/15/11   15SEP2011   09/14/10   09/10/11           .   US           21JUN2011   25JUN2012    370   04NOV2011
+ 384   7160    11NOV2011   09/22/11   22SEP2011   09/18/10   09/22/11           .   LMP          25JUN2011   18JUN2012    359   11NOV2011
+ 391   7167    02JAN2012          .   27JUN2011   07/13/11   10/01/11           .   US           18APR2012   08JUL2012     81   22AUG2011
+ 819   9085    18JUN2011   04/20/11   20APR2011   04/20/10   04/21/11   25JAN2011   LMP          25JAN2011   03FEB2012    374   19JUL2011
+ 877   9143    16NOV2011          .   16SEP2011   09/17/10          .   21JUN2011   Ultrasound   24JUN2011   19JUN2012    361   16DEC2011
+
+                                                                  N = 6
+
+if StudyID='7125' then EDD_US='29MAR2012'D;	
+
+if StudyID='7156' then EDD_US='21JUN2012'D;
+
+if StudyID='7160' then EDD_US='25JUN2012'D;
+
+if StudyID='9085' then EDD_US='25JAN2012'D;
+
+if StudyID='9143' then EDD_US='24JUN2012'D;
+
+
+if StudyID='6050' then Q5_LMP='02JUL11'D;
+if StudyID='8040' then Q5_LMP='25JAN11'D;
+if StudyID='8069' then Q5_LMP='08JAN11'D;
+if StudyID='8077' then Q5_LMP='02FEB11'D;
+if StudyID='8158' then Q5_LMP='20AUG11'D;
+
+                             Obs    StudyID          q1days     TODAY_DT     Q5_LMP     EstQ5lmp       Q5lmp
+
+                              40    6050                 70    24APR2011    02/07/10    02/13/11      371.00
+                              72    6084                 52    29JUN2011    04/07/11    05/08/11       31.00
+                             305    7096                 56    04AUG2011    04/24/11    06/09/11       46.00
+                             339    7133                 61    11OCT2011    07/05/11    08/11/11       37.00
+                             434    7232                 95    28JUN2012    02/17/12    03/25/12       37.00
+                             447    8011                 75    15MAR2011    10/05/10    12/30/10       86.00
+                             451    8016                 84    09MAR2011    10/04/10    12/15/10       72.00
+                             456    8021                102    15MAR2011    10/15/10    12/03/10       49.00
+                             459    8025                 91    15MAR2011    08/02/10    12/14/10      134.00
+                             461    8028                 98    15MAR2011    11/04/10    12/07/10       33.00
+                             470    8040                105    08APR2011    01/25/10    12/24/10      333.00
+                             474    8044                 36    15MAR2011    12/25/10    02/06/11       43.67
+                             477    8047                 50    15MAR2011    12/12/10    01/24/11       43.00
+                             482    8053                 87    28APR2011    12/06/10    01/31/11       56.00
+                             485    8058                 84    08APR2011    12/14/10    01/14/11       31.00
+                             488    8061                 56    12APR2011    01/13/11    02/14/11       32.65
+                             494    8068                 90    29APR2011    12/20/10    01/29/11       40.00
+                             495    8069                 75    21APR2011    01/08/10    02/05/11      393.00
+                             503    8077                 56    01APR2011    02/02/10    02/04/11      367.00
+                             511    8091                 98    27MAY2011    01/05/11    02/18/11       44.00
+                             515    8095                 91    27JUL2011    03/15/11    04/27/11       43.00
+                             517    8098                 68    02AUG2011    03/18/11    05/26/11       69.00
+                             518    8099                 84    24AUG2011    03/16/11    06/01/11       77.00
+                             525    8106                 91    24AUG2011    03/15/11    05/25/11       71.00
+                             527    8108                 85    24AUG2011    04/05/11    05/30/11       55.81
+                             529    8111                 63    24AUG2011    04/18/11    06/22/11       65.00
+                             535    8117                 57    24AUG2011    04/21/11    06/27/11       67.81
+                             547    8131                 70    02NOV2011    06/14/11    08/24/11       71.00
+                             548    8132                 84    02NOV2011    05/23/11    08/10/11       79.00
+                             553    8138                 86    02NOV2011    07/08/11    08/08/11       31.00
+                             555    8140                 60    02NOV2011    06/20/11    09/03/11       75.00
+                             570    8158                 78    07NOV2011    08/20/83    08/21/11    10228.00
+                             580    8169                 83    07MAR2012    09/02/11    12/15/11      104.00
+                             618    8207                 78    07MAR2012    11/13/11    12/20/11       37.00
+                             621    8210                 61    30MAR2012    11/23/11    01/29/12       67.00
+                             622    8212                 81    19MAR2012    11/17/11    12/29/11       42.00
+                             624    8214                 91    19MAR2012    11/14/11    12/19/11       35.00
+                             627    8217                 72    19MAR2012    12/05/11    01/07/12       33.00
+                             630    8221                 19    19MAR2012    12/10/11    02/29/12       81.24
+                             640    8234                 43    25APR2012    02/04/12    03/12/12       37.81
+                             646    8240                 27    25APR2012    01/20/12    03/29/12       69.00
+                             650    8244                 88    09JUL2012    02/05/12    04/12/12       67.00
+                             658    8254                 91    06JUL2012    03/02/12    04/06/12       35.00
+                             747    9069                 77    09AUG2011    01/22/11    05/24/11      122.00
+                             801    9129                 98    08NOV2011    05/31/11    08/02/11       63.00
+                             810    9139                182    06APR2012    08/12/11    10/07/11       56.00
+                             811    9140                175    06APR2012    09/12/11    10/14/11       32.00
+                             833    9165                 81    08JUN2012    10/15/11    03/19/12      156.00
+                             873    9211                200    25JAN2013    06/04/12    07/09/12       35.00

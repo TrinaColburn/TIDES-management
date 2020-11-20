@@ -1,0 +1,328 @@
+/*From Kate Christenbury (Kelly Ferguson Data Manager)*/
+
+
+**DATA CLEANING**;
+   if studyid = 7001 then do;
+                weight_kg_v3 = 86.4;
+                weight_lb_v3 = 190.5;
+            end;
+
+            if studyid = 6053 then do;
+                weight_kg_v1 = 63.5;
+                weight_lb_v1 = 140;
+            end;
+
+*FIXING WEIRD DATES FOR HOSP_DT_TIME AND DEL_DT_TIME;
+*change for IDs 9004, 6093, 6227, 6230, 7156, 6059;
+if studyid=9004 then del_dt_time = infantdob;
+if studyid=6093 then del_dt_time = infantdob;
+if studyid=6227 then del_dt_time = infantdob;
+if studyid=6230 then hosp_dt_time = 19415 ;
+**make this 2/26/2013, not 2/26/2012;
+if studyid=7156 then del_dt_time = infantdob;
+if studyid=6059 then del_dt_time = infantdob;
+
+
+
+OUTCOME CODING
+**spon_labor**;
+*spontaneous labor based on "preterm spontaneous labor with preterm/term delivery" and
+"hospital presentation reason: spontaneous labor";
+if ptl_icd10_o601=1 or ptl_icd10_o602=1 or hosp_pres_sponlabor=1 then spon_labor=1;
+else spon_labor =0;
+
+**prom and spon_prom**;
+if hosp_pres_prom=1 or comp_icd10_o42 = 1 then PROM=1;
+        else PROM=0;
+
+    if prom=1 or spon_labor = 1 then spon_prom = 1;
+    else spon_prom=0;
+
+**spon_pt**;
+*only including women with  spontaneous preterm DELIVERY (not just labor);
+*recoding women with missing ptl variable but date for ptl to yes;
+if ptl_yn = . and ptl_dt ne . then ptl_yn = 1;
+if ptl_icd10_o601=1  then spon_pt=1;
+else if hosp_pres_sponlabor = 1 and preterm=1 then spon_pt=1;
+else spon_pt=0;
+
+**plac_del and plac_pt**;
+*PLACENTAL PRETERM DELIVERY;
+*first, any placental delivery;
+if hosp_pres_pe = 1 or schedc_reas_pe =1 or schedc_reas_iugr=1 or unschedc_reas_pe=1 or
+unschedc_reas_iugr=1 then plac_del = 1;
+else plac_del=0;
+
+*next, preterm placental;
+if plac_del=1 and preterm=1 then plac_pt = 1;
+else plac_pt = 0;
+
+
+**preterm**;
+*creating preterm birth and prolonged pregnancy variables based on full visit data;
+if br_gestage_wks = . then preterm=.;
+else if br_gestage_wks gt 0 and br_gestage_wks lt 37 then preterm=1;
+else if br_gestage_wks ge 37 then preterm=0;
+
+
+
+***for women missing arrival date at hospital, using delivery date;
+if hosp_dt_time = . and del_dt_time ne . then hosp_dt_time = del_dt_time;
+else if hosp_dt_time = . then hosp_dt_time = infantdob;
+
+
+**sponlabor_dt and sponlabor_dt_ga**;
+*creating date for spontaneous labor;
+if ptl_icd10_o601_dt ge 0 then do;
+sponlabor_dt = ptl_icd10_o601_dt;
+sponlabor_dt_ga = ptl_icd10_o601_dt_ga;
+end;
+
+else if ptl_yn=1 then do;
+sponlabor_dt=ptl_dt;
+sponlabor_dt_ga = ptl_dt_ga;
+end;
+
+else if hosp_pres_sponlabor = 1 then sponlabor_dt = hosp_dt_time;
+format sponlabor_dt date9.;
+
+**prom_dt and prom_dt_ga**;
+if prom=1 and comp_icd10_o42_dt gt 0 then do;
+prom_dt = comp_icd10_o42_dt;
+prom_dt_ga = comp_icd10_o42_dt_ga;
+end;
+format prom_dt date9.;
+
+
+
+
+**censor_sp and censor_prom**;
+*OUTCOME 2: SPONTANEOUS LABOR (delivery date among women who had it);
+*woman with PROM far before delivery, set her to missing;
+if studyid=7078 then do;
+prom_dt = .;
+prom=0;
+censor_sp=0;
+end;
+
+else if prom=1 then do;
+spon_prom=1;
+censor_sp=0;
+end;
+
+else if spon_labor=1 and ptl_icd10_o601_dt ne . and del_dt_time - ptl_icd10_o601_dt in
+(0 1 2) then do;
+spon_prom=1;
+censor_sp=0;
+end;
+
+else if spon_labor=1 and ptl_icd10_o601_dt = . and ptl_dt ne . and del_dt_time - ptl_dt in
+(0 1 2) then do;
+spon_prom=1;
+censor_sp=0;
+end;
+
+else if hosp_pres_sponlabor=1 then do;
+spon_prom=1;
+censor_sp=0;
+end;
+
+else if censor_sp ne 0 then do;
+spon_prom=0;
+censor_sp=1;
+end;
+
+
+*OUTCOME 3: PROM (delivery date among women who had it);
+*only other censoring is at delivery date;
+if prom=1 then do;
+censor_prom=0;
+end;
+
+else if prom=0 then do;
+censor_prom=1;
+end;
+
+
+**Other corrections**;
+ if studyid = 8007 then do;
+us_1_date_ga=.; us_2_date_ga=.; us_3_date_ga=.; us_4_date_ga=.; us_5_date_ga=.; us_6_date_ga=.; us_7_date_ga=.; us_8_date_ga=.;
+sponlabor_dt_ga=.; bp_date_v1_ga=.; bp_date_v2_ga=.;
+end;
+
+if studyid = 6106 then do; gct_date_ga=.; gct_date=.; end;
+if studyid = 6214 then do; gct_date_ga=.; gct_date=.; end;
+if studyid = 6130 then do; comp_icd10_o25_dt_ga=.; comp_icd10_o25_dt=.; comp_icd10_o25=.; end;
+if studyid = 6205 then do; comp_icd10_o24_dt_ga=.; comp_icd10_o24_dt=.; comp_icd10_o24=.; end;
+if studyid = 7141 then do; comp_icd10_o24_dt_ga=.; comp_icd10_o24_dt=.; comp_icd10_o44_dt_ga=.; comp_icd10_o44_dt=.;
+comp_icd10_o47_dt_ga=.; comp_icd10_o47_dt=.; comp_icd10_o24=.; comp_icd10_o44=.; comp_icd10_o47=.; end;
+
+
+if studyid = 6230 then do;
+
+	if ((infantdob ne .) and (hosp_dt_time ne .)) then do;
+	hosp_dt_time_ga=(br_gestage_days - (abs(datdif(infantdob,hosp_dt_time,"act/act"))));
+	end;
+
+	if ((infantdob = . and hosp_dt_time ne .) and (hosp_dt_time ne .)) then do;
+	hosp_dt_time_ga=(br_gestage_days - (abs(datdif(hosp_dt_time,hosp_dt_time,"act/act"))));
+	end;
+
+ end;
+
+**preterm_abs**;
+if ptl_icd9_6442=1 or ptl_icd10_o601=1 then preterm_abs_test=1;
+else preterm_abs =0;
+
+**del_dt_time_ga**;
+if ((infantdob ne .) and (del_dt_time ne .)) then do;
+del_dt_time_ga=(br_gestage_days - (abs(datdif(infantdob,del_dt_time,"act/act"))));
+end;
+
+if ((infantdob = . and del_dt_time ne .) and (del_dt_time ne .)) then do;
+del_dt_time_ga=(br_gestage_days - (abs(datdif(del_dt_time,del_dt_time,"act/act"))));
+end;
+
+
+**prev_preg**;
+if T2_prevpreg_num=. then prev_preg=.;
+else if t2_prevpreg_num = 0 then prev_preg=0;
+else if t2_prevpreg_num in (1,2,3) then prev_preg=1;
+else if t2_prevpreg_num >= 4 then prev_preg=2;
+
+**prev_preterm**;
+if T2_prevpreg_1_outcome=1 and 0 < T2_prevpreg_1_dur_wks_der < 37 or
+T2_prevpreg_2_outcome=1 and 0 < T2_prevpreg_2_dur_wks_der < 37 or
+T2_prevpreg_3_outcome=1 and 0 < T2_prevpreg_3_dur_wks_der < 37 or
+T2_prevpreg_4_outcome=1 and 0 < T2_prevpreg_4_dur_wks_der < 37 or
+T2_prevpreg_5_outcome=1 and 0 < T2_prevpreg_5_dur_wks_der < 37 or
+T2_prevpreg_6_outcome=1 and 0 < T2_prevpreg_6_dur_wks_der < 37 or
+T2_prevpreg_7_outcome=1 and 0 < T2_prevpreg_7_dur_wks_der < 37 or
+T2_prevpreg_8_outcome=1 and 0 < T2_prevpreg_8_dur_wks_der < 37 or
+T2_prevpreg_9_outcome=1 and 0 < T2_prevpreg_9_dur_wks_der < 37 or
+T2_prevpreg_10_outcome=1 and 0 < T2_prevpreg_10_dur_wks_der < 37 or
+T2_prevpreg_11_outcome=1 and 0 < T2_prevpreg_11_dur_wks_der < 37 or
+T2_prevpreg_12_outcome=1 and 0 < T2_prevpreg_12_dur_wks_der < 37 or
+then prev_preterm=1;
+else prev_preterm =0;
+
+**prolonged**;
+if br_gestage_wks = . then prolonged =.;
+else if br_gestage_wks lt 41 then prolonged =0;
+else if br_gestage_wks ge 41 then prolonged =1;
+
+**term**;
+if br_gestage_wks = . then term =.;
+else if 0 < br_gestage_wks lt 37 then term =0;
+else if 37 =< br_gestage_wks lt 41 then term =1;
+else if br_gestage_wks >= 41 then term =2;
+
+**preeclampsia**;
+if hosp_pres_pe=1 or comp_icd10_o11=1 or comp_icd10_o14=1 or comp_icd9_642_4=1 or comp_icd9_642_5=1 or comp_icd9_642_6=1 or comp_icd9_642_7=1
+then preeclampsia=1;
+else preeclampsia=0;
+
+**pe_icd**;
+if comp_icd10_o11=1 or comp_icd10_o13=1 or comp_icd10_o14=1 or comp_icd10_o15=1
+comp_icd9_642_3=1 or comp_icd9_642_4=1 or comp_icd9_642_5=1 or comp_icd9_642_6=1 or comp_icd9_642_7=1 or
+then pe_icd=1;
+
+
+**parity**;
+if t2_prevpreg_yn=1 then do;
+**Create temporary variables parity1 through parity12**;
+if t2_prevpreg_1_outcome =1 then parity1=1; else if t2_prevpreg_1_outcome in (0,2,3,4,5) then parity1=0;
+	if t2_prevpreg_2_outcome =1 then parity2=1; else if t2_prevpreg_2_outcome in (0,2,3,4,5) then parity2=0;
+	if t2_prevpreg_3_outcome =1 then parity3=1; else if t2_prevpreg_3_outcome in (0,2,3,4,5) then parity3=0;
+	if t2_prevpreg_4_outcome =1 then parity4=1; else if t2_prevpreg_4_outcome in (0,2,3,4,5) then parity4=0;
+	if t2_prevpreg_5_outcome =1 then parity5=1; else if t2_prevpreg_5_outcome in (0,2,3,4,5) then parity5=0;
+	if t2_prevpreg_6_outcome =1 then parity6=1; else if t2_prevpreg_6_outcome in (0,2,3,4,5) then parity6=0;
+	if t2_prevpreg_7_outcome =1 then parity7=1; else if t2_prevpreg_7_outcome in (0,2,3,4,5) then parity7=0;
+	if t2_prevpreg_8_outcome =1 then parity8=1; else if t2_prevpreg_8_outcome in (0,2,3,4,5) then parity8=0;
+	if t2_prevpreg_9_outcome =1 then parity9=1; else if t2_prevpreg_9_outcome in (0,2,3,4,5) then parity9=0;
+	if t2_prevpreg_10_outcome =1 then parity10=1; else if t2_prevpreg_10_outcome in (0,2,3,4,5) then parity10=0;
+	if t2_prevpreg_11_outcome =1 then parity11=1; else if t2_prevpreg_11_outcome in (0,2,3,4,5) then parity11=0;
+	if t2_prevpreg_12_outcome =1 then parity12=1; else if t2_prevpreg_12_outcome in (0,2,3,4,5) then parity12=0;
+  end;
+
+Parity =sum(of parity1-parity12);
+
+if t2_prevpreg_yn =0 then Parity =0;
+
+**If we have a value for duration but outcome is 0 or missing set parity to missing**;
+	if
+    (T2_prevpreg_1_dur_wks_der ne . and t2_prevpreg_1_outcome in (0,.)) or
+	(T2_prevpreg_2_dur_wks_der ne . and t2_prevpreg_2_outcome in (0,.)) or
+	(T2_prevpreg_3_dur_wks_der ne . and t2_prevpreg_3_outcome in (0,.)) or
+	(T2_prevpreg_4_dur_wks_der ne . and t2_prevpreg_4_outcome in (0,.)) or
+	(T2_prevpreg_5_dur_wks_der ne . and t2_prevpreg_5_outcome in (0,.)) or
+	(T2_prevpreg_6_dur_wks_der ne . and t2_prevpreg_6_outcome in (0,.)) or
+	(T2_prevpreg_7_dur_wks_der ne . and t2_prevpreg_7_outcome in (0,.)) or
+	(T2_prevpreg_8_dur_wks_der ne . and t2_prevpreg_8_outcome in (0,.)) or
+	(T2_prevpreg_9_dur_wks_der ne . and t2_prevpreg_9_outcome in (0,.)) or
+	(T2_prevpreg_10_dur_wks_der ne . and t2_prevpreg_10_outcome in (0,.))or
+	(T2_prevpreg_11_dur_wks_der ne . and t2_prevpreg_11_outcome in (0,.))or
+	(T2_prevpreg_12_dur_wks_der ne . and t2_prevpreg_12_outcome in (0,.))
+	then parity =.;
+
+**gravidity**;
+if t2_prevpreg_yn=1 then do;
+	**Create temporary variables gravidity1 through gravidity12**;
+	if t2_prevpreg_1_outcome in (1,2,3,4,5) then gravidity1=1;
+    else if t2_prevpreg_1_outcome in (.,0) and T2_prevpreg_1_dur_wks_der not in (0,.) then gravidity1=1;
+    else if t2_prevpreg_1_outcome =0 then gravidity1=0;
+
+	if t2_prevpreg_2_outcome in (1,2,3,4,5) then gravidity2=1;
+    else if t2_prevpreg_2_outcome in (.,0) and T2_prevpreg_2_dur_wks_der not in (0,.) then gravidity2=1;
+    else if t2_prevpreg_2_outcome =0 then gravidity2=0;
+
+	if t2_prevpreg_3_outcome in (1,2,3,4,5) then gravidity3=1;
+    else if t2_prevpreg_3_outcome in (.,0) and T2_prevpreg_3_dur_wks_der not in (0,.) then gravidity3=1;
+    else if t2_prevpreg_3_outcome =0 then gravidity3=0;
+
+	if t2_prevpreg_4_outcome in (1,2,3,4,5) then gravidity4=1;
+    else if t2_prevpreg_4_outcome in (.,0) and T2_prevpreg_4_dur_wks_der not in (0,.) then gravidity4=1;
+    else if t2_prevpreg_4_outcome =0 then gravidity4=0;
+
+	if t2_prevpreg_5_outcome in (1,2,3,4,5) then gravidity5=1;
+    else if t2_prevpreg_5_outcome in (.,0) and T2_prevpreg_5_dur_wks_der not in (0,.) then gravidity5=1;
+    else if t2_prevpreg_5_outcome =0 then gravidity5=0;
+
+	if t2_prevpreg_6_outcome in (1,2,3,4,5) then gravidity6=1;
+    else if t2_prevpreg_6_outcome in (.,0) and T2_prevpreg_6_dur_wks_der not in (0,.) then gravidity6=1;
+    else if t2_prevpreg_6_outcome =0 then gravidity6=0;
+
+	if t2_prevpreg_7_outcome in (1,2,3,4,5) then gravidity7=1;
+    else if t2_prevpreg_7_outcome in (.,0) and T2_prevpreg_7_dur_wks_der not in (0,.) then gravidity7=1;
+    else if t2_prevpreg_7_outcome =0 then gravidity7=0;
+
+	if t2_prevpreg_8_outcome in (1,2,3,4,5) then gravidity8=1;
+    else if t2_prevpreg_8_outcome in (.,0) and T2_prevpreg_8_dur_wks_der not in (0,.) then gravidity8=1;
+    else if t2_prevpreg_8_outcome =0 then gravidity8=0;
+
+	if t2_prevpreg_9_outcome in (1,2,3,4,5) then gravidity9=1;
+    else if t2_prevpreg_9_outcome in (.,0) and T2_prevpreg_9_dur_wks_der not in (0,.) then gravidity9=1;
+    else if t2_prevpreg_9_outcome =0 then gravidity9=0;
+
+	if t2_prevpreg_10_outcome in (1,2,3,4,5) then gravidity10=1;
+    else if t2_prevpreg_10_outcome in (.,0) and T2_prevpreg_10_dur_wks_der not in (0,.) then gravidity10=1;
+    else if t2_prevpreg_10_outcome =0 then gravidity10=0;
+
+	if t2_prevpreg_11_outcome in (1,2,3,4,5) then gravidity11=1;
+    else if t2_prevpreg_11_outcome in (.,0) and T2_prevpreg_11_dur_wks_der not in (0,.) then gravidity11=1;
+    else if t2_prevpreg_11_outcome =0 then gravidity11=0;
+
+	if t2_prevpreg_12_outcome in (1,2,3,4,5) then gravidity12=1;
+    else if t2_prevpreg_12_outcome in (.,0) and T2_prevpreg_12_dur_wks_der not in (0,.) then gravidity12=1;
+    else if t2_prevpreg_12_outcome =0 then gravidity12=0;
+
+  end;
+
+	gravidity_new=sum(of gravidity1-gravidity12);
+if t2_prevpreg_yn =0 then gravidity =0;
+
+**This person had t2_prevpreg_yn=1 but all outcomes are missing. Set to missing**;
+if studyid=9214 then do;
+gravidity = .;
+parity=.;
+end;
