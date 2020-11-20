@@ -1,0 +1,96 @@
+
+OPTIONS REPLACE NUMBER=1 PAGENO=1 NODATE LS=98 PS=65 label=1 FORMDLIM ='-';
+
+/* Report date */
+%let expdate=030714; * last run,111513_zwt, 102213_zwt 101713_zwt, 101113_zwt, 100313_zwt 091813_zwt 091213 071813, 062113, 050813, 040113, 013113;
+LIBNAME agddata "J:\PM\TIDES\Data\DataFiles\AGD\SAS Data";
+footnote;
+/* ================ TIDES AGD data ================= */
+data agd (keep=StudyID center Sex Age_Exam AGDas_af1 AGDap_ac1 _ZWFL
+                   );
+set agddata.tides_agd_pct_&expdate;
+if sample=1; *pick up TIDES infants;
+proc sort data=agd; by studyid;
+proc contents data=agd;
+run;
+
+proc freq data=agd;
+tables sex center;
+run;
+
+
+/* ------------------- Residual from model */
+proc sort data=agd; by sex studyid;
+proc reg data=agd noprint;
+by sex;
+model AGDas_af1=Age_Exam _ZWFL;
+output out=r r=RSIDas_af;
+run;quit;
+
+proc sort data=r; by sex studyid;
+RSIDas_af="Residual AGD AS/AP, adjusted for Age and ZWFL"
+
+OPTIONS REPLACE NUMBER=1 PAGENO=1 NODATE LS=128 PS=765 label=1 FORMDLIM ='-';
+proc print data=r n;
+where RSIDas_af=. or RSIDap_ac=.;
+run;
+
+* ------------------- output data set;
+%let date=053014;
+LIBNAME outdata "J:\PM\TIDES\Data\RESEARCH\Residual AGD\";
+
+data outdata.tides_residual_agd_&date(keep=Studyid sex RSIDas_af RSIDap_ac);
+set r;
+label
+    RSIDas_af="Residual AGD AS/AF, adjusted for Age and ZWFL"
+    RSIDap_ac="Residual AGD AP/AC, adjusted for Age and ZWFL"
+	;
+proc sort data=outdata.tides_residual_agd_&date;
+by studyid;
+run;
+
+proc contents data=outdata.tides_residual_agd_&date;
+run;
+
+proc print data=outdata.tides_residual_agd_&date n;
+where RSIDas_af=. or RSIDap_ac=.;
+run;
+
+/* -------------- check data -------------- */
+* ---- AS;
+proc reg data=agd noprint;
+where sex=1;
+model AGDas_af1=Age_Exam _ZWFL;
+output out=chk r=Ras;
+run;quit;
+* ---- AP;
+proc reg data=agd noprint;
+where sex=1;
+model AGDap_ac1=Age_Exam _ZWFL;
+output out=chk2 r=Rap;
+run;quit;
+* ---- AF;
+proc reg data=agd noprint;
+where sex=2;
+model AGDas_af1=Age_Exam _ZWFL;
+output out=chk3 r=Raf;
+run;quit;
+* ---- AC;
+proc reg data=agd noprint;
+where sex=2;
+model AGDap_ac1=Age_Exam _ZWFL;
+output out=chk4 r=Rac;
+run;quit;
+
+proc print data=chk n;
+where Ras=.;
+run;
+proc print data=chk2 n;
+where Rap=.;
+run;
+proc print data=chk3 n;
+where Raf=.;
+run;
+proc print data=chk4 n;
+where Rac=.;
+run;
