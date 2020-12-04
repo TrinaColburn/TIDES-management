@@ -22,6 +22,30 @@ if studyid="P9004" then study_id="90041";
 if studyid="P9005" then study_id="90051";
 run;
 
+
+if studyid="P6001" then study_id=6001;
+if studyid="P6002" then study_id=6002;
+if studyid="P6003" then study_id=6003;
+if studyid="P6004" then study_id=6004;
+if studyid="P6005" then study_id=6005;
+if studyid="P6006" then study_id=6006;
+if studyid="P7001" then study_id=7001;
+if studyid="P7002" then study_id=7002;
+if studyid="P7003" then study_id=7003;
+if studyid="P7004" then study_id=7004;
+if studyid="P7005" then study_id=7005;
+if studyid="P8001" then study_id=8001;
+if studyid="P8002" then study_id=8002;
+if studyid="P8003" then study_id=8003;
+if studyid="P8004" then study_id=8004;
+if studyid="P8005" then study_id=8005;
+if studyid="P9001" then study_id=9001;
+if studyid="P9002" then study_id=9002;
+if studyid="P9003" then study_id=9003;
+if studyid="P9004" then study_id=9004;
+if studyid="P9005" then study_id=9005;
+
+
 /*reorder subject tracker*/
 Study_ID StudyID CENTER
 ConsentDate

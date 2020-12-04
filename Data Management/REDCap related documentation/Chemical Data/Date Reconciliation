@@ -1,0 +1,437 @@
+/*************************************************/
+/****Full Date/Time Clean for biospec database****/
+/*************************************************/
+
+/*Proc compare for all SG and Urine/Date time data*/
+
+/*Name Folder*/
+libname dates "J:\PM\TIDES_Data\REDCap Master Database\Dates"; run;
+
+/*Print contents of data with dates associated with urine collection*/
+proc contents data=dates.Urine_blood_datetime_202093 order=varnum; run;
+proc contents data=dates.Tides_sg969_1113 order=varnum; run;
+proc contents data=dates.Tides_subject_tracking order=varnum; run;
+
+/*Find urine collection date/times from datasets*/
+libname rc_bio "J:\PM\TIDES_Data\Biospecimens\REDCap import"; run;
+
+/*Subset date time vars from assay data*/
+	data T1phx_dtonly;set dates.T1phx_20190514;
+	keep study_id
+	T1_UrineDate T1_UrineTime
+	T1_Urine_DateLastMeal T1_Urine_TimeLastMeal
+	U1_DateTime U1_DateTimeLastMeal
+	U1MealHour U1hour
+	T1_UrineSG1 T1_UrineSG2 T1_UrineSG; run;
+
+	data T2phx_dtonly;set dates.T2phx20190514;
+	keep study_id
+	T2_UrineDate T2_UrineTime
+	T2_Urine_DateLastMeal T2_Urine_TimeLastMeal
+	U2_DateTime U2_DateTimeLastMeal
+	U2MealHour U2hour
+	T2_UrineSG1 T2_UrineSG2 T2_UrineSG; run;
+
+	data T3phx169_dtonly; set dates.t3_phx_169_20190628;
+	keep study_id
+	T3_UrineDate T3_UrineTime
+	T3_Urine_DateLastMeal T3_Urine_TimeLastMeal
+	U3_DateTime U3_DateTimeLastMeal
+	U3MealHour U3hour
+	T3_UrineSG1 T3_UrineSG2 T3_UrineSG; run;
+
+	/*data T3phx_cdc_dtonly;set rc_bio.T3_phx_cdc_20190815;
+	keep study_id
+	T3_UrineDate T3_UrineTime
+	T3_Urine_DateLastMeal T3_Urine_TimeLastMeal
+	U3_DateTime U3_DateTimeLastMeal
+	U3MealHour U3hour
+	T3_UrineSG1 T3_UrineSG2 T3_UrineSG; run;*/
+	/*No date time data in CDC PHX dataset*/
+
+/*fix studyid issue in urine blood datetime*/
+	data dates.Tides_urine_blood_datetime_0815; set dates.Tides_urine_blood_datetime_0815;
+	if studyid="P6001" then studyid="6001";
+	if studyid="P6002" then studyid="6002";
+	if studyid="P6003" then studyid="6003";
+	if studyid="P6004" then studyid="6004";
+	if studyid="P6005" then studyid="6005";
+	if studyid="P6006" then studyid="6006";
+	if studyid="P7001" then studyid="7001";
+	if studyid="P7002" then studyid="7002";
+	if studyid="P7003" then studyid="7003";
+	if studyid="P7004" then studyid="7004";
+	if studyid="P7005" then studyid="7005";
+	if studyid="P8001" then studyid="8001";
+	if studyid="P8002" then studyid="8002";
+	if studyid="P8003" then studyid="8003";
+	if studyid="P8004" then studyid="8004";
+	if studyid="P8005" then studyid="8005";
+	if studyid="P9001" then studyid="9001";
+	if studyid="P9002" then studyid="9002";
+	if studyid="P9003" then studyid="9003";
+	if studyid="P9004" then studyid="9004";
+	if studyid="P9005" then studyid="9005"; run;
+
+data dates.Tides_urine_blood_datetime_0815; set dates.Tides_urine_blood_datetime_0815;
+study_id=input(studyid, 8.); run;
+
+proc contents data=dates.Tides_urine_blood_datetime_0815 order=varnum; run;
+
+		data dates.Tides_urine_blood_datetime_0815;
+		format study_id StudyID
+		U1_DateTime T1_UrineDate T1_UrineTime U1hour
+		U1_DateTimeLastMeal T1_Urine_DateLastMeal T1_Urine_TimeLastMeal U1MealHour
+		T1_BloodDate T1_BloodTime B1hour
+		U2_DateTime T2_UrineDate T2_UrineTime U2hour
+		U2_DateTimeLastMeal T2_Urine_DateLastMeal T2_Urine_TimeLastMeal U2MealHour
+		U3_DateTime T3_UrineDate T3_UrineTime
+		U3_DateTimeLastMeal T3_Urine_DateLastMeal T3_Urine_TimeLastMeal U3MealHour U3hour;
+		set dates.Tides_urine_blood_datetime_0815; run;
+
+proc sort data=dates.Tides_urine_blood_datetime_0815; by study_id; run;
+/****End of initial code****/
+
+/*Proc compare First Trimester*/
+	/*Subset T1 data from subject tracking*/
+	data Subtrck_2020_t1; set dates.Tides_subject_tracking;
+	keep study_id T1_UrineDate T1_UrineTime T1_UrineSG1 T1_UrineSG2
+	T1_Urine_DateLastMeal T1_Urine_TimeLastMeal T1_BloodDate T1_BloodTime; run;
+
+	proc sort data=Subtrck_2020_t1; by study_id; run;
+
+	/*Compare with Urine_Blood date time dataset*/
+	proc compare base=Subtrck_2020_t1 compare=dates.Tides_urine_blood_datetime_0815
+	out=t1_diff_1 outnoequal outbase outcomp outdif noprint nomiss;
+	id study_id; run;
+
+	/*Output differences*/
+	proc print data=t1_diff_1 noobs;
+	title "Differences between subject tracking first tri date/time with urine blood dataset"; run;
+
+		/*Issues:
+			-8224 has different T1_Urine_DateLastMeal,
+			 one in urine_blood_datetime data more accurate
+			 (same day as collection)
+			-9158 has nonsensical T1_bloodtime in subject tracker,
+			 urine_blood_datetime should be correct*/
+		/*USE urine_blood_datetime*/
+
+	/*check against the phthalate dataset*/
+		proc sort data=T1phx_dtonly; by study_id; run;
+
+		proc compare base=T1phx_dtonly compare=dates.Tides_urine_blood_datetime_0815
+		out=t1_diff_2 outnoequal outbase outcomp outdif nomiss;
+		by study_id; id study_id; run;
+
+		proc print data=t1_diff_2 noobs; run;
+
+		/*Log shows "No observations in data set work t1_diff_2*/
+		/*data in actual t1 sample set equal to urine date time dataset -- yay!*/
+		/*Use COMPARE dataset "Tides_urine_blood_datetime_0815"*/
+
+/*Second Trimester*/
+	data Subtrck_2020_t2; set dates.Tides_subject_tracking;
+	keep study_id T2_UrineDate T2_UrineTime T2_UrineSG1 T2_UrineSG2
+	T2_Urine_DateLastMeal T2_Urine_TimeLastMeal; run;
+
+	proc sort data=Subtrck_2020_t2; by study_id; run;
+
+	proc compare base=Subtrck_2020_t2 compare=dates.Tides_urine_blood_datetime_0815
+	out=t2_diff outnoequal outbase outcomp outdif noprint nomiss;
+	by study_id; id study_id; run;
+
+	proc print data=t2_diff noobs; run;
+	/*Generally urine_blood_datetime more accurate*/
+
+	/*check u2_datetime for 6134, 6147*/
+	proc print data=Tides_urine_blood_datetime_0815 noobs;
+	var study_id U2_DateTime U2_DateTimeLastMeal;
+	where study_id=6134; run;
+
+	proc print data=Tides_urine_blood_datetime_0815 noobs;
+	var study_id U2_DateTime U2_DateTimeLastMeal;
+	where study_id=6147; run;
+	/*we'll still use urine_blood since dates are more accurate*/
+
+/*Third Trimester*/
+	data Subtrck_2020_t3; set dates.Tides_subject_tracking;
+	keep study_id T3_UrineDate T3_UrineTime T3_UrineSG1 T3_UrineSG2
+	T3_Urine_DateLastMeal T3_Urine_TimeLastMeal; run;
+
+	proc sort data=Subtrck_2020_t3; by study_id; run;
+
+	proc compare base=Subtrck_2020_t3 compare=dates.Tides_urine_blood_datetime_0815
+	out=t3_diff outnoequal outbase outcomp outdif noprint nomiss;
+	by study_id; id study_id; run;
+
+	proc print data=t3_diff noobs; run;
+
+		/*check u3_datetime for 8233, 8242, 9023*/
+			proc print data=dates.Tides_urine_blood_datetime_0815 noobs;
+			var study_id U3_DateTime T3_UrineDate T3_UrineTime
+						 U3_DateTimeLastMeal T3_Urine_DateLastMeal T3_Urine_TimeLastMeal;
+			where study_id=8233; run;
+
+			proc print data=dates.Tides_urine_blood_datetime_0815 noobs;
+			var study_id U3_DateTime T3_UrineDate T3_UrineTime
+						 U3_DateTimeLastMeal T3_Urine_DateLastMeal T3_Urine_TimeLastMeal;
+			where study_id=8242; run;
+
+			proc print data=dates.Tides_urine_blood_datetime_0815 noobs;
+			var study_id U3_DateTime T3_UrineDate T3_UrineTime
+						 U3_DateTimeLastMeal T3_Urine_DateLastMeal T3_Urine_TimeLastMeal;
+			where study_id=9023; run;
+
+		/*Fixes to the Comparison dataset*/
+		/*Fix 9023*/
+			data dates.Tides_urine_blood_datetime_2020; set dates.Tides_urine_blood_datetime_0815;
+			if study_id=9023 then U3_DateTime='03MAY2011:12:20'dt;
+			if study_id=9023 then T3_UrineTime='12:20't;
+			if study_id=9023 then U3_DateTimeLastMeal='03MAY2011:11:45'dt;
+			if study_id=9023 then T3_Urine_DateLastMeal='03MAY2011'd;
+			if study_id=9023 then T3_Urine_TimeLastMeal='11:45't; run;
+
+				proc print data=dates.Tides_urine_blood_datetime_2020 noobs;
+				var study_id U3_DateTime T3_UrineDate T3_UrineTime
+				U3_DateTimeLastMeal T3_Urine_DateLastMeal T3_Urine_TimeLastMeal;
+				where study_id=9023; run;
+
+		/*Fix 8233*/
+			data dates.Tides_urine_blood_datetime_2020; set dates.Tides_urine_blood_datetime_2020;
+			if study_id=8233 then U3_DateTimeLastMeal='21AUG2012:11:00:00'dt;
+			if study_id=8233 then T3_Urine_DateLastMeal='21AUG2012'd; run;
+				proc print data=dates.Tides_urine_blood_datetime_2020 noobs;
+				var study_id U3_DateTime T3_UrineDate T3_UrineTime
+					U3_DateTimeLastMeal T3_Urine_DateLastMeal T3_Urine_TimeLastMeal;
+				where study_id=8233; run;
+
+		/*Fix 8242*/
+			data dates.Tides_urine_blood_datetime_2020; set dates.Tides_urine_blood_datetime_2020;
+			if study_id=8242 then U3_DateTime='27SEP2012:11:30:00'dt;
+			if study_id=8242 then T3_UrineTime='11:30't;
+			if study_id=8242 then U3_DateTimeLastMeal='27SEP2012:00:00:00'dt;
+			if study_id=8242 then T3_Urine_DateLastMeal='27SEP2012'd;
+			if study_id=8242 then T3_Urine_TimeLastMeal=.; run;
+				proc print data=dates.Tides_urine_blood_datetime_2020 noobs;
+				var study_id U3_DateTime T3_UrineDate T3_UrineTime
+							 U3_DateTimeLastMeal T3_Urine_DateLastMeal T3_Urine_TimeLastMeal;
+				where study_id=8242; run;
+
+/*proc compare between old and new vars*/
+	proc compare base=dates.Tides_urine_blood_datetime_2020 compare=dates.Tides_urine_blood_datetime_0815
+	out=oldnew_diff outnoequal outbase outcomp outdif noprint nomiss; id study_id; run;
+		proc print data=oldnew_diff noobs; run;
+		/*Changes indeed took place*/
+
+
+/*Rerun Fan's calcuations*/
+/* --------------------------------------T1 Urine ------------------------------------ */
+data dates.TI_datetime_2020_import; set dates.Tides_urine_blood_datetime_2020;
+		U1MealHour=(U1_DateTime-U1_DateTimeLastMeal)/3600;
+		U1hour=(T1_UrineTime-'07:30:00'T)/3600;
+		* -- fix missing hour by mean=5.0833681;
+		if U1hour=. then U1hour=5.0833681; run;
+/* --------------------------------------T2 Urine ------------------------------------ */
+		data dates.TI_datetime_2020_import; set dates.TI_datetime_2020_import;
+		U2MealHour=(U2_DateTime-U2_DateTimeLastMeal)/3600;
+		U2hour=(T2_UrineTime-'06:00:00'T)/3600;
+		* -- fix missing hour by mean= 6.0561371;
+		if U2hour=. then U2hour= 6.0561371; run;
+/* --------------------------------------T3 Urine ------------------------------------ */
+		data dates.TI_datetime_2020_import; set dates.TI_datetime_2020_import;
+		U3MealHour=(U3_DateTime-U3_DateTimeLastMeal)/3600;
+		U3hour=(T3_UrineTime-'07:45:00'T)/3600;
+		* -- fix missing hour by mean=4.3719737;
+		if U3hour=. then U3hour=4.3719737; run;
+
+/*QC these hours*/
+%macro  hour(vari);
+	proc sgplot data=dates.TI_datetime_2020_import;
+	histogram &vari ;
+	title ; run;
+%mend;
+
+%hour(U1hour);
+%hour(U1MealHour);
+%hour(U2hour);
+%hour(U2MealHour);
+%hour(U3hour);
+%hour(U3MealHour);
+/*many obs outside range*/
+
+
+%macro ten(varone, vartwo);
+proc print data=dates.TI_datetime_2020_import noobs;
+var study_id &varone &vartwo;
+where &vartwo > 12; run;
+%mend;
+
+%ten(U1_DateTime, U1hour);
+%ten(U1_DateTimeLastMeal, U1MealHour);
+%ten(U2_DateTime, U2hour);
+%ten(U2_DateTimeLastMeal, U2MealHour);
+%ten(U3_DateTime, U3hour);
+%ten(U3_DateTimeLastMeal, U3MealHour);
+
+
+/*Resolve missings*/
+	/*T1*/
+	proc print data=dates.TI_datetime_2020_import noobs;
+	var study_id U1_DateTime -- B1hour;
+	where U1_DateTime=. and T1_urinedate=.;
+	title "Missing Urine T1 dates"; run;
+
+		data t1_missing; set dates.TI_datetime_2020_import;
+		if u1_datetime=. and T1_urinedate=.; run;
+
+		data t1_missing; set t1_missing;
+		t1_dt_miss=1; run;
+
+	/*T2*/
+	proc print data=dates.TI_datetime_2020_import noobs;
+	var study_id U2_DateTime -- U2MealHour;
+	where U2_DateTime=. and t2_urinedate=.;
+	title "Missing Urine T2 dates"; run; /*includes people who dropped after T1*/
+
+		data t2_missing; set dates.TI_datetime_2020_import;
+		if u2_datetime=. and t2_urinedate=.; run;
+
+		data t2_missing; set t2_missing;
+		t2_dt_miss=1; run;
+
+	/*T3*/
+	proc print data=Tides_urine_blood_datetime_0815 noobs;
+	var study_id U3_DateTime -- U3MealHour;
+	where U3_DateTime=.; run;
+
+		data t3_missing; set dates.TI_datetime_2020_import;
+		if u3_datetime=. and  t3_urinedate=.; run;
+
+		data t3_missing; set t3_missing;
+		t3_dt_miss=1; run;
+
+	/*merge missings*/
+		proc sort data=t1_missing; by study_id; run;
+		proc sort data=t2_missing; by study_id; run;
+		proc sort data=t3_missing; by study_id; run;
+
+data sample_missing_merged; merge t1_missing t2_missing t3_missing; by study_id; run;
+
+
+/*T1*/
+	data Subtrck_2020_t1; set Subtrck_2020;
+	keep study_id consentdate
+	T1_ApptDate Q1date Q1Date_paper Q1Date_portal
+	T1_UrineDate T1_UrineTime T1_UrineSG1 T1_UrineSG2
+	T1_Urine_DateLastMeal T1_Urine_TimeLastMeal
+	T1_BloodDate T1_BloodTime
+	Sub Dropped ReasonDropped ReasonDroppedFromStudy; run;
+
+	data t1_merge_4_miss; merge t1_missing dates.Tides_subject_tracking; by study_id;
+	if t1_dt_miss=1; run;
+
+		proc print data=t1_merge_4_miss noobs; run;
+		var study_id U1hour U2hour U3hour; run;
+		/*N=7 observations have no business having U1 urine*/
+
+		/*Edit dates.TI_datetime_2020_import*/
+		data dates.TI_datetime_2020_import; set dates.TI_datetime_2020_import;
+		if (u1_datetime=. and T1_urinedate=.) then U1hour=.;
+		if (u1_datetime=. and T1_urinedate=.) then U2hour=.;
+		if (u1_datetime=. and T1_urinedate=.) then U3hour=.; run;
+
+				proc print data=dates.TI_datetime_2020_import noobs;
+				title "T1 fix";
+				where u1_datetime=.; run;
+
+/*T2*/
+	data Subtrck_2020_t2; set dates.Tides_subject_tracking;
+	keep study_id consentdate
+	T2_ApptDate Q2date Q2Date_paper Q2Date_portal
+	T2_UrineDate T2_UrineTime T2_UrineSG1 T2_UrineSG2
+	T2_Urine_DateLastMeal T2_Urine_TimeLastMeal
+	Sub Dropped ReasonDropped ReasonDroppedFromStudy; run;
+
+	data t2_merge_4_miss; merge t2_missing Subtrck_2020_t2; by study_id;
+	if t2_dt_miss=1; run;
+
+	proc print data=t2_merge_4_miss noobs;
+	var study_id T2_ApptDate Q2date
+	T2_UrineDate T2_UrineTime U2_DateTime U2hour T2_UrineSG1 T2_UrineSG2
+	T2_Urine_DateLastMeal T2_Urine_TimeLastMeal U2_DateTimeLastMeal
+	Dropped ReasonDropped ReasonDroppedFromStudy;
+	/*where ReasonDropped="REMAINED IN STUDY";*/
+	title "Missing T2 Urine Dates"; run;
+		/*n=154 shouldn't have U2 hour, but n=19 don't have T2 urine despite remaining in study*/
+
+		data dates.TI_datetime_2020_import; set dates.TI_datetime_2020_import;
+		if u2_datetime=. then U2hour=.; run;
+
+				proc print data=dates.TI_datetime_2020_import noobs;
+				title "T2 fix";
+				where u2_datetime=.; run;
+
+/*T3*/
+	data Subtrck_2020_t3; set dates.Tides_subject_tracking;
+	keep study_id consentdate
+	T3_ApptDate q3date Q3Date_paper Q3Date_portal
+	T3_UrineDate T3_UrineTime T3_UrineSG1 T3_UrineSG2
+	T3_Urine_DateLastMeal T3_Urine_TimeLastMeal
+	Sub Dropped ReasonDropped ReasonDroppedFromStudy; run;
+
+	data t3_merge_4_miss; merge t3_missing Subtrck_2020_t3; by study_id;
+	if t3_dt_miss=1; run;
+
+	proc print data=t3_merge_4_miss noobs;
+	var study_id T3_ApptDate Q3date
+	T3_UrineDate T3_UrineTime U3_DateTime U3hour T3_UrineSG1 T3_UrineSG2
+	T3_Urine_DateLastMeal T3_Urine_TimeLastMeal U3_DateTimeLastMeal
+	Dropped ReasonDropped ReasonDroppedFromStudy;
+	where ReasonDropped="REMAINED IN STUDY";
+	title "Missing T3 Urine Dates"; run;
+	/*n=206 shouldn't have u3 hour, but 49 may not have urine despite remaining in study*/
+
+		data dates.TI_datetime_2020_import; set dates.TI_datetime_2020_import;
+		if u3_datetime=. then U3hour=.; run;
+
+				proc print data=dates.TI_datetime_2020_import noobs;
+				title "T3 fix";
+				where u3_datetime=.; run;
+
+/*Missings fixed*/
+/*Export batch by batch*/
+		proc contents data=dates.Ti_datetime_2020_import order=varnum; run;
+
+		/*T1 all Including Blood collection*/
+		data dates.Ti_datetime_2020_import_1; set dates.Ti_datetime_2020_import;
+		keep study_id U1_DateTime -- B1hour; run;
+			data dates.Ti_datetime_2020_import_1a; set dates.Ti_datetime_2020_import_1;
+			if study_id < 8000; run;
+			data dates.Ti_datetime_2020_import_1b; set dates.Ti_datetime_2020_import_1;
+			if study_id > 7999; run;
+
+		/*T2 and T3*/
+		data dates.Ti_datetime_2020_import_2; set dates.Ti_datetime_2020_import;
+		keep study_id U2_DateTime -- U3hour; run;
+			data dates.Ti_datetime_2020_import_2a; set dates.Ti_datetime_2020_import_2;
+			if study_id < 8000; run;
+
+			data dates.Ti_datetime_2020_import_2b; set dates.Ti_datetime_2020_import_2;
+			if study_id > 7999; run;
+
+PROC EXPORT DATA= DATES.Ti_datetime_2020_import_1a
+            OUTFILE= "J:\PM\TIDES_Data\Biospecimens\REDCap import\Date and SG\datetimeimport_1a.csv"
+            DBMS=CSV REPLACE; PUTNAMES=YES; RUN;
+
+PROC EXPORT DATA= DATES.Ti_datetime_2020_import_1b
+            OUTFILE= "J:\PM\TIDES_Data\Biospecimens\REDCap import\Date and SG\datetimeimport_1b.csv"
+            DBMS=CSV REPLACE; PUTNAMES=YES; RUN;
+
+PROC EXPORT DATA= DATES.Ti_datetime_2020_import_2a
+            OUTFILE= "J:\PM\TIDES_Data\Biospecimens\REDCap import\Date and SG\datetimeimport_2a.csv"
+            DBMS=CSV REPLACE; PUTNAMES=YES; RUN;
+
+PROC EXPORT DATA= DATES.Ti_datetime_2020_import_2b
+            OUTFILE= "J:\PM\TIDES_Data\Biospecimens\REDCap import\Date and SG\datetimeimport_2b.csv"
+            DBMS=CSV REPLACE; PUTNAMES=YES; RUN;
