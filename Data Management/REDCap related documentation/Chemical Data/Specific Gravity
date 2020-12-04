@@ -64,3 +64,9 @@ var T3_UrineSG1 T3_UrineSG2 T3_UrineSG; by study_id; run;
 /*ALL EQUAL - YES*/
 
 /*Upload SG file as is*/
+PROC EXPORT DATA= DATES.Ti_datetime_2020_import_1a
+            OUTFILE= "J:\PM\TIDES_Data\Biospecimens\REDCap import\Date a
+nd SG\datetimeimport_1a.csv"
+            DBMS=CSV REPLACE;
+     PUTNAMES=YES;
+RUN;
