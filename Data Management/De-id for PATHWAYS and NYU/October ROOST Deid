@@ -215,7 +215,7 @@ if newdeid=1 then &datevar=.; run;
 %mend;
 %deid(bp_date_v1);
 %deid(bp_date_v2);
-%deid(bp_date_v);
+%deid(bp_date_v3);
 %deid(comp_icd9_640_dt);
 %deid(comp_icd9_641_dt);
 %deid(comp_icd9_642_dt);
