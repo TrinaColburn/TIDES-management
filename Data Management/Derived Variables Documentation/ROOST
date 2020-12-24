@@ -1,6 +1,5 @@
 /*From Kate Christenbury (Kelly Ferguson Data Manager)*/
 
-
 **DATA CLEANING**;
    if studyid = 7001 then do;
                 weight_kg_v3 = 86.4;

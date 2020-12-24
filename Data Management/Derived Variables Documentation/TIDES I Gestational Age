@@ -295,31 +295,6 @@ ods rtf close;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                              TIDES women: mean gestational age at Birth, U1, U2, U3 and B1 collection, 12OCT16                          34
 
                                                    ++++++++++++++ Total ++++++++++++++
@@ -336,7 +311,7 @@ ods rtf close;
 
                                                                   N = 6
 
-if StudyID='7125' then EDD_US='29MAR2012'D;	
+if StudyID='7125' then EDD_US='29MAR2012'D;
 
 if StudyID='7156' then EDD_US='21JUN2012'D;
 
