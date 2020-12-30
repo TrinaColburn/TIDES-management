@@ -1,0 +1,126 @@
+/*Medications*/
+
+/*Libraries*/
+libname q1 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\First"; run;
+libname q2 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Second"; run;
+libname q3 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Third"; run;
+libname meds "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\medications"; run;
+
+/*Pull smoking, drug and alcohol specific variables*/
+
+/*Q1*/
+		data meds.q1; set q1.Q1_2020;
+		keep study_id
+    T1_Q6A
+    T1_Q6A1_A_YN     T1_Q6A1_A_SCRIPT     T1_Q6A1_A_OTC
+    T1_Q6A1_B_YN     T1_Q6A1_B_SCRIPT     T1_Q6A1_B_OTC
+    T1_Q6A1_C_YN     T1_Q6A1_C_SCRIPT     T1_Q6A1_C_OTC
+    T1_Q6A1_D_YN     T1_Q6A1_D_SCRIPT     T1_Q6A1_D_OTC
+    T1_Q6A1_E_YN     T1_Q6A1_E_SCRIPT     T1_Q6A1_E_OTC
+    T1_Q6A1_F_YN     T1_Q6A1_F_SCRIPT     T1_Q6A1_F_OTC
+    T1_Q6A1_G_YN     T1_Q6A1_G_SCRIPT     T1_Q6A1_G_OTC
+    T1_Q6A1_H_YN     T1_Q6A1_H_SCRIPT     T1_Q6A1_H_OTC
+    T1_Q6A1_I_YN     T1_Q6A1_I_SCRIPT     T1_Q6A1_I_OTC
+    T1_Q6A1_J_YN     T1_Q6A1_J_SCRIPT     T1_Q6A1_J_OTC
+    T1_Q6A1_K_YN     T1_Q6A1_K_SCRIPT     T1_Q6A1_K_OTC
+    T1_Q6A1_L_YN     T1_Q6A1_L_SCRIPT     T1_Q6A1_L_OTC
+    T1_Q6A1_M_YN     T1_Q6A1_M_SCRIPT     T1_Q6A1_M_OTC
+    T1_Q6A1_N_YN     T1_Q6A1_N_SCRIPT     T1_Q6A1_N_OTC
+    T1_Q6A1_O_YN     T1_Q6A1_O_SCRIPT     T1_Q6A1_O_OTC; run;
+
+    data meds.q1;
+  	format study_id  T1_Q6A
+      T1_Q6A1_A_YN     T1_Q6A1_A_SCRIPT     T1_Q6A1_A_OTC
+      T1_Q6A1_B_YN     T1_Q6A1_B_SCRIPT     T1_Q6A1_B_OTC
+      T1_Q6A1_C_YN     T1_Q6A1_C_SCRIPT     T1_Q6A1_C_OTC
+      T1_Q6A1_D_YN     T1_Q6A1_D_SCRIPT     T1_Q6A1_D_OTC
+      T1_Q6A1_E_YN     T1_Q6A1_E_SCRIPT     T1_Q6A1_E_OTC
+      T1_Q6A1_F_YN     T1_Q6A1_F_SCRIPT     T1_Q6A1_F_OTC
+      T1_Q6A1_G_YN     T1_Q6A1_G_SCRIPT     T1_Q6A1_G_OTC
+      T1_Q6A1_H_YN     T1_Q6A1_H_SCRIPT     T1_Q6A1_H_OTC
+      T1_Q6A1_I_YN     T1_Q6A1_I_SCRIPT     T1_Q6A1_I_OTC
+      T1_Q6A1_J_YN     T1_Q6A1_J_SCRIPT     T1_Q6A1_J_OTC
+      T1_Q6A1_K_YN     T1_Q6A1_K_SCRIPT     T1_Q6A1_K_OTC
+      T1_Q6A1_L_YN     T1_Q6A1_L_SCRIPT     T1_Q6A1_L_OTC
+      T1_Q6A1_M_YN     T1_Q6A1_M_SCRIPT     T1_Q6A1_M_OTC
+      T1_Q6A1_N_YN     T1_Q6A1_N_SCRIPT     T1_Q6A1_N_OTC
+      T1_Q6A1_O_YN     T1_Q6A1_O_SCRIPT     T1_Q6A1_O_OTC; set meds.q1; run;
+/****************************************************************************/
+
+/*Q2*/
+    data meds.q2; set q2.Q2_2020;
+    keep study_id
+    T2_Q4A
+    T2_Q4A1_A_YN     T2_Q4A1_A_SCRIPT     T2_Q4A1_A_OTC
+    T2_Q4A1_B_YN     T2_Q4A1_B_SCRIPT     T2_Q4A1_B_OTC
+    T2_Q4A1_C_YN     T2_Q4A1_C_SCRIPT     T2_Q4A1_C_OTC
+    T2_Q4A1_D_YN     T2_Q4A1_D_SCRIPT     T2_Q4A1_D_OTC
+    T2_Q4A1_E_YN     T2_Q4A1_E_SCRIPT     T2_Q4A1_E_OTC
+    T2_Q4A1_F_YN     T2_Q4A1_F_SCRIPT     T2_Q4A1_F_OTC
+    T2_Q4A1_G_YN     T2_Q4A1_G_SCRIPT     T2_Q4A1_G_OTC
+    T2_Q4A1_H_YN     T2_Q4A1_H_SCRIPT     T2_Q4A1_H_OTC
+    T2_Q4A1_I_YN     T2_Q4A1_I_SCRIPT     T2_Q4A1_I_OTC
+    T2_Q4A1_J_YN     T2_Q4A1_J_SCRIPT     T2_Q4A1_J_OTC
+    T2_Q4A1_K_YN     T2_Q4A1_K_SCRIPT     T2_Q4A1_K_OTC
+    T2_Q4A1_L_YN     T2_Q4A1_L_SCRIPT     T2_Q4A1_L_OTC
+    T2_Q4A1_M_YN     T2_Q4A1_M_SCRIPT     T2_Q4A1_M_OTC
+    T2_Q4A1_N_YN     T2_Q4A1_N_SCRIPT     T2_Q4A1_N_OTC
+    T2_Q4A1_O_YN     T2_Q4A1_O_SCRIPT     T2_Q4A1_O_OTC; run;
+
+    data meds.q2;
+    format study_id  T2_Q4A
+      T2_Q4A1_A_YN     T2_Q4A1_A_SCRIPT     T2_Q4A1_A_OTC
+      T2_Q4A1_B_YN     T2_Q4A1_B_SCRIPT     T2_Q4A1_B_OTC
+      T2_Q4A1_C_YN     T2_Q4A1_C_SCRIPT     T2_Q4A1_C_OTC
+      T2_Q4A1_D_YN     T2_Q4A1_D_SCRIPT     T2_Q4A1_D_OTC
+      T2_Q4A1_E_YN     T2_Q4A1_E_SCRIPT     T2_Q4A1_E_OTC
+      T2_Q4A1_F_YN     T2_Q4A1_F_SCRIPT     T2_Q4A1_F_OTC
+      T2_Q4A1_G_YN     T2_Q4A1_G_SCRIPT     T2_Q4A1_G_OTC
+      T2_Q4A1_H_YN     T2_Q4A1_H_SCRIPT     T2_Q4A1_H_OTC
+      T2_Q4A1_I_YN     T2_Q4A1_I_SCRIPT     T2_Q4A1_I_OTC
+      T2_Q4A1_J_YN     T2_Q4A1_J_SCRIPT     T2_Q4A1_J_OTC
+      T2_Q4A1_K_YN     T2_Q4A1_K_SCRIPT     T2_Q4A1_K_OTC
+      T2_Q4A1_L_YN     T2_Q4A1_L_SCRIPT     T2_Q4A1_L_OTC
+      T2_Q4A1_M_YN     T2_Q4A1_M_SCRIPT     T2_Q4A1_M_OTC
+      T2_Q4A1_N_YN     T2_Q4A1_N_SCRIPT     T2_Q4A1_N_OTC
+      T2_Q4A1_O_YN     T2_Q4A1_O_SCRIPT     T2_Q4A1_O_OTC; set meds.q2; run;
+/****************************************************************************/
+
+  /*Q3*/
+      data meds.q3; set q3.Q3_2020;
+      keep study_id
+      T3_Q5A
+      T3_Q5A1_A_YN     T3_Q5A1_A_SCRIPT     T3_Q5A1_A_OTC
+      T3_Q5A1_B_YN     T3_Q5A1_B_SCRIPT     T3_Q5A1_B_OTC
+      T3_Q5A1_C_YN     T3_Q5A1_C_SCRIPT     T3_Q5A1_C_OTC
+      T3_Q5A1_D_YN     T3_Q5A1_D_SCRIPT     T3_Q5A1_D_OTC
+      T3_Q5A1_E_YN     T3_Q5A1_E_SCRIPT     T3_Q5A1_E_OTC
+      T3_Q5A1_F_YN     T3_Q5A1_F_SCRIPT     T3_Q5A1_F_OTC
+      T3_Q5A1_G_YN     T3_Q5A1_G_SCRIPT     T3_Q5A1_G_OTC
+      T3_Q5A1_H_YN     T3_Q5A1_H_SCRIPT     T3_Q5A1_H_OTC
+      T3_Q5A1_I_YN     T3_Q5A1_I_SCRIPT     T3_Q5A1_I_OTC
+      T3_Q5A1_J_YN     T3_Q5A1_J_SCRIPT     T3_Q5A1_J_OTC     
+      T3_Q5A1_K_YN     T3_Q5A1_K_SCRIPT     T3_Q5A1_K_OTC
+      T3_Q5A1_L_YN     T3_Q5A1_L_SCRIPT     T3_Q5A1_L_OTC
+      T3_Q5A1_M_YN     T3_Q5A1_M_SCRIPT     T3_Q5A1_M_OTC
+      T3_Q5A1_N_YN     T3_Q5A1_N_SCRIPT     T3_Q5A1_N_OTC
+      T3_Q5A1_O_YN     T3_Q5A1_O_SCRIPT     T3_Q5A1_O_OTC; run;
+
+      data meds.q3;
+      format study_id  T3_Q5A
+        T3_Q5A1_A_YN     T3_Q5A1_A_SCRIPT     T3_Q5A1_A_OTC
+        T3_Q5A1_B_YN     T3_Q5A1_B_SCRIPT     T3_Q5A1_B_OTC
+        T3_Q5A1_C_YN     T3_Q5A1_C_SCRIPT     T3_Q5A1_C_OTC
+        T3_Q5A1_D_YN     T3_Q5A1_D_SCRIPT     T3_Q5A1_D_OTC
+        T3_Q5A1_E_YN     T3_Q5A1_E_SCRIPT     T3_Q5A1_E_OTC
+        T3_Q5A1_F_YN     T3_Q5A1_F_SCRIPT     T3_Q5A1_F_OTC
+        T3_Q5A1_G_YN     T3_Q5A1_G_SCRIPT     T3_Q5A1_G_OTC
+        T3_Q5A1_H_YN     T3_Q5A1_H_SCRIPT     T3_Q5A1_H_OTC
+        T3_Q5A1_I_YN     T3_Q5A1_I_SCRIPT     T3_Q5A1_I_OTC
+        T3_Q5A1_J_YN     T3_Q5A1_J_SCRIPT     T3_Q5A1_J_OTC
+        T3_Q5A1_K_YN     T3_Q5A1_K_SCRIPT     T3_Q5A1_K_OTC
+        T3_Q5A1_L_YN     T3_Q5A1_L_SCRIPT     T3_Q5A1_L_OTC
+        T3_Q5A1_M_YN     T3_Q5A1_M_SCRIPT     T3_Q5A1_M_OTC
+        T3_Q5A1_N_YN     T3_Q5A1_N_SCRIPT     T3_Q5A1_N_OTC
+        T3_Q5A1_O_YN     T3_Q5A1_O_SCRIPT     T3_Q5A1_O_OTC; set meds.q3; run;
+/****************************************************************************/

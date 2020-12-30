@@ -1,0 +1,342 @@
+/*Libraries*/
+libname q1 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\First"; run;
+libname q2 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Second"; run;
+libname q3 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Third"; run;
+libname meds "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\medications"; run;
+
+/*Pull smoking, drug and alcohol specific variables*/
+
+/*Q2*/
+	data meds.q2; set q2.Q2_2020;
+	keep study_id
+    T2_Q4A
+    T2_Q4A1_A_YN     T2_Q4A1_A_SCRIPT     T2_Q4A1_A_OTC
+    T2_Q4A1_B_YN     T2_Q4A1_B_SCRIPT     T2_Q4A1_B_OTC
+    T2_Q4A1_C_YN     T2_Q4A1_C_SCRIPT     T2_Q4A1_C_OTC
+    T2_Q4A1_D_YN     T2_Q4A1_D_SCRIPT     T2_Q4A1_D_OTC
+    T2_Q4A1_E_YN     T2_Q4A1_E_SCRIPT     T2_Q4A1_E_OTC
+    T2_Q4A1_F_YN     T2_Q4A1_F_SCRIPT     T2_Q4A1_F_OTC
+    T2_Q4A1_G_YN     T2_Q4A1_G_SCRIPT     T2_Q4A1_G_OTC
+    T2_Q4A1_H_YN     T2_Q4A1_H_SCRIPT     T2_Q4A1_H_OTC
+    T2_Q4A1_I_YN     T2_Q4A1_I_SCRIPT     T2_Q4A1_I_OTC
+    T2_Q4A1_J_YN     T2_Q4A1_J_SCRIPT     T2_Q4A1_J_OTC
+    T2_Q4A1_K_YN     T2_Q4A1_K_SCRIPT     T2_Q4A1_K_OTC
+    T2_Q4A1_L_YN     T2_Q4A1_L_SCRIPT     T2_Q4A1_L_OTC
+    T2_Q4A1_M_YN     T2_Q4A1_M_SCRIPT     T2_Q4A1_M_OTC
+    T2_Q4A1_N_YN     T2_Q4A1_N_SCRIPT     T2_Q4A1_N_OTC
+    T2_Q4A1_O_YN     T2_Q4A1_O_SCRIPT     T2_Q4A1_O_OTC; run;
+
+
+	data meds.q2;
+	format study_id  T2_Q4A
+    T2_Q4A1_A_YN     T2_Q4A1_A_SCRIPT     T2_Q4A1_A_OTC
+    T2_Q4A1_B_YN     T2_Q4A1_B_SCRIPT     T2_Q4A1_B_OTC
+    T2_Q4A1_C_YN     T2_Q4A1_C_SCRIPT     T2_Q4A1_C_OTC
+    T2_Q4A1_D_YN     T2_Q4A1_D_SCRIPT     T2_Q4A1_D_OTC
+    T2_Q4A1_E_YN     T2_Q4A1_E_SCRIPT     T2_Q4A1_E_OTC
+    T2_Q4A1_F_YN     T2_Q4A1_F_SCRIPT     T2_Q4A1_F_OTC
+    T2_Q4A1_G_YN     T2_Q4A1_G_SCRIPT     T2_Q4A1_G_OTC
+    T2_Q4A1_H_YN     T2_Q4A1_H_SCRIPT     T2_Q4A1_H_OTC
+    T2_Q4A1_I_YN     T2_Q4A1_I_SCRIPT     T2_Q4A1_I_OTC
+    T2_Q4A1_J_YN     T2_Q4A1_J_SCRIPT     T2_Q4A1_J_OTC
+    T2_Q4A1_K_YN     T2_Q4A1_K_SCRIPT     T2_Q4A1_K_OTC
+    T2_Q4A1_L_YN     T2_Q4A1_L_SCRIPT     T2_Q4A1_L_OTC
+    T2_Q4A1_M_YN     T2_Q4A1_M_SCRIPT     T2_Q4A1_M_OTC
+    T2_Q4A1_N_YN     T2_Q4A1_N_SCRIPT     T2_Q4A1_N_OTC
+    T2_Q4A1_O_YN     T2_Q4A1_O_SCRIPT     T2_Q4A1_O_OTC; set meds.q2; run;
+
+/*Explore the data a little*/
+	proc freq data=meds.q2; table t2_q4a; run;
+
+/*For OTC variables, "2" is used for the flag instead of "1"*/
+/*Recode OTC variables*/
+	data meds.q2_pre; set meds.q2; run;
+
+	%macro fix(otc);
+	data meds.q2_pre; set meds.q2_pre;
+	if &otc=2 then &otc=1; run;
+	%mend;
+	%fix(	T2_Q4A1_A_OTC	);
+	%fix(	T2_Q4A1_B_OTC	);
+	%fix(	T2_Q4A1_C_OTC	);
+	%fix(	T2_Q4A1_D_OTC	);
+	%fix(	T2_Q4A1_E_OTC	);
+	%fix(	T2_Q4A1_F_OTC	);
+	%fix(	T2_Q4A1_G_OTC	);
+	%fix(	T2_Q4A1_H_OTC	);
+	%fix(	T2_Q4A1_I_OTC	);
+	%fix(	T2_Q4A1_J_OTC	);
+	%fix(	T2_Q4A1_K_OTC	);
+	%fix(	T2_Q4A1_L_OTC	);
+	%fix(	T2_Q4A1_M_OTC	);
+	%fix(	T2_Q4A1_N_OTC	);
+	%fix(	T2_Q4A1_O_OTC	);
+
+	proc freq data=meds.q2_pre; run;
+	/*same frequencies -- start macros*/
+
+
+/*check if anyone who answered "no" to T1_Q4A
+checked yes to any medication for condition*/
+
+	%macro a(yn, otc, rx);
+		proc print data=meds.q2_pre noobs;
+		var study_id  T2_Q4A &yn  &rx  &otc;
+		where T2_Q4A=0 and (&yn=1 or &rx=1 or &otc=1); run;
+	%mend;
+
+	%a(	T2_Q4A1_A_YN	,	T2_Q4A1_A_SCRIPT	,	T2_Q4A1_A_OTC	);
+	%a(	T2_Q4A1_B_YN	,	T2_Q4A1_B_SCRIPT	,	T2_Q4A1_B_OTC	);
+	%a(	T2_Q4A1_C_YN	,	T2_Q4A1_C_SCRIPT	,	T2_Q4A1_C_OTC	);
+	%a(	T2_Q4A1_D_YN	,	T2_Q4A1_D_SCRIPT	,	T2_Q4A1_D_OTC	);
+	%a(	T2_Q4A1_E_YN	,	T2_Q4A1_E_SCRIPT	,	T2_Q4A1_E_OTC	);
+	%a(	T2_Q4A1_F_YN	,	T2_Q4A1_F_SCRIPT	,	T2_Q4A1_F_OTC	);
+	%a(	T2_Q4A1_G_YN	,	T2_Q4A1_G_SCRIPT	,	T2_Q4A1_G_OTC	);
+	%a(	T2_Q4A1_H_YN	,	T2_Q4A1_H_SCRIPT	,	T2_Q4A1_H_OTC	);
+	%a(	T2_Q4A1_I_YN	,	T2_Q4A1_I_SCRIPT	,	T2_Q4A1_I_OTC	);
+	%a(	T2_Q4A1_J_YN	,	T2_Q4A1_J_SCRIPT	,	T2_Q4A1_J_OTC	);
+	%a(	T2_Q4A1_K_YN	,	T2_Q4A1_K_SCRIPT	,	T2_Q4A1_K_OTC	);
+	%a(	T2_Q4A1_L_YN	,	T2_Q4A1_L_SCRIPT	,	T2_Q4A1_L_OTC	);
+	%a(	T2_Q4A1_M_YN	,	T2_Q4A1_M_SCRIPT	,	T2_Q4A1_M_OTC	);
+	%a(	T2_Q4A1_N_YN	,	T2_Q4A1_N_SCRIPT	,	T2_Q4A1_N_OTC	);
+	%a(	T2_Q4A1_O_YN	,	T2_Q4A1_O_SCRIPT	,	T2_Q4A1_O_OTC	);
+			/*no obs in the log -- continue*/
+
+/*if YN is filled but there is no rx or otc info*/
+/*Complete for each medication type*/
+	%macro b(yn, otc, rx);
+	proc print data=meds.q2_pre noobs;
+	var study_id T2_Q4A &yn &rx &otc;
+	where &yn=1 and (&rx ne 1 and &otc ne 1); run;
+	%mend;
+	%b(	T2_Q4A1_A_YN	,	T2_Q4A1_A_SCRIPT	,	T2_Q4A1_A_OTC	); /*6014, 6020, 8162, 8278*/
+	%b(	T2_Q4A1_B_YN	,	T2_Q4A1_B_SCRIPT	,	T2_Q4A1_B_OTC	); /*9077*/
+	%b(	T2_Q4A1_C_YN	,	T2_Q4A1_C_SCRIPT	,	T2_Q4A1_C_OTC	); /*8162, 8200, 8210*/
+	%b(	T2_Q4A1_D_YN	,	T2_Q4A1_D_SCRIPT	,	T2_Q4A1_D_OTC	); /*None*/
+	%b(	T2_Q4A1_E_YN	,	T2_Q4A1_E_SCRIPT	,	T2_Q4A1_E_OTC	); /*6116, 6224, 7089, 9077, 9211*/
+	%b(	T2_Q4A1_F_YN	,	T2_Q4A1_F_SCRIPT	,	T2_Q4A1_F_OTC	); /*6205*/
+	%b(	T2_Q4A1_G_YN	,	T2_Q4A1_G_SCRIPT	,	T2_Q4A1_G_OTC	); /*7069*/
+	%b(	T2_Q4A1_H_YN	,	T2_Q4A1_H_SCRIPT	,	T2_Q4A1_H_OTC	); /*6067, 6224*/
+	%b(	T2_Q4A1_I_YN	,	T2_Q4A1_I_SCRIPT	,	T2_Q4A1_I_OTC	); /*None*/
+	%b(	T2_Q4A1_J_YN	,	T2_Q4A1_J_SCRIPT	,	T2_Q4A1_J_OTC	); /*6067, 9200*/
+	%b(	T2_Q4A1_K_YN	,	T2_Q4A1_K_SCRIPT	,	T2_Q4A1_K_OTC	); /*6025, 6067, 8162*/
+	%b(	T2_Q4A1_L_YN	,	T2_Q4A1_L_SCRIPT	,	T2_Q4A1_L_OTC	); /*6025*/
+	%b(	T2_Q4A1_M_YN	,	T2_Q4A1_M_SCRIPT	,	T2_Q4A1_M_OTC	); /*6099, 9045*/
+	%b(	T2_Q4A1_N_YN	,	T2_Q4A1_N_SCRIPT	,	T2_Q4A1_N_OTC	); /*6113, 6125, 7069*/
+	%b(	T2_Q4A1_O_YN	,	T2_Q4A1_O_SCRIPT	,	T2_Q4A1_O_OTC	); /*6016, 6028, 6079, 7053
+																		 7109, 7121, 7215, 8202, 9055*/
+		/*Fix -- known missings and need to be coded to -3*/
+		data meds.q2_b; set meds.q2_pre; run;
+
+		%macro bfix(yn, otc, rx);
+		data meds.q2_b; set meds.q2_b;
+		if &yn=1 and (&rx ne 1 and &otc ne 1) then &rx=-3;
+		if  &yn=1 and (&rx ne 1 and &otc ne 1) then &otc=-3;
+		run;
+		%mend;
+		%bfix(	T2_Q4A1_A_YN	,	T2_Q4A1_A_SCRIPT	,	T2_Q4A1_A_OTC	);
+		%bfix(	T2_Q4A1_B_YN	,	T2_Q4A1_B_SCRIPT	,	T2_Q4A1_B_OTC	);
+		%bfix(	T2_Q4A1_C_YN	,	T2_Q4A1_C_SCRIPT	,	T2_Q4A1_C_OTC	);
+		%bfix(	T2_Q4A1_D_YN	,	T2_Q4A1_D_SCRIPT	,	T2_Q4A1_D_OTC	);
+		%bfix(	T2_Q4A1_E_YN	,	T2_Q4A1_E_SCRIPT	,	T2_Q4A1_E_OTC	);
+		%bfix(	T2_Q4A1_F_YN	,	T2_Q4A1_F_SCRIPT	,	T2_Q4A1_F_OTC	);
+		%bfix(	T2_Q4A1_G_YN	,	T2_Q4A1_G_SCRIPT	,	T2_Q4A1_G_OTC	);
+		%bfix(	T2_Q4A1_H_YN	,	T2_Q4A1_H_SCRIPT	,	T2_Q4A1_H_OTC	);
+		%bfix(	T2_Q4A1_I_YN	,	T2_Q4A1_I_SCRIPT	,	T2_Q4A1_I_OTC	);
+		%bfix(	T2_Q4A1_J_YN	,	T2_Q4A1_J_SCRIPT	,	T2_Q4A1_J_OTC	);
+		%bfix(	T2_Q4A1_K_YN	,	T2_Q4A1_K_SCRIPT	,	T2_Q4A1_K_OTC	);
+		%bfix(	T2_Q4A1_L_YN	,	T2_Q4A1_L_SCRIPT	,	T2_Q4A1_L_OTC	);
+		%bfix(	T2_Q4A1_M_YN	,	T2_Q4A1_M_SCRIPT	,	T2_Q4A1_M_OTC	);
+		%bfix(	T2_Q4A1_N_YN	,	T2_Q4A1_N_SCRIPT	,	T2_Q4A1_N_OTC	);
+		%bfix(	T2_Q4A1_O_YN	,	T2_Q4A1_O_SCRIPT	,	T2_Q4A1_O_OTC	);
+
+		/*Rerun macro with new dataset*/
+			%macro b(yn, otc, rx);
+			proc print data=meds.q2_b noobs;
+			var study_id T2_Q4A &yn &rx &otc;
+			where &yn=1 and (&rx ne 1 and &otc ne 1); run;
+			%mend;
+			%b(	T2_Q4A1_A_YN	,	T2_Q4A1_A_SCRIPT	,	T2_Q4A1_A_OTC	); /*6014, 6020, 8162, 8278*/
+			%b(	T2_Q4A1_B_YN	,	T2_Q4A1_B_SCRIPT	,	T2_Q4A1_B_OTC	); /*9077*/
+			%b(	T2_Q4A1_C_YN	,	T2_Q4A1_C_SCRIPT	,	T2_Q4A1_C_OTC	); /*8162, 8200, 8210*/
+			%b(	T2_Q4A1_D_YN	,	T2_Q4A1_D_SCRIPT	,	T2_Q4A1_D_OTC	); /*None*/
+			%b(	T2_Q4A1_E_YN	,	T2_Q4A1_E_SCRIPT	,	T2_Q4A1_E_OTC	); /*6116, 6224, 7089, 9077, 9211*/
+			%b(	T2_Q4A1_F_YN	,	T2_Q4A1_F_SCRIPT	,	T2_Q4A1_F_OTC	); /*6205*/
+			%b(	T2_Q4A1_G_YN	,	T2_Q4A1_G_SCRIPT	,	T2_Q4A1_G_OTC	); /*7069*/
+			%b(	T2_Q4A1_H_YN	,	T2_Q4A1_H_SCRIPT	,	T2_Q4A1_H_OTC	); /*6067, 6224*/
+			%b(	T2_Q4A1_I_YN	,	T2_Q4A1_I_SCRIPT	,	T2_Q4A1_I_OTC	); /*None*/
+			%b(	T2_Q4A1_J_YN	,	T2_Q4A1_J_SCRIPT	,	T2_Q4A1_J_OTC	); /*6067, 9200*/
+			%b(	T2_Q4A1_K_YN	,	T2_Q4A1_K_SCRIPT	,	T2_Q4A1_K_OTC	); /*6025, 6067, 8162*/
+			%b(	T2_Q4A1_L_YN	,	T2_Q4A1_L_SCRIPT	,	T2_Q4A1_L_OTC	); /*6025*/
+			%b(	T2_Q4A1_M_YN	,	T2_Q4A1_M_SCRIPT	,	T2_Q4A1_M_OTC	); /*6099, 9045*/
+			%b(	T2_Q4A1_N_YN	,	T2_Q4A1_N_SCRIPT	,	T2_Q4A1_N_OTC	); /*6113, 6125, 7069*/
+			%b(	T2_Q4A1_O_YN	,	T2_Q4A1_O_SCRIPT	,	T2_Q4A1_O_OTC	); /*6016, 6028, 6079, 7053
+																				 7109, 7121, 7215, 8202, 9055*/
+		/*all -3, continue*/
+
+/*if yn is 0 but there is rx and otc info*/
+	%macro c(yn, otc, rx);
+	proc print data=meds.q2_b noobs;
+	var study_id T2_Q4A &yn &rx &otc;
+	where &yn=0 and (&rx=1 or &otc=1); run;
+	%mend;
+	%c(	T2_Q4A1_A_YN	,	T2_Q4A1_A_SCRIPT	,	T2_Q4A1_A_OTC	);
+	%c(	T2_Q4A1_B_YN	,	T2_Q4A1_B_SCRIPT	,	T2_Q4A1_B_OTC	);
+	%c(	T2_Q4A1_C_YN	,	T2_Q4A1_C_SCRIPT	,	T2_Q4A1_C_OTC	);
+	%c(	T2_Q4A1_D_YN	,	T2_Q4A1_D_SCRIPT	,	T2_Q4A1_D_OTC	);
+	%c(	T2_Q4A1_E_YN	,	T2_Q4A1_E_SCRIPT	,	T2_Q4A1_E_OTC	);
+	%c(	T2_Q4A1_F_YN	,	T2_Q4A1_F_SCRIPT	,	T2_Q4A1_F_OTC	);
+	%c(	T2_Q4A1_G_YN	,	T2_Q4A1_G_SCRIPT	,	T2_Q4A1_G_OTC	);
+	%c(	T2_Q4A1_H_YN	,	T2_Q4A1_H_SCRIPT	,	T2_Q4A1_H_OTC	);
+	%c(	T2_Q4A1_I_YN	,	T2_Q4A1_I_SCRIPT	,	T2_Q4A1_I_OTC	);
+	%c(	T2_Q4A1_J_YN	,	T2_Q4A1_J_SCRIPT	,	T2_Q4A1_J_OTC	);
+	%c(	T2_Q4A1_K_YN	,	T2_Q4A1_K_SCRIPT	,	T2_Q4A1_K_OTC	);
+	%c(	T2_Q4A1_L_YN	,	T2_Q4A1_L_SCRIPT	,	T2_Q4A1_L_OTC	);
+	%c(	T2_Q4A1_M_YN	,	T2_Q4A1_M_SCRIPT	,	T2_Q4A1_M_OTC	);
+	%c(	T2_Q4A1_N_YN	,	T2_Q4A1_N_SCRIPT	,	T2_Q4A1_N_OTC	);
+	%c(	T2_Q4A1_O_YN	,	T2_Q4A1_O_SCRIPT	,	T2_Q4A1_O_OTC	);
+	/*suspiciously no obs when yn=0.
+	  Try yn=.*/
+
+
+/*if yn is "." but there is rx and otc info*/
+	%macro d(yn, otc, rx);
+	proc print data=meds.q2_b noobs;
+	var study_id T2_Q4A &yn &rx &otc;
+	where &yn=. and (&rx=1 or &otc=1); run;
+	%mend;
+	%d(	T2_Q4A1_A_YN	,	T2_Q4A1_A_SCRIPT	,	T2_Q4A1_A_OTC	);
+	%d(	T2_Q4A1_B_YN	,	T2_Q4A1_B_SCRIPT	,	T2_Q4A1_B_OTC	);
+	%d(	T2_Q4A1_C_YN	,	T2_Q4A1_C_SCRIPT	,	T2_Q4A1_C_OTC	);
+	%d(	T2_Q4A1_D_YN	,	T2_Q4A1_D_SCRIPT	,	T2_Q4A1_D_OTC	);
+	%d(	T2_Q4A1_E_YN	,	T2_Q4A1_E_SCRIPT	,	T2_Q4A1_E_OTC	);
+	%d(	T2_Q4A1_F_YN	,	T2_Q4A1_F_SCRIPT	,	T2_Q4A1_F_OTC	);
+	%d(	T2_Q4A1_G_YN	,	T2_Q4A1_G_SCRIPT	,	T2_Q4A1_G_OTC	);
+	%d(	T2_Q4A1_H_YN	,	T2_Q4A1_H_SCRIPT	,	T2_Q4A1_H_OTC	);
+	%d(	T2_Q4A1_I_YN	,	T2_Q4A1_I_SCRIPT	,	T2_Q4A1_I_OTC	);
+	%d(	T2_Q4A1_J_YN	,	T2_Q4A1_J_SCRIPT	,	T2_Q4A1_J_OTC	);
+	%d(	T2_Q4A1_K_YN	,	T2_Q4A1_K_SCRIPT	,	T2_Q4A1_K_OTC	);
+	%d(	T2_Q4A1_L_YN	,	T2_Q4A1_L_SCRIPT	,	T2_Q4A1_L_OTC	);
+	%d(	T2_Q4A1_M_YN	,	T2_Q4A1_M_SCRIPT	,	T2_Q4A1_M_OTC	);
+	%d(	T2_Q4A1_N_YN	,	T2_Q4A1_N_SCRIPT	,	T2_Q4A1_N_OTC	);
+	%d(	T2_Q4A1_O_YN	,	T2_Q4A1_O_SCRIPT	,	T2_Q4A1_O_OTC	);
+
+	/*Only 8080 for "Other" meds*/
+	data  meds.q2_d; set meds.q2_b;
+	if study_id=8080 then T2_Q4A1_O_YN=1; run;
+	/*Recall only n=17 have T2_Q4A missing*/
+
+	proc print data=meds.q2_d;
+	where T2_Q4A=.; run;
+
+	/*drop to make sure they don't get read into redcap*/
+	data meds.q2_d; set meds.q2_d;
+	if T2_Q4A=. then delete; run;
+
+
+
+/*Run proc freqs*/
+
+/*Yes/Nos*/
+ proc freq data=meds.q2_d;
+ table T2_Q4A
+	T2_Q4A1_A_YN T2_Q4A1_A_SCRIPT T2_Q4A1_A_OTC
+	T2_Q4A1_B_YN T2_Q4A1_B_SCRIPT T2_Q4A1_B_OTC
+	T2_Q4A1_C_YN T2_Q4A1_C_SCRIPT T2_Q4A1_C_OTC
+	T2_Q4A1_D_YN T2_Q4A1_D_SCRIPT T2_Q4A1_D_OTC
+	T2_Q4A1_E_YN T2_Q4A1_E_SCRIPT T2_Q4A1_E_OTC
+	T2_Q4A1_F_YN T2_Q4A1_F_SCRIPT T2_Q4A1_F_OTC
+	T2_Q4A1_G_YN T2_Q4A1_G_SCRIPT T2_Q4A1_G_OTC
+	T2_Q4A1_H_YN T2_Q4A1_H_SCRIPT T2_Q4A1_H_OTC
+	T2_Q4A1_I_YN T2_Q4A1_I_SCRIPT T2_Q4A1_I_OTC
+	T2_Q4A1_J_YN T2_Q4A1_J_SCRIPT T2_Q4A1_J_OTC
+	T2_Q4A1_K_YN T2_Q4A1_K_SCRIPT T2_Q4A1_K_OTC
+	T2_Q4A1_L_YN T2_Q4A1_L_SCRIPT T2_Q4A1_L_OTC
+	T2_Q4A1_M_YN T2_Q4A1_M_SCRIPT T2_Q4A1_M_OTC
+	T2_Q4A1_N_YN T2_Q4A1_N_SCRIPT T2_Q4A1_N_OTC
+	T2_Q4A1_O_YN T2_Q4A1_O_SCRIPT T2_Q4A1_O_OTC/nocol norow nopercent; run;
+
+/*Run by condition*/
+	%macro check(yn, otc, rx, name);
+	 proc freq data=meds.q2_d;
+	 table &yn &rx &otc/nocol norow nopercent;
+	 title &name; run;
+
+		proc print data=meds.q2_d noobs;
+		var study_id T2_Q4A &yn &rx &otc;
+		where &rx ne . or  &otc ne .; run;
+	%mend;
+	%check(	T2_Q4A1_A_YN	,	T2_Q4A1_A_SCRIPT	,	T2_Q4A1_A_OTC	,	"Allergies"	); /*44 obs, overlap with -3 ppt and ppt who took both rx and otc*/
+	%check(	T2_Q4A1_B_YN	,	T2_Q4A1_B_SCRIPT	,	T2_Q4A1_B_OTC	,	"Arthritis"	); /*1 participant, 9077 (same as q1*/
+	%check(	T2_Q4A1_C_YN	,	T2_Q4A1_C_SCRIPT	,	T2_Q4A1_C_OTC	,	"Asthma"	); /*18 in yn and in log, most rx with -3*/
+	%check(	T2_Q4A1_D_YN	,	T2_Q4A1_D_SCRIPT	,	T2_Q4A1_D_OTC	,	"COPD"	); /*NONE*/
+	%check(	T2_Q4A1_E_YN	,	T2_Q4A1_E_SCRIPT	,	T2_Q4A1_E_OTC	,	"Depression"	); /*33 in yn and in log, all rx w/ -3*/
+	%check(	T2_Q4A1_F_YN	,	T2_Q4A1_F_SCRIPT	,	T2_Q4A1_F_OTC	,	"DM"	); /*22 in yn and in log, all rx and 6205 -3*/
+	%check(	T2_Q4A1_G_YN	,	T2_Q4A1_G_SCRIPT	,	T2_Q4A1_G_OTC	,	"Genital"	); /*9 in yn and in log*/
+	%check(	T2_Q4A1_H_YN	,	T2_Q4A1_H_SCRIPT	,	T2_Q4A1_H_OTC	,	"GI"	); /*34 in yn and in log, mix rx & otc*/
+	%check(	T2_Q4A1_I_YN	,	T2_Q4A1_I_SCRIPT	,	T2_Q4A1_I_OTC	,	"HBP"	); /*24 in yn and in log, all otc except 6176*/
+	%check(	T2_Q4A1_J_YN	,	T2_Q4A1_J_SCRIPT	,	T2_Q4A1_J_OTC	,	"Nausea"	);/*31 in yn and in log, mix rx & otc*/
+	%check(	T2_Q4A1_K_YN	,	T2_Q4A1_K_SCRIPT	,	T2_Q4A1_K_OTC	,	"Pain"	); /*36 in yn and in log, mix rx & otc*/
+	%check(	T2_Q4A1_L_YN	,	T2_Q4A1_L_SCRIPT	,	T2_Q4A1_L_OTC	,	"Resp Infection"); /*4 in yn and in log*/
+	%check(	T2_Q4A1_M_YN	,	T2_Q4A1_M_SCRIPT	,	T2_Q4A1_M_OTC	,	"Thyroid"	); /*32 in yn and in log*/
+	%check(	T2_Q4A1_N_YN	,	T2_Q4A1_N_SCRIPT	,	T2_Q4A1_N_OTC	,	"Urinary"	); /*27 in yn and in log*/
+	%check(	T2_Q4A1_O_YN	,	T2_Q4A1_O_SCRIPT	,	T2_Q4A1_O_OTC	,	"Other"	); /*92 other in yn and in log, mix*/
+
+data meds.q1_import; set meds.q1_d;
+if T1_Q6A=. then delete; run;
+
+/*RENAME!!!!*/
+data meds.q2_import; set meds.q2_d;
+rename	T2_Q4A	=	medications_yn	;
+rename	T2_Q4A1_A_YN	=	allergy_yn	;
+rename	T2_Q4A1_A_SCRIPT	=	allergy_script	;
+rename	T2_Q4A1_A_OTC	=	allergy_otc	;
+rename	T2_Q4A1_B_YN	=	arthritis_yn	;
+rename	T2_Q4A1_B_SCRIPT	=	arthritis_script	;
+rename	T2_Q4A1_B_OTC	=	arthritis_otc	;
+rename	T2_Q4A1_C_YN	=	asthma_yn	;
+rename	T2_Q4A1_C_SCRIPT	=	asthma_script	;
+rename	T2_Q4A1_C_OTC	=	asthma_otc	;
+rename	T2_Q4A1_D_YN	=	copd_yn	;
+rename	T2_Q4A1_D_SCRIPT	=	copd_script	;
+rename	T2_Q4A1_D_OTC	=	copd_otc	;
+rename	T2_Q4A1_E_YN	=	depression_yn	;
+rename	T2_Q4A1_E_SCRIPT	=	depression_script	;
+rename	T2_Q4A1_E_OTC	=	despression_otc	;
+rename	T2_Q4A1_F_YN	=	diabetes_yn	;
+rename	T2_Q4A1_F_SCRIPT	=	diabetes_script	;
+rename	T2_Q4A1_F_OTC	=	diabetes_otc	;
+rename	T2_Q4A1_G_YN	=	genital_yn	;
+rename	T2_Q4A1_G_SCRIPT	=	genital_script	;
+rename	T2_Q4A1_G_OTC	=	genital_otc	;
+rename	T2_Q4A1_H_YN	=	gi_yn	;
+rename	T2_Q4A1_H_SCRIPT	=	gi_script	;
+rename	T2_Q4A1_H_OTC	=	gi_otc	;
+rename	T2_Q4A1_I_YN	=	bp_yn	;
+rename	T2_Q4A1_I_SCRIPT	=	bp_script	;
+rename	T2_Q4A1_I_OTC	=	bp_otc	;
+rename	T2_Q4A1_J_YN	=	nausea_yn	;
+rename	T2_Q4A1_J_SCRIPT	=	nausea_script	;
+rename	T2_Q4A1_J_OTC	=	nausea_otc	;
+rename	T2_Q4A1_K_YN	=	pain_yn	;
+rename	T2_Q4A1_K_SCRIPT	=	pain_script	;
+rename	T2_Q4A1_K_OTC	=	pain_otc	;
+rename	T2_Q4A1_L_YN	=	respinfect_yn	;
+rename	T2_Q4A1_L_SCRIPT	=	respinfect_script	;
+rename	T2_Q4A1_L_OTC	=	respinfect_otc	;
+rename	T2_Q4A1_M_YN	=	thyroid_yn	;
+rename	T2_Q4A1_M_SCRIPT	=	thyroid_script	;
+rename	T2_Q4A1_M_OTC	=	thyroid_otc	;
+rename	T2_Q4A1_N_YN	=	urinary_yn	;
+rename	T2_Q4A1_N_SCRIPT	=	urinary_script	;
+rename	T2_Q4A1_N_OTC	=	urinary_otc	;
+rename	T2_Q4A1_O_YN	=	othermed_yn	;
+rename	T2_Q4A1_O_SCRIPT	=	othermedscript	;
+rename	T2_Q4A1_O_OTC	=	othermed_otc	; run;
+
+/*q1 done -- export*/
+PROC EXPORT DATA= MEDS.Q2_import
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\medications\q2_meds.csv"
+            DBMS=CSV REPLACE;
+     PUTNAMES=YES;
+RUN;

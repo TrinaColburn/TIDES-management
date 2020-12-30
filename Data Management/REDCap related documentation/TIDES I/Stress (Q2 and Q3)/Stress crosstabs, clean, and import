@@ -1,0 +1,330 @@
+/***********************/
+/******Stress vars******/
+/***********************/
+
+libname stress "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Stress import"; run;
+
+/*Goldenberg from Second Trimester Questionnaire*/
+	data stress.q2; set q2.Q2_2020;
+		keep study_id t2_q26 t2_q27 t2_q28 t2_q29 t2_q30 t2_q31
+		t2_q32 t2_q33 t2_q34 t2_q35 t2_q36 t2_q37 t2_q38 t2_q39
+		t2_q40 t2_q41 t2_q42 t2_q43 t2_q44 t2_q45 t2_q46 t2_q47
+		t2_q48 t2_q49 t2_q50 t2_q51 t2_q52; run;
+
+	data stress.q2; format
+		study_id t2_q26 t2_q27 t2_q28 t2_q29 t2_q30 t2_q31
+		t2_q32 t2_q33 t2_q34 t2_q35 t2_q36 t2_q37 t2_q38 t2_q39
+		t2_q40 t2_q41 t2_q42 t2_q43 t2_q44 t2_q45 t2_q46 t2_q47
+		t2_q48 t2_q49 t2_q50 t2_q51 t2_q52; set stress.q2; run;
+
+proc sort data=stress.q2; by study_id; run;
+
+/*proc freq to see if coding is correct*/
+	proc freq data=stress.q2;
+	table t2_q26 - t2_q52; run;
+
+
+	%macro miss(var);
+	proc print data=stress.q2 noobs;
+	var study_id &var;
+	where &var=0; run;
+	%mend;
+
+	%miss(	t2_q26	);
+	%miss(	t2_q27	);
+	%miss(	t2_q28	);
+	%miss(	t2_q29	);
+	%miss(	t2_q30	);
+	%miss(	t2_q31	);
+	%miss(	t2_q32	);
+	%miss(	t2_q33	);
+	%miss(	t2_q34	);
+	%miss(	t2_q35	);
+	%miss(	t2_q36	);
+	%miss(	t2_q37	);
+	%miss(	t2_q38	);
+	%miss(	t2_q39	);
+	%miss(	t2_q40	);
+	%miss(	t2_q41	);
+	%miss(	t2_q42	);
+	%miss(	t2_q43	);
+	%miss(	t2_q44	);
+	%miss(	t2_q45	);
+	%miss(	t2_q46	);
+	%miss(	t2_q47	);
+	%miss(	t2_q48	);
+	%miss(	t2_q49	);
+	%miss(	t2_q50	);
+	%miss(	t2_q51	);
+	%miss(	t2_q52	);
+
+	%macro code(var);
+	data stress.q2; set stress.q2;
+	if &var=0 then stressmiss_1=1; run;
+	%mend;
+
+	%code(	t2_q26	);
+	%code(	t2_q27	);
+	%code(	t2_q28	);
+	%code(	t2_q29	);
+	%code(	t2_q30	);
+	%code(	t2_q31	);
+	%code(	t2_q32	);
+	%code(	t2_q33	);
+	%code(	t2_q34	);
+	%code(	t2_q35	);
+	%code(	t2_q36	);
+	%code(	t2_q37	);
+	%code(	t2_q38	);
+	%code(	t2_q39	);
+	%code(	t2_q40	);
+	%code(	t2_q41	);
+	%code(	t2_q42	);
+	%code(	t2_q43	);
+	%code(	t2_q44	);
+	%code(	t2_q45	);
+	%code(	t2_q46	);
+	%code(	t2_q47	);
+	%code(	t2_q48	);
+	%code(	t2_q49	);
+	%code(	t2_q50	);
+	%code(	t2_q51	);
+	%code(	t2_q52	);
+
+	%macro code(var);
+	data stress.q2; set stress.q2;
+	if &var=. then stressmiss_2=1; run;
+	%mend;
+
+	%code(	t2_q26	);
+	%code(	t2_q27	);
+	%code(	t2_q28	);
+	%code(	t2_q29	);
+	%code(	t2_q30	);
+	%code(	t2_q31	);
+	%code(	t2_q32	);
+	%code(	t2_q33	);
+	%code(	t2_q34	);
+	%code(	t2_q35	);
+	%code(	t2_q36	);
+	%code(	t2_q37	);
+	%code(	t2_q38	);
+	%code(	t2_q39	);
+	%code(	t2_q40	);
+	%code(	t2_q41	);
+	%code(	t2_q42	);
+	%code(	t2_q43	);
+	%code(	t2_q44	);
+	%code(	t2_q45	);
+	%code(	t2_q46	);
+	%code(	t2_q47	);
+	%code(	t2_q48	);
+	%code(	t2_q49	);
+	%code(	t2_q50	);
+	%code(	t2_q51	);
+	%code(	t2_q52	);
+
+
+
+	proc print data=stress.q2 noobs;
+	var study_id stressmiss;
+	where stressmiss_1=1; run;
+
+	proc print data=stress.q2 noobs;
+	var study_id stressmiss;
+	where stressmiss_2=1; run;
+
+	proc sort data=q2.q2_2020; by study_id; run;
+
+	data stress.q2_misscheck; merge q2.q2_2020 stress.q2 ; by study_id; run;
+
+	proc print data=stress.q2_misscheck noobs;
+	where stressmiss_1=1; run;
+
+	proc print data=stress.q2_misscheck noobs;
+	where stressmiss_2=1; run;
+
+
+	/*36 missing -- will keep as missing
+	REDCap code for missing will be 0*/
+	data stress.q2_v2; set stress.q2; run;
+
+	%macro rec(var);
+	data stress.q2_v2; set stress.q2_v2;
+	if &var=. then &var=0; run;
+	%mend;
+
+	%rec(	t2_q26	);
+	%rec(	t2_q27	);
+	%rec(	t2_q28	);
+	%rec(	t2_q29	);
+	%rec(	t2_q30	);
+	%rec(	t2_q31	);
+	%rec(	t2_q32	);
+	%rec(	t2_q33	);
+	%rec(	t2_q34	);
+	%rec(	t2_q35	);
+	%rec(	t2_q36	);
+	%rec(	t2_q37	);
+	%rec(	t2_q38	);
+	%rec(	t2_q39	);
+	%rec(	t2_q40	);
+	%rec(	t2_q41	);
+	%rec(	t2_q42	);
+	%rec(	t2_q43	);
+	%rec(	t2_q44	);
+	%rec(	t2_q45	);
+	%rec(	t2_q46	);
+	%rec(	t2_q47	);
+	%rec(	t2_q48	);
+	%rec(	t2_q49	);
+	%rec(	t2_q50	);
+	%rec(	t2_q51	);
+	%rec(	t2_q52	);
+
+	proc freq data=stress.q2_v2;
+	table t2_q26 - t2_q52; run;
+
+/*PSS and SLE*/
+	/*Q3*/
+		data stress.q3; set q3.q3_2020;
+		keep study_id t3_q32 t3_q33 t3_q34 t3_q35 t3_q36
+		t3_q37_yn t3_q37_t1 t3_q37_t2 t3_q37_t3
+		t3_q38_yn t3_q38_t1 t3_q38_t2 t3_q38_t3
+		t3_q39_yn t3_q39_t1 t3_q39_t2 t3_q39_t3
+		t3_q40_yn t3_q40_t1 t3_q40_t2 t3_q40_t3
+		t3_q41_yn t3_q41_t1 t3_q41_t2 t3_q41_t3
+		t3_q42_yn t3_q42_t1 t3_q42_t2 t3_q42_t3
+		t3_q42_specify; run;
+
+		data stress.q3;
+		format study_id t3_q32 t3_q33 t3_q34 t3_q35 t3_q36
+		t3_q37_yn t3_q37_t1 t3_q37_t2 t3_q37_t3
+		t3_q38_yn t3_q38_t1 t3_q38_t2 t3_q38_t3
+		t3_q39_yn t3_q39_t1 t3_q39_t2 t3_q39_t3
+		t3_q40_yn t3_q40_t1 t3_q40_t2 t3_q40_t3
+		t3_q41_yn t3_q41_t1 t3_q41_t2 t3_q41_t3
+		t3_q42_yn t3_q42_t1 t3_q42_t2 t3_q42_t3
+		t3_q42_specify; set stress.q3; run;
+
+		proc sort data=stress.q3; by study_id; run;
+
+		proc freq data=stress.q3;
+		table t3_q32 -- t3_q42_t3; run;
+
+		/*correct q36 --
+		no documentation why there is a 4 code*/
+		proc print data=stress.q3;
+		where t3_q36=4; run;
+
+		data stress.q3_v2; set stress.q3;
+		if study_id=8150 then t3_q36=.; run;
+
+	/*check if yn var = 0 and there's trimester data*/
+		%macro yesno(yn, one, two, three);
+		proc print data=stress.q3_v2 noobs;
+		var study_id &yn &one &two &three;
+		where &yn=0 and (&one > 0 or &two > 0 or &three > 0); run;
+		%mend;
+
+		%yesno(	t3_q37_yn	,	t3_q37_t1	,	t3_q37_t2	,	t3_q37_t3	);
+		%yesno(	t3_q38_yn	,	t3_q38_t1	,	t3_q38_t2	,	t3_q38_t3	);
+		%yesno(	t3_q39_yn	,	t3_q39_t1	,	t3_q39_t2	,	t3_q39_t3	);
+		%yesno(	t3_q40_yn	,	t3_q40_t1	,	t3_q40_t2	,	t3_q40_t3	);
+		%yesno(	t3_q41_yn	,	t3_q41_t1	,	t3_q41_t2	,	t3_q41_t3	);
+		%yesno(	t3_q42_yn	,	t3_q42_t1	,	t3_q42_t2	,	t3_q42_t3	);
+			/*No observations read from log and none in output - yay*/
+
+	/*Check if participant said yn=1 but didn't check off which trimester*/
+		%macro opp(yn, one, two, three);
+		proc print data=stress.q3_v3 noobs;
+		var study_id &yn &one &two &three;
+		where &yn=1 and (&one <1 and &two<1 and &three<1); run;
+		%mend;
+
+		%opp(	t3_q37_yn	,	t3_q37_t1	,	t3_q37_t2	,	t3_q37_t3	);
+		%opp(	t3_q38_yn	,	t3_q38_t1	,	t3_q38_t2	,	t3_q38_t3	);
+		%opp(	t3_q39_yn	,	t3_q39_t1	,	t3_q39_t2	,	t3_q39_t3	);
+		%opp(	t3_q40_yn	,	t3_q40_t1	,	t3_q40_t2	,	t3_q40_t3	);
+		%opp(	t3_q41_yn	,	t3_q41_t1	,	t3_q41_t2	,	t3_q41_t3	);
+		%opp(	t3_q42_yn	,	t3_q42_t1	,	t3_q42_t2	,	t3_q42_t3	);
+
+	/*Hardcode to missing*/
+		/*Q37*/
+		 data stress.q3_v3; set stress.q3_v2;
+		 	if study_id=8111 then t3_q37_t1=-3;
+			if study_id=8111 then t3_q37_t2=-3;
+			if study_id=8111 then t3_q37_t3=-3; run;
+
+		/*Q38*/
+		 data stress.q3_v3; set stress.q3_v3;
+		 	if study_id=7077 or study_id=9045 then t3_q38_t1=-3;
+			if study_id=7077 or study_id=9045 then t3_q38_t2=-3;
+			if study_id=7077 or study_id=9045 then t3_q38_t3=-3; run;
+
+		/*Q39 - none*/
+
+		/*Q40*/
+		 data stress.q3_v3; set stress.q3_v3;
+		 	if study_id=7094 then t3_q40_t1=-3;
+			if study_id=7094 then t3_q40_t2=-3;
+			if study_id=7094 then t3_q40_t3=-3; run;
+
+		/*Q41*/
+		 data stress.q3_v3; set stress.q3_v3;
+		 	if study_id=9045 then t3_q41_t1=-3;
+			if study_id=9045 then t3_q41_t2=-3;
+			if study_id=9045 then t3_q41_t3=-3; run;
+
+
+		/*Q42 - 6010*/
+		 data stress.q3_v3; set stress.q3_v3;
+		 	if study_id=6010 then t3_q42_t1=-3;
+			if study_id=6010 then t3_q42_t2=-3;
+			if study_id=6010 then t3_q42_t3=-3; run;
+
+		/*Q42 - 6022*/
+		data stress.q3_v3; set stress.q3_v3;
+		 	if study_id=6022 then t3_q42_t1=-3;
+			if study_id=6022 then t3_q42_t2=-3;
+			if study_id=6022 then t3_q42_t3=-3; run;
+
+		/*Q42 - 7063*/
+		data stress.q3_v3; set stress.q3_v3;
+		 	if study_id=7063 then t3_q42_t1=-3;
+			if study_id=7063 then t3_q42_t2=-3;
+			if study_id=7063 then t3_q42_t3=-3; run;
+
+		/*Q42 - 8251*/
+		data stress.q3_v3; set stress.q3_v3;
+		 	if study_id=8251 then t3_q42_t1=-3;
+			if study_id=8251 then t3_q42_t2=-3;
+			if study_id=8251 then t3_q42_t3=-3; run;
+
+	/*Check missing SLE in general*/
+		%macro missing(yn, one, two, three);
+		proc print data=stress.q3_v3 noobs;
+		var study_id &yn &one &two &three;
+		where &yn=.; run;
+		%mend;
+
+		%missing(	t3_q37_yn	,	t3_q37_t1	,	t3_q37_t2	,	t3_q37_t3	);
+		%missing(	t3_q38_yn	,	t3_q38_t1	,	t3_q38_t2	,	t3_q38_t3	);
+		%missing(	t3_q39_yn	,	t3_q39_t1	,	t3_q39_t2	,	t3_q39_t3	);
+		%missing(	t3_q40_yn	,	t3_q40_t1	,	t3_q40_t2	,	t3_q40_t3	);
+		%missing(	t3_q41_yn	,	t3_q41_t1	,	t3_q41_t2	,	t3_q41_t3	);
+		%missing(	t3_q42_yn	,	t3_q42_t1	,	t3_q42_t2	,	t3_q42_t3	);
+
+		/*check 8245*/
+		proc print data=stress.q3_v3 noobs;
+		where study_id=8245; run;
+
+		/*will take the checked trimester data and recode t3_q42_yn*/
+		data stress.q3_v3; set stress.q3_v3;
+		if study_id=8245 then t3_q42_yn=1; run;
+
+	/*export*/
+
+		/*check 8138 t3_q39_t2*/
+		proc print data=stress.q3_v3 noobs;
+		where study_id=8138; run;
