@@ -1,0 +1,392 @@
+/*Libraries*/
+libname q1 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\First"; run;
+libname q2 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Second"; run;
+libname q3 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Third"; run;
+libname sup "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Supplements"; run;
+
+/*Pull Supplement Variables*/
+
+/*Q3*/
+	data sup.q3; set q3.Q3_2020;
+	keep study_id
+  T3_Q5B T3_Q5B1
+	T3_Q5C
+	T3_Q5c_a_yn T3_Q5c_a_form
+	T3_Q5c_b_yn T3_Q5c_b_form
+	T3_Q5c_c_yn T3_Q5c_c_form
+	T3_Q5c_d_yn T3_Q5c_d_form
+	T3_Q5c_e_yn T3_Q5c_e_form
+	T3_Q5c_f_yn T3_Q5c_f_form
+	T3_Q5c_g_yn T3_Q5c_g_form
+	T3_Q5c_h_yn T3_Q5c_h_form
+	T3_Q5c_i_yn T3_Q5c_i_form
+	T3_Q5c_j_yn T3_Q5c_j_form
+	T3_Q5c_k_yn T3_Q5c_k_form
+	T3_Q5c_l_yn T3_Q5c_l_form
+	T3_Q5c_m_yn T3_Q5c_m_form; run;
+
+	data sup.q1;
+	format study_id  T3_Q5B T3_Q5B1
+	T3_Q5C
+	T3_Q5c_a_yn T3_Q5c_a_form
+	T3_Q5c_b_yn T3_Q5c_b_form
+	T3_Q5c_c_yn T3_Q5c_c_form
+	T3_Q5c_d_yn T3_Q5c_d_form
+	T3_Q5c_e_yn T3_Q5c_e_form
+	T3_Q5c_f_yn T3_Q5c_f_form
+	T3_Q5c_g_yn T3_Q5c_g_form
+	T3_Q5c_h_yn T3_Q5c_h_form
+	T3_Q5c_i_yn T3_Q5c_i_form
+	T3_Q5c_j_yn T3_Q5c_j_form
+	T3_Q5c_k_yn T3_Q5c_k_form
+	T3_Q5c_l_yn T3_Q5c_l_form
+	T3_Q5c_m_yn T3_Q5c_m_form; set sup.q1; run;
+
+/*Before running other macros*/
+	/*Explore the data a little bit*/
+	proc freq data=sup.q1;
+	table T3_Q5B -- T3_Q5c_m_form/nocol norow nopercent;
+	title; run;
+	/*Missings are an issue*/
+
+	/*Check T3_Q5b and T3_Q5B1, 2 might be missing Y code for T3_Q5B*/
+	proc print data=sup.q1 noobs;
+	var study_id T3_Q5b T3_Q5B1;
+	where T3_Q5B ne 1 and T3_Q5B1 > .; run;
+	/*n=3: 7034, 7112, 9087 -- have other supplement info too*/
+
+	/*Check inverse*/
+	proc print data=sup.q1 noobs;
+	var study_id T3_Q5b T3_Q5B1;
+	where T3_Q5B=1 and T3_Q5B1=.; run;
+	/*n=1 code as known missing*/
+
+	/*Fix for both above*/
+		data sup.q1; set sup.q1;
+		if study_id=7034 then T3_Q5B=1;
+		if study_id=7112 then T3_Q5B=1;
+		if study_id=9087 then T3_Q5B=1;
+		if study_id=7200 then T3_Q5B1=-3; run;
+
+/*Part A*/
+/*Check T3_Q5C and yes/nos and forms*/
+	%macro a(yn, form);
+		proc print data=sup.q1 noobs;
+		var study_id T3_Q5C &yn  &form;
+		where T3_Q5C=0 and (&yn=1 or &form=1); run;
+	%mend;
+
+	%a(	T3_Q5c_a_yn	,	T3_Q5c_a_form	);
+	%a(	T3_Q5c_b_yn	,	T3_Q5c_b_form	);
+	%a(	T3_Q5c_c_yn	,	T3_Q5c_c_form	);
+	%a(	T3_Q5c_d_yn	,	T3_Q5c_d_form	);
+	%a(	T3_Q5c_e_yn	,	T3_Q5c_e_form	);
+	%a(	T3_Q5c_f_yn	,	T3_Q5c_f_form	);
+	%a(	T3_Q5c_g_yn	,	T3_Q5c_g_form	);
+	%a(	T3_Q5c_h_yn	,	T3_Q5c_h_form	);
+	%a(	T3_Q5c_i_yn	,	T3_Q5c_i_form	);
+	%a(	T3_Q5c_j_yn	,	T3_Q5c_j_form	);
+	%a(	T3_Q5c_k_yn	,	T3_Q5c_k_form	);
+	%a(	T3_Q5c_l_yn	,	T3_Q5c_l_form	);
+	%a(	T3_Q5c_m_yn	,	T3_Q5c_m_form	);
+
+/*Part B*/
+/*if YN is filled but there is no rx or otc info*/
+/*Complete for each medication type*/
+	%macro b(yn, form);
+	proc print data=sup.q1 noobs;
+	var study_id T3_Q5C &yn  &form;
+	where &yn=1 and &form <1; run;
+	%mend;
+
+	%b(	T3_Q5c_a_yn	,	T3_Q5c_a_form	); /*9016, 9196*/
+	%b(	T3_Q5c_b_yn	,	T3_Q5c_b_form	); /*n=9*/
+	%b(	T3_Q5c_c_yn	,	T3_Q5c_c_form	); /*6113, 7110, 9074, 9168*/
+	%b(	T3_Q5c_d_yn	,	T3_Q5c_d_form	);
+	%b(	T3_Q5c_e_yn	,	T3_Q5c_e_form	); /*8037*/
+	%b(	T3_Q5c_f_yn	,	T3_Q5c_f_form	); /*8280*/
+	%b(	T3_Q5c_g_yn	,	T3_Q5c_g_form	); /*7127, 8280*/
+	%b(	T3_Q5c_h_yn	,	T3_Q5c_h_form	); /*n=12*/
+	%b(	T3_Q5c_i_yn	,	T3_Q5c_i_form	); /*none*/
+	%b(	T3_Q5c_j_yn	,	T3_Q5c_j_form	);/*none*/
+	%b(	T3_Q5c_k_yn	,	T3_Q5c_k_form	); /*n=13*/
+	%b(	T3_Q5c_l_yn	,	T3_Q5c_l_form	); /*n=17*/
+	%b(	T3_Q5c_m_yn	,	T3_Q5c_m_form	); /*none, may drop or hide*/
+
+	/*Fix*/
+	data sup.q1_b; set sup.q1; run;
+
+	%macro bfix(yn, form);
+	data sup.q1_b; set sup.q1_b;
+	if &yn=1 and &form <1 then &form=-3; run;
+	%mend;
+
+	%bfix(	T3_Q5c_a_yn	,	T3_Q5c_a_form	); /*9016, 9196*/
+	%bfix(	T3_Q5c_b_yn	,	T3_Q5c_b_form	); /*n=9*/
+	%bfix(	T3_Q5c_c_yn	,	T3_Q5c_c_form	); /*6113, 7110, 9074, 9168*/
+	%bfix(	T3_Q5c_d_yn	,	T3_Q5c_d_form	);
+	%bfix(	T3_Q5c_e_yn	,	T3_Q5c_e_form	); /*8037*/
+	%bfix(	T3_Q5c_f_yn	,	T3_Q5c_f_form	); /*8280*/
+	%bfix(	T3_Q5c_g_yn	,	T3_Q5c_g_form	); /*7127, 8280*/
+	%bfix(	T3_Q5c_h_yn	,	T3_Q5c_h_form	); /*n=12*/
+	%bfix(	T3_Q5c_i_yn	,	T3_Q5c_i_form	); /*none*/
+	%bfix(	T3_Q5c_j_yn	,	T3_Q5c_j_form	);/*none*/
+	%bfix(	T3_Q5c_k_yn	,	T3_Q5c_k_form	); /*n=13*/
+	%bfix(	T3_Q5c_l_yn	,	T3_Q5c_l_form	); /*n=17*/
+	%bfix(	T3_Q5c_m_yn	,	T3_Q5c_m_form	); /*none, may drop or hide*/
+
+		/*check*/
+		%macro b(yn, form);
+		proc print data=sup.q1_b noobs;
+		var study_id T3_Q5C &yn  &form;
+		where &yn=1 and &form <1; run;
+		%mend;
+
+		%b(	T3_Q5c_a_yn	,	T3_Q5c_a_form	); /*9016, 9196*/
+		%b(	T3_Q5c_b_yn	,	T3_Q5c_b_form	); /*n=9*/
+		%b(	T3_Q5c_c_yn	,	T3_Q5c_c_form	); /*6113, 7110, 9074, 9168*/
+		%b(	T3_Q5c_d_yn	,	T3_Q5c_d_form	);
+		%b(	T3_Q5c_e_yn	,	T3_Q5c_e_form	); /*8037*/
+		%b(	T3_Q5c_f_yn	,	T3_Q5c_f_form	); /*8280*/
+		%b(	T3_Q5c_g_yn	,	T3_Q5c_g_form	); /*7127, 8280*/
+		%b(	T3_Q5c_h_yn	,	T3_Q5c_h_form	); /*n=12*/
+		%b(	T3_Q5c_i_yn	,	T3_Q5c_i_form	); /*none*/
+		%b(	T3_Q5c_j_yn	,	T3_Q5c_j_form	);/*none*/
+		%b(	T3_Q5c_k_yn	,	T3_Q5c_k_form	); /*n=13*/
+		%b(	T3_Q5c_l_yn	,	T3_Q5c_l_form	); /*n=17*/
+		%b(	T3_Q5c_m_yn	,	T3_Q5c_m_form	); /*none, may drop or hide*/
+
+/*Part C*/
+/*if yn is 0 but there is rx and otc info*/
+	%macro c(yn, form);
+	proc print data=sup.q1_b noobs;
+	var study_id T3_Q5C &yn  &form;
+	where &yn=0 and &form ne .; run;
+	%mend;
+
+	%c(	T3_Q5c_a_yn	,	T3_Q5c_a_form	);
+	%c(	T3_Q5c_b_yn	,	T3_Q5c_b_form	);
+	%c(	T3_Q5c_c_yn	,	T3_Q5c_c_form	);
+	%c(	T3_Q5c_d_yn	,	T3_Q5c_d_form	);
+	%c(	T3_Q5c_e_yn	,	T3_Q5c_e_form	);
+	%c(	T3_Q5c_f_yn	,	T3_Q5c_f_form	);
+	%c(	T3_Q5c_g_yn	,	T3_Q5c_g_form	);
+	%c(	T3_Q5c_h_yn	,	T3_Q5c_h_form	);
+	%c(	T3_Q5c_i_yn	,	T3_Q5c_i_form	);
+	%c(	T3_Q5c_j_yn	,	T3_Q5c_j_form	);
+	%c(	T3_Q5c_k_yn	,	T3_Q5c_k_form	);
+	%c(	T3_Q5c_l_yn	,	T3_Q5c_l_form	);
+	%c(	T3_Q5c_m_yn	,	T3_Q5c_m_form	);
+
+/*Part D*/
+/*if yn is "." but there is rx and otc info*/
+	%macro d(yn, form);
+	proc print data=sup.q1_b noobs;
+	var study_id T3_Q5C &yn  &form;
+	where &yn=. and &form ne .; run;
+	%mend;
+
+	%d(	T3_Q5c_a_yn	,	T3_Q5c_a_form	); /*n=7*/
+	%d(	T3_Q5c_b_yn	,	T3_Q5c_b_form	); /*n=16*/
+	%d(	T3_Q5c_c_yn	,	T3_Q5c_c_form	); /*n=12*/
+	%d(	T3_Q5c_d_yn	,	T3_Q5c_d_form	); /*1 - 6232*/
+	%d(	T3_Q5c_e_yn	,	T3_Q5c_e_form	); /*6234, 7011, 7188*/
+	%d(	T3_Q5c_f_yn	,	T3_Q5c_f_form	); /*6232, 9138*/
+	%d(	T3_Q5c_g_yn	,	T3_Q5c_g_form	); /*6004, 6027, 6232, 7045, 9138*/
+	%d(	T3_Q5c_h_yn	,	T3_Q5c_h_form	); /*n > 20*/
+	%d(	T3_Q5c_i_yn	,	T3_Q5c_i_form	); /*6232, 9059, 9138*/
+	%d(	T3_Q5c_j_yn	,	T3_Q5c_j_form	);
+	%d(	T3_Q5c_k_yn	,	T3_Q5c_k_form	); /*n > 20*/
+	%d(	T3_Q5c_l_yn	,	T3_Q5c_l_form	); /*n=6*/
+	%d(	T3_Q5c_m_yn	,	T3_Q5c_m_form	);
+
+	/*Fix*/
+	data sup.q1_d; set sup.q1_b; run;
+
+	%macro dfix(yn, form);
+	data sup.q1_d; set sup.q1_d;
+	if &yn=. and &form ne . then &yn=1; run;
+	%mend;
+	%dfix(	T3_Q5c_a_yn	,	T3_Q5c_a_form	);
+	%dfix(	T3_Q5c_b_yn	,	T3_Q5c_b_form	);
+	%dfix(	T3_Q5c_c_yn	,	T3_Q5c_c_form	);
+	%dfix(	T3_Q5c_d_yn	,	T3_Q5c_d_form	);
+	%dfix(	T3_Q5c_e_yn	,	T3_Q5c_e_form	);
+	%dfix(	T3_Q5c_f_yn	,	T3_Q5c_f_form	);
+	%dfix(	T3_Q5c_g_yn	,	T3_Q5c_g_form	);
+	%dfix(	T3_Q5c_h_yn	,	T3_Q5c_h_form	);
+	%dfix(	T3_Q5c_i_yn	,	T3_Q5c_i_form	);
+	%dfix(	T3_Q5c_j_yn	,	T3_Q5c_j_form	);
+	%dfix(	T3_Q5c_k_yn	,	T3_Q5c_k_form	);
+	%dfix(	T3_Q5c_l_yn	,	T3_Q5c_l_form	);
+	%dfix(	T3_Q5c_m_yn	,	T3_Q5c_m_form	);
+
+	/*check*/
+	%macro d(yn, form);
+	proc print data=sup.q1_d noobs;
+	var study_id T3_Q5C &yn  &form;
+	where &yn=. and &form ne .; run;
+	%mend;
+
+	%d(	T3_Q5c_a_yn	,	T3_Q5c_a_form	); /*n=7*/
+	%d(	T3_Q5c_b_yn	,	T3_Q5c_b_form	); /*n=16*/
+	%d(	T3_Q5c_c_yn	,	T3_Q5c_c_form	); /*n=12*/
+	%d(	T3_Q5c_d_yn	,	T3_Q5c_d_form	); /*1 - 6232*/
+	%d(	T3_Q5c_e_yn	,	T3_Q5c_e_form	); /*6234, 7011, 7188*/
+	%d(	T3_Q5c_f_yn	,	T3_Q5c_f_form	); /*6232, 9138*/
+	%d(	T3_Q5c_g_yn	,	T3_Q5c_g_form	); /*6004, 6027, 6232, 7045, 9138*/
+	%d(	T3_Q5c_h_yn	,	T3_Q5c_h_form	); /*n > 20*/
+	%d(	T3_Q5c_i_yn	,	T3_Q5c_i_form	); /*6232, 9059, 9138*/
+	%d(	T3_Q5c_j_yn	,	T3_Q5c_j_form	);
+	%d(	T3_Q5c_k_yn	,	T3_Q5c_k_form	); /*n > 20*/
+	%d(	T3_Q5c_l_yn	,	T3_Q5c_l_form	); /*n=6*/
+	%d(	T3_Q5c_m_yn	,	T3_Q5c_m_form	);
+
+	/*no output*/
+
+/*Final check*/
+	proc freq data=sup.q1_d;
+	table T3_Q5B -- T3_Q5c_m_form/nocol norow nopercent; run;
+		/*Counts for T3_Q5B and T3_Q5B1 check out*/
+		/*Missing frequecies by supplement also check out*/
+	/*Make sure there is data for 332 ppt who reported some supplement*/
+
+	data sup.q1_d; set sup.q1_d;
+	if (T3_Q5c_a_yn=1 or
+	   T3_Q5c_b_yn=1 or
+	   T3_Q5c_c_yn=1 or
+	   T3_Q5c_d_yn=1 or
+	   T3_Q5c_e_yn=1 or
+	   T3_Q5c_f_yn	=1 or
+	   T3_Q5c_g_yn	=1 or
+	   T3_Q5c_h_yn	=1 or
+		T3_Q5c_i_yn	=1 or
+		T3_Q5c_j_yn	=1 or
+		T3_Q5c_k_yn	=1 or
+		T3_Q5c_l_yn	=1 or
+		T3_Q5c_m_yn	=1) then flag=1; run;
+
+	proc freq data=sup.q1_d;
+	table flag; run; /*n=329*/
+
+	proc print data=sup.q1_d;
+	where T3_Q5C=1 and (T3_Q5c_a_yn ne 1 and
+	   					T3_Q5c_b_yn ne 1 and
+	   					T3_Q5c_c_yn ne 1 and
+	   					T3_Q5c_d_yn ne 1 and
+	   					T3_Q5c_e_yn ne 1 and
+	  					T3_Q5c_f_yn ne 1 and
+	   					T3_Q5c_g_yn ne 1 and
+	   					T3_Q5c_h_yn	ne 1 and
+						T3_Q5c_i_yn	ne 1 and
+						T3_Q5c_j_yn	ne 1 and
+						T3_Q5c_k_yn	ne 1 and
+						T3_Q5c_l_yn	ne 1 and
+						T3_Q5c_m_yn	ne 1);
+	run;
+
+	/*code yes/nos as unknown*/
+	data sup.q1_preimport; set sup.q1_d; run;
+
+	%macro preone(yn);
+	data sup.q1_preimport; set sup.q1_preimport;
+	if study_id=8265 then &yn=-3; run;
+	%mend;
+
+	%preone(	T3_Q5c_a_yn	);
+	%preone(	T3_Q5c_b_yn	);
+	%preone(	T3_Q5c_c_yn	);
+	%preone(	T3_Q5c_d_yn	);
+	%preone(	T3_Q5c_e_yn	);
+	%preone(	T3_Q5c_f_yn	);
+	%preone(	T3_Q5c_g_yn	);
+	%preone(	T3_Q5c_h_yn	);
+	%preone(	T3_Q5c_i_yn	);
+	%preone(	T3_Q5c_j_yn	);
+	%preone(	T3_Q5c_k_yn	);
+	%preone(	T3_Q5c_l_yn	);
+	%preone(	T3_Q5c_m_yn	);
+
+	proc print data=sup.q1_preimport;
+	where T3_Q5C=1 and (T3_Q5c_a_yn ne 1 and
+	   					T3_Q5c_b_yn ne 1 and
+	   					T3_Q5c_c_yn ne 1 and
+	   					T3_Q5c_d_yn ne 1 and
+	   					T3_Q5c_e_yn ne 1 and
+	  					T3_Q5c_f_yn ne 1 and
+	   					T3_Q5c_g_yn ne 1 and
+	   					T3_Q5c_h_yn	ne 1 and
+						T3_Q5c_i_yn	ne 1 and
+						T3_Q5c_j_yn	ne 1 and
+						T3_Q5c_k_yn	ne 1 and
+						T3_Q5c_l_yn	ne 1 and
+						T3_Q5c_m_yn	ne 1);
+	run;
+
+
+/*Check*/
+	data sup.q1_preimport; set sup.q1_preimport;
+	if (T3_Q5c_a_yn ne . or
+	    T3_Q5c_b_yn ne . or
+	   	T3_Q5c_c_yn ne . or
+	   	T3_Q5c_d_yn ne . or
+	   	T3_Q5c_e_yn ne . or
+	   	T3_Q5c_f_yn ne . or
+	   	T3_Q5c_g_yn	ne . or
+	   	T3_Q5c_h_yn	ne . or
+		T3_Q5c_i_yn	ne . or
+		T3_Q5c_j_yn	ne . or
+		T3_Q5c_k_yn	ne . or
+		T3_Q5c_l_yn	ne . or
+		T3_Q5c_m_yn	ne .) then flag=1; run;
+
+	proc freq data=sup.q1_preimport;
+	table flag; run; /*n=332*/
+
+/*get rid of n=17 missings*/
+	proc print data=sup.q1_preimport noobs;
+	where T3_Q5B=. and T3_Q5C=.; run;
+	data sup.q1_preimport; set sup.q1_preimport;
+	if T3_Q5B=. and T3_Q5C=. then delete; run;
+/*rename*/
+
+data sup.q1_import; set sup.q1_preimport;
+	rename 	T3_Q5B	=	prenatalvitamin_yn	;
+rename 	T3_Q5B1	=	prenatalvitamin_form	;
+rename 	T3_Q5C	=	supplements_yn	;
+rename 	T3_Q5c_a_yn	=	multivitamin_yn	;
+rename 	T3_Q5c_a_form	=	multivitmain_form	;
+rename 	T3_Q5c_b_yn	=	iron_yn	;
+rename 	T3_Q5c_b_form	=	iron_form	;
+rename 	T3_Q5c_c_yn	=	calcium_yn	;
+rename 	T3_Q5c_c_form	=	calcium_form	;
+rename 	T3_Q5c_d_yn	=	aminoacid_yn	;
+rename 	T3_Q5c_d_form	=	aminoacid_form	;
+rename 	T3_Q5c_e_yn	=	herbal_yn	;
+rename 	T3_Q5c_e_form	=	herbal_form	;
+rename 	T3_Q5c_f_yn	=	vita_yn	;
+rename 	T3_Q5c_f_form	=	vita_form	;
+rename 	T3_Q5c_g_yn	=	vitc_yn	;
+rename 	T3_Q5c_g_form	=	vitc_form	;
+rename 	T3_Q5c_h_yn	=	vitd_yn	;
+rename 	T3_Q5c_h_form	=	vitd_form	;
+rename 	T3_Q5c_i_yn	=	vite_yn	;
+rename 	T3_Q5c_i_form	=	vite_form	;
+rename 	T3_Q5c_j_yn	=	vitk_yn	;
+rename 	T3_Q5c_j_form	=	vitk_form	;
+rename 	T3_Q5c_k_yn	=	fishoil_yn	;
+rename 	T3_Q5c_k_form	=	fishoil_form	;
+rename 	T3_Q5c_l_yn	=	other_yn	;
+rename 	T3_Q5c_l_form	=	other_form	;
+rename 	T3_Q5c_m_yn	=	unsure_yn	;
+rename 	T3_Q5c_m_form	=	unsure_form	; run;
+
+data sup.q1_import; set sup.q1_import;
+flag=2; run;
+
+PROC EXPORT DATA= SUP.Q1_import
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Tr
+imester Questionnaires\Supplements\q1_supplements.csv"
+            DBMS=CSV REPLACE;
+     PUTNAMES=YES;
+RUN;
