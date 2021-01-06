@@ -1,0 +1,6 @@
+/*Employment*/
+
+data employ.q1; set q1_2020_sub;
+keep study_id
+
+; run;

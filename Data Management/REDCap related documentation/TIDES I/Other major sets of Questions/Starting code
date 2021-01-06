@@ -1,0 +1,145 @@
+libname q1 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\First"; run;
+libname q2 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Second"; run;
+libname q3 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Third"; run;
+
+/*subset data*/
+
+/*remove imported variables*/
+
+/*Q1*/
+    data q1.q1_2020_sub; set q1.q1_2020;
+    /*drop meds*/
+        drop T1_Q6A
+        T1_Q6A1_A_YN T1_Q6A1_A_SCRIPT T1_Q6A1_A_OTC T1_Q6A1_B_YN T1_Q6A1_B_SCRIPT T1_Q6A1_B_OTC
+        T1_Q6A1_C_YN T1_Q6A1_C_SCRIPT T1_Q6A1_C_OTC T1_Q6A1_D_YN T1_Q6A1_D_SCRIPT T1_Q6A1_D_OTC
+        T1_Q6A1_E_YN T1_Q6A1_E_SCRIPT T1_Q6A1_E_OTC T1_Q6A1_F_YN T1_Q6A1_F_SCRIPT T1_Q6A1_F_OTC
+        T1_Q6A1_G_YN T1_Q6A1_G_SCRIPT T1_Q6A1_G_OTC T1_Q6A1_H_YN T1_Q6A1_H_SCRIPT T1_Q6A1_H_OTC
+        T1_Q6A1_I_YN T1_Q6A1_I_SCRIPT T1_Q6A1_I_OTC T1_Q6A1_J_YN T1_Q6A1_J_SCRIPT T1_Q6A1_J_OTC
+        T1_Q6A1_K_YN T1_Q6A1_K_SCRIPT T1_Q6A1_K_OTC T1_Q6A1_L_YN T1_Q6A1_L_SCRIPT T1_Q6A1_L_OTC
+        T1_Q6A1_M_YN T1_Q6A1_M_SCRIPT T1_Q6A1_M_OTC T1_Q6A1_N_YN T1_Q6A1_N_SCRIPT T1_Q6A1_N_OTC
+        T1_Q6A1_O_YN T1_Q6A1_O_SCRIPT T1_Q6A1_O_OTC
+    /*drop supplements*/
+        T1_Q6B T1_Q6B1 T1_Q6C t1_q6c_a_yn t1_q6c_a_form t1_q6c_b_yn t1_q6c_b_form
+        t1_q6c_c_yn t1_q6c_c_form t1_q6c_d_yn t1_q6c_d_form t1_q6c_e_yn t1_q6c_e_form
+        t1_q6c_f_yn t1_q6c_f_form t1_q6c_g_yn t1_q6c_g_form t1_q6c_h_yn t1_q6c_h_form
+        t1_q6c_i_yn t1_q6c_i_form t1_q6c_j_yn t1_q6c_j_form t1_q6c_k_yn t1_q6c_k_form
+        t1_q6c_l_yn t1_q6c_l_form t1_q6c_m_yn t1_q6c_m_form
+    /*Drop diet*/
+        T1_Q22 T1_Q23 T1_Q24 T1_Q25A T1_Q25B T1_Q25C
+        T1_Q26A T1_Q26B T1_Q26C T1_Q26D T1_Q26E T1_Q26F
+        T1_Q26G T1_Q26H T1_Q26I T1_Q27 T1_Q27A
+    /*Drop drugs and alcohol*/
+        T1_Q30A_YN T1_Q30A_DAY T1_Q30A_WEEK T1_Q30a_week_Recode T1_Q30B_YN T1_Q30B_DAY T1_Q30B_WEEK T1_Q30b_week_Recode
+        T1_Q30C_YN T1_Q30C_DAY T1_Q30C_WEEK T1_Q30c_week_Recode T1_Q30D_YN T1_Q30D_DAY T1_Q30D_WEEK T1_Q30d_week_Recode
+        T1_Q30E_YN T1_Q30E_DAY T1_Q30E_WEEK T1_Q30e_week_Recode T1_Q30F_YN T1_Q30F_DAY T1_Q30F_WEEK T1_Q30f_week_Recode
+        T1_Q30G_YN T1_Q30G_DAY T1_Q30G_WEEK T1_Q30g_week_Recode T1_Q30H_YN T1_Q30H_DAY T1_Q30H_WEEK T1_Q30h_week_Recode
+        T1_Q30I_YN T1_Q30I_DAY T1_Q30I_WEEK T1_Q30i_week_Recode T1_Q30J_YN T1_Q30J_DAY T1_Q30J_WEEK T1_Q30j_week_Recode
+        T1_Q31 T1_Q32
+/*drop renamed day/week vars*/
+        cigarettes_day cigarettes_week redwine_day redwine_week otherwine_day otherwine_week
+        beer_day beer_week liquor_day liquor_week coffee_day coffee_week tea_day tea_week
+        soda_day soda_week marijuana_day marijuana_week;     run;
+
+  /*Q2*/
+      data q2.q2_2020_sub; set q2.q2_2020;
+      /*drop meds*/
+          drop T2_Q4A
+          T2_Q4A1_A_YN T2_Q4A1_A_SCRIPT T2_Q4A1_A_OTC T2_Q4A1_B_YN T2_Q4A1_B_SCRIPT T2_Q4A1_B_OTC
+          T2_Q4A1_C_YN T2_Q4A1_C_SCRIPT T2_Q4A1_C_OTC T2_Q4A1_D_YN T2_Q4A1_D_SCRIPT T2_Q4A1_D_OTC
+          T2_Q4A1_E_YN T2_Q4A1_E_SCRIPT T2_Q4A1_E_OTC T2_Q4A1_F_YN T2_Q4A1_F_SCRIPT T2_Q4A1_F_OTC
+          T2_Q4A1_G_YN T2_Q4A1_G_SCRIPT T2_Q4A1_G_OTC T2_Q4A1_H_YN T2_Q4A1_H_SCRIPT T2_Q4A1_H_OTC
+          T2_Q4A1_I_YN T2_Q4A1_I_SCRIPT T2_Q4A1_I_OTC T2_Q4A1_J_YN T2_Q4A1_J_SCRIPT T2_Q4A1_J_OTC
+          T2_Q4A1_K_YN T2_Q4A1_K_SCRIPT T2_Q4A1_K_OTC T2_Q4A1_L_YN T2_Q4A1_L_SCRIPT T2_Q4A1_L_OTC
+          T2_Q4A1_M_YN T2_Q4A1_M_SCRIPT T2_Q4A1_M_OTC T2_Q4A1_N_YN T2_Q4A1_N_SCRIPT T2_Q4A1_N_OTC
+          T2_Q4A1_O_YN T2_Q4A1_O_SCRIPT T2_Q4A1_O_OTC
+      /*drop supplements*/
+          T2_Q4B T2_Q4B1 T2_Q4C T2_Q4C_A_YN T2_Q4C_A_FORM T2_Q4C_B_YN T2_Q4C_B_FORM
+          T2_Q4C_C_YN T2_Q4C_C_FORM T2_Q4C_D_YN T2_Q4C_D_FORM T2_Q4C_E_YN T2_Q4C_E_FORM
+          T2_Q4C_F_YN T2_Q4C_F_FORM T2_Q4C_G_YN T2_Q4C_G_FORM T2_Q4C_H_YN T2_Q4C_H_FORM
+          T2_Q4C_I_YN T2_Q4C_I_FORM T2_Q4C_J_YN T2_Q4C_J_FORM T2_Q4C_K_YN T2_Q4C_K_FORM
+          T2_Q4C_L_YN T2_Q4C_L_FORM T2_Q4C_M_YN T2_Q4C_M_FORM
+      /*Drop diet*/
+          T2_Q15  T2_Q16  T2_Q17  T2_Q17A  T2_Q17B  T2_Q17C
+          T2_Q18A T2_Q18B T2_Q18C T2_Q18D  T2_Q18E  T2_Q18F
+          T2_Q18G T2_Q18H T2_Q18I T2_Q19   T2_Q19A
+      /*Drop drugs and alcohol*/
+          T2_Q20A_YN T2_Q20A_DAY T2_Q20A_WEEK T2_Q20A_WKS_Recode
+          T2_Q20B_YN T2_Q20B_DAY T2_Q20B_WEEK T2_Q20B_WKS_Recode
+          T2_Q20C_YN T2_Q20C_DAY T2_Q20C_WEEK T2_Q20C_WKS_Recode
+          T2_Q20D_YN T2_Q20D_DAY T2_Q20D_WEEK T2_Q20D_WKS_Recode
+          T2_Q20E_YN T2_Q20E_DAY T2_Q20E_WEEK T2_Q20E_WKS_Recode
+          T2_Q20F_YN T2_Q20F_DAY T2_Q20F_WEEK T2_Q20F_WKS_Recode
+          T2_Q20G_YN T2_Q20G_DAY T2_Q20G_WEEK T2_Q20G_WKS_Recode
+          T2_Q20H_YN T2_Q20H_DAY T2_Q20H_WEEK T2_Q20H_WKS_Recode
+          T2_Q20I_YN T2_Q20I_DAY T2_Q20I_WEEK T2_Q20I_WKS_Recode
+          T2_Q20J_YN T2_Q20J_DAY T2_Q20J_WEEK T2_Q20J_WKS_Recode
+          T2_Q21 T2_Q22 ;
+      /*drop Goldenberg*/
+          t2_q26 t2_q27 t2_q28 t2_q29 t2_q30 t2_q31
+      		t2_q32 t2_q33 t2_q34 t2_q35 t2_q36 t2_q37 t2_q38 t2_q39
+      		t2_q40 t2_q41 t2_q42 t2_q43 t2_q44 t2_q45 t2_q46 t2_q47
+      		t2_q48 t2_q49 t2_q50 t2_q51 t2_q52
+      run;
+
+  /*Q3*/
+      data q3.q3_2020_sub; set q3.q3_2020;
+      /*drop meds*/
+          drop T3_Q5A
+          T3_Q5A1_A_YN T3_Q5A1_A_SCRIPT T3_Q5A1_A_OTC T3_Q5A1_B_YN T3_Q5A1_B_SCRIPT T3_Q5A1_B_OTC
+          T3_Q5A1_C_YN T3_Q5A1_C_SCRIPT T3_Q5A1_C_OTC T3_Q5A1_D_YN T3_Q5A1_D_SCRIPT T3_Q5A1_D_OTC
+          T3_Q5A1_E_YN T3_Q5A1_E_SCRIPT T3_Q5A1_E_OTC T3_Q5A1_F_YN T3_Q5A1_F_SCRIPT T3_Q5A1_F_OTC
+          T3_Q5A1_G_YN T3_Q5A1_G_SCRIPT T3_Q5A1_G_OTC T3_Q5A1_H_YN T3_Q5A1_H_SCRIPT T3_Q5A1_H_OTC
+          T3_Q5A1_I_YN T3_Q5A1_I_SCRIPT T3_Q5A1_I_OTC T3_Q5A1_J_YN T3_Q5A1_J_SCRIPT T3_Q5A1_J_OTC
+          T3_Q5A1_K_YN T3_Q5A1_K_SCRIPT T3_Q5A1_K_OTC T3_Q5A1_L_YN T3_Q5A1_L_SCRIPT T3_Q5A1_L_OTC
+          T3_Q5A1_M_YN T3_Q5A1_M_SCRIPT T3_Q5A1_M_OTC T3_Q5A1_N_YN T3_Q5A1_N_SCRIPT T3_Q5A1_N_OTC
+          T3_Q5A1_O_YN T3_Q5A1_O_SCRIPT T3_Q5A1_O_OTC
+      /*drop supplements*/
+          T3_Q5B  T3_Q5B1   T3_Q5C              T3_Q5C_A_YN       T3_Q5C_A_FORM
+          T3_Q5C_B_YN       T3_Q5C_B_FORM       T3_Q5C_C_YN       T3_Q5C_C_FORM
+          T3_Q5C_D_YN       T3_Q5C_D_FORM       T3_Q5C_E_YN       T3_Q5C_E_FORM
+          T3_Q5C_F_YN       T3_Q5C_F_FORM       T3_Q5C_G_YN       T3_Q5C_G_FORM
+          T3_Q5C_H_YN       T3_Q5C_H_FORM       T3_Q5C_I_YN       T3_Q5C_I_FORM
+          T3_Q5C_J_YN       T3_Q5C_J_FORM       T3_Q5C_K_YN       T3_Q5C_K_FORM
+          T3_Q5C_L_YN       T3_Q5C_L_FORM       T3_Q5C_M_YN       T3_Q5C_M_FORM
+      /*Drop diet*/
+          T3_Q14       T3_Q15       T3_Q16       T3_Q16A       T3_Q16B       T3_Q16C
+          T3_Q17A      T3_Q17B      T3_Q17C      T3_Q17D       T3_Q17E       T3_Q17F
+          T3_Q17G      T3_Q17H      T3_Q17I      T3_Q18        T3_Q18A
+      /*Drop drugs and alcohol*/
+          T3_Q19A_YN  T3_Q19A_DAY       T3_Q19A_WEEK       T3_Q19A_WKS_Recode
+          T3_Q19B_YN  T3_Q19B_DAY       T3_Q19B_WEEK       T3_Q19B_WKS_Recode
+          T3_Q19C_YN  T3_Q19C_DAY       T3_Q19C_WEEK       T3_Q19C_WKS_Recode
+          T3_Q19D_YN  T3_Q19D_DAY       T3_Q19D_WEEK       T3_Q19D_WKS_Recode
+          T3_Q19E_YN  T3_Q19E_DAY       T3_Q19E_WEEK       T3_Q19E_WKS_Recode
+          T3_Q19F_YN  T3_Q19F_DAY       T3_Q19F_WEEK       T3_Q19F_WKS_Recode
+          T3_Q19G_YN  T3_Q19G_DAY       T3_Q19G_WEEK       T3_Q19G_WKS_Recode
+          T3_Q19H_YN  T3_Q19H_DAY       T3_Q19H_WEEK       T3_Q19H_WKS_Recode
+          T3_Q19I_YN  T3_Q19I_DAY       T3_Q19I_WEEK       T3_Q19I_WKS_Recode
+          T3_Q19J_YN  T3_Q19J_DAY       T3_Q19J_WEEK       T3_Q19J_WKS_Recode
+          T3_Q20      T3_Q21 ;
+      /*Drop YN renamed vars*/
+        cigarettes_ynredwine_yn otherwine_yn beer_yn liquor_yn coffee_yn
+        tea_yn soda_yn marijuana_yn cocaine_yn
+      /*Drop Stress*/
+        t3_q32 t3_q33 t3_q34 t3_q35 t3_q36
+        t3_q37_yn t3_q37_t1 t3_q37_t2 t3_q37_t3
+        t3_q38_yn t3_q38_t1 t3_q38_t2 t3_q38_t3
+        t3_q39_yn t3_q39_t1 t3_q39_t2 t3_q39_t3
+        t3_q40_yn t3_q40_t1 t3_q40_t2 t3_q40_t3
+        t3_q41_yn t3_q41_t1 t3_q41_t2 t3_q41_t3
+        t3_q42_yn t3_q42_t1 t3_q42_t2 t3_q42_t3
+        t3_q42_specify
+      run;
+
+/*subset employment history variables*/
+
+/*subset hospitalization and complications variables*/
+
+
+
+
+/*q1*/
+/*subset out personal care products*/
+
+/*q2*/
+/*subset previous pregnancy history*/

@@ -1,0 +1,61 @@
+/*Meals/Diet*/
+
+libname diet "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Diet"; run;
+
+libname q1 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\First"; run;
+libname q2 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Second"; run;
+libname q3 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Third"; run;
+/*Q1*/
+
+data diet.q1; set q1.q1_2020;
+keep study_id
+T1_Q22 T1_Q23 T1_Q24 T1_Q25A T1_Q25B T1_Q25C
+T1_Q26A T1_Q26B T1_Q26C T1_Q26D T1_Q26E T1_Q26F
+T1_Q26G T1_Q26H T1_Q26I
+T1_Q27 T1_Q27A; run;
+
+proc freq data=diet.q1;
+table T1_Q22 -- T1_Q27A; run;
+
+proc freq data=diet.q1;
+table T1_Q27 T1_Q27A;
+where T1_Q27 ne 0;
+run;
+
+/*Total of T1_Q27 ne 845*/
+
+/*Check Missings*/
+proc print data=diet.q1 noobs;
+where T1_Q22=. and T1_Q23=. and T1_Q24=. and T1_Q25A=.; run;
+
+/*drop these n=16*/
+	data diet.q1_a ;set diet.q1;
+	if T1_Q22=. and T1_Q23=. and T1_Q24=. and T1_Q25A=. then delete; run;
+
+/*Run proc freq*/
+	proc freq data=diet.q1_a;
+	table T1_Q27 T1_Q27A;
+	where T1_Q27 ne 0;
+	run;
+
+/*rename*/
+	data diet.q1_import ; set diet.q1_a;
+	rename 	T1_Q22	=	food_organic	;
+	rename 	T1_Q23	=	food_homegrown	;
+	rename 	T1_Q24	=	food_unprocessed	;
+	rename 	T1_Q25A	=	food_canned	;
+	rename 	T1_Q25B	=	food_frozen	;
+	rename 	T1_Q25C	=	food_fresh	;
+	rename 	T1_Q26A	=	mealsperweek_pb	;
+	rename 	T1_Q26B	=	mealsperweek_beef	;
+	rename 	T1_Q26C	=	mealsperweek_seafood	;
+	rename 	T1_Q26D	=	mealsperweek_poultry	;
+	rename 	T1_Q26E	=	mealsperweek_othermeats	;
+	rename 	T1_Q26F	=	mealsperweek_spices	;
+	rename 	T1_Q26G	=	mealsperweek_oils	;
+	rename 	T1_Q26H	=	mealsperweek_soy	;
+	rename 	T1_Q26I	=	mealsperweek_dairy	;
+	rename 	T1_Q27	=	meals_restaurant	;
+	rename 	T1_Q27A	=	meals_fastfood	; run;
+
+/*Straight to import*/
