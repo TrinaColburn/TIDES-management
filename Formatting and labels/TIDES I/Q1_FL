@@ -1,0 +1,977 @@
+
+
+
+/* ======================  TIDES Q1 FORMAT ====================================== */
+proc format;
+    value cnt
+	            6='UCSF'
+				7='UMN'
+				8='URMC'
+				9='UW'
+				0='ALL';
+
+	value Q1_dk_fmt
+				. = "Know"
+				1 = "Don't Know";
+
+	value Q4_fmt
+				1 = "Excellent"
+				2 = "Very Good"
+				3 = "Good"
+				4 = "Fair"
+				5 = "Poor";
+
+	value Q5_dk_fmt
+				. = "Know"
+				1 = "Don't Know";
+	value Q5_ns_fmt
+				1 = "Periods Irregular"
+				2 = "Stopped Contraception"
+				3 = "Other";
+
+	value Q6a_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q6a1_a_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_a_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_a_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_b_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_b_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_b_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_c_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_c_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_c_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+   value Q6a1_d_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_d_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_d_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_e_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_e_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_e_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_f_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_f_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_f_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_g_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_g_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_g_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_h_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_h_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_h_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_i_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_i_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_i_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_j_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_j_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_j_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_k_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_k_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_k_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_l_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_l_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_l_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_m_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_m_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_m_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_n_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_n_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_n_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6a1_o_yn_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_o_script_fmt
+				. = "No"
+				1 = "Yes";
+	value Q6a1_o_otc_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6b_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q6b1_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q6c_a_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_a_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_b_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_b_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_c_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_c_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_d_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_d_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_e_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_e_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_f_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_f_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_g_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_g_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_h_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_h_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_i_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_i_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_j_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_j_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_k_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_k_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6c_l_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_l_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+    value Q6c_m_yn_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q6c_m_form_fmt
+				1 = "Pill/Tab"
+				2 = "Capsule"
+				3 = "Liquid"
+				4 = "Other";
+
+	value Q6d_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q6e_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q6f_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q6g_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q6h_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q6i_fmt
+				0 = "No"
+				1 = "Yes"
+			    9 = "Not sure/Don't know";
+
+	value Q7_fmt
+				0 = "No"
+				1 = "Yes"
+			    9 = "Not sure/Don't know";
+
+	value Q8_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q8a1_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q9_fmt
+				0 = "No"
+				1 = "Yes";
+
+
+	value Q9a_yn_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q9a1_a_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q9a1_b_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q9a1_c_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q9a1_d_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q9a1_e_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q9a1_f_fmt
+				. = "No"
+				1 = "Yes";
+
+
+
+	value Q10_recodef
+				1 = "Definitely Trying"
+				2 = "Willing to Have Child"
+				3 = "Did Not Wish to Have Child"
+				4 = "Don't Know";
+
+	value Q11_recodef
+				1 = "Very Happy"
+				2 = "Somewhat Happy"
+				3 = "Somewhat Unhappy"
+				4 = "Very Unhappy"
+				5 = "Don't Know";
+
+	value Q12_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q12a_a_fmt
+				. = "No"
+				1 = "Yes";
+	value Q12a_b_fmt
+				. = "No"
+				1 = "Yes";
+	value Q12a_c_fmt
+				. = "No"
+				1 = "Yes";
+	value Q12a_d_fmt
+				. = "No"
+				1 = "Yes";
+	value Q12a_e_fmt
+				. = "No"
+				1 = "Yes";
+	value Q12a_f_fmt
+				. = "No"
+				1 = "Yes";
+	value Q12a_g_fmt
+				. = "No"
+				1 = "Yes";
+	value Q12a_h_fmt
+				. = "No"
+				1 = "Yes";
+	value Q12a_i_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q13_fmt
+				1 = "Strongly Agree"
+				2 = "Agree"
+				3 = "Neither Agree Nor Disagree"
+				4 = "Disagree"
+				5 = "Strongly Disagree";
+
+	value Q14_fmt
+				1 = "Strongly Agree"
+				2 = "Agree"
+				3 = "Neither Agree Nor Disagree"
+				4 = "Disagree"
+				5 = "Strongly Disagree";
+
+	value Q15_fmt
+				1 = "Always"
+				2 = "Usually"
+				3 = "Sometimes"
+				4 = "Rarely"
+				5 = "Never";
+
+	value Q16_fmt
+				1 = "Always"
+				2 = "Usually"
+				3 = "Sometimes"
+				4 = "Rarely"
+				5 = "Never";
+
+	value Q17_fmt
+				1 = "Always"
+				2 = "Usually"
+				3 = "Sometimes"
+				4 = "Rarely"
+				5 = "Never";
+
+	value Q18_fmt
+				0 = "No"
+				1 = "Yes"
+				2 = "Unsure";
+
+	value Q19_1_fmt
+	            . = "Missing"
+				1 = "Safe";
+	value Q19_2_fmt
+				. = "Missing"
+				2 = "Safe";
+	value Q19_3_fmt
+				. = "Missing"
+				3 = "Safe";
+	value Q19_4_fmt
+				. = "Missing"
+				4 = "Safe";
+	value Q19_5_fmt
+				. = "Missing"
+				5 = "Safe";
+	value Q19_6_fmt
+				. = "Missing"
+				6 = "Safe";
+	value Q19_7_fmt
+				. = "Missing"
+				7 = "Safe";
+
+	value Q20_fmt
+				1 = "Always"
+				2 = "Usually"
+				3 = "Sometimes"
+				4 = "Rarely"
+				5 = "Never"
+                6 = "Don't Know";
+
+	value Q21_fmt
+				1 = "Always"
+				2 = "Usually"
+				3 = "Sometimes"
+				4 = "Rarely"
+				5 = "Never";
+
+	value Q22_fmt
+				1 = "Always"
+				2 = "Usually"
+				3 = "Sometimes"
+				4 = "Rarely"
+				5 = "Never"
+				6 = "Don't Know";
+
+	value Q23_fmt
+				1 = "Always"
+				2 = "Usually"
+				3 = "Sometimes"
+				4 = "Rarely"
+				5 = "Never"
+				6 = "Don't Know";
+
+	value Q24_fmt
+				1 = "Always"
+				2 = "Usually"
+				3 = "Sometimes"
+				4 = "Rarely"
+				5 = "Never"
+				6 = "Don't Know";
+
+
+	value Q25a_fmt
+				1 = "Always"
+				2 = "Usually"
+				3 = "Sometimes"
+				4 = "Rarely"
+				5 = "Never"
+				6 = "Don't Know";
+
+	value Q25b_fmt
+				1 = "Always"
+				2 = "Usually"
+				3 = "Sometimes"
+				4 = "Rarely"
+				5 = "Never"
+				6 = "Don't Know";
+
+	value Q25c_fmt
+				1 = "Always"
+				2 = "Usually"
+				3 = "Sometimes"
+				4 = "Rarely"
+				5 = "Never"
+				6 = "Don't Know";
+
+
+	value Q30a_yn_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q30b_yn_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q30c_yn_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q30d_yn_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q30e_yn_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q30f_yn_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q30g_yn_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q30h_yn_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q30i_yn_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q30j_yn_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q33_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q34_fmt
+	            . = "Missing"
+				1 = "Admin Support"
+				2 = "Artist"
+				3 = "Cashier/Retail"
+				4 = "Construction Worker"
+				5 = "Dry Cleaner"
+				6 = "Electronic Equip Op"
+				7 = "Factory Worker"
+				8 = "Farm Worker"
+				9 = "Food Server/Processor"
+				10 = "Hairdresser/cosmetologist"
+				11 = "Health care/dental/vet"
+				12 = "Janitor"
+				13 = "Landscaper"
+				14 = "Lawyer/Judge"
+				15 = "Manager/Admin"
+				16 = "Manufact/Transport Worker"
+				17 = "Business/Office Worker"
+				18 = "Pub Servant/Social Services"
+				19 = "Scientist"
+				20 = "Educator/Librarian"
+				21 = "Textile Worker"
+				22 = "Student"
+				23 = "Other";
+
+	value Q34a_fmt
+				1 = "None"
+				2 = "Less than 2 hours"
+				3 = "2-4 hours"
+				4 = "4-6 hours"
+				5 = "> 6 hours";
+
+	value Q34b_fmt
+				1 = "Food Service Worker"
+				2 = "Food Processing Worker";
+
+
+	value Q34c_a_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34c_b_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34c_c_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34c_d_fmt
+				. = "No"
+				1 = "Yes";
+
+
+	value Q34d_fmt
+				1 = "Direct Patient Care"
+				2 = "Office Administration"
+				3 = "Research"
+				4 = "Executive/Management"
+				5 = "Technician"
+				6 = "Support Services"
+				7 = "Sales"
+				8 = "Animal Care"
+				9 = "Other";
+
+
+	value Q34d1_a_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34d1_b_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34d1_c_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34d1_d_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34d1_e_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34d1_f_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34d1_g_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34d1_h_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34d1_i_fmt
+				. = "No"
+				1 = "Yes";
+	value Q34d1_j_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q35_fmt
+				1 = "Day Shift"
+				2 = "Early Evening"
+				3 = "Night Shift"
+				4 = "Regular Rotating Shift"
+				5 = "Varied/Other";
+
+	value Q36_fmt
+				1 = "Very Stressful"
+				2 = "Somewhat Stressful"
+				3 = "Not Too Stressful"
+				4 = "Not at all Stressful";
+
+	value Q37_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q37a_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q38_fmt
+				1 = "Usually"
+				2 = "Sometimes"
+				3 = "Rarely"
+				4 = "Never";
+
+
+	value Q39_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q39a_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q39a1_a_fmt
+				. = "No"
+				1 = "Yes";
+	value Q39a1_b_fmt
+				. = "No"
+				1 = "Yes";
+	value Q39a1_c_fmt
+				. = "No"
+				1 = "Yes";
+	value Q39a1_d_fmt
+				. = "No"
+				1 = "Yes";
+	value Q39a1_e_fmt
+				. = "No"
+				1 = "Yes";
+	value Q39a1_f_fmt
+				. = "No"
+				1 = "Yes";
+	value Q39a1_g_fmt
+				. = "No"
+				1 = "Yes";
+	value Q39a1_h_fmt
+				. = "No"
+				1 = "Yes";
+	value Q39a1_i_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q39b_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q39b1_a_fmt
+				. = "No"
+				1 = "Yes";
+	value Q39b1_b_fmt
+				. = "No"
+				1 = "Yes";
+	value Q39b1_c_fmt
+				. = "No"
+				1 = "Yes";
+	value Q39b1_d_fmt
+				. = "No"
+				1 = "Yes";
+
+	value Q39c_fmt
+				0 = "No"
+				1 = "Yes";
+	value Q40_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q41_fmt
+				1 = "None"
+				2 = "1 or Less"
+				3 = "2 or Less"
+				4 = "More than 2";
+
+	value Q42_fmt
+				0 = "No"
+				1 = "Yes";
+
+	value Q43a_1_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43a_2_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43a_3_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43a_4_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43a_5_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+
+
+	value Q43b_1_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_2_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_3_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_4_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_5_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_6_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_7_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_8_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_9_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_10_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_11_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+
+	value Q43c_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43d_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43e_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43f_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43g_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43h_frag_fmt
+				1 = "Fragranced";
+
+	value Q43i_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+
+	value Q43j_frag_fmt
+				1 = "Fragranced";
+
+	value Q43k_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+
+	value Q45_fmt
+				1 = "Married"
+				2 = "Living as Married"
+				3 = "Separated"
+				4 = "Divorced"
+				5 = "Widowed"
+				6 = "Single";
+
+	value Q45a_fmt
+				1 = "All of the Time"
+				2 = "Most of the Time"
+				3 = "Some of the Time"
+				4 = "Not at all";
+
+	value Q47_Ethnic_fmt
+	            . = "Unknown"
+				1 = "Hispanic/Latino"
+				2 = "Not Hispanic/Latino";
+
+	value Q48a_fmt
+				. = "No"
+				1 = "Yes";
+	value Q48b_fmt
+				. = "No"
+				1 = "Yes";
+	value Q48c_fmt
+				. = "No"
+				1 = "Yes";
+	value Q48d_fmt
+				. = "No"
+				1 = "Yes";
+	value Q48e_fmt
+				. = "No"
+				1 = "Yes";
+	value Q48f_fmt
+				. = "No"
+				1 = "Yes";
+
+    value Q48_Race_fmt
+                  1='Black or African-American'
+			      2='Asian'
+	              4='American Indian or Alaska Native'
+				  5='Native Hawaiian or Pacific Islan'
+				  6='White'
+				  7='More than one race'
+				  8='Other'
+	              9='Unknown';
+
+	value Q49_fmt
+				1 = "8th Grade or Lower"
+				2 = "Some High School"
+				3 = "High School Grad"
+				4 = "Some College or Tech School"
+				5 = "College Grad"
+				6 = "Some Grad Work or Beyond";
+
+	value Q51_fmt
+				1 = "< $15000"
+				2 = "$15000 - 25000"
+				3 = "$25001 - 45000"
+				4 = "$45001 - 55000"
+				5 = "$55001 - 65000"
+				6 = "$65001 - 75000"
+				7 = "> $75000";
+
+	value Q52_fmt
+				1 = "Mobile Home"
+				2 = "Detached One Family House"
+				3 = "Attached One Family House"
+				4 = "Apartment"
+				5 = "Condo"
+				6 = "Other";
+
+	value Q53_fmt
+				1 = "Own or have mortgaged house"
+				2 = "Rent"
+				3 = "Other arrangement";
+run;
