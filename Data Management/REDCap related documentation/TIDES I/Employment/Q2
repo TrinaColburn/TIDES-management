@@ -466,3 +466,16 @@ proc contents data=employ.q2_employ_import order=varnum; run;
 
 proc print data=employ.q2_employ_import;
 where t2_q23=1; run;
+
+/*edit from cleaning Q3*/
+		proc print data=employ.q2_employ_import noobs;
+		var study_id T2_Q23 t2_q23a1-t2_q23a9;
+		where T2_q23=0 and (t2_q23a1 ne . and
+							t2_q23a2 ne . and
+							t2_q23a3 ne . and
+							t2_q23a4 ne . and
+							t2_q23a5 ne . and
+							t2_q23a6 ne . and
+							t2_q23a7 ne . and
+							t2_q23a8 ne . and t2_q23a9 ne .); run;
+			/*no one who said they didn't change their work status reported info, import still good*/
