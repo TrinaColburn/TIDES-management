@@ -1,0 +1,102 @@
+value Q43a_1_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43a_2_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43a_3_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43a_4_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43a_5_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+
+
+	value Q43b_1_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_2_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_3_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_4_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_5_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_6_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_7_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_8_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_9_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_10_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43b_11_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+
+	value Q43c_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43d_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43e_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43f_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43g_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+	value Q43h_frag_fmt
+				1 = "Fragranced";
+
+	value Q43i_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
+
+	value Q43j_frag_fmt
+				1 = "Fragranced";
+
+	value Q43k_frag_fmt
+				1 = "Fragranced"
+				2 = "Fragrance-Free"
+				3 = "Unsure";
