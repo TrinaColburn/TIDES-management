@@ -1,8 +1,356 @@
+/*subset hospitalization and complications variables*/
+libname hosp "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Hospitalizations and complications"; run;
+	/*go to hospitalization and complications specific code*/
 
-data q3.q3_specific; set; q3.q3_2020;
+/*Q1 Hospitalizations/Complications*/
+data hosp.q1 ; set q1.q1_2020_sub;
 keep study_id
-ID_NUM T3_BYPASSED T3_COMPLETE T3_CURRENTPAGE T3_NAME T3_PAPERDT T3_PAPERUSERNAME T3_PAPERYN T3_Q_VERSION
-T3_SYSID T3_TIMECOMPLETED T3_TIME_END_RAW T3_TIME_STAMP T3_TIME_STARTED T3_TIME_STARTED_RAW T3_USERID
-T3_Q3_Date T3_Q1_wks_recode T3_Q1_DAYS T3_Q1_WKS T3_Q2_WT_KG T3_Q2_WT_LBS T3_Q2_wt_lbs_Recode T3_Q3_ht_in_Recode
-T3_Q3_HEIGHT_CM T3_Q3_HEIGHT_FT T3_Q3_HEIGHT_IN Dropped T3_Q8 T3_Q9 T3_Q10 T3_Q11 T3_Q12 T3_Q13 T3_Q17 T3_Q23
-T3_Q24 T3_Q25A T3_Q25B T3_Q25C T3_Q25D T3_Q25E T3_Q31A T3_Q31B T3_Q31_YN T3_Q43 T3_Q44; run;
+T1_Q6D T1_Q6E T1_Q6F
+T1_Q6G T1_Q6H T1_Q6I T1_Q7
+T1_Q12 -- T1_Q12A_I; run;
+
+
+proc freq data=hosp.q1;
+table T1_Q6D T1_Q6E T1_Q6F
+T1_Q6G T1_Q6H T1_Q6I T1_Q7; run;
+
+proc print data=hosp.q1 noobs;
+var study_id T1_Q6D T1_Q6E T1_Q6F T1_Q6G T1_Q6H T1_Q6I T1_Q7;
+where T1_Q6D=. or
+	  T1_Q6E=. or
+	  T1_Q6F=. or
+	  T1_Q6G=. or
+	  T1_Q6H=. or
+	  T1_Q6I=. or
+	  T1_Q7=.; run;
+
+/*drop n=16 who have all missing*/
+data hosp.q1_a ; set hosp.q1;
+if T1_Q6D=. and
+   T1_Q6E=. and
+   T1_Q6F=. and
+   T1_Q6G=. and
+   T1_Q6H=. and
+   T1_Q6I=. and
+   T1_Q7=. then delete; run;
+
+/*export/import these data to make it easy*/
+   data hosp.q1_import_a ; set hosp.q1_a;
+   keep study_id T1_Q6D T1_Q6E T1_Q6F T1_Q6G T1_Q6H T1_Q6I T1_Q7;
+   run;
+   data hosp.q1_b ; set hosp.q1_a;
+   drop T1_Q6D T1_Q6E T1_Q6F T1_Q6G T1_Q6H T1_Q6I T1_Q7; run;
+
+
+/*Complications*/
+	proc freq data=hosp.q1;
+	table T1_Q12 -- T1_Q12A_I; run;
+
+	/*Any one who answered no who checked off data?*/
+	proc print data=hosp.q1_b noobs;
+	where T1_Q12=0 and 	(T1_Q12A_A ne . or T1_Q12A_B ne . or T1_Q12A_C ne . or
+					 	 T1_Q12A_D ne . or T1_Q12A_E ne . or T1_Q12A_F ne . or
+					 	 T1_Q12A_G ne . or T1_Q12A_H ne . or T1_Q12A_I ne .); run;
+			/*fix 6065 and 8049*/
+			data hosp.q1_b; set hosp.q1_b;
+			if study_id=6065 then t1_q12=1;
+			if study_id=8049 then t1_q12=1; run;
+
+	/*any one who answered yes who didn't check off data*/
+	proc print data=hosp.q1_b noobs;
+	where T1_Q12=1 and 	(T1_Q12A_A=. and T1_Q12A_B=. and T1_Q12A_C=. and
+					 	 T1_Q12A_D=. and T1_Q12A_E=. and T1_Q12A_F=. and
+					 	 T1_Q12A_G=. and T1_Q12A_H=. and T1_Q12A_I=.); run;
+						 /*no obs*, yay!*/
+	/*export*/
+PROC EXPORT DATA= HOSP.q1_b
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Tr
+imester Questionnaires\Hospitalizations and complications\q1_comp.csv"
+            DBMS=CSV REPLACE;
+     PUTNAMES=YES;
+RUN;
+
+
+/**************************/
+/*for q2 and q3, do hospitalizations.
+/*complications for both will be renamed and added to REDCap*/
+
+/*Q2*/
+proc freq data=hosp.q2;
+table T2_Q4D T2_Q4E T2_Q4F T2_Q4G T2_Q4H T2_Q4I T2_Q4J; run;
+
+/*remove missing*/
+proc print data=hosp.q2 noobs;
+var study_id T2_Q4D T2_Q4E T2_Q4F T2_Q4G T2_Q4H T2_Q4I T2_Q4J;
+where T2_Q4D=. or
+	  T2_Q4E=. or
+	  T2_Q4F=. or
+	  T2_Q4G=. or
+	  T2_Q4H=. or
+	  T2_Q4I=. or
+	  T2_Q4J=.; run;
+
+data hosp.q2_a; set hosp.q2;
+if T2_Q4D=. and
+	  T2_Q4E=. and
+	  T2_Q4F=. and
+	  T2_Q4G=. and
+	  T2_Q4H=. and
+	  T2_Q4I=. and
+	  T2_Q4J=. then delete; run;
+
+proc freq data=hosp.q2_a;
+table T2_Q4D T2_Q4E T2_Q4F T2_Q4G T2_Q4H T2_Q4I T2_Q4J; run;
+
+proc print data=hosp.q2_a noobs;
+var study_id T2_Q4D T2_Q4E T2_Q4F T2_Q4G T2_Q4H T2_Q4I T2_Q4J;
+where T2_Q4D=. or
+	  T2_Q4E=. or
+	  T2_Q4F=. or
+	  T2_Q4G=. or
+	  T2_Q4H=. or
+	  T2_Q4I=. or
+	  T2_Q4J=.; run;
+
+	  /*subset and export hospitalizations only*/
+	  data hosp.q2_import; set hosp.q2_a;
+	  keep study_id T2_Q4D T2_Q4E T2_Q4F T2_Q4G T2_Q4H T2_Q4I T2_Q4J;
+	  run;
+
+		PROC EXPORT DATA= HOSP.Q2_IMPORT
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Hospitalizations and complications\q2_hosp.csv"
+            DBMS=CSV REPLACE;
+     		PUTNAMES=YES; RUN;
+
+/*q3*/
+proc freq data=hosp.q3;
+table T3_Q5D T3_Q5E T3_Q5F T3_Q5G T3_Q5H T3_Q5K T3_Q5I
+	  T3_Q5J T3_Q5JA T3_Q5JA1 T3_Q5JB; run;
+
+	/*deal with missings*/
+	proc print data=hosp.q3 noobs;
+	var study_id T3_Q5D T3_Q5E T3_Q5F T3_Q5G T3_Q5H T3_Q5I T3_Q5J;
+	where T3_Q5D=. or
+		  T3_Q5E=. or
+		  T3_Q5F=. or
+		  T3_Q5G=. or
+		  T3_Q5H=. or
+		  T3_Q5I=. or
+		  T3_Q5J=.; run;
+
+		  /*delete the missings*/
+		  data hosp.q3_a; set hosp.q3;
+		  if T3_Q5D=. and
+		  T3_Q5E=. and
+		  T3_Q5F=. and
+		  T3_Q5G=. and
+		  T3_Q5H=. and
+		  T3_Q5I=. and
+		  T3_Q5J=. then delete; run; /*n=19 dropped*/
+
+	  /*deal with T3_Q5J T3_Q5JA T3_Q5JA1 T3_Q5JB*/
+		proc freq data=hosp.q3_a;
+		table T3_Q5J T3_Q5JA T3_Q5JA1 T3_Q5JB; run;
+		proc print data=hosp.q3_a noobs;
+		var study_id T3_Q5J T3_Q5JA T3_Q5JA1 T3_Q5JB;
+		where T3_Q5J ne 1 and (T3_Q5JA ne . or T3_Q5JA1 ne . or T3_Q5JB ne .); run; /*no obs*/
+
+		proc print data=hosp.q3_a noobs;
+		var study_id T3_Q5J T3_Q5JA T3_Q5JA1 T3_Q5JB;
+		where T3_Q5J=1; run;
+
+		proc print data=hosp.q3_a noobs;
+		var study_id T3_Q5J T3_Q5JA T3_Q5JA1 T3_Q5JB;
+		where T3_Q5J=1 and T3_Q5JA=0; run; /*n=21, some answered 5jb*/
+
+		proc print data=hosp.q3_a noobs;
+		var study_id T3_Q5J T3_Q5JA T3_Q5JA1 T3_Q5JB;
+		where T3_Q5J=1 and T3_Q5JA=1 and T3_Q5JA1=.; run; /*no obs, everyone who answered 5ja has a response for 5aj1*/
+
+		/*unclear if ppt who responded to 5j (n=45) needed to answer T3_Q5JB,
+		will code as did not specify despite having previous reported implant or shunt*/
+		proc print data=hosp.q3_a noobs;
+		var study_id T3_Q5J T3_Q5JA T3_Q5JA1 T3_Q5JB;
+		where T3_Q5J=1 and T3_Q5JA=0 and t3_q5jb=.; run;
+
+		data hosp.q3_b; set hosp.q3_a;
+		if  T3_Q5J=1 and T3_Q5JA=0 and t3_q5jb=. then t3_q5jb=-3; run;
+
+		/*check all n=45*/
+		proc print data=hosp.q3_b noobs;
+		var study_id T3_Q5J T3_Q5JA T3_Q5JA1 T3_Q5JB;
+		where T3_Q5J=1; run; /*looks good, set to import*/
+
+		data hosp.q3_import; set hosp.q3_b;
+		keep study_id T3_Q5D T3_Q5E T3_Q5F T3_Q5G T3_Q5H T3_Q5K T3_Q5I
+	  	T3_Q5J T3_Q5JA T3_Q5JA1 T3_Q5JB; run;
+
+		proc freq data=hosp.q3_import; run;
+
+	  		PROC EXPORT DATA= HOSP.Q3_IMPORT
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Hospitalizations and complications\q3_hosp.csv"
+            DBMS=CSV REPLACE;
+     		PUTNAMES=YES; RUN;
+
+/*complications for Q2 and Q3*/
+
+data hosp.q2_comp_only; set hosp.q2;
+keep study_id T2_Q14
+T2_Q14A_1 T2_Q14A_2 T2_Q14A_4 T2_Q14A_3
+T2_Q14A_5 T2_Q14A_6 T2_Q14A_7 T2_Q14A_8
+T2_Q14A_9 T2_Q14A_10
+T2_Q14A_11 T2_Q14A_12 T2_Q14A_13; run;
+
+data hosp.q3_componly; set hosp.q3_b;
+keep study_id T3_Q7 T3_Q7A_1 T3_Q7A_2 T3_Q7A_3 T3_Q7A_4
+T3_Q7A_5 T3_Q7A_6 T3_Q7A_7 T3_Q7A_8 T3_Q7A_9
+T3_Q7A_10 T3_Q7A_11 T3_Q7A_12 T3_Q7A_13; run;
+
+
+/*rename both because they make no sense*/
+data hosp.q2_comp_only; set hosp.q2_comp_only;
+rename	T2_Q14	=	complications_yn	;
+rename	T2_Q14A_1	=	comp_anemia	;
+rename	T2_Q14A_2	=	comp_anx_dep	;
+rename	T2_Q14A_4	=	comp_bleeding	;
+rename	T2_Q14A_3	=	comp_birth_defect	;
+rename	T2_Q14A_5	=	comp_cervical_problem	;
+rename	T2_Q14A_6	=	comp_gdm	;
+rename	T2_Q14A_7	=	comp_htn	;
+rename	T2_Q14A_8	=	comp_igr	;
+rename	T2_Q14A_9	=	comp_pp	;
+rename	T2_Q14A_10	=	comp_pe	;
+rename	T2_Q14A_11	=	comp_prom	;
+rename	T2_Q14A_12	=	comp_ptl	;
+rename	T2_Q14A_13	=	comp_other	; run;
+
+data hosp.q3_comp_only; set hosp.q3_componly;
+rename	T3_Q7	=	complications_yn	;
+rename	T3_Q7A_1	=	comp_anemia	;
+rename	T3_Q7A_3	=	comp_anx_dep	;
+rename	T3_Q7A_7	=	comp_bleeding	;
+rename	T3_Q7A_5	=	comp_birth_defect	;
+rename	T3_Q7A_9	=	comp_cervical_problem	;
+rename	T3_Q7A_11	=	comp_gdm	;
+rename	T3_Q7A_13	=	comp_htn	;
+rename	T3_Q7A_2	=	comp_igr	;
+rename	T3_Q7A_4	=	comp_pp	;
+rename	T3_Q7A_6	=	comp_pe	;
+rename	T3_Q7A_8	=	comp_prom	;
+rename	T3_Q7A_10	=	comp_ptl	;
+rename	T3_Q7A_12	=	comp_other	; run;
+
+	data hosp.q2_comp_only;
+	format study_id complications_yn
+	comp_anemia comp_anx_dep comp_bleeding
+	comp_birth_defect comp_cervical_problem
+	comp_gdm comp_htn comp_igr comp_pp
+	comp_pe comp_prom comp_ptl comp_other;
+	set hosp.q2_comp_only; run;
+
+	data hosp.q3_comp_only;
+	format study_id complications_yn
+	comp_anemia comp_anx_dep comp_bleeding
+	comp_birth_defect comp_cervical_problem
+	comp_gdm comp_htn comp_igr comp_pp
+	comp_pe comp_prom comp_ptl comp_other;
+	set hosp.q3_comp_only; run;
+
+/*Q2*/
+	proc freq data=hosp.q2_comp_only;
+	table complications_yn -- comp_other; run;
+
+	/*print missing*/
+	proc print data=hosp.q2_comp_only;
+	where  complications_yn=.; run;
+
+	data hosp.q2_comp_only_1; set hosp.q2_comp_only;
+	if complications_yn=. then delete; run; /*n=16 removed*/
+
+	proc print data=hosp.q2_comp_only_1;
+	where complications_yn=0; run;and (complications_yn=1 or
+								  comp_anemia=1 or
+									comp_anx_dep=1 or
+									comp_bleeding=1 or
+									comp_birth_defect=1 or
+									comp_cervical_problem=1 or
+									comp_gdm=1 or
+									comp_htn=1 or
+									comp_igr=1 or
+									comp_pp=1 or
+									comp_pe=1 or
+									comp_prom=1 or
+									comp_ptl=1 or
+									comp_other=1); run;
+	/*no obs*/
+	proc print data=hosp.q2_comp_only_1 noobs;
+	where complications_yn=1 and (complications_yn=. and
+								  comp_anemia=. and
+								  comp_anx_dep=. and
+								  comp_bleeding=. and
+								  comp_birth_defect=. and
+								  comp_cervical_problem=. and
+									comp_gdm=. and
+									comp_htn=. and
+									comp_igr=. and
+									comp_pp=. and
+									comp_pe=. and
+									comp_prom=. and
+									comp_ptl=. and
+									comp_other=.); run;
+		/*no obs -- will export/import 2 REDCap*/
+	  		PROC EXPORT DATA=hosp.q2_comp_only_1
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Hospitalizations and complications\q2_comp.csv"
+            DBMS=CSV REPLACE;
+     		PUTNAMES=YES; RUN;
+
+/*Q3*/
+	proc freq data=hosp.q3_comp_only;
+	table complications_yn -- comp_other; run;
+
+	/*print missing*/
+	proc print data=hosp.q3_comp_only;
+	where  complications_yn=.; run;
+
+	data hosp.q3_comp_only_1; set hosp.q3_comp_only;
+	if complications_yn=. then delete; run; /*dropped 6012*/
+
+	proc print data=hosp.q3_comp_only_1;
+	where complications_yn=0 and (complications_yn=1 or
+								  comp_anemia=1 or
+									comp_anx_dep=1 or
+									comp_bleeding=1 or
+									comp_birth_defect=1 or
+									comp_cervical_problem=1 or
+									comp_gdm=1 or
+									comp_htn=1 or
+									comp_igr=1 or
+									comp_pp=1 or
+									comp_pe=1 or
+									comp_prom=1 or
+									comp_ptl=1 or
+									comp_other=1); run;
+	/*no obs*/
+	proc print data=hosp.q3_comp_only_1 noobs;
+	where complications_yn=1 and (complications_yn=. and
+								  comp_anemia=. and
+								  comp_anx_dep=. and
+								  comp_bleeding=. and
+								  comp_birth_defect=. and
+								  comp_cervical_problem=. and
+									comp_gdm=. and
+									comp_htn=. and
+									comp_igr=. and
+									comp_pp=. and
+									comp_pe=. and
+									comp_prom=. and
+									comp_ptl=. and
+									comp_other=.); run;
+	/*visually scan*/
+	proc print data=hosp.q3_comp_only_1 noobs;
+	where complications_yn=1; run;
+		/*no obs -- will export/import 2 REDCap*/
+	  		PROC EXPORT DATA=hosp.q3_comp_only_1
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Hospitalizations and complications\q3_comp.csv"
+            DBMS=CSV REPLACE;
+     		PUTNAMES=YES; RUN;

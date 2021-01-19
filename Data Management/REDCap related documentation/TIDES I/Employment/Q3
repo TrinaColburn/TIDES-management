@@ -3,33 +3,38 @@
 /*subset employment history variables*/
 libname employ "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Employment history"; run;
 	/*go to employment specific code*/
-
-data employ.q2; set q2.q2_2020_sub;
-keep study_id t3_q22 t3_q22
-t3_q22a1 t3_q22a2 t3_q22a3 t3_q22a4 t3_q22a5 t3_q22a6 t3_q22a7 t3_q22a8 t3_q22a9
+/*Q3 Employment*/
+data employ.q3; set q3.q3_2020_sub;
+keep study_id
+study_id t3_q22 t3_q22
+t3_q22a1 t3_q22a2 t3_q22a3 t3_q22a4 t3_q22a5 t3_q22a6 t3_q22a7 t3_q22a8 t3_q22a9 t3_q22a10
 t3_q22b_a t3_q22b1 t3_q22b_b t3_q22b2 t3_q22b_c t3_q22b3_a t3_q22b3_b t3_q22b3_c t3_q22b3_d
 t3_q22b_d t3_q22b4 t3_q22b4_a t3_q22b4_b t3_q22b4_c t3_q22b4_d t3_q22b4_e t3_q22b4_f t3_q22b4_g
 t3_q22b4_h t3_q22b4_i t3_q22b4_j
 t3_q22b_e
-t3_q22c t3_q22d t3_q22e t3_q22e1 t3_q22f ; run;
+t3_q22c t3_q22d t3_q22e t3_q22e1 t3_q22f; run;
 
-/*Q2 general proc freq*/
-proc freq data=employ.q2;
-table t3_q22 -- t3_q22B_E; run;
+proc contents data=employ.q3 order=varnum; run;
 
-proc print data=employ.q2 noobs;
-where t3_q22=.; run;
 
-/*Drop n=18*/
-data employ.q2; set employ.q2;
-if t3_q22=. then delete; run;
+/*Q3 general proc freq*/
+proc freq data=employ.q3;
+table T3_Q22 -- T3_Q22F; run;
+
+proc print data=employ.q3 noobs;
+where T3_q22=.; run;
+
+/*Drop n=30*/
+data employ.q3_1; set employ.q3;
+if T3_q22=. then delete; run;
 
 /*Part I - Change in work status*/
-		proc freq data=employ.q2;
+	proc freq data=employ.q3_1;
 		table t3_q22 t3_q22a1-t3_q22a9; run;
-		/*n=158 for t3_q22*/
+		/*n=132 for T3_q22*/
 
-		proc print data=employ.q2 noobs;
+		/*check for people who said their work status changed but didn't respond to anything*/
+		proc print data=employ.q3_1 noobs;
 		var study_id t3_q22 t3_q22a1-t3_q22a9;
 		where t3_q22=1 and (t3_q22a1=. and
 							t3_q22a2=. and
@@ -38,63 +43,52 @@ if t3_q22=. then delete; run;
 							t3_q22a5=. and
 							t3_q22a6=. and
 							t3_q22a7=. and
-							t3_q22a8=. and t3_q22a9=.)
-		; run;
-		/*only 1 (study_id=8103), will create new t3_q22a10=1, new variable will be unspecified.)*/
+							t3_q22a8=. and t3_q22a9=.); run;
+		/*n=7, will create new t2_q23a10=1, new variable will be unspecified.)*/
 
-		data employ.q2_v1; set employ.q2;
-		if study_id=8103 then t3_q22a10=1; run;
+		data employ.q3_2; set employ.q3_1;
+		if study_id=7023 then t3_q22a10=1;
+		if study_id=7025 then t3_q22a10=1;
+		if study_id=9011 then t3_q22a10=1;
+		if study_id=9065 then t3_q22a10=1;
+		if study_id=9066 then t3_q22a10=1;
+		if study_id=9077 then t3_q22a10=1;
+		if study_id=9080 then t3_q22a10=1;
+		run;
+data employ.q3_2; format
+study_id t3_q22 t3_q22
+t3_q22a1 t3_q22a2 t3_q22a3 t3_q22a4 t3_q22a5 t3_q22a6 t3_q22a7 t3_q22a8 t3_q22a9 t3_q22a10
+t3_q22b_a t3_q22b1 t3_q22b_b t3_q22b2 t3_q22b_c t3_q22b3_a t3_q22b3_b t3_q22b3_c t3_q22b3_d
+t3_q22b_d t3_q22b4 t3_q22b4_a t3_q22b4_b t3_q22b4_c t3_q22b4_d t3_q22b4_e t3_q22b4_f t3_q22b4_g
+t3_q22b4_h t3_q22b4_i t3_q22b4_j
+t3_q22b_e
+t3_q22c t3_q22d t3_q22e t3_q22e1 t3_q22f; set employ.q3_2; run;
 
-		data employ.q2_v1; format
-		study_id t3_q22
-		t3_q22a1
-		t3_q22a2
-		t3_q22a3
-		t3_q22a4
-		t3_q22a5
-		t3_q22a6
-		t3_q22a7
-		t3_q22a8
-		t3_q22a9
-		t3_q22a10
-		t3_q22b_a
-		t3_q22b1
-		t3_q22b_b
-		t3_q22b2
-		t3_q22b_c
-		t3_q22b3_a
-		t3_q22b3_b
-		t3_q22b3_c
-		t3_q22b3_d
-		t3_q22b_d
-		t3_q22b4
-		t3_q22b4_a
-		t3_q22b4_b
-		t3_q22b4_c
-		t3_q22b4_d
-		t3_q22b4_e
-		t3_q22b4_f
-		t3_q22b4_g
-		t3_q22b4_h
-		t3_q22b4_i
-		t3_q22b4_j
-		t3_q22b_e
-		t3_q22c
-		t3_q22d
-		t3_q22e
-		t3_q22e1
-		t3_q22f; set employ.q2_v1; run;
-	/*check t3_q22a8 to make sure they skipped the rest of the employment q's*/
-	proc print data=employ.q2_v1 noobs;
-	where t3_q22a8=1; run;
-	/*7215 and 7240 checked t3_q22a8 and have other data, but also checked off other t3_q22a boxes,
-	  will leave in data as it won't affect branching logic*/
+	/*check t3_q22a6 to make sure they skipped the rest of the employment q's*/
+	proc print data=employ.q3_2 noobs;
+	where t3_q22a6=1; run;
+	/*all n=29 obs followed instructions and skipped to question 23*/
+
+		proc print data=employ.q3_2 noobs;
+		var study_id t3_q22 t3_q22a1-t3_q22a9;
+		where t3_q22=0 and (t3_q22a1 ne . and
+							t3_q22a2 ne . and
+							t3_q22a3 ne . and
+							t3_q22a4 ne . and
+							t3_q22a5 ne . and
+							t3_q22a6 ne . and
+							t3_q22a7 ne . and
+							t3_q22a8 ne . and t3_q22a9 ne .); run; /*no obs, continue*/
+
+		proc print data=employ.q3_2 noobs;
+		where t3_q22=0; run; /*all have no data from spot check, but continue*/
+
 
 /*Part II check the t3_q22=1 with t3_q22a-f*/
-	proc freq data=employ.q2_v1;
-	table t3_q22; run;
+	proc freq data=employ.q3_2;
+	table t3_q22; run; /*n=132, so all n=132 should answer t3_q22a-f*/
 
-	data employ.q2_v1; set employ.q2_v1;
+	data employ.q3_2; set employ.q3_2;
 	if (t3_q22a1=1 or
 		t3_q22a2=1 or
 		t3_q22a3=1 or
@@ -106,127 +100,77 @@ if t3_q22=. then delete; run;
 		t3_q22a9=1 or
 		t3_q22a10=1) then t3_q22a_flag=1; run;
 
-	proc freq data=employ.q2_v1;
+	proc freq data=employ.q3_2;
 	table t3_q22 t3_q22a_flag; run;
 
-	proc freq data=employ.q2_v1;
-	table t3_q22 t3_q22a_flag t3_q22a8
+	proc freq data=employ.q3_2;
+	table t3_q22 t3_q22a_flag t3_q22a6
+		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e
+		  t3_q22c t3_q22d t3_q22e t3_q22f; run;
+
+		  /*take a second to rename t3_q22b_d and t3_q22b_e*/
+			data employ.q3_3; set employ.q3_2;
+			rename t3_q22b_e=t3_q22b_hair; run;
+
+			data employ.q3_3; set employ.q3_3;
+			rename t3_q22b_d=t3_q22b_e; run;
+
+			data employ.q3_3; set employ.q3_3;
+			rename t3_q22b_hair=t3_q22b_d; run;
+
+	proc freq data=employ.q3_3;
+	table t3_q22 t3_q22a_flag t3_q22a6
 		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e
 		  t3_q22c t3_q22d t3_q22e t3_q22f; run;
 
 	/*Remember if t3_q22a8=1, these participants can skip to 24*/
 	/*Find n of people who needed to answer t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e
 	  t3_q22c t3_q22d t3_q22e t3_q22f*/
-	data employ.q2_v1; set employ.q2_v1;
-	if t3_q22a_flag=1 and t3_q22a8 ne 1 then t3_q22a_flag131=1;
+	data employ.q3_4; set employ.q3_3;
+	if t3_q22a_flag=1 and t3_q22a6 ne 1 then t3_q22a_skip=1;
 	run;
 
-	proc freq data=employ.q2_v1;
-	table t3_q22 t3_q22a_flag t3_q22a_flag131
+	proc freq data=employ.q3_4;
+	table t3_q22 t3_q22a_flag t3_q22a_skip
 		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e
 		  t3_q22c t3_q22d t3_q22e t3_q22f; run;
 	/*Summary: everyone who answered t3_q22=1 had to answer t3_q22a1-10.
-		  		Everyone except those who answered t3_q22a8=1 had to finish
+		  		Everyone except those who answered t3_q22a6=1 had to finish
 		  		t3_q22b-e, t3_q22c t3_q22d t3_q22e t3_q22f*/
+		/*there's 10/12 or so that stopped in the middle*/
 
-
-	/*Part II B: t3_q22b-e*/
-	data employ.q2_v1; set employ.q2_v1;
+	/*Part II B: t2_q23b-e*/
+	data employ.q3_5; set employ.q3_4;
 	if (t3_q22b_a=1 or
 		t3_q22b_b=1 or
 		t3_q22b_c=1 or
 		t3_q22b_d=1 or
 		t3_q22b_e=1) then t3_q22b_flag=1; run;
 
-	proc print data=employ.q2_v1 noobs;
-	var study_id t3_q22 t3_q22a_flag t3_q22a_flag131
+	proc print data=employ.q3_5 noobs;
+	var t3_q22 t3_q22a_flag t3_q22a_skip
 		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e
 		  t3_q22c t3_q22d t3_q22e t3_q22f;
-	where t3_q22b_flag=1 and t3_q22=0; run;
+	where t3_q22b_flag=1 and t3_q22=0; run; /*no obs*/
 
-	/*6112, 6176, 7163, 8051, 8280 should not have t3_q22b_e or t3_q22f data*/
-	/*check	8120, 8245,8262*/
-		proc print data=employ.q2_v1 noobs;
-		where study_id=8120 or study_id=8245 or study_id=8262; run;
-		/*Checked first trimester data, 8120 has more information,
-		 8245 and 8262 reported not being employed in first trimester
-		 will honor the branching logic and set vars to missing*/
-
-		data employ.q2_b; set employ.q2_v1;
-		/*8120*/
-		if study_id=8120 then t3_q22b_a=.;
-		if study_id=8120 then t3_q22f=.;
-		/*8245*/
-		if study_id=8245 then t3_q22b_e=.;
-		if study_id=8245 then t3_q22c=.;
-		if study_id=8245 then t3_q22d=.;
-		if study_id=8245 then t3_q22e=.;
-		if study_id=8245 then t3_q22f=.;
-		/*8262*/
-		if study_id=8262 then t3_q22b_e=.;
-		if study_id=8262 then t3_q22c=.;
-		if study_id=8262 then t3_q22e=.;
-		if study_id=8262 then t3_q22f=.; run;
-	/*fix 6112, 6176, 7163, 8051, 8280*/
-	%macro bfix(num);
-		data employ.q2_b; set employ.q2_b;
-		if study_id=&num then t3_q22b_e=.;
-		if study_id=&num then t3_q22f=.;
-	%mend;
-	 %bfix(6112);
-	 %bfix(6176);
-	 %bfix(7163);
-	 %bfix(8051);
-	 %bfix(8280);
-/*rerun with new dataset*/
-	data employ.q2_b; set employ.q2_b;
-	drop t3_q22b_flag; run;
-	data employ.q2_b; set employ.q2_b;
-	if (t3_q22b_a=1 or
-		t3_q22b_b=1 or
-		t3_q22b_c=1 or
-		t3_q22b_d=1 or
-		t3_q22b_e=1) then t3_q22b_flag=1; run;
-
-	proc print data=employ.q2_b noobs;
-	var study_id t3_q22 t3_q22a_flag t3_q22a_flag131
+/*Find missing between t3_q22a_skip and t3_q22b_flag*/
+	proc print data=employ.q3_5 noobs;
+	 /*var  study_id t3_q22 t3_q22a_flag
 		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e
-		  t3_q22c t3_q22d t3_q22e t3_q22f;
-	where t3_q22b_flag=1 and t3_q22=0; run;
+		  t3_q22c t3_q22d t3_q22e t3_q22f*/;
+		  where t3_q22a_skip=1 and t3_q22b_flag=.; run; /*n=8 skipped after q22a section*/
 
-	/*reorient*/
-	proc freq data=employ.q2_b;
-	table t3_q22 t3_q22a_flag t3_q22a_flag131 t3_q22b_flag
-		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e
-		  t3_q22c t3_q22d t3_q22e t3_q22f; run;
-	/*ns range from 127 ro 131*/
-	/*Find missing between t3_q22a_flag131 and t3_q22b_flag*/
-		  proc print data=employ.q2_b noobs;
-		  var study_id t3_q22 t3_q22a_flag t3_q22a_flag131
-		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e
-		  t3_q22c t3_q22d t3_q22e t3_q22f;
-		  where t3_q22a_flag131=1 and t3_q22b_flag=.; run;
-
-	data employ.q2_b; set employ.q2_b;
-	if t3_q22a_flag131=1 and t3_q22b_flag=. then t3_q22b_f=1;
+	data employ.q3_6; set employ.q3_5;
+	if t3_q22a_skip=1 and t3_q22b_flag=. then t3_q22b_f=1;
 	run;
-	data employ.q2_b; set employ.q2_b;
-	/*8017*/
-	if study_id=8017 then t3_q22c=-3;
-	if study_id=8017 then t3_q22d=-3;
-	if study_id=8017 then t3_q22f=-3;
-	/*8072*/
-	if study_id=8072 then t3_q22c=-3;
-	if study_id=8072 then t3_q22d=-3;
-	if study_id=8072 then t3_q22f=-3;
-	/*8267*/
-	if study_id=8267 then t3_q22c=-3;
-	if study_id=8267 then t3_q22d=-3;
-	if study_id=8267 then t3_q22f=-3; run;
+	data employ.q3_6; set employ.q3_6;
+	if t3_q22a_skip=1 and t3_q22b_flag=. then t3_q22c=-3;
+	if t3_q22a_skip=1 and t3_q22b_flag=. then t3_q22d=-3;
+	if t3_q22a_skip=1 and t3_q22b_flag=. then t3_q22f=-3; run;
 
-	data employ.q2_b; set employ.q2_b;
+	data employ.q3_6; set employ.q3_6;
 	drop t3_q22b_flag; run;
-	data employ.q2_b; set employ.q2_b;
+	data employ.q3_6; set employ.q3_6;
 	if (t3_q22b_a=1 or
 		t3_q22b_b=1 or
 		t3_q22b_c=1 or
@@ -234,235 +178,235 @@ if t3_q22=. then delete; run;
 		t3_q22b_e=1 or
 		t3_q22b_f=1) then t3_q22b_flag=1; run;
 
-		  proc print data=employ.q2_b noobs;
-		  var study_id t3_q22 t3_q22a_flag t3_q22a_flag131
+		  proc print data=employ.q3_6 noobs;
+		  var study_id t3_q22 t3_q22a_flag  t3_q22b_flag
 		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e t3_q22b_f
 		  t3_q22c t3_q22d t3_q22e t3_q22f;
-		  where t3_q22a_flag131=1 and t3_q22b_flag=.; run;
+		  where t3_q22a_skip=1 and t3_q22b_flag=.; run; /*no obs*/
+
+	/*****FIX THE VARIABLE NAMES IN THIS QUESTIONNAIRE*/
+		  /*should match T2*/
+		  proc contents data=employ.q3_6 order=varnum; run;
+		/*first rename to unique var names*/
+		  data employ.q3_7; set employ.q3_6;
+			rename	t3_q22b_c	=	t3_q22b_fs	;
+			rename	t3_q22b_d	=	t3_q22b_hair	;
+			rename	t3_q22b3_c	=	t3_q22b3_color	;
+			rename	t3_q22b3_b	=	t3_q22b3_mani	;
+			rename	t3_q22b_b	=	t3_q22b_health	;
+			rename	t3_q22b4_a	=	t3_q22b4_blood	;
+			rename	t3_q22b4_c	=	t3_q22b4_feed	;
+			rename	t3_q22b4_e	=	t3_q22b4_iv	;
+			rename	t3_q22b4_g	=	t3_q22b4_ng	;
+			rename	t3_q22b4_i	=	t3_q22b4_dialysis	;
+			rename	t3_q22b4_b	=	t3_q22b4_CPB	;
+			rename	t3_q22b4_d	=	t3_q22b4_ECMO	;
+			rename	t3_q22b4_f	=	t3_q22b4_hemo	;
+			rename	t3_q22b4_h	=	t3_q22b4_cath	;
+			rename	t3_q22b4_j	=	t3_q22b4_gloves	; run;
+		  proc contents data=employ.q3_7 order=varnum; run;
+		data employ.q3_8; set employ.q3_7;
+		rename	t3_q22b_fs	=	t3_q22b_b	;
+		rename	t3_q22b_hair	=	t3_q22b_c	;
+		rename	t3_q22b3_color	=	t3_q22b3_b	;
+		rename	t3_q22b3_mani	=	t3_q22b3_c	;
+		rename	t3_q22b_health	=	t3_q22b_d	;
+		rename	t3_q22b4_blood	=	t3_q22b4_a	;
+		rename	t3_q22b4_feed	=	t3_q22b4_b	;
+		rename	t3_q22b4_iv	=	t3_q22b4_c	;
+		rename	t3_q22b4_ng	=	t3_q22b4_d	;
+		rename	t3_q22b4_dialysis	=	t3_q22b4_e	;
+		rename	t3_q22b4_CPB	=	t3_q22b4_f	;
+		rename	t3_q22b4_ECMO	=	t3_q22b4_g	;
+		rename	t3_q22b4_hemo	=	t3_q22b4_h	;
+		rename	t3_q22b4_cath	=	t3_q22b4_i	;
+		rename	t3_q22b4_gloves	=	t3_q22b4_j	; run;
+
+			/*once renamed, reorder*/
+			data employ.q3_8; format study_id t3_q22 t3_q22
+			t3_q22a1 t3_q22a2 t3_q22a3 t3_q22a4 t3_q22a5 t3_q22a6 t3_q22a7 t3_q22a8 t3_q22a9 t3_q22a10
+			t3_q22b_a t3_q22b1 t3_q22b_b t3_q22b2 t3_q22b_c t3_q22b3_a t3_q22b3_b t3_q22b3_c t3_q22b3_d
+			t3_q22b_d t3_q22b4 t3_q22b4_a t3_q22b4_b t3_q22b4_c t3_q22b4_d t3_q22b4_e t3_q22b4_f t3_q22b4_g
+			t3_q22b4_h t3_q22b4_i t3_q22b4_j
+			t3_q22b_e
+			t3_q22c t3_q22d t3_q22e t3_q22e1 t3_q22f; set employ.q3_8; run;
+
+		  	proc contents data=employ.q3_8 order=varnum; run;
+		/*labels and var names look good*/
 
 	/*reorient*/
-	proc freq data=employ.q2_b;
-	table t3_q22 t3_q22a_flag t3_q22a_flag131 t3_q22b_flag
+	/*make sure t2_q23b_all, t2_q23c, t2_q23d, t2_q23e, t2_q23f are n=133*/
+	proc freq data=employ.q3_8;
+	table t3_q22 t3_q22a_flag t3_q22a_skip t3_q22b_flag
 		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e t3_q22b_f
 		  t3_q22c t3_q22d t3_q22e t3_q22f; run;
+	/*sum of t3_q22b_a, t3_q22b_b, t3_q22b_c, t3_q22b_d, t3_q22b_e and now t3_q22b_f is 104 not 103*/
+		  proc print data=employ.q3_8;
+		  var study_id t3_q22 t3_q22a_flag t3_q22a_skip t3_q22b_flag
+		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e t3_q22b_f
+		  t3_q22c t3_q22d t3_q22e t3_q22f;
+		  where t3_q22a_skip=. and (t3_q22b_a=1 or
+		  							t3_q22b_b=1 or
+									t3_q22b_c=1 or
+									t3_q22b_d=1 or
+									t3_q22b_e=1 or
+									t3_q22b_f=1); run; /*no obs, there must be and overlap*/
+		  proc print data=employ.q3_8 noobs;
+		  var study_id t3_q22 t3_q22a_skip t3_q22b_flag
+		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e t3_q22b_f
+		  t3_q22c t3_q22d t3_q22e t3_q22f;
+		  where t3_q22a_skip=1; run; /*it's 8106 w/ cashier and food service, continue*/
 
-		 proc print data=employ.q2_b noobs;
-		 where study_id=7215 or study_id=7240; run;
-		/*edit flag 131 to account for the two who answered t3_q22a8 but also additional info so they are eligible to
-		answer t3_q22b_all, t3_q22c, t3_q22d, t3_q22e, t3_q22f*/
-		data employ.q2_b; set employ.q2_b;
-		if study_id=7215 then t3_q22a_flag131=1;
-		if study_id=7240 then t3_q22a_flag131=1; run;
+	/*t3_q22c, t3_q22d, t3_q22e, t3_q22f have too many missing ppts (cumulative totals should be 103*/
 
-	/*reorient -- make sure t3_q22b_all, t3_q22c, t3_q22d, t3_q22e, t3_q22f are n=133*/
-	proc freq data=employ.q2_b;
-	table t3_q22 t3_q22a_flag t3_q22a_flag131 t3_q22b_flag
-		  t3_q22c t3_q22d t3_q22e t3_q22f; run;
-
-	/*a, b, d, okay. e has two missing (8026 and 8267)*/
-	proc print data=employ.q2_b noobs;
-	var study_id t3_q22 t3_q22a_flag t3_q22a_flag131 t3_q22b_flag
+/*Part II C*/
+/*Find the three who missed t3_q22c*/
+	proc print data=employ.q3_8 noobs;
+	var study_id t3_q22 t3_q22a_flag t3_q22a_skip t3_q22b_flag
 		t3_q22c t3_q22d t3_q22e t3_q22f;
-	where t3_q22a_flag131=1 and t3_q22e=.; run;
-		/*fix 8026*/
-		data employ.q2_b; set employ.q2_b;
-		if study_id=8026 then t3_q22c=-3;
-		if study_id=8026 then t3_q22d=-3;
-		if study_id=8026 then t3_q22f=-3; run;
-	/*check c and f*/
-	/*Part II C*/
-	proc print data=employ.q2_b noobs;
-	var study_id t3_q22 t3_q22a_flag t3_q22a_flag131 t3_q22b_flag
+	where t3_q22a_skip=1 and t3_q22c=.; run;
+
+		data employ.q3_9; set employ.q3_8;
+		if study_id=7014 then t3_q22c=-3;
+		if study_id=7087 then t3_q22c=-3;
+		if study_id=8183 then t3_q22c=-3; run;
+/*Part II D*/
+/*Find the three who missed t3_q22d*/
+	proc print data=employ.q3_9 noobs;
+	var study_id t3_q22 t3_q22a_flag t3_q22a_skip t3_q22b_flag
 		t3_q22c t3_q22d t3_q22e t3_q22f;
-	where t3_q22a_flag131=1 and t3_q22c=.; run;
-
-		data employ.q2_c; set employ.q2_b;
-		if study_id=8081 then t3_q22c=-3; run;
-
-	/*proc freq*/
-	proc freq data=employ.q2_c;
-	table t3_q22c; run;
-
-	/*now there's 134 - find extra*/
-	proc print data=employ.q2_c noobs;
-	var study_id t3_q22 t3_q22a_flag t3_q22a_flag131 t3_q22b_flag
-		t3_q22c t3_q22d t3_q22e t3_q22f;
-	where t3_q22c ne .; run;
-
-	/*study_id=6116, delete t3_q22c and t3_q22d since in first trimester reported not working and t3_q22*/
-	data employ.q2_c; set employ.q2_c;
-	if study_id=6116 then t3_q22c=.;
-	if study_id=6116 then t3_q22d=.;
-	if study_id=6116 then t3_q22f=.; run;
-
-	/*reorient*/
-	proc freq data=employ.q2_c;
-	table t3_q22 t3_q22a_flag t3_q22a_flag131 t3_q22b_flag
-	 	  t3_q22c t3_q22d t3_q22e t3_q22f; run;
+	where t3_q22a_skip=1 and t3_q22d=.; run;
+			data employ.q3_9; set employ.q3_9;
+			if study_id=7014 then t3_q22d=-3;
+			if study_id=7087 then t3_q22d=-3;
+			if study_id=8183 then t3_q22d=-3; run;
 
 /*Part II F*/
-	proc print data=employ.q2_c;
-	where t3_q22f=.; run;
-	/*n=9 who were recoded over this code to honor skip logic*/
-	/*9 + 647=656. Will recode as missing*/
+	proc print data=employ.q3_9 noobs;
+	var study_id t3_q22 t3_q22a_flag t3_q22a_skip t3_q22b_flag
+		t3_q22c t3_q22d t3_q22e t3_q22f;
+	where t3_q22a_skip=1 and t3_q22f=.; run;
+			data employ.q3_9; set employ.q3_9;
+			if study_id=7014 then t3_q22f=-3;
+			if study_id=7087 then t3_q22f=-3;
+			if study_id=8183 then t3_q22f=-3;
+			if study_id=7060 then t3_q22f=-3;
+			if study_id=9040 then t3_q22f=-3; run;
 
-data employ.q2_f; set employ.q2_c;
-if t3_q22f=0 then t3_q22f=.; run;
-
-	proc freq data=employ.q2_f;
-	table t3_q22 t3_q22a_flag t3_q22a_flag131 t3_q22b_flag
-	 	  t3_q22c t3_q22d t3_q22e t3_q22f; run;
-	/*all 133 accounted for, t3_q22e has two missing (8026 and 8267)*/
+	/*check all again*/
+	proc freq data=employ.q3_9;
+	table t3_q22 t3_q22a_flag t3_q22a_skip t3_q22b_flag
+		  t3_q22b_a t3_q22b_b t3_q22b_c t3_q22b_d t3_q22b_e t3_q22b_f
+		  t3_q22c t3_q22d t3_q22e t3_q22f; run;
+		  /*all good, t3_q22e will just have missing*/
+	proc print data=employ.q3_9 noobs;
+	var study_id t3_q22 t3_q22a_flag t3_q22a_skip t3_q22b_flag
+		t3_q22c t3_q22d t3_q22e t3_q22f;
+	where t3_q22a_skip=1 and t3_q22e=.; run;
+		/*all 103 accounted for, t2_q23e has 12 missing:
+		  7014, 7039, 7087, 8052, 8109, 8183, 8260, 9011, 9065, 9066, 9077, 9080*/
 
 /*Part III*/
-/*Look at f/u questions from t3_q22b_all*/
+/*Look at f/u questions from t2_q23b_all*/
+		proc freq data=employ.q3_9;
+		table t3_q22b_a -- t3_q22b_e; run;
+
 	/*Part III a - cashier*/
-		proc freq data=employ.q2_f;
-		table t3_q22b_a -- t3_q22b_e; run;
+		/*t3_q22b_a n=5, Carbonless paper n=5, fine*/
+		/*but recode to match formatting*/
+		data employ.q3_9; set employ.q3_9;
+		if t3_Q22b1 ne . then t3_Q22b1=t3_Q22b1+1; run;
 
-		proc print data=employ.q2_f noobs;
-		var study_id t3_q22  t3_q22b_a -- t3_q22b_e;
-		where t3_q22b1 ne . and t3_q22b_a=.; run;
-
-			/*n=3:
-				-7214 has t3_q22b1=1 (which is none) and t3_q22b_e=1, will set t3_q22b1 to missing
-				-8034 also selected t3_q22b_b, so shouldn't affect the n=133. Since ppt t3_q22b1=4,
-				 will code t3_q22b_a=1.
-				-8195 also selected t3_q22b_d, so shouldn't affect the n=133. Since ppt t3_q22b1=4,
-				 will code t3_q22b_a=1.*/
-
-			data employ.q2_3a; set employ.q2_f;
-			if study_id=7214 then t3_q22b1=.;
-			if study_id=8034 then t3_q22b_a=1;
-			if study_id=8195 then t3_q22b_a=1; run;
-
-			/*check*/
-			proc print data=employ.q2_3a noobs;
-			var study_id t3_q22  t3_q22b_a -- t3_q22b_e;
-			where t3_q22b1 ne . and t3_q22b_a=.; run;
 	/*Part III b - food server/processor*/
-		proc freq data=employ.q2_3a;
-		table t3_q22b_a -- t3_q22b_e; run;
-		/*one extra for food server/processor*/
-		proc print data=employ.q2_3a noobs;
-		var study_id t3_q22  t3_q22b_a -- t3_q22b_e;
-		where t3_q22b2 ne . and t3_q22b_b=.; run;
-		/*8100 also selected t3_q22b_a, so shouldn't affect the n=133.
-		Since ppt t3_q22b2=1, will code t3_q22b_b=1.*/
-		data employ.q2_3b; set employ.q2_3a;
-			if study_id=8100 then t3_q22b_b=1; run;
-			/*check*/
-			proc print data=employ.q2_3b noobs;
-			var study_id t3_q22  t3_q22b_a -- t3_q22b_e;
-			where t3_q22b2 ne . and t3_q22b_b=.; run;
-	/*Part III c - hairdresser cosmetologist*/
-		proc freq data=employ.q2_3b;
-		table t3_q22b_a -- t3_q22b_e; run;
-		/*n=2 for t3_q22b_c, make sure there's overlap*/
-		proc print data=employ.q2_3b noobs;
-		var study_id t3_q22  t3_q22b_c -- t3_q22b3_d;
-		where t3_q22b_c=1 or t3_q22b3_b=1 or t3_q22b3_c=1 or t3_q22b_d=1; run;
-		/*yes, overlap with 8225. checked t3_q22b3_b and t3_q22b3_d*/
+		/*t3_q22b_b=1, and Food service type n=4, but not in correct code*/
+		/*change 0 to 1 for food service worker*/
+		data employ.q3_10; set employ.q3_9;
+		if t3_q22b2=0 then t3_q22b2=1; run;
+	/*Part III c -  hairdresser cosmetologist*/
+		/*n= accounted for in t3_q22b3_a-d, two beautician and 1 manicurist*/
+
 	/*Part III d - healthcare industry*/
-		proc print data=employ.q2_3b noobs;
-		var study_id t3_q22b4 -- t3_q22b4_j;
-		where t3_q22b4 ne .; run;
-		/*some didn't select option, will attempt to fix*/
-		data  employ.q2_3d; set employ.q2_3b;
-		if  (t3_q22b4_a	=1 or
-			t3_q22b4_b	=1 or
-			t3_q22b4_c	=1 or
-			t3_q22b4_d	=1 or
-			t3_q22b4_e	=1 or
-			t3_q22b4_f	=1 or
-			t3_q22b4_g	=1 or
-			t3_q22b4_h	=1 or
-			t3_q22b4_i	=1 or
-			t3_q22b4_j	=1 or t3_q22b4_l=1) then t3_q22b4_any=1; run;
+		proc freq data=employ.q3_10;
+		table t3_q22b_d t3_q22b4 t3_q22b4_a -- t3_q22b4_j; run;
 
-		proc print data=employ.q2_3d noobs;
-		var study_id t3_q22b_d t3_q22b4 -- t3_q22b4_j t3_q22b4_any;
-		where t3_q22b_d=1 or t3_q22b4_any=1; run;
+		/*no data for t3_q22b4_a - t3_q22b4_j*/
+		/*CHECK SOURCE DATA*/
+		proc freq data=q3.q3_2020_sub;
+		table t3_q22b_b  t3_q22b4_a -- t3_q22b4_j; run; /*all missing*/
+		/*missing in Fan's last dataset too*/
+		/*drop to make import easier*/
+		data employ.q3_11; set employ.q3_10;
+		drop t3_q22b4_a -- t3_q22b4_j;
+		run;
 
-		/*first figure out id=6023*/
-		proc print data=employ.q2_3d;
-		where study_id=6023; run;
+		/*recode t3_q22b4 to match t2*/
+		data employ.q3_11; set employ.q3_11;
+		if t3_q22b4=0 then t3_q22b4=1;
+		if t3_q22b4=3 then t3_q22b4=6;
+		/*other stays as 9*/run;
+		data employ.q3_12; set employ.q3_11;
+		if t3_q22b4=0 then t3_q22b4=.;
+		if  t3_q22b4=3 then t3_q22b4=.; run;
 
-		data employ.q2_3d; set employ.q2_3d;
-		if study_id=6023 then t3_q22b_d=1;
-		if study_id=6023 then t3_q22b_f=.; run; /*miscoded corrected now after looking at t3_q22b4 data*/
+		proc freq data=employ.q3_12;
+		table t3_q22b_d t3_q22b4; run;
 
-		/*create t3_q22b4_l for unspecified*/
-		%macro bdfix(num);
-		data employ.q2_3d; set employ.q2_3d;
-		if study_id=&num then t3_q22b4_l=1; run;
-		%mend;
-		%bdfix(6168);
-		%bdfix(6215);
-		%bdfix(7036);
-		%bdfix(7069);
-		%bdfix(8001);
-		%bdfix(8012);
-		%bdfix(8195);
-		%bdfix(8258);
-		%bdfix(8277);
-		%bdfix(9090);
-	/*check*/
-		data  employ.q2_3d; set employ.q2_3d;
-		if  (t3_q22b4_a	=1 or
-			t3_q22b4_b	=1 or
-			t3_q22b4_c	=1 or
-			t3_q22b4_d	=1 or
-			t3_q22b4_e	=1 or
-			t3_q22b4_f	=1 or
-			t3_q22b4_g	=1 or
-			t3_q22b4_h	=1 or
-			t3_q22b4_i	=1 or
-			t3_q22b4_j	=1 or t3_q22b4_l=1) then t3_q22b4_any=1; run;
+/*checked all vars*/
 
-		proc freq data=employ.q2_3d;
-		table  t3_q22b_d t3_q22b4_any; run;
+/*run one more proc freq*/
+proc freq data=employ.q3_12; run;
 
-/*check*/
-	data employ.q2_3d; set employ.q2_3d;
-	if (t3_q22b_a=1 or
-		t3_q22b_b=1 or
-		t3_q22b_c=1 or
-		t3_q22b_d=1 or
-		t3_q22b_e=1) then t3_q22b_flag=1; run;
-	proc freq data=employ.q2_3d;
-	table t3_q22 t3_q22a_flag t3_q22a_flag131 t3_q22b_flag
-	 	  t3_q22c t3_q22d t3_q22e t3_q22f; run;
-
-/*and t3_q22e*/
-		  proc print data= employ.q2_3d;
-		  var study_id t3_q22 t3_q22a_flag t3_q22a_flag131 t3_q22b_flag
-	 	  t3_q22c t3_q22d t3_q22e t3_q22f;
-		  where t3_q22e=0  and t3_q22e1 ne .; run;
-
-		  proc print data= employ.q2_3d;
-		  var study_id t3_q22 t3_q22a_flag t3_q22a_flag131 t3_q22b_flag
-	 	  t3_q22c t3_q22d t3_q22e t3_q22f;
-		  where t3_q22e=1  and t3_q22e1=.; run;
-		  /*no obs read*/
-
-/*import*/
-proc contents data=employ.q2_3d order=varnum;run;
-
-data employ.q2_employ_import; format study_id
+data employ.q3_12; format study_id
 t3_q22
 t3_q22a1 t3_q22a2 t3_q22a3 t3_q22a4 t3_q22a5 t3_q22a6 t3_q22a7 t3_q22a8 t3_q22a9 t3_q22a10
 t3_q22b_a t3_q22b1 t3_q22b_b t3_q22b2 t3_q22b_c t3_q22b3_a t3_q22b3_b t3_q22b3_c t3_q22b3_d
-t3_q22b_d t3_q22b4 t3_q22b4_a t3_q22b4_b t3_q22b4_c t3_q22b4_d t3_q22b4_e t3_q22b4_f t3_q22b4_g
-          t3_q22b4_h t3_q22b4_i t3_q22b4_j t3_q22b4_l t3_q22b_e t3_q22b_f
-t3_q22c t3_q22d t3_q22e t3_q22e1 t3_q22f
-;
-set employ.q2_3d; run;
+t3_q22b_d t3_q22b4 t3_q22b_e t3_q22b_f
+t3_q22c t3_q22d t3_q22e t3_q22e1 t3_q22f;
+set employ.q3_12; run;
 
-proc freq data=employ.q2_employ_import;
-table t3_q22 -- t3_q22f; run;
+/*recode t3_q22c, t3_q22d, t3_q22f*/
+/*get frequencies for reference*/
+proc freq data=employ.q3_12;
+table t3_q22c t3_q22d t3_q22f; run;
 
-proc contents data=employ.q2_employ_import order=varnum; run;
+data employ.q3_13; set employ.q3_12;
+if t3_Q22c=0 then t3_Q22c_new=1;
+if t3_Q22c=1 then t3_Q22c_new=2;
+if t3_Q22c=2 then t3_Q22c_new=3;
+if t3_Q22c=3 then t3_Q22c_new=4;
+if t3_Q22c=4 then t3_Q22c_new=5;
+if t3_Q22c=-3 then t3_Q22c_new=-3; run;
 
-proc print data=employ.q2_employ_import;
-where t3_q22=1; run;
+data employ.q3_13; set employ.q3_13;
+if t3_Q22d=0 then t3_Q22d_new=1;
+if t3_Q22d=1 then t3_Q22d_new=2;
+if t3_Q22d=2 then t3_Q22d_new=3;
+if t3_Q22d=3 then t3_Q22d_new=4;
+if t3_Q22d=-3 then t3_Q22d_new=-3; run;
+
+data employ.q3_13; set employ.q3_13;
+if t3_Q22f=0 then t3_Q22f_new=1;
+if t3_Q22f=1 then t3_Q22f_new=2;
+if t3_Q22f=2 then t3_Q22f_new=3;
+if t3_Q22f=3 then t3_Q22f_new=4;
+if t3_Q22f=-3 then t3_Q22f_new=-3; run;
+
+data employ.q3_14; set employ.q3_13;
+drop t3_Q22c t3_Q22d t3_Q22f; run;
+
+data employ.q3_14; set employ.q3_14;
+rename t3_Q22c_new=t3_Q22c;
+rename t3_Q22d_new=t3_Q22d;
+rename t3_Q22f_new=t3_Q22f; run;
+
+proc freq data=employ.q3_14;
+table t3_q22c t3_q22d t3_q22f; run;
+
+/*export again*/
+
+PROC EXPORT DATA= EMPLOY.Q3_14
+            OUTFILE= "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Tr
+imester Questionnaires\Employment history\q3.csv"
+            DBMS=CSV REPLACE;
+     PUTNAMES=YES;
+RUN;

@@ -1,6 +1,218 @@
-/*Employment*/
+/*Q1 Employment*/
 
-data employ.q1; set q1_2020_sub;
-keep study_id
+/*Other Q code*/
+	/*subset employment history variables*/
+	libname employ "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Employment history"; run;
+		/*go to employment specific code*/
 
-; run;
+	data employ.q1; set q1.q1_2020_subv2;
+	keep study_id study_id T1_Q34
+	T1_Q34C_A T1_Q33 -- T1_Q39C; run;
+
+	data employ.q2; set q2.q2_2020_sub;
+	keep study_id T2_Q23 -- T2_Q23B_E; run;
+
+	data employ.q3; set q3.q3_2020_sub;
+	keep study_id T3_Q22 -- T3_Q22F; run;
+
+/*Restructure q1*/
+data employ.q1; format study_id
+T1_Q33 T1_Q34 T1_Q34A T1_Q34B
+T1_Q34C_A T1_Q34C_B T1_Q34C_C T1_Q34C_D
+T1_Q34D
+T1_Q34D1_A T1_Q34D1_B T1_Q34D1_C
+T1_Q34D1_D T1_Q34D1_E T1_Q34D1_F
+T1_Q34D1_G T1_Q34D1_H T1_Q34D1_I T1_Q34D1_J
+T1_Q35 T1_Q36 T1_Q37 T1_Q37A
+T1_Q38 T1_Q39
+T1_Q39A
+T1_Q39A1_A T1_Q39A1_B T1_Q39A1_C
+T1_Q39A1_D T1_Q39A1_E T1_Q39A1_F
+T1_Q39A1_G T1_Q39A1_H T1_Q39A1_I
+T1_Q39B
+T1_Q39B1_A T1_Q39B1_B T1_Q39B1_C T1_Q39B1_D
+T1_Q39C; set employ.q1; run;
+data employ.q2; format study_id; set employ.q2; run;
+data employ.q3; format study_id; set employ.q3; run;
+
+/*Q1*/
+/*Part I: T1_Q33, T1_Q34, and missings*/
+	proc freq data=employ.q1;
+	table  T1_Q33 -- T1_Q39C; run;
+
+	/*Figure out T1_Q33 and T1_Q34*/
+	proc freq data=employ.q1;
+	table  T1_Q33 T1_Q34; run;
+
+	proc print data=employ.q1 noobs;
+	where T1_Q33=1 and T1_Q34 <1; run;
+	/*221 obs*/
+
+		/*Problem 1: fix anyone who answered T1_Q34D
+		They should have be T1_34=11*/
+		proc print data=employ.q1 noobs;
+		where T1_Q34=11; run;
+
+		proc print data=employ.q1 noobs;
+		var study_id T1_Q33 T1_Q34 T1_Q34D -- T1_Q34D1_J;
+		where T1_Q34=11 or T1_Q34D ne .; run;
+		/*n=134*/
+
+		data employ.q1_v1; set employ.q1;
+		if T1_Q34D ne . then T1_Q34=11; run;
+
+		proc print data=employ.q1_v1 noobs;
+		var study_id T1_Q33 T1_Q34 T1_Q34D -- T1_Q34D1_J;
+		where T1_Q34=11 or T1_Q34D ne .; run;
+
+	/*Repeat first proc freq and proc print*/
+		proc freq data=employ.q1_v1;
+		table  T1_Q33 T1_Q34; run;
+
+		proc print data=employ.q1_v1 noobs;
+		where T1_Q33=1 and T1_Q34 <1; run;
+		/*n=162*/
+
+		/*Problem 2: fix for 2 hairdresser cosmetologists*/
+			proc print data=employ.q1_v1 noobs;
+			where T1_Q34=10; run;
+			data employ.q1_v1; set employ.q1_v1;
+			if study_id=8160 then T1_q34=10;
+			if study_id=8225 then T1_q34=10; run;
+
+	/*Repeat first proc freq and proc print*/
+		proc freq data=employ.q1_v1;
+		table  T1_Q33 T1_Q34; run;
+
+		proc print data=employ.q1_v1 noobs;
+		where T1_Q33=1 and T1_Q34 <1; run;
+		/*n=160*/
+
+	/*code as T1_q34 as unspecified*/
+		data employ.q1_v2; set employ.q1_v1;
+		if T1_Q33=1 and T1_Q34 <1 then T1_Q34=-3; run;
+
+		proc print data=employ.q1_v2 noobs;
+		where T1_Q33=1 and T1_Q34 <1; run;
+		/*n=160*/
+		/*Does everyone who is T1_q33=1 have some sort of code for T1_Q34?*/
+			proc freq data=employ.q1_v2;
+			table T1_Q33 T1_Q34; run;
+			/*T1_Q33=1 n=639
+			  T1_Q34 > . n=639*/
+
+		/*before proceeding, check T1_Q33=.*/
+		proc print data=employ.q1_v2 noobs;
+		where T1_Q33=.; run;
+
+		/*n=16 drop from employment history*/
+		/*study_ids: 6006, 6037, 7178, 7207, 8001, 8105, 8236, 9048, 9063, 9111, 9143, 9159, 9160, 9160, 9161, 9184, 9198*/
+
+		data employ.q1_v2; set employ.q1_v2;
+		if T1_Q33=. then delete; run;
+
+/*Part II: go to T1_Q34a, T1_Q34b, T1_Q34c, T1_Q34d,*/
+
+	/*Part II a: T1_Q34a*/
+	proc print data=employ.q1_v2 noobs;
+	where T1_Q34=3 or T1_Q34a ne .; run;
+
+	proc freq data=employ.q1_v2;
+	table  T1_Q34 T1_Q34a; run; /*n=42, next*/
+
+	/*Part II b: T1_Q34b*/
+	proc print data=employ.q1_v2 noobs;
+	where T1_Q34=9 or T1_Q34b ne .; run;
+
+	proc freq data=employ.q1_v2;
+	table  T1_Q34 T1_Q34b;
+	where T1_Q34=9;
+	run;
+	/*study_id=7072 unknown, leave as missing*/
+
+	/*Part II c: T1_Q34c*/
+	proc print data=employ.q1_v2 noobs;
+	where T1_Q34=10 or (T1_Q34C_A ne . or T1_Q34C_B ne . or
+						T1_Q34C_C ne . or  T1_Q34C_D ne .); run;
+
+	proc freq data=employ.q1_v2;
+	table  T1_Q34 T1_Q34C_A -- T1_Q34C_D;
+	where T1_Q34=10;
+	run;
+	/*n=6, next*/
+
+	/*Part II d: T1_Q34d*/
+	proc freq data=employ.q1_v2;
+	table  T1_Q34 T1_Q34D -- T1_Q34D1_J;
+	where T1_Q34=11;
+	run; /*both  T1_Q34 T1_Q34D n=134*/
+
+	/*run macro to see if T1_Q34D1_A -- T1_Q34D1_J have other than T1_Q34=11*/
+
+	%macro d(var);
+	proc print data=employ.q1_v2 noobs;
+	var study_id T1_Q33 --  T1_Q34D1_J;
+	where &var ne . and T1_Q34 ne 11; run;
+	%mend;
+
+	%d(	T1_Q34D1_A	);
+	%d(	T1_Q34D1_B	);
+	%d(	T1_Q34D1_C	);
+	%d(	T1_Q34D1_D	);
+	%d(	T1_Q34D1_E	);
+	%d(	T1_Q34D1_F	);
+	%d(	T1_Q34D1_G	);
+	%d(	T1_Q34D1_H	);
+	%d(	T1_Q34D1_I	);
+	%d(	T1_Q34D1_J	);
+	/*no obs*/
+
+	/*leave as is, if there is missing T1_Q34D1_A -- T1_Q34D1_J data it's simply unchecked*/
+
+
+/*Part III: Q35 thru Q38*/
+	proc freq data=employ.q1_v2;
+	table T1_Q33 T1_Q34 T1_Q35 T1_Q36 T1_Q37 T1_Q37A T1_Q38;
+	run;
+
+	/*find the ppt who have T1_Q34 ne . and (T1_Q35 T1_Q36 T1_Q37 T1_Q37A T1_Q38)=.*/
+	proc print data=employ.q1_v2 noobs;
+	var study_id T1_Q33 T1_Q34 T1_Q35 T1_Q36 T1_Q37 T1_Q37A T1_Q38;
+	where T1_Q34 ne . and (T1_Q35=. or T1_Q37=.); run;
+	/*6183 and 8151 missing data*/
+
+	/*Check T1_Q37 and T1_Q37A*/
+	proc print data=employ.q1_v2 noobs;
+	var study_id T1_Q37 T1_Q37A;
+	where T1_Q37=1 and T1_Q37A ne .; run;
+		/*7072 and 8252 missing T1_Q37A but there should only be 1*/
+		proc print data=employ.q1_v2 noobs;
+		var study_id T1_Q37 T1_Q37A;
+		where T1_Q37=0 and T1_Q37A ne .; run;
+		/*fix*/
+		data employ.q1_v2; set employ.q1_v2;
+		if study_id=8101 then T1_Q37A=.; run;
+	/*Check*/
+	proc freq data=employ.q1_v2;
+	table T1_Q37 T1_Q37A ;
+	run; /*again 7072 and 8252 will be missing*/
+
+/*Part IV Second Job, Q39-Q39c*/
+	proc freq data=employ.q1_v2;
+	table T1_Q39 --  T1_Q39c;
+	run;
+	/*okay T1_Q39 n=53*/
+	/*Are T1_Q39A T1_Q39B T1_Q39c n=53*/
+	proc freq data=employ.q1_v2;
+	table T1_Q39  T1_Q39A T1_Q39B T1_Q39c;
+	run;
+
+	/*yes and no = 53*/
+	/*check the n=6 T1_Q39A with T1_Q39A1_A -- T1_Q39A1_I*/
+	proc freq data=employ.q1_v2;
+	table  T1_Q39A T1_Q39A1_A -- T1_Q39A1_I; run;
+	/*T1_Q39A1_B n=4
+	  T1_Q39A1_H n=1
+	  T1_Q39A1_I n=1 total of 6*/
+
+/*q1 done -- export*/
