@@ -1,0 +1,2284 @@
+/*Previous pregnancies*/
+
+
+libname pp "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Q2 Previous pregnancies"; run;
+/*Keep Previous Pregnancy Variables*/
+
+		data pp.q2_t2_q12; set q2.q2_2020_sub;
+		keep study_id
+		t2_q12
+		t2_q12a
+		t2_q12b_1_date
+		t2_q12b_1_begin_mo
+		t2_q12b_1_begin_yr
+		t2_q12b_1_duration_wks
+		t2_q12b_1_duration_mos
+		t2_q12b_1_duration_wks_recode
+		t2_q12b_1_outcome
+		t2_q12b_1_tx_no
+		t2_q12b_1_tx_insem
+		t2_q12b_1_tx_ovinduct
+		t2_q12b_1_tx_eggdonation
+		t2_q12b_1_tx_other
+		t2_q12b_1_sex
+		t2_q12b_1_breastfeed_wks
+		t2_q12b_1_breastfeed_mos
+		t2_q12b_1_breastfeed_wks_recode
+		t2_q12b_2_date
+		t2_q12b_2_begin_mo
+		t2_q12b_2_begin_yr
+		t2_q12b_2_duration_wks
+		t2_q12b_2_duration_mos
+		t2_q12b_2_duration_wks_recode
+		t2_q12b_2_outcome
+		t2_q12b_2_tx_no
+		t2_q12b_2_tx_insem
+		t2_q12b_2_tx_ovinduct
+		t2_q12b_2_tx_eggdonation
+		t2_q12b_2_tx_other
+		t2_q12b_2_sex
+		t2_q12b_2_breastfeed_wks
+		t2_q12b_2_breastfeed_mos
+		t2_q12b_2_breastfeed_wks_recode
+		t2_q12b_3_date
+		t2_q12b_3_begin_mo
+		t2_q12b_3_begin_yr
+		t2_q12b_3_duration_wks
+		t2_q12b_3_duration_mos
+		t2_q12b_3_duration_wks_recode
+		t2_q12b_3_outcome
+		t2_q12b_3_tx_no
+		t2_q12b_3_tx_insem
+		t2_q12b_3_tx_ovinduct
+		t2_q12b_3_tx_eggdonation
+		t2_q12b_3_tx_other
+		t2_q12b_3_sex
+		t2_q12b_3_breastfeed_wks
+		t2_q12b_3_breastfeed_mos
+		t2_q12b_3_breastfeed_wks_recode
+		t2_q12b_4_date
+		t2_q12b_4_begin_mo
+		t2_q12b_4_begin_yr
+		t2_q12b_4_duration_wks
+		t2_q12b_4_duration_mos
+		t2_q12b_4_duration_wks_recode
+		t2_q12b_4_outcome
+		t2_q12b_4_tx_no
+		t2_q12b_4_tx_insem
+		t2_q12b_4_tx_ovinduct
+		t2_q12b_4_tx_eggdonation
+		t2_q12b_4_tx_other
+		t2_q12b_4_sex
+		t2_q12b_4_breastfeed_wks
+		t2_q12b_4_breastfeed_mos
+		t2_q12b_4_breastfeed_wks_recode
+		t2_q12b_5_date
+		t2_q12b_5_begin_mo
+		t2_q12b_5_begin_yr
+		t2_q12b_5_duration_wks
+		t2_q12b_5_duration_mos
+		t2_q12b_5_duration_wks_recode
+		t2_q12b_5_outcome
+		t2_q12b_5_tx_no
+		t2_q12b_5_tx_insem
+		t2_q12b_5_tx_ovinduct
+		t2_q12b_5_tx_eggdonation
+		t2_q12b_5_tx_other
+		t2_q12b_5_sex
+		t2_q12b_5_breastfeed_wks
+		t2_q12b_5_breastfeed_mos
+		t2_q12b_5_breastfeed_wks_recode
+		t2_q12b_6_date
+		t2_q12b_6_begin_mo
+		t2_q12b_6_begin_yr
+		t2_q12b_6_duration_wks
+		t2_q12b_6_duration_mos
+		t2_q12b_6_duration_wks_recode
+		t2_q12b_6_outcome
+		t2_q12b_6_tx_no
+		t2_q12b_6_tx_insem
+		t2_q12b_6_tx_ovinduct
+		t2_q12b_6_tx_eggdonation
+		t2_q12b_6_tx_other
+		t2_q12b_6_sex
+		t2_q12b_6_breastfeed_wks
+		t2_q12b_6_breastfeed_mos
+		t2_q12b_6_breastfeed_wks_recode
+		t2_q12b_7_date
+		t2_q12b_7_begin_mo
+		t2_q12b_7_begin_yr
+		t2_q12b_7_duration_wks
+		t2_q12b_7_duration_mos
+		t2_q12b_7_duration_wks_recode
+		t2_q12b_7_outcome
+		t2_q12b_7_tx_no
+		t2_q12b_7_tx_insem
+		t2_q12b_7_tx_ovinduct
+		t2_q12b_7_tx_eggdonation
+		t2_q12b_7_tx_other
+		t2_q12b_7_sex
+		t2_q12b_7_breastfeed_wks
+		t2_q12b_7_breastfeed_mos
+		t2_q12b_7_breastfeed_wks_recode
+		t2_q12b_8_date
+		t2_q12b_8_begin_mo
+		t2_q12b_8_begin_yr
+		t2_q12b_8_duration_wks
+		t2_q12b_8_duration_mos
+		t2_q12b_8_duration_wks_recode
+		t2_q12b_8_outcome
+		t2_q12b_8_tx_no
+		t2_q12b_8_tx_insem
+		t2_q12b_8_tx_ovinduct
+		t2_q12b_8_tx_eggdonation
+		t2_q12b_8_tx_other
+		t2_q12b_8_sex
+		t2_q12b_8_breastfeed_wks
+		t2_q12b_8_breastfeed_mos
+		t2_q12b_8_breastfeed_wks_recode
+		t2_q12b_9_date
+		t2_q12b_9_begin_mo
+		t2_q12b_9_begin_yr
+		t2_q12b_9_duration_wks
+		t2_q12b_9_duration_mos
+		t2_q12b_9_duration_wks_recode
+		t2_q12b_9_outcome
+		t2_q12b_9_tx_no
+		t2_q12b_9_tx_insem
+		t2_q12b_9_tx_ovinduct
+		t2_q12b_9_tx_eggdonation
+		t2_q12b_9_tx_other
+		t2_q12b_9_sex
+		t2_q12b_9_breastfeed_wks
+		t2_q12b_9_breastfeed_mos
+		t2_q12b_9_breastfeed_wks_recode
+		t2_q12b_10_date
+		t2_q12b_10_begin_mo
+		t2_q12b_10_begin_yr
+		t2_q12b_10_duration_wks
+		t2_q12b_10_duration_mos
+		t2_q12b_10_duration_wks_recode
+		t2_q12b_10_outcome
+		t2_q12b_10_tx_no
+		t2_q12b_10_tx_insem
+		t2_q12b_10_tx_ovinduct
+		t2_q12b_10_tx_eggdonation
+		t2_q12b_10_tx_other
+		t2_q12b_10_sex
+		t2_q12b_10_breastfeed_wks
+		t2_q12b_10_breastfeed_mos
+		t2_q12b_10_breastfeed_wks_recode
+		t2_q12b_11_date
+		t2_q12b_11_begin_mo
+		t2_q12b_11_begin_yr
+		t2_q12b_11_duration_wks
+		t2_q12b_11_duration_mos
+		t2_q12b_11_duration_wks_recode
+		t2_q12b_11_outcome
+		t2_q12b_11_tx_no
+		t2_q12b_11_tx_insem
+		t2_q12b_11_tx_ovinduct
+		t2_q12b_11_tx_eggdonation
+		t2_q12b_11_tx_other
+		t2_q12b_11_sex
+		t2_q12b_11_breastfeed_wks
+		t2_q12b_11_breastfeed_mos
+		t2_q12b_11_breastfeed_wks_recode
+		t2_q12b_12_date
+		t2_q12b_12_begin_mo
+		t2_q12b_12_begin_yr
+		t2_q12b_12_duration_wks
+		t2_q12b_12_duration_mos
+		t2_q12b_12_duration_wks_recode
+		t2_q12b_12_outcome
+		t2_q12b_12_tx_no
+		t2_q12b_12_tx_insem
+		t2_q12b_12_tx_ovinduct
+		t2_q12b_12_tx_eggdonation
+		t2_q12b_12_tx_other
+		t2_q12b_12_sex
+		t2_q12b_12_breastfeed_wks
+		t2_q12b_12_breastfeed_mos
+		t2_q12b_12_breastfeed_wks_recode; run;
+
+		data pp.q2_t2_q12; format study_id
+		t2_q12
+		t2_q12a
+		t2_q12b_1_date t2_q12b_1_begin_mo t2_q12b_1_begin_yr
+		t2_q12b_1_duration_wks t2_q12b_1_duration_mos t2_q12b_1_duration_wks_recode
+		t2_q12b_1_outcome
+		t2_q12b_1_tx_no t2_q12b_1_tx_insem t2_q12b_1_tx_ovinduct
+		t2_q12b_1_tx_eggdonation t2_q12b_1_tx_other
+		t2_q12b_1_sex
+		t2_q12b_1_breastfeed_wks t2_q12b_1_breastfeed_mos t2_q12b_1_breastfeed_wks_recode
+
+		t2_q12b_2_date t2_q12b_2_begin_mo t2_q12b_2_begin_yr
+		t2_q12b_2_duration_wks t2_q12b_2_duration_mos t2_q12b_2_duration_wks_recode
+		t2_q12b_2_outcome
+		t2_q12b_2_tx_no t2_q12b_2_tx_insem t2_q12b_2_tx_ovinduct
+		t2_q12b_2_tx_eggdonation t2_q12b_2_tx_other
+		t2_q12b_2_sex
+		t2_q12b_2_breastfeed_wks t2_q12b_2_breastfeed_mos t2_q12b_2_breastfeed_wks_recode
+
+		t2_q12b_3_date t2_q12b_3_begin_mo t2_q12b_3_begin_yr
+		t2_q12b_3_duration_wks t2_q12b_3_duration_mos t2_q12b_3_duration_wks_recode
+		t2_q12b_3_outcome
+		t2_q12b_3_tx_no t2_q12b_3_tx_insem t2_q12b_3_tx_ovinduct
+		t2_q12b_3_tx_eggdonation t2_q12b_3_tx_other
+		t2_q12b_3_sex
+		t2_q12b_3_breastfeed_wks t2_q12b_3_breastfeed_mos t2_q12b_3_breastfeed_wks_recode
+
+		t2_q12b_4_date t2_q12b_4_begin_mo t2_q12b_4_begin_yr
+		t2_q12b_4_duration_wks t2_q12b_4_duration_mos t2_q12b_4_duration_wks_recode
+		t2_q12b_4_outcome
+		t2_q12b_4_tx_no t2_q12b_4_tx_insem t2_q12b_4_tx_ovinduct
+		t2_q12b_4_tx_eggdonation t2_q12b_4_tx_other
+		t2_q12b_4_sex
+		t2_q12b_4_breastfeed_wks t2_q12b_4_breastfeed_mos t2_q12b_4_breastfeed_wks_recode
+
+		t2_q12b_5_date t2_q12b_5_begin_mo t2_q12b_5_begin_yr
+		t2_q12b_5_duration_wks t2_q12b_5_duration_mos t2_q12b_5_duration_wks_recode
+		t2_q12b_5_outcome
+		t2_q12b_5_tx_no t2_q12b_5_tx_insem t2_q12b_5_tx_ovinduct
+		t2_q12b_5_tx_eggdonation t2_q12b_5_tx_other
+		t2_q12b_5_sex
+		t2_q12b_5_breastfeed_wks t2_q12b_5_breastfeed_mos t2_q12b_5_breastfeed_wks_recode
+
+		t2_q12b_6_date t2_q12b_6_begin_mo t2_q12b_6_begin_yr
+		t2_q12b_6_duration_wks t2_q12b_6_duration_mos t2_q12b_6_duration_wks_recode
+		t2_q12b_6_outcome
+		t2_q12b_6_tx_no t2_q12b_6_tx_insem t2_q12b_6_tx_ovinduct
+		t2_q12b_6_tx_eggdonation t2_q12b_6_tx_other
+		t2_q12b_6_sex
+		t2_q12b_6_breastfeed_wks t2_q12b_6_breastfeed_mos t2_q12b_6_breastfeed_wks_recode
+
+		t2_q12b_7_date t2_q12b_7_begin_mo t2_q12b_7_begin_yr
+		t2_q12b_7_duration_wks t2_q12b_7_duration_mos t2_q12b_7_duration_wks_recode
+		t2_q12b_7_outcome
+		t2_q12b_7_tx_no t2_q12b_7_tx_insem t2_q12b_7_tx_ovinduct
+		t2_q12b_7_tx_eggdonation t2_q12b_7_tx_other
+		t2_q12b_7_sex
+		t2_q12b_7_breastfeed_wks t2_q12b_7_breastfeed_mos t2_q12b_7_breastfeed_wks_recode
+
+		t2_q12b_8_date t2_q12b_8_begin_mo t2_q12b_8_begin_yr
+		t2_q12b_8_duration_wks t2_q12b_8_duration_mos t2_q12b_8_duration_wks_recode
+		t2_q12b_8_outcome
+		t2_q12b_8_tx_no t2_q12b_8_tx_insem t2_q12b_8_tx_ovinduct t2_q12b_8_tx_eggdonation t2_q12b_8_tx_other
+		t2_q12b_8_sex
+		t2_q12b_8_breastfeed_wks t2_q12b_8_breastfeed_mos t2_q12b_8_breastfeed_wks_recode
+
+		t2_q12b_9_date t2_q12b_9_begin_mo t2_q12b_9_begin_yr
+		t2_q12b_9_duration_wks t2_q12b_9_duration_mos t2_q12b_9_duration_wks_recode
+		t2_q12b_9_outcome
+		t2_q12b_9_tx_no t2_q12b_9_tx_insem t2_q12b_9_tx_ovinduct t2_q12b_9_tx_eggdonation t2_q12b_9_tx_other
+		t2_q12b_9_sex
+		t2_q12b_9_breastfeed_wks t2_q12b_9_breastfeed_mos t2_q12b_9_breastfeed_wks_recode
+
+		t2_q12b_10_date t2_q12b_10_begin_mo t2_q12b_10_begin_yr
+		t2_q12b_10_duration_wks t2_q12b_10_duration_mos t2_q12b_10_duration_wks_recode
+		t2_q12b_10_outcome
+		t2_q12b_10_tx_no t2_q12b_10_tx_insem t2_q12b_10_tx_ovinduct t2_q12b_10_tx_eggdonation t2_q12b_10_tx_other
+		t2_q12b_10_sex
+		t2_q12b_10_breastfeed_wks t2_q12b_10_breastfeed_mos t2_q12b_10_breastfeed_wks_recode
+
+		t2_q12b_11_date t2_q12b_11_begin_mo t2_q12b_11_begin_yr
+		t2_q12b_11_duration_wks t2_q12b_11_duration_mos t2_q12b_11_duration_wks_recode
+		t2_q12b_11_outcome
+		t2_q12b_11_tx_no t2_q12b_11_tx_insem t2_q12b_11_tx_ovinduct t2_q12b_11_tx_eggdonation t2_q12b_11_tx_other
+		t2_q12b_11_sex
+		t2_q12b_11_breastfeed_wks t2_q12b_11_breastfeed_mos t2_q12b_11_breastfeed_wks_recode
+
+		t2_q12b_12_date t2_q12b_12_begin_mo t2_q12b_12_begin_yr
+		t2_q12b_12_duration_wks t2_q12b_12_duration_mos t2_q12b_12_duration_wks_recode
+		t2_q12b_12_outcome
+		t2_q12b_12_tx_no t2_q12b_12_tx_insem t2_q12b_12_tx_ovinduct t2_q12b_12_tx_eggdonation t2_q12b_12_tx_other
+		t2_q12b_12_sex
+		t2_q12b_12_breastfeed_wks t2_q12b_12_breastfeed_mos t2_q12b_12_breastfeed_wks_recode ; set pp.q2_t2_q12; run;
+
+/*resolve missings first*/
+	proc print data=pp.q2_t2_q12 noobs;
+	where t2_q12=. and t2_q12a=0; run;
+	/*6006, 6086, 7003, 8005, 8083, 8141 have no data*/
+
+	data pp.q2_t2_q12; set pp.q2_t2_q12;
+	if t2_q12=. and t2_q12a=0 then delete; run;
+
+/*also delete those with both t2_q12 and t2_q12a missing*/
+	proc print data=pp.q2_t2_q12 noobs;
+	where t2_q12=. and t2_q12a=.; run;
+	/*n=9 6005, 6136, 6226, 7092, 8020, 8052, 8078, 8144, 8164*/
+
+	data pp.q2_t2_q12; set pp.q2_t2_q12;
+	if t2_q12=. and t2_q12a=. then delete; run;
+	/*15 dropped for having missing data*/
+	/*data now has n=790*/
+
+/*Drop q12*/
+data pp.q2_t2_q12; set pp.q2_t2_q12;
+drop	t2_q12b_12_date t2_q12b_12_begin_mo t2_q12b_12_begin_yr
+		t2_q12b_12_duration_wks t2_q12b_12_duration_mos t2_q12b_12_duration_wks_recode
+		t2_q12b_12_outcome
+		t2_q12b_12_tx_no t2_q12b_12_tx_insem t2_q12b_12_tx_ovinduct t2_q12b_12_tx_eggdonation t2_q12b_12_tx_other
+		t2_q12b_12_sex
+		t2_q12b_12_breastfeed_wks t2_q12b_12_breastfeed_mos t2_q12b_12_breastfeed_wks_recode; run;
+
+/*New Proc Freq with obs that don't have data removed*/
+	proc freq data=pp.q2_t2_q12;
+	table t2_q12 t2_q12a; run;
+		/*t2_q12=0 has n=296 and has t2_q12a n=297
+		/*find the n=1*/
+
+/*Just check t2_12 and 12a*/
+	proc print data=pp.q2_t2_q12;
+	where t2_q12=1 and t2_q12a=0; run;
+	/*fix 9026 to show she should have 12a=1*/
+	data pp.q2_t2_q12_pre; set pp.q2_t2_q12;
+	if study_id=9026 then t2_q12a=1; run;
+
+	proc freq data=pp.q2_t2_q12_pre;
+	table t2_q12 t2_q12a; run;
+
+	/*T2_q12 should actually be . when t2_12=0, so fix*/
+	data pp.q2_t2_q12_pre; set pp.q2_t2_q12_pre;
+	if t2_q12=0 and t2_q12a=0 then t2_q12a=.; run;
+
+	proc freq data=pp.q2_t2_q12_pre;
+	table t2_q12 t2_q12a; run;
+
+	/*subset out -- already in REDCap 1/7/2021*/
+	data pp.q2_t2_q12_pponly; set pp.q2_t2_q12_pre;
+	if t2_q12=0 then delete; run; /*n=269 with TIDES pregnancy as first pregnancy*/
+
+/*Reconcile pp.q2_t2_q12_pponly dataset*/
+	proc freq data=pp.q2_t2_q12_pponly;
+	table t2_q12 t2_q12a; run;
+
+/*********************/
+/*Part I -- fix years*/
+/*********************/
+
+/*fix single digit year issue for all years*/
+/*Set new data*/
+	data pp.q2_t2_q12_pponly_1; set pp.q2_t2_q12_pponly; run;
+	/*Macro*/
+		%macro yr(date, year, month);
+			proc print data=pp.q2_t2_q12_pponly_1 noobs;
+			var study_id t2_q12 t2_q12a &date -- &month;
+			where 0 < &year < 1990; run;
+		%mend;
+
+	/*t2_q12b_1*/
+		%yr(t2_q12b_1_date , t2_q12b_1_begin_yr, t2_q12b_1_duration_mos);
+		/*for n=8 ppts*/
+			data pp.q2_t2_q12_pponly_1; set pp.q2_t2_q12_pponly_1;
+			if study_id=6143 then t2_q12b_1_begin_yr=2010;
+			if study_id=6192 then t2_q12b_1_begin_yr=2011;
+			if study_id=7203 then t2_q12b_1_begin_yr=2001;
+			if study_id=8101 then t2_q12b_1_begin_yr=1999;
+			if study_id=8250 then t2_q12b_1_begin_yr=2007;
+			if study_id=9122 then t2_q12b_1_begin_yr=2004; run;
+			/*check*/
+			%yr(t2_q12b_1_date, t2_q12b_1_begin_yr, t2_q12b_1_duration_mos); /*n=2 participants with pregnancies in 80s*/
+
+	/*t2_q12b_2*/
+		%yr(t2_q12b_2_date, t2_q12b_2_begin_yr, t2_q12b_2_duration_mos);
+		data pp.q2_t2_q12_pponly_1; set pp.q2_t2_q12_pponly_1;
+			if study_id=6143 then t2_q12b_2_begin_yr=1996;
+			if study_id=6192 then t2_q12b_2_begin_yr=2011;
+			if study_id=7203 then t2_q12b_2_begin_yr=2003;
+			if study_id=8101 then t2_q12b_2_begin_yr=2009;
+			if study_id=8238 then t2_q12b_2_begin_yr=2004;
+			if study_id=8273 then t2_q12b_2_begin_yr=2005;
+			if study_id=9122 then t2_q12b_2_begin_yr=2008; run;
+		/*check*/
+			%yr(t2_q12b_2_date, t2_q12b_2_begin_yr, t2_q12b_2_duration_mos); /*now only 7050*/
+
+	/*t2_q12b_3*/
+		%yr(t2_q12b_3_date, t2_q12b_3_begin_yr, t2_q12b_3_duration_mos);
+			data pp.q2_t2_q12_pponly_1; set pp.q2_t2_q12_pponly_1;
+			if study_id=7203 then t2_q12b_3_begin_yr=2010;
+			if study_id=8101 then t2_q12b_3_begin_yr=2009;
+			if study_id=9122 then t2_q12b_3_begin_yr=2009; run;
+			%yr(t2_q12b_3_date, t2_q12b_3_begin_yr, t2_q12b_3_duration_mos); /*no obs*/
+
+	/*t2_q12b_4*/
+		%yr(t2_q12b_4_date, t2_q12b_4_begin_yr, t2_q12b_4_duration_mos);
+			data pp.q2_t2_q12_pponly_1; set pp.q2_t2_q12_pponly_1;
+			if study_id=7203 then t2_q12b_4_begin_yr=2011;
+			if study_id=9122 then t2_q12b_4_begin_yr=2011; run;
+		%yr(t2_q12b_4_date, t2_q12b_4_begin_yr, t2_q12b_4_duration_mos);
+
+	/*t2_q12b_5*/
+		%yr(t2_q12b_5_date, t2_q12b_5_begin_yr, t2_q12b_5_duration_mos);
+
+	/*t2_q12b_6*/
+		%yr(t2_q12b_6_date, t2_q12b_6_begin_yr, t2_q12b_6_duration_mos);
+
+	/*t2_q12b_7*/
+		%yr(t2_q12b_7_date, t2_q12b_7_begin_yr, t2_q12b_7_duration_mos);
+
+	/*t2_q12b_8*/
+		%yr(t2_q12b_8_date, t2_q12b_8_begin_yr, t2_q12b_8_duration_mos);
+
+	/*t2_q12b_9*/
+		%yr(t2_q12b_9_date, t2_q12b_9_begin_yr, t2_q12b_9_duration_mos);
+
+	/*t2_q12b_10*/
+		%yr(t2_q12b_10_date, t2_q12b_10_begin_yr, t2_q12b_10_duration_mos);
+
+	/*t2_q12b_11*/
+		%yr(t2_q12b_11_date, t2_q12b_11_begin_yr, t2_q12b_11_duration_mos);
+/*no more single digit data*/
+
+
+/*Part II*/
+/*Find those who have no data in the whole matrix*/
+
+/*Start with t2_q12b_1*/
+	proc print data=pp.q2_t2_q12_pponly_1 noobs;
+	var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+	where (t2_q12=1 or t2_q12a=1) and (t2_q12b_1_begin_mo=7 and t2_q12b_1_begin_yr=0); run;
+	/*n=22 with scatted info, find ppt with no data*/
+
+	proc print data=pp.q2_t2_q12_pponly_1 noobs;
+	var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+	where (t2_q12=1 or t2_q12a=1) and (t2_q12b_1_begin_mo=7 and
+									   t2_q12b_1_begin_yr=0 and
+									   t2_q12b_1_duration_wks_recode=0 and
+									   t2_q12b_1_outcome=0 and
+									   t2_q12b_1_tx_no=.) ; run;
+	/*n=9 with no apparent data, check all vars*/
+	proc print data=pp.q2_t2_q12_pponly_1 noobs;
+	where (t2_q12=1 or t2_q12a=1) and (t2_q12b_1_begin_mo=7 and
+									   t2_q12b_1_begin_yr=0 and
+										t2_q12b_1_duration_wks_recode=0 and
+									   t2_q12b_1_outcome=0 and
+									   t2_q12b_1_tx_no=.) ; run;
+/*6117, 6161, 7125, 8021, 8071, 8180, 8217, 8221, 8228 reported previous pregnancies but no data in the matrix*/
+	/*Part II - Fix A
+	  set all their data to missing*/
+	data pp.q2_t2_q12_pponly_2; set pp.q2_t2_q12_pponly_1;
+	if (t2_q12=1 or t2_q12a=1) and (t2_q12b_1_begin_mo=7 and
+									   t2_q12b_1_begin_yr=0 and
+										t2_q12b_1_duration_wks_recode=0 and
+									   t2_q12b_1_outcome=0 and
+									   t2_q12b_1_tx_no=.)
+	then flag_a=1; run;
+		/*check*/
+		proc freq data=pp.q2_t2_q12_pponly_2;
+		table flag_a; run;
+
+	/*array to set to missing*/
+	data pp.q2_t2_q12_pponly_2; set pp.q2_t2_q12_pponly_2;
+		array m(175) t2_q12b_1_begin_mo -- t2_q12b_11_breastfeed_wks_recode;
+		do i=1 to 175;
+		if flag_a then m(i)=.;
+		end;
+		drop i;
+		run;
+
+	/*check*/
+		proc print data=pp.q2_t2_q12_pponly_2 noobs;
+		where flag_a=1 ; run; /*all now missing*/
+
+	/*Put t2_q12b_x_outcome=0 for the number of reported previous pregnancies*/
+	data pp.q2_t2_q12_pponly_3; set pp.q2_t2_q12_pponly_2;
+	if flag_a=1 then t2_q12b_1_outcome=0; run;
+
+	/*7125 reported 4 other previous pregnancies,
+	  8217 reported 7 other previous pregnancies,
+	  8228 reported 3 other previous pregnancies*/
+
+	data pp.q2_t2_q12_pponly_3; set pp.q2_t2_q12_pponly_3;
+	/*8217*/
+	if study_id=8217 then t2_q12b_2_outcome=0;
+	if study_id=8217 then t2_q12b_3_outcome=0;
+	if study_id=8217 then t2_q12b_4_outcome=0;
+	if study_id=8217 then t2_q12b_5_outcome=0;
+	if study_id=8217 then t2_q12b_6_outcome=0;
+	if study_id=8217 then t2_q12b_7_outcome=0;
+	/*7125*/
+	if study_id=7125 then t2_q12b_2_outcome=0;
+	if study_id=7125 then t2_q12b_3_outcome=0;
+	if study_id=7125 then t2_q12b_4_outcome=0;
+	/*8228*/
+	if study_id=8228 then t2_q12b_2_outcome=0;
+	if study_id=8228 then t2_q12b_3_outcome=0; run;
+
+	/*return to initial proc print*/
+	proc print data=pp.q2_t2_q12_pponly_3 noobs;
+	var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+	where (t2_q12=1 or t2_q12a=1) and (t2_q12b_1_begin_mo=7 and t2_q12b_1_begin_yr=0) ; run;
+
+	/*no matter what the f/u information says, it cannot be assumed that 6117, 6161, 8021, 8071, 8180, 8221 didn't have a previous pregnancy
+	before their TIDES child. Must remain as 1 with unknown outcome*/
+
+/**********************************/
+/*************Part III*************/
+/*Now fix each set of 12b_x variables starting with t2_q12b_1*/
+/**********************************/
+
+/***********/
+/*t2_q12b_1*/
+/**********/
+
+	/*III b_1 A - Attempt to resolve a set of 7/0 issues*/
+		proc print data=pp.q2_t2_q12_pponly_3 noobs;
+		var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+		where (t2_q12=1 or t2_q12a=1) /*allows us to explore ppt if they reported one previous pregnancy*/
+		and (t2_q12b_1_begin_mo=7 and t2_q12b_1_begin_yr=0); /*correct the 7/0 issue*/
+		run;
+
+		/*remove 7s and 0s*/
+		data pp.q2_t2_q12_pponly_4; set pp.q2_t2_q12_pponly_3;
+		if (t2_q12=1 or t2_q12a=1) and (t2_q12b_1_begin_mo=7 and t2_q12b_1_begin_yr=0) then t2_q12b_1_begin_mo=.;
+		data pp.q2_t2_q12_pponly_4; set pp.q2_t2_q12_pponly_4;
+		if (t2_q12=1 or t2_q12a=1) and (t2_q12b_1_begin_mo=. and t2_q12b_1_begin_yr=0) then t2_q12b_1_begin_yr=.; run;
+
+	/*III b_1 B - Reconcile t2_q12b_1_outcome=0 issue*/
+		/*0 should not be a code for the x_outcome variables*/
+		/*however, x_outcome=0 will mean "unknown"*/
+		proc print data=pp.q2_t2_q12_pponly_4 noobs;
+		var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+		where (t2_q12=1 or t2_q12a=1) and t2_q12b_1_outcome=0 and flag_a ne 1; run;
+		/*n=12 obs, reconcile ppt by ppt*/
+
+		/*6107*/
+			/*study_id=6107 likely referring to this pregnancy*/
+			proc print data=pp.q2_t2_q12_pponly_4 noobs;
+			where study_id=6107; run;
+			/*fix*/
+			data pp.q2_t2_q12_pponly_5; set pp.q2_t2_q12_pponly_4;
+			if study_id=6107 then t2_q12b_1_date=t2_q12b_2_date;
+			if study_id=6107 then t2_q12b_1_begin_mo=t2_q12b_2_begin_mo;
+			if study_id=6107 then t2_q12b_1_begin_yr=t2_q12b_2_begin_yr;
+			if study_id=6107 then t2_q12b_1_duration_wks=t2_q12b_2_duration_wks;
+			if study_id=6107 then t2_q12b_1_duration_mos=t2_q12b_2_duration_mos;
+			if study_id=6107 then t2_q12b_1_duration_wks_recode=t2_q12b_2_duration_wks_recode;
+			if study_id=6107 then t2_q12b_1_outcome=1;
+			if study_id=6107 then t2_q12b_1_tx_no=1;
+			if study_id=6107 then t2_q12b_1_sex=1;
+			if study_id=6107 then t2_q12b_1_breastfeed_wks=0;
+			if study_id=6107 then t2_q12b_1_breastfeed_mos=22;
+			if study_id=6107 then t2_q12b_1_breastfeed_wks_recode=94; run;
+			/*check*/
+			proc print data=pp.q2_t2_q12_pponly_5 noobs;
+			where study_id=6107; run;
+
+			/*set remaining vars missing*/
+			data pp.q2_t2_q12_pponly_6; set pp.q2_t2_q12_pponly_5;
+					array a(160) t2_q12b_2_date -- t2_q12b_11_breastfeed_wks_recode;
+					do i=1 to 160;
+					if study_id=6107 then a(i)=.;
+					else end;
+					drop i;
+					run;
+			/*check*/
+			proc print data=pp.q2_t2_q12_pponly_6 noobs;
+			where study_id=6107; run;
+
+		/*return to initial proc print*/
+		proc print data=pp.q2_t2_q12_pponly_6 noobs;
+		var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+		where (t2_q12=1 or t2_q12a=1) and t2_q12b_1_outcome=0 and flag_a ne 1; run;
+		/*n=11 obs*/
+
+		/*6138*/
+		/*has baby sex and breastfed t2_q12b_1_outcome should be 1*/
+		data pp.q2_t2_q12_pponly_7; set pp.q2_t2_q12_pponly_6;
+		if study_id=6138 then t2_q12b_1_outcome=1; run;
+
+		/*return to initial proc print*/
+		proc print data=pp.q2_t2_q12_pponly_7 noobs;
+		var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+		where (t2_q12=1 or t2_q12a=1) and t2_q12b_1_outcome=0 and flag_a ne 1; run;
+
+		/*6209*/
+		proc print data=pp.q2_t2_q12_pponly_7 noobs;
+		where study_id=6209; run;
+
+		/*has data up to q12b_6 variables*/
+			data pp.q2_t2_q12_pponly_8; set pp.q2_t2_q12_pponly_7;
+				array a(80) t2_q12b_7_date -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 80;
+				if study_id=6209 then a(i)=.;
+				else end;
+				drop i;
+				run;
+
+		proc print data=pp.q2_t2_q12_pponly_8 noobs;
+		var study_id -- t2_q12b_7_date;
+		where study_id=6209; run;
+
+		/*has data for 5th and 6th reported pregnancies*/
+		/*for unknown (t2_q12b_1),  miscarriage (t2_q12b_2), and abortion pregnancies (t2_q12b_3 and _4),
+		set duration/breastfeeding vars to missing*/
+			%macro b(var);
+			data pp.q2_t2_q12_pponly_8; set pp.q2_t2_q12_pponly_8;
+			if study_id=6209 then &var=.; run;
+			%mend;
+			%b(	t2_q12b_1_duration_wks		);
+			%b(	t2_q12b_1_duration_mos		);
+			%b(	t2_q12b_1_duration_wks_recode		);
+			%b(	t2_q12b_1_breastfeed_wks		);
+			%b(	t2_q12b_1_breastfeed_mos		);
+			%b(	t2_q12b_1_breastfeed_wks_recode		);
+			%b(	t2_q12b_2_begin_mo		);
+			%b(	t2_q12b_2_begin_yr		);
+			%b(	t2_q12b_2_duration_wks		);
+			%b(	t2_q12b_2_duration_mos		);
+			%b(	t2_q12b_2_duration_wks_recode		);
+			%b(	t2_q12b_2_breastfeed_wks		);
+			%b(	t2_q12b_2_breastfeed_mos		);
+			%b(	t2_q12b_2_breastfeed_wks_recode		);
+			%b(	t2_q12b_3_begin_mo		);
+			%b(	t2_q12b_3_begin_yr		);
+			%b(	t2_q12b_3_duration_wks		);
+			%b(	t2_q12b_3_duration_mos		);
+			%b(	t2_q12b_3_duration_wks_recode		);
+			%b(	t2_q12b_3_breastfeed_wks		);
+			%b(	t2_q12b_3_breastfeed_mos		);
+			%b(	t2_q12b_3_breastfeed_wks_recode		);
+			%b(	t2_q12b_4_begin_mo		);
+			%b(	t2_q12b_4_begin_yr		);
+			%b(	t2_q12b_4_duration_wks		);
+			%b(	t2_q12b_4_duration_mos		);
+			%b(	t2_q12b_4_duration_wks_recode		);
+			%b(	t2_q12b_4_breastfeed_wks		);
+			%b(	t2_q12b_4_breastfeed_mos		);
+			%b(	t2_q12b_4_breastfeed_wks_recode		);
+
+			/*return to initial proc print*/
+			proc print data=pp.q2_t2_q12_pponly_8 noobs;
+			var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+			where (t2_q12=1 or t2_q12a=1) and t2_q12b_1_outcome=0 and flag_a ne 1; run;
+
+		/*6229*/
+			/*has baby sex and breastfed t2_q12b_1_outcome should be 1*/
+			data pp.q2_t2_q12_pponly_9; set pp.q2_t2_q12_pponly_8;
+			if study_id=6229 then t2_q12b_1_outcome=1; run;
+
+			/*return to initial proc print*/
+			proc print data=pp.q2_t2_q12_pponly_9 noobs;
+			var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+			where (t2_q12=1 or t2_q12a=1) and t2_q12b_1_outcome=0 and flag_a ne 1; run;
+			/*skip to ppt who clearly have baby: 8081, not sure for 8271*/
+
+			/*8081*/
+			data pp.q2_t2_q12_pponly_9; set pp.q2_t2_q12_pponly_9;
+				if study_id=8081 then t2_q12b_1_outcome=1; run;
+
+		/*remaining ppt where first pregnancy outcome is unknown*/
+			proc print data=pp.q2_t2_q12_pponly_9 noobs;
+			var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+			where (t2_q12=1 or t2_q12a=1) and t2_q12b_1_outcome=0 and flag_a ne 1; run;
+			/*n=8*/
+			/*fix 0s*/
+			data pp.q2_t2_q12_pponly_10; set pp.q2_t2_q12_pponly_9;
+			if (t2_q12=1 or t2_q12a=1) and t2_q12b_1_outcome=0 and flag_a ne 1 then flag_b=1; run;
+				/*check*/
+				proc freq data= pp.q2_t2_q12_pponly_10; table flag_b; run;
+
+			data pp.q2_t2_q12_pponly_10; set pp.q2_t2_q12_pponly_10;
+			if flag_b=1 and t2_q12b_1_duration_wks_recode=0 then t2_q12b_1_duration_wks=.;
+			if flag_b=1 and t2_q12b_1_duration_wks_recode=0 then t2_q12b_1_duration_mos=.;
+			if flag_b=1 and t2_q12b_1_duration_wks_recode=0 then t2_q12b_1_duration_wks_recode=.; run;
+
+			data pp.q2_t2_q12_pponly_10; set pp.q2_t2_q12_pponly_10;
+			if flag_b=1 and study_id ne 8271 then t2_q12b_1_breastfeed_wks=.;
+			if flag_b=1 and study_id ne 8271 then t2_q12b_1_breastfeed_mos=.;
+			if flag_b=1 and study_id ne 8271 then t2_q12b_1_breastfeed_wks_recode=.; run;
+
+			proc print data=pp.q2_t2_q12_pponly_10 noobs;
+			var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+			where (t2_q12=1 or t2_q12a=1) and t2_q12b_1_outcome=0 and flag_a ne 1; run;
+			/*n=8 ppt who have scattered info but we don't know outcome for 12b_1*/
+
+		/*proc frequency of t2_q12b_1_outcome*/
+		proc freq data= pp.q2_t2_q12_pponly_10; table t2_q12b_1_outcome; run;
+
+		proc print data=pp.q2_t2_q12_pponly_10 noobs;
+		var study_id t2_q12 -- t2_q12b_1_breastfeed_wks_recode;
+		where  t2_q12b_1_outcome=0; run;
+		/*n=17 total where t2_q12b_1_outcome=0*/
+
+	/*III b_1 C - Find missing years/months, any more 7/0 obs*/
+		/*fix 7/0 issue for ppt who have outcome data*/
+		proc print data=pp.q2_t2_q12_pponly_10;
+		var study_id t2_q12a t2_q12b_1_date -- t2_q12b_2_breastfeed_wks_recode;
+		where t2_q12b_1_begin_mo=7 and t2_q12b_1_begin_yr=0; run;
+			/*no obs*/
+		/*remove t2_q12b_1_begin_mo=7 condition*/
+		proc print data=pp.q2_t2_q12_pponly_10 noobs;
+		where t2_q12b_1_begin_yr=0; run;
+		/*n=1 8069*/
+		/*Has f/u data, fix all vars*/
+		data pp.q2_t2_q12_pponly_11; set pp.q2_t2_q12_pponly_10;
+		if study_id=8069 then t2_q12b_1_begin_yr=2008;
+		if study_id=8069 then t2_q12b_2_begin_yr=2006; run;
+				proc print data=pp.q2_t2_q12_pponly_11 noobs;
+				where study_id=8069; run;
+			/*clear rest of data array*/
+			data pp.q2_t2_q12_pponly_11; set pp.q2_t2_q12_pponly_11;
+			array a(144) t2_q12b_3_date -- t2_q12b_11_breastfeed_wks_recode;
+			do i=1 to 144;
+			if study_id=8069 then a(i)=.;
+			else end;
+			drop i;
+			run;
+
+		proc print data=pp.q2_t2_q12_pponly_11 noobs;
+		var study_id t2_q12a t2_q12b_1_date -- t2_q12b_2_breastfeed_wks_recode;
+		where t2_q12b_1_begin_mo=. or t2_q12b_1_begin_yr=.; run; /*known n=22 obs with limited or scattered info for t2_q12b_1 vars*/
+
+	/*III b_1 D - outcome=1 with no sex or date info*/
+		proc print data=pp.q2_t2_q12_pponly_11 noobs;
+		var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_breastfeed_wks_recode;
+		where (t2_q12a>=1 and t2_q12b_1_outcome=1) and (t2_q12b_1_date=. or t2_q12b_1_sex=.); run;
+		/*n=22 obs*/
+		/*resolve year for 8017 and  8178 and missing sex (data taken from Age 4 and/or Age 6)
+		 for IDs in macro*/
+		data pp.q2_t2_q12_pponly_12; set pp.q2_t2_q12_pponly_11;
+		if  study_id=8017 then t2_q12b_1_begin_yr=2005;
+		if  study_id=8017 then t2_q12b_1_begin_mo=7;
+		if  study_id=8178 then t2_q12b_1_begin_yr=2004;
+		if  study_id=8178 then t2_q12b_1_begin_mo=7;
+		run;
+		%macro b(num, sex);
+		data pp.q2_t2_q12_pponly_12; set pp.q2_t2_q12_pponly_12;
+		if study_id=&num then t2_q12b_1_sex=&sex; run;
+		%mend;
+		%b(	6007,	1	);
+		%b(	6119,	2	);
+		%b(	7012,	2	);
+		%b(	7194,	1	);
+		%b(	8031,	1	);
+		%b(	8265,	2	);
+		%b(	9188,	2	);
+		%b(	9202,	2	);
+		/*check*/
+		proc print data=pp.q2_t2_q12_pponly_12 noobs;
+		var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_breastfeed_wks_recode;
+		where (t2_q12a>=1 and t2_q12b_1_outcome=1) and (t2_q12b_1_date=. or t2_q12b_1_sex=.); run;
+
+			/*for reference*/
+			proc print data=pp.q2_t2_q12_pponly_12 noobs;
+			var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_breastfeed_wks_recode;
+			where (t2_q12a>=1 and t2_q12b_1_outcome=1) and (t2_q12b_1_sex=.) and t2_q12b_1_duration_wks_recode > 0; run;
+			/*6017, 6201, 7020, 7063, 8012, 9171 have no baby sex for t2_q12b_1_sex*/
+			/*no f/u information. 7063 has age 6 info but did not report other children*/
+
+	/*III b_1 D - outcome=1 with no duration info*/
+		proc print data=pp.q2_t2_q12_pponly_12 noobs;
+		var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_breastfeed_wks_recode;
+		where (t2_q12a>=1 and t2_q12b_1_outcome=1) and t2_q12b_1_duration_wks_recode <20; run;
+			/*if sex ne . then set t2_q12b_1_duration_wks_recode=.*/
+
+		data pp.q2_t2_q12_pponly_13; set pp.q2_t2_q12_pponly_12;
+		if  (t2_q12a>=1 and t2_q12b_1_outcome=1) and t2_q12b_1_duration_wks_recode <20 and t2_q12b_1_sex ne .
+		then t2_q12b_1_duration_wks_recode=.;
+		if  (t2_q12a>=1 and t2_q12b_1_outcome=1) and t2_q12b_1_duration_wks_recode <20 and t2_q12b_1_sex ne .
+		then t2_q12b_1_duration_wks=.;
+		if  (t2_q12a>=1 and t2_q12b_1_outcome=1) and t2_q12b_1_duration_wks_recode <20 and t2_q12b_1_sex ne .
+		then t2_q12b_1_duration_mos=.;run;
+
+		proc print data=pp.q2_t2_q12_pponly_13 noobs;
+		var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_breastfeed_wks_recode;
+		where (t2_q12a>=1 and t2_q12b_1_outcome=1) and t2_q12b_1_duration_wks_recode <20; run;
+		/*6205 and 8103 reported having live baby t2_q12b_1_outcome=1, but no duration, no baby sex, no breastfeeding information*/
+
+			/*See if 6205 or 8103 can be reconciled*/
+			proc print data=pp.q2_t2_q12_pponly_13 noobs;
+			where study_id=6205 or study_id=8103; run; /*both age 4 data, no age 6 data*/
+			/*6205 reported 5 previous pregnancies
+				-q12b_1, q12b_2, q12b_4, q12b_5 have outcome=1 but only q12b_4 can be confirmed with t2_q12b_4_sex=2*/
+				data pp.q2_t2_q12_pponly_14; set pp.q2_t2_q12_pponly_13;
+				if study_id=6205 then t2_q12b_4_sex=2; run;
+			/*Run macro to clear 0s for truly unknown info*/
+				%macro c(var);
+				data pp.q2_t2_q12_pponly_14; set pp.q2_t2_q12_pponly_14;
+				if study_id=6205 then &var=.; run;
+				%mend;
+
+				%c(t2_q12b_1_duration_wks);
+				%c(t2_q12b_1_duration_mos);
+				%c(t2_q12b_1_duration_wks_recode);
+				%c(t2_q12b_2_duration_wks);
+				%c(t2_q12b_2_duration_mos);
+				%c(t2_q12b_2_duration_wks_recode);
+				%c(t2_q12b_3_duration_wks);
+				%c(t2_q12b_3_duration_mos);
+				%c(t2_q12b_3_duration_wks_recode);
+				%c(t2_q12b_3_breastfeed_wks);
+				%c(t2_q12b_3_breastfeed_mos);
+				%c(t2_q12b_3_breastfeed_wks_recode);
+				%c(t2_q12b_4_duration_wks);
+				%c(t2_q12b_4_duration_mos);
+				%c(t2_q12b_4_duration_wks_recode);
+				%c(t2_q12b_5_duration_wks);
+				%c(t2_q12b_5_duration_mos);
+				%c(t2_q12b_5_duration_wks_recode);
+
+			/*clear remaining vars array*/
+			data pp.q2_t2_q12_pponly_14; set pp.q2_t2_q12_pponly_14;
+			array a(96) t2_q12b_6_date -- t2_q12b_11_breastfeed_wks_recode;
+			do i=1 to 96;
+			if study_id=6205 then a(i)=.;
+			else end;
+			drop i;
+			run;
+
+			/*t2_q12b_1_sex for 8103 can also be 2 based off of Age 4 info, but other info is unclear*/
+			/*1-Jul-11 date for both t2_q12b_2 and t2_q12b_3 where outcome=4 does not make sense*/
+			/*will keep outcome for t2_q12b_2_outcome and t2_q12b_3_outcome as 4s*/
+				data pp.q2_t2_q12_pponly_15; set pp.q2_t2_q12_pponly_14;
+				if study_id=8103 then t2_q12b_1_sex=2;
+				if study_id=8103 then t2_q12b_1_duration_wks=.;
+				if study_id=8103 then t2_q12b_1_duration_mos=.;
+				if study_id=8103 then t2_q12b_1_duration_wks_recode=.; run;
+			/*Run array to clear t2_q12b_2_date --  t2_q12b_11_breastfeed_wks_recode
+			 and set t2_q12b_2_outcome=4 and t2_q12b_3_outcome=4*/
+				data pp.q2_t2_q12_pponly_15; set pp.q2_t2_q12_pponly_15;
+				array a(160) t2_q12b_2_date -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 160;
+				if study_id=8103 then a(i)=.;
+				else end;
+				drop i;
+				run;
+
+				data pp.q2_t2_q12_pponly_15; set pp.q2_t2_q12_pponly_15;
+				if study_id=8103 then t2_q12b_2_outcome=4;
+				if study_id=8103 then t2_q12b_3_outcome=4; run;
+		/*Duration continued*/
+		proc print data=pp.q2_t2_q12_pponly_15 noobs;
+		var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_breastfeed_wks_recode;
+		where t2_q12b_1_duration_wks_recode=0 ; run;
+			/*First quickly fix t2_q12b_1_sex for 8070, should be missing*/
+			data pp.q2_t2_q12_pponly_15; set pp.q2_t2_q12_pponly_15;
+			if study_id=8070 then t2_q12b_1_sex=.; run;
+
+		/*set to remaining to blank, outcomes ne 1 so they shouldn't have BF info*/
+		data pp.q2_t2_q12_pponly_15; set pp.q2_t2_q12_pponly_15;
+		if t2_q12b_1_duration_wks_recode=0 then t2_q12b_1_duration_wks=.;
+		if t2_q12b_1_duration_wks_recode=0 then t2_q12b_1_duration_mos=.;
+		if t2_q12b_1_duration_wks_recode=0 then t2_q12b_1_breastfeed_wks=.;
+		if t2_q12b_1_duration_wks_recode=0 then t2_q12b_1_breastfeed_mos=.;
+		if t2_q12b_1_duration_wks_recode=0 then t2_q12b_1_breastfeed_wks_recode=.; run;
+		data pp.q2_t2_q12_pponly_15; set pp.q2_t2_q12_pponly_15;
+		if t2_q12b_1_duration_wks_recode=0 then t2_q12b_1_duration_wks_recode=.; run;
+
+		/*check if others have BF_vars=0 and outcome ne 1*/
+		proc print data=pp.q2_t2_q12_pponly_15 noobs;
+		var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_breastfeed_wks_recode;
+		where t2_q12b_1_outcome>=2; run;
+			/*n=211 shouldn't have BF data=0 if the outcome was not 1*/
+			data pp.q2_t2_q12_pponly_15; set pp.q2_t2_q12_pponly_15;
+			if t2_q12b_1_outcome>=2 then t2_q12b_1_breastfeed_wks=.;
+			if t2_q12b_1_outcome>=2 then t2_q12b_1_breastfeed_mos=.;
+			if t2_q12b_1_outcome>=2 then t2_q12b_1_breastfeed_wks_recode=.; run;
+
+	/*III b_1 E - outcome ne 1, sex, and BF info*/
+		/*are there people with outcome t2_q12b_1_outcome>=2 but have baby sex or breast feeding info?*/
+			proc print data=pp.q2_t2_q12_pponly_15 noobs;
+			/*var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_outcome t2_q12b_1_sex  -- t2_q12b_1_breastfeed_wks_recode;*/
+			where t2_q12b_1_outcome>=2 and t2_q12b_1_sex ne .; run;
+
+			/*Fix breastfeeding first -- none should have BF vars=0*/
+			data pp.q2_t2_q12_pponly_16; set pp.q2_t2_q12_pponly_15;
+			if t2_q12b_1_outcome>=2 and t2_q12b_1_sex ne . then t2_q12b_1_breastfeed_wks=.;
+			if t2_q12b_1_outcome>=2 and t2_q12b_1_sex ne . then t2_q12b_1_breastfeed_mos=.;
+			if t2_q12b_1_outcome>=2 and t2_q12b_1_sex ne . then t2_q12b_1_breastfeed_wks_recode=.; run;
+
+			proc print data=pp.q2_t2_q12_pponly_16 noobs;
+			var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_outcome t2_q12b_1_sex  -- t2_q12b_1_breastfeed_wks_recode;
+			where t2_q12b_1_outcome>=2 and t2_q12b_1_sex ne .; run;
+
+			data pp.q2_t2_q12_pponly_17; set pp.q2_t2_q12_pponly_16;
+			if t2_q12b_1_outcome>=2 and t2_q12b_1_duration_wks_recode <20 then t2_q12b_1_sex=.; run;
+
+			proc print data=pp.q2_t2_q12_pponly_17 noobs;
+			var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_outcome t2_q12b_1_sex  -- t2_q12b_1_breastfeed_wks_recode;
+			where t2_q12b_1_outcome>=2 and t2_q12b_1_sex ne .; run;
+
+ 	/*Final check t2_q12b_1*/
+	/*Does frequency match?*/
+		proc freq data= pp.q2_t2_q12_pponly_17;
+		table t2_q12 t2_q12a t2_q12b_1_outcome; run; /*yes all 494 have outcome_1 coding*/
+
+		/*check for outcome_1=0*/
+			proc print data=pp.q2_t2_q12_pponly_17 noobs;
+			var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_breastfeed_wks_recode;
+			where t2_q12b_1_outcome=0; run;
+			/*n=17, the n=9 (6117, 6161, 7125, 8021, 8071, 8180, 8217, 8221, 8228) who didn't fill out matrix plus
+						n=8 whose outcome could not be reconciled*/
+	/*Does everyone with outcome=1 have baby sex or duration_recode?*/
+		proc print data= pp.q2_t2_q12_pponly_17 noobs;
+		var study_id -- t2_q12b_1_breastfeed_wks_recode;
+		where t2_q12b_1_outcome=1 and (t2_q12b_1_sex=. or t2_q12b_1_breastfeed_wks_recode=. or t2_q12b_1_duration_wks_recode<20); run;
+		/*there are n=11 obs where either t2_q12b_1_sex or t2_q12b_1_breastfeed_wks_recode is missing or t2_q12b_1_duration_wks_recode is lacking*/
+		proc print data= pp.q2_t2_q12_pponly_17 noobs;
+		var study_id -- t2_q12b_1_breastfeed_wks_recode;
+		where t2_q12b_1_outcome=1 and (t2_q12b_1_sex ne . or t2_q12b_1_breastfeed_wks_recode ne . or t2_q12b_1_duration_wks_recode > 20); run;
+		/*n=266 where either t2_q12b_1_sex or t2_q12b_1_breastfeed_wks_recode or t2_q12b_1_duration_wks_recode has info and outcome=1*/
+
+/***********/
+/*t2_q12b_2*/
+/***********/
+/*start with proc freq*/
+proc freq data= pp.q2_t2_q12_pponly_17; table t2_q12 t2_q12a t2_q12b_1_outcome t2_q12b_2_outcome; run;
+
+	/*n=3 with 0, 239 missing*/
+	/*resolve 0 first if possible, or...if needed*/
+		proc print data=pp.q2_t2_q12_pponly_17 noobs;
+		var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+		where t2_q12b_2_outcome=0; run;
+		/*7125, 8217, and 8228 who skipped whole matrix, continue to missing mismatch*/
+
+	/*III b_1 A resolve missing*/
+		/*There should be 235 missing, not 239*/
+			proc print data=pp.q2_t2_q12_pponly_17 noobs;
+			var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+			where t2_q12b_2_outcome=.; run;
+					/*first resolve 7 and 0 issue for t2_q12b_2_outcome=. and t2_q12a=1 participants*/
+					proc print data=pp.q2_t2_q12_pponly_17 noobs;
+					where t2_q12b_2_outcome=. and t2_q12a=1; run; /*7126 has data in t2_q12b_2_date, but it is TIDES pregnancy.
+																	Gave birth to TIDES baby 9 months from date in t2_q12b_2_date*/
+					data pp.q2_t2_q12_pponly_18; set pp.q2_t2_q12_pponly_17;
+					array a(160) t2_q12b_2_date -- t2_q12b_11_breastfeed_wks_recode;
+					do i=1 to 160;
+					if t2_q12b_2_outcome=. and t2_q12a=1 then a(i)=.;
+					else end;
+					drop i;
+					run;
+
+					/*check*/
+					proc print data=pp.q2_t2_q12_pponly_18 noobs;
+					where t2_q12b_2_outcome=. and t2_q12a=1; run; /*everyone who had 7/0 information past 12b_2 is now set to missing*/
+
+			/*continue to find mismatch*/
+			/*n=6 with t2_q12a=1 and other q12b_2 data*/
+			proc print data=pp.q2_t2_q12_pponly_18 noobs;
+			var study_id t2_q12a t2_q12b_1_date -- t2_q12b_2_breastfeed_wks_recode;
+			where t2_q12a=1 and t2_q12b_2_date ne .; run;
+			/*n=3 that fulfills t2_q12a=1 and t2_q12b_2_date ne . condition*/
+			/*all  clearly had previous pregnancies and t2_q12a=2*/
+				data pp.q2_t2_q12_pponly_19; set pp.q2_t2_q12_pponly_18;
+				if study_id=7067 then t2_q12a=2;
+				if study_id=8134 then t2_q12a=2;
+				if study_id=9172 then t2_q12a=2; run;
+
+				data pp.q2_t2_q12_pponly_19; set pp.q2_t2_q12_pponly_19;
+				if study_id=8134 then t2_q12b_2_duration_wks=.;
+				if study_id=8134 then t2_q12b_2_duration_mos=.;
+				if study_id=8134 then t2_q12b_2_duration_wks_recode=.;
+
+				if study_id=8134 then t2_q12b_2_breastfeed_wks=.;
+				if study_id=8134 then t2_q12b_2_breastfeed_mos=.;
+				if study_id=8134 then t2_q12b_2_breastfeed_wks_recode=.; run;
+
+		 /*reorient*/
+			proc freq data= pp.q2_t2_q12_pponly_19; table t2_q12 t2_q12a t2_q12b_1_outcome t2_q12b_2_outcome; run;
+			/*still too many missing, n=232 should be missing*/
+			/*find the last n=7*/
+
+			proc print data=pp.q2_t2_q12_pponly_19 noobs;
+			var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+			where t2_q12b_2_outcome=. and (t2_q12b_2_date ne . or t2_q12b_2_begin_mo ne .); run;
+
+			/*9077, 9131, and 9173 all had babies, baby sex, breastfeeding, etc*/
+			/*9188 has f/u info*/
+				data pp.q2_t2_q12_pponly_20; set pp.q2_t2_q12_pponly_19;
+				if study_id=9188 then t2_q12b_2_sex=2;
+				if study_id=9077 then t2_q12b_2_outcome=1;
+				if study_id=9131 then t2_q12b_2_outcome=1;
+				if study_id=9173 then t2_q12b_2_outcome=1;
+				if study_id=9188 then t2_q12b_2_outcome=1; run;
+
+		/*return to resolving missing*/
+			proc print data=pp.q2_t2_q12_pponly_20 noobs;
+			var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+			where t2_q12b_2_outcome=. and (t2_q12b_2_date ne . or t2_q12b_2_begin_mo ne .); run;
+
+			/*remove 0 from the breastfeeding vars*/
+			data pp.q2_t2_q12_pponly_20; set pp.q2_t2_q12_pponly_20;
+			if  t2_q12a>=2 and t2_q12b_2_outcome=. then t2_q12b_2_outcome=0;
+			if  t2_q12a>=2 and t2_q12b_2_outcome=0 then t2_q12b_2_breastfeed_wks=.;
+			if  t2_q12a>=2 and t2_q12b_2_outcome=0 then t2_q12b_2_breastfeed_mos=.;
+			if  t2_q12a>=2 and t2_q12b_2_outcome=0 then t2_q12b_2_breastfeed_wks_recode=.; run;
+			/*fix t2_q12b_2_begin_mo -- t2_q12b_2_duration_wks_recode if t2_q12b_2_date=.*/
+			data pp.q2_t2_q12_pponly_20; set pp.q2_t2_q12_pponly_20;
+			if  t2_q12a>=2 and t2_q12b_2_outcome=0 and t2_q12b_2_date=. then t2_q12b_2_begin_mo=.;
+			if  t2_q12a>=2 and t2_q12b_2_outcome=0 and t2_q12b_2_date=. then t2_q12b_2_begin_yr=.;
+			if  t2_q12a>=2 and t2_q12b_2_outcome=0 and t2_q12b_2_date=. then t2_q12b_2_duration_wks=.;
+			if  t2_q12a>=2 and t2_q12b_2_outcome=0 and t2_q12b_2_date=. then t2_q12b_2_duration_mos=.;
+			if  t2_q12a>=2 and t2_q12b_2_outcome=0 and t2_q12b_2_date=. then t2_q12b_2_duration_wks_recode=.; run;
+
+		/*Change the proc print query to reflect above recoding*/
+		proc print data=pp.q2_t2_q12_pponly_20 noobs;
+		var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+		where t2_q12a>=2 and t2_q12b_2_outcome=0; run;
+		/*n=6 that needed correction from t2_q12b_2_outcome=. and 7125, 8217, 8228 for n=9*/
+
+		/*check proc freq*/
+		proc freq data= pp.q2_t2_q12_pponly_20;
+		table t2_q12 t2_q12a t2_q12b_1_outcome t2_q12b_2_outcome; run;
+
+		/*still missing 12a=1 mismatch*/
+		/*now t2_q12a=232 for one previous pregnancy where # of missing in t2_q12b_2_outcome is 229*/
+		/*that means there are ppt with 12b_2 data but not reflected in t2_q12a*/
+		proc print data=pp.q2_t2_q12_pponly_20 noobs;
+		var study_id t2_q12a t2_q12b_1_date -- t2_q12b_2_breastfeed_wks_recode;
+		where t2_q12a=1 and t2_q12b_2_outcome ne .; run; /*n=3, yay*/
+			/*reconcile each*/
+			/*8148*/
+			proc print data=pp.q2_t2_q12_pponly_20 noobs;
+			where study_id=8148; run;
+			/*has both age 4 and age 6 and has 2 other children.
+			No way to verify outcome=3 for 12b_1--12b_2 info or change it. will clear all matrix data*/
+
+			data pp.q2_t2_q12_pponly_21; set pp.q2_t2_q12_pponly_20;
+				array a(177) t2_q12a -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 177;
+				if study_id=8148 then a(i)=.;
+				else end;
+				drop i;
+				run;
+
+			/*8157*/
+			proc print data=pp.q2_t2_q12_pponly_21 noobs;
+			where study_id=8157; run;
+			/*reported 1 previous pregnancy in 12a. Has t2_q12b_2_outcome=5 but no other information*/
+			/*Will use only 12a, clear remaining data*/
+			/*this means t2_q12b_2_outcome=5 will be changed from 5 to missing, but it didn't matter anyway
+			because 12a=1*/
+				data pp.q2_t2_q12_pponly_22; set pp.q2_t2_q12_pponly_21;
+				array a(163) t2_q12b_1_breastfeed_wks -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 163;
+				if study_id=8157 then a(i)=.;
+				else end;
+				drop i;
+				run;
+
+			/*9176*/
+			proc print data=pp.q2_t2_q12_pponly_22 noobs;
+			/*var study_id t2_q12a t2_q12b_1_date -- t2_q12b_2_breastfeed_wks_recode;*/
+			where t2_q12a=1 and t2_q12b_2_outcome ne .; run;
+			/*has outcome=1 and baby sex=2. no f/u information to corroborate*/
+			/*keep 12a as 1 and clear information. Same decision as previous 2*/
+				data pp.q2_t2_q12_pponly_22; set pp.q2_t2_q12_pponly_22;
+				array a(160) t2_q12b_2_date -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 160;
+				if study_id=9176 then a(i)=.;
+				else end;
+				drop i;
+				run;
+		/*final check for missing mismatch*/
+		proc freq data= pp.q2_t2_q12_pponly_22;
+		table t2_q12 t2_q12a t2_q12b_1_outcome t2_q12b_2_outcome; run;
+			/*edit to reflect person whose previous pregnancies could not be inferred -- 8148*/
+			proc freq data= pp.q2_t2_q12_pponly_22;
+			table t2_q12 t2_q12a t2_q12b_1_outcome t2_q12b_2_outcome/missing; run;
+			/*n=231 for 12a=1 plus the n=1 for 12a=. is 232. there are finally n=232 appropriately missing for t2_q12b_2_outcome*/
+			/*for reference, proc print t2_q12b_2_outcome =0*/
+			proc print data=pp.q2_t2_q12_pponly_22 noobs;
+			var study_id t2_q12a  t2_q12b_1_date -- t2_q12b_2_breastfeed_wks_recode;
+			where t2_q12b_2_outcome=0; run; /*n=9 obs where it's unknown what the outcome is. n=3 skipped matrix from the beginning*/
+
+	/*III b_1 B make sure outcome=1 have baby sex, duration, or breastfeeding info*/
+	proc print data=pp.q2_t2_q12_pponly_22 noobs;
+	var study_id t2_q12a  t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+	where t2_q12b_2_outcome=1; run;
+
+		/*see where t2_q12b_2_begin_yr=0*/
+		proc print data=pp.q2_t2_q12_pponly_22 noobs;
+		var study_id t2_q12a  t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+		where t2_q12b_2_outcome=1 and t2_q12b_2_begin_yr=0; run;
+			/*just clear 7/0 issue from month/year*/
+			data pp.q2_t2_q12_pponly_23 ; set pp.q2_t2_q12_pponly_22;
+			if t2_q12b_2_outcome=1 and t2_q12b_2_begin_yr=0 then t2_q12b_2_begin_mo=.;
+			if t2_q12b_2_outcome=1 and t2_q12b_2_begin_yr=0 then t2_q12b_2_begin_yr=.; run;
+			/*check*/
+			proc print data=pp.q2_t2_q12_pponly_23 noobs;
+			var study_id t2_q12a  t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+			where t2_q12b_2_outcome=1 and t2_q12b_2_begin_yr=0; run;
+	/*rerun initial code*/
+	proc print data=pp.q2_t2_q12_pponly_23 noobs;
+	var study_id t2_q12a  t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+	where t2_q12b_2_outcome=1; run;
+		/*check duration=. or 0*/
+		proc print data=pp.q2_t2_q12_pponly_23 noobs;
+		var study_id t2_q12a  t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+		where t2_q12b_2_outcome=1 and (t2_q12b_2_duration_wks_recode=0 or t2_q12b_2_duration_wks_recode=.); run;
+
+		/*clear remaining 0s*/
+		data pp.q2_t2_q12_pponly_24 noobs; set pp.q2_t2_q12_pponly_23;
+		if t2_q12b_2_outcome=1 and t2_q12b_2_duration_wks_recode=0 then t2_q12b_2_duration_wks=.;
+		if t2_q12b_2_outcome=1 and t2_q12b_2_duration_wks_recode=0 then t2_q12b_2_duration_mos=.;
+		if t2_q12b_2_outcome=1 and t2_q12b_2_duration_wks_recode=0 then t2_q12b_2_duration_wks_recode=.; run;
+	/*rerun initial code*/
+	proc print data=pp.q2_t2_q12_pponly_24 noobs;
+	var study_id t2_q12a  t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+	where t2_q12b_2_outcome=1; run;
+		/*check for sex*/
+		proc print data=pp.q2_t2_q12_pponly_24 noobs;
+		var study_id t2_q12a  t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex -- t2_q12b_2_breastfeed_wks_recode;
+		where t2_q12b_2_outcome=1 and t2_q12b_2_sex=.; run;
+			/*6107, 7130, 8012 - have no information
+			/*6205 has age 4 but only one other child reported, remain as missing*/
+			/*6227  t2_q12b_2_sex=1 info taken from age 4/6
+			  7069	t2_q12b_2_sex=1 info taken from age 4/6
+			  8019	t2_q12b_2_sex=2 info taken from age 4/6
+			  8230	t2_q12b_2_sex=2 info taken from age 4/6
+			  8265	t2_q12b_2_sex=2 info taken from age 4/6
+			  8273	t2_q12b_2_sex=2 info taken from age 4/6
+			  9031	t2_q12b_2_sex=2 info taken from age 4/6*/
+		data pp.q2_t2_q12_pponly_25; set pp.q2_t2_q12_pponly_24;
+		if study_id=6227 then t2_q12b_2_sex=1;
+		if study_id=7069 then t2_q12b_2_sex=1;
+		if study_id=8019 then t2_q12b_2_sex=2;
+		if study_id=8230 then t2_q12b_2_sex=2;
+		if study_id=8265 then t2_q12b_2_sex=2;
+		if study_id=8273 then t2_q12b_2_sex=2;
+		if study_id=9031 then t2_q12b_2_sex=2; run;
+		/*check*/
+			proc print data=pp.q2_t2_q12_pponly_25 noobs;
+			var study_id t2_q12a  t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex -- t2_q12b_2_breastfeed_wks_recode;
+			where t2_q12b_2_outcome=1 and t2_q12b_2_sex=.; run;
+			/*sort out 8046 on their own*/
+				proc print data=pp.q2_t2_q12_pponly_25 noobs;
+				where study_id=8046; run;
+				/*first issue, ppt filled up to 9 previous pregnancies*/
+				/*no other f/u info*/
+				/*attempt to reconcile pregnancy by pregnancy for ppt 8046*/
+				data pp.q2_t2_q12_pponly_26; set pp.q2_t2_q12_pponly_25;
+				/*Preg 1*/
+					if study_id=8046 then t2_q12a=9; /*has data for up to 9 pregnancies*/
+					/*no corrections needed for 12b_1 vars. Outcome is 4*/
+
+				/*Preg 2*/
+					/*Will correct t2_q12b_2_duration_mos from 12 to 0.
+					  Outcome is 1 but the number of weeks of pregnancy duration doesn't make sense
+					  Will set outcome to 0 for unknown, set BF to missing*/
+					if study_id=8046 then t2_q12b_2_duration_mos=0;
+					if study_id=8046 then t2_q12b_2_outcome=0;
+					if study_id=8046 then t2_q12b_2_breastfeed_wks=.;
+					if study_id=8046 then t2_q12b_2_breastfeed_mos=.;
+					if study_id=8046 then t2_q12b_2_breastfeed_wks_recode=.;
+
+				/*Preg 3 - 5*/
+				/*Will set BF vars to missing in third preg since outcome=3*/
+					if study_id=8046 then t2_q12b_3_breastfeed_wks=.;
+					if study_id=8046 then t2_q12b_3_breastfeed_mos=.;
+					if study_id=8046 then t2_q12b_3_breastfeed_wks_recode=.;
+					/*Same with 4*/
+					if study_id=8046 then t2_q12b_4_breastfeed_wks=.;
+					if study_id=8046 then t2_q12b_4_breastfeed_mos=.;
+					if study_id=8046 then t2_q12b_4_breastfeed_wks_recode=.;
+					/*Same with 5*/
+					if study_id=8046 then t2_q12b_5_breastfeed_wks=.;
+					if study_id=8046 then t2_q12b_5_breastfeed_mos=.;
+					if study_id=8046 then t2_q12b_5_breastfeed_wks_recode=.;
+
+				/*Preg 6*/
+				/*Will correct t2_q12b_6_duration_mos from 12 to 0.
+				  Outcome is 1 but the number of weeks of pregnancy duration doesn't make sense
+				  Will set outcome to 0 for unknown, set BF to missing*/
+					if study_id=8046 then t2_q12b_6_duration_mos=0;
+					if study_id=8046 then t2_q12b_6_outcome=0;
+					if study_id=8046 then t2_q12b_6_breastfeed_wks=.;
+					if study_id=8046 then t2_q12b_6_breastfeed_mos=.;
+					if study_id=8046 then t2_q12b_6_breastfeed_wks_recode=.;
+
+				/*Preg 7 & 8*/
+				/*Will set BF vars to missing in third preg since outcome=3*/
+					if study_id=8046 then t2_q12b_7_breastfeed_wks=.;
+					if study_id=8046 then t2_q12b_7_breastfeed_mos=.;
+					if study_id=8046 then t2_q12b_7_breastfeed_wks_recode=.;
+					if study_id=8046 then t2_q12b_8_breastfeed_wks=.;
+					if study_id=8046 then t2_q12b_8_breastfeed_mos=.;
+					if study_id=8046 then t2_q12b_8_breastfeed_wks_recode=.;
+
+				/*Preg 9*/
+				/*Will correct t2_q12b_9_duration_mos from 12 to 0.
+				  Outcome is 1 but the number of weeks of pregnancy duration doesn't make sense
+				  Will set outcome to 0 for unknown, set BF to missing*/
+					if study_id=8046 then t2_q12b_9_duration_mos=0;
+					if study_id=8046 then t2_q12b_9_outcome=0;
+					if study_id=8046 then t2_q12b_9_breastfeed_wks=.;
+					if study_id=8046 then t2_q12b_9_breastfeed_mos=.;
+					if study_id=8046 then t2_q12b_9_breastfeed_wks_recode=.; run;
+		/*Check for missing sex again*/
+		proc print data=pp.q2_t2_q12_pponly_26 noobs;
+		var study_id t2_q12a  t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex -- t2_q12b_2_breastfeed_wks_recode;
+		where t2_q12b_2_outcome=1 and t2_q12b_2_sex=.; run; /*n=4 for t2_q12b_2_outcome=1 but child sex is missing*/
+	/*rerun initial code*/
+	proc print data=pp.q2_t2_q12_pponly_26 noobs;
+	var study_id t2_q12a  t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+	where t2_q12b_2_outcome=1; run;
+		/*any obs where outcome=1 but start date, duration, baby sex or breast feeding missing?*/
+		proc print data=pp.q2_t2_q12_pponly_26 noobs;
+		var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_breastfeed_wks_recode;
+		where t2_q12b_2_outcome=1 and (t2_q12b_2_date=. or t2_q12b_2_sex=. or t2_q12b_2_breastfeed_wks_recode=.); run;
+		/*n=9 obs where one or more of the above is missing*/
+
+	/*III b_2 C - outcome ne 1, sex, and BF info AND duration*/
+		/*are there people with outcome t2_q12b_1_outcome>=2 but have baby sex or breast feeding info?*/
+			proc print data=pp.q2_t2_q12_pponly_26 noobs;
+			var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex  -- t2_q12b_2_breastfeed_wks_recode;
+			where t2_q12b_2_outcome>=2 and t2_q12b_2_sex ne .; run; /*n=5*/
+
+			/*Fix breastfeeding first -- none should have BF vars=0*/
+			data pp.q2_t2_q12_pponly_27; set pp.q2_t2_q12_pponly_26;
+			if t2_q12b_2_outcome>=2 and t2_q12b_2_sex ne . then t2_q12b_2_breastfeed_wks=.;
+			if t2_q12b_2_outcome>=2 and t2_q12b_2_sex ne . then t2_q12b_2_breastfeed_mos=.;
+			if t2_q12b_2_outcome>=2 and t2_q12b_2_sex ne . then t2_q12b_2_breastfeed_wks_recode=.; run;
+
+			/*revisit ppt*/
+			proc print data=pp.q2_t2_q12_pponly_27 noobs;
+			var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex  -- t2_q12b_2_breastfeed_wks_recode;
+			where t2_q12b_2_outcome>=2 and t2_q12b_2_sex ne .; run;
+				/*ppt 8271 should have no t2_q12b_2_begin_mo --  t2_q12b_2_duration_wks_recode and t2_q12b_2_sex info*/
+				data pp.q2_t2_q12_pponly_27; set pp.q2_t2_q12_pponly_27;
+				if study_id=8271 then t2_q12b_2_begin_mo=.;
+				if study_id=8271 then t2_q12b_2_begin_yr=.;
+				if study_id=8271 then t2_q12b_2_duration_wks=.;
+				if study_id=8271 then t2_q12b_2_duration_mos=.;
+				if study_id=8271 then t2_q12b_2_duration_wks_recode=.;
+				if study_id=8271 then t2_q12b_2_sex=.; run;
+
+				/*everyone but 9043 baby sex can be missing*/
+				data pp.q2_t2_q12_pponly_27; set pp.q2_t2_q12_pponly_27;
+				if (t2_q12b_2_outcome>=2) and (t2_q12b_2_sex ne .) and (study_id ne 9043)
+				then t2_q12b_2_sex=.; run;
+		/*are there people with outcome t2_q12b_1_outcome>=2 but still have breast feeding info?*/
+			proc print data=pp.q2_t2_q12_pponly_27 noobs;
+			var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex  -- t2_q12b_2_breastfeed_wks_recode;
+			where t2_q12b_2_outcome>=2 and t2_q12b_2_breastfeed_wks_recode ne .; run;
+
+			data pp.q2_t2_q12_pponly_28; set pp.q2_t2_q12_pponly_27;
+			if t2_q12b_2_outcome>=2 and t2_q12b_2_breastfeed_wks_recode ne . then t2_q12b_2_breastfeed_wks=.;
+			if t2_q12b_2_outcome>=2 and t2_q12b_2_breastfeed_wks_recode ne . then t2_q12b_2_breastfeed_mos=.;
+			if t2_q12b_2_outcome>=2 and t2_q12b_2_breastfeed_wks_recode ne . then t2_q12b_2_breastfeed_wks_recode=.; run;
+				/*check*/
+				proc print data=pp.q2_t2_q12_pponly_28 noobs;
+				var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex  -- t2_q12b_2_breastfeed_wks_recode;
+				where t2_q12b_2_outcome>=2 and t2_q12b_2_breastfeed_wks_recode ne .; run; /*no obs in log*/
+		/*don't forget duration*/
+				proc print data=pp.q2_t2_q12_pponly_28 noobs;
+				var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex  -- t2_q12b_2_breastfeed_wks_recode;
+				where t2_q12b_2_duration_wks_recode=0; run;
+
+				data pp.q2_t2_q12_pponly_28; set pp.q2_t2_q12_pponly_28;
+				if t2_q12b_2_duration_wks_recode=0 then t2_q12b_2_duration_wks=.;
+				if t2_q12b_2_duration_wks_recode=0 then t2_q12b_2_duration_mos=.;
+				if t2_q12b_2_duration_wks_recode=0 then t2_q12b_2_duration_wks_recode=.; run;
+
+	/*III b_2 D - any lingering 7/0 combinations in t2_q12b_1_begin_mo and t2_q12b_1_begin_yr*/
+		proc print data=pp.q2_t2_q12_pponly_28 noobs;
+		var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex  -- t2_q12b_2_breastfeed_wks_recode;
+		where t2_q12b_2_begin_yr=0; run;
+
+		data pp.q2_t2_q12_pponly_29; set pp.q2_t2_q12_pponly_28;
+		if t2_q12b_2_begin_yr=0 then t2_q12b_2_begin_mo=.;
+		if t2_q12b_2_begin_yr=0 then t2_q12b_2_begin_yr=.; run;
+
+			/*check*/
+			proc print data=pp.q2_t2_q12_pponly_29 noobs;
+			var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex  -- t2_q12b_2_breastfeed_wks_recode;
+			where t2_q12b_2_begin_yr=0; run; /*no obs in log*/
+
+	/*final check for 12b_2*/
+	/*start with proc freq*/
+	proc freq data= pp.q2_t2_q12_pponly_29;
+	table t2_q12a t2_q12b_1_outcome t2_q12b_2_outcome/missing; run;
+		/*Did everyone who reported at least 2 pregnancies in 12a have an outcome?*/
+		proc freq data= pp.q2_t2_q12_pponly_29;
+		table t2_q12a t2_q12b_2_outcome/missing;
+		where t2_q12b_2_outcome ne .; run; /*YES n=262*/
+		/*Again, all 262 participants who reported at least 2 pregnancies has an outcome that is coded*/
+
+		/*proc print outcomes*/
+		/*Outcome=0*/
+			proc print data=pp.q2_t2_q12_pponly_29 noobs;
+			var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex  -- t2_q12b_2_breastfeed_wks_recode;
+			where  t2_q12b_2_outcome=0; run; /*try and include a few more*/
+			/*6197 has duration of ~5 weeks, no outcome can be acertained*/
+			/*7112 has duration of ~9 weeks, no outcome can be acertained*/
+			/*7125 definitely skipped the matrix, same with 8217, and 8228*/
+			/*7125, 8217, and 8228 MAY have f/u data, but you cannot assign/assume outcomes or the order of pregnancy*/
+				/*outcomes for these three will remain as 0*/
+			/*8017 --> has other child from Age 4, 17 y/o M at age 4,  born ~1999
+			is concordant with the # of previously reported pregnancies
+			will code below*/
+				proc print data=pp.q2_t2_q12_pponly_29 noobs;
+				where study_id=8017; run;
+
+			data pp.q2_t2_q12_pponly_30; set pp.q2_t2_q12_pponly_29;
+			if study_id=8017 then t2_q12b_2_begin_mo=7;
+			if study_id=8017 then t2_q12b_2_begin_mo=1998;
+			if study_id=8017 then t2_q12b_2_begin_mo=1998;
+			if study_id=8017 then t2_q12b_2_sex=1; run;
+
+
+	 		/*8034 has to remain as t2_12a and t2_q12b_2_outcome=0, has age 4/6 data but TIDES child is only reported child*/
+			/*cannot assume other outcomes for second pregnancy, or assume ppt accidently wrote 2 for 12a*/
+
+			/*8046 is the problem ppt. Had outcome data but scant other, reconciled all pregnancies with outcome=0 and
+			 mostly missing info. Will join n=9 (6117, 6161, 7125, 8021, 8071, 8180, 8217, 8221, 8228) who reported previous pregnancies,
+			 but outcome data cannot be assumed*/
+
+			/*8130 has to remain as t2_12a and t2_q12b_2_outcome=0, has age 4/6 data with other child reported
+			  who is reflected in the q12b_1 vars*/
+			/*cannot assume other outcomes for second pregnancy, or assume ppt accidently wrote 2 for 12a*/
+			/*will join 8046 and n=9 (6117, 6161, 7125, 8021, 8071, 8180, 8217, 8221, 8228) at least for 2nd pregnancy*/
+
+			/*Reiterating here again that 8217 and 8228, along with 7125 MAY have f/u data, but you cannot assign/assume
+			  outcomes or the order of pregnancy outcomes for these three will remain as 0*/
+
+			/*9214 eldest child in Age 4 and 6 data is TIDES child. Outcomes of previous pregnancies truly unknown*/
+			/*will fix for all*/
+				proc print data=pp.q2_t2_q12_pponly_30 noobs;
+				where study_id=9214; run;
+
+					data pp.q2_t2_q12_pponly_30; set pp.q2_t2_q12_pponly_30;
+					array a(13) t2_q12b_3_duration_wks -- t2_q12b_3_breastfeed_wks_recode;
+					do i=1 to 13;
+					if study_id=9214 then a(i)=.;
+					else end;
+					drop i;
+					run;
+
+					data pp.q2_t2_q12_pponly_30; set pp.q2_t2_q12_pponly_30;
+					array a(3) t2_q12b_4_breastfeed_wks -- t2_q12b_4_breastfeed_wks_recode;
+					do i=1 to 3;
+					if study_id=9214 then a(i)=.;
+					else end;
+					drop i;
+					run;
+
+					data pp.q2_t2_q12_pponly_30; set pp.q2_t2_q12_pponly_30;
+					array a(99) t2_q12b_5_breastfeed_wks -- t2_q12b_11_breastfeed_wks_recode;
+					do i=1 to 99;
+					if study_id=9214 then a(i)=.;
+					else end;
+					drop i;
+					run;
+				/*set outcome to 0 since it was missing before*/
+				data pp.q2_t2_q12_pponly_30; set pp.q2_t2_q12_pponly_30;
+				if study_id=9214 then t2_q12b_3_outcome=0;
+				if study_id=9214 then t2_q12b_4_outcome=0;
+				if study_id=9214 then t2_q12b_5_outcome=0; run;
+		/*outcome=1*/
+		proc print data=pp.q2_t2_q12_pponly_30 noobs;
+		var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex  -- t2_q12b_2_breastfeed_wks_recode;
+		where  t2_q12b_2_outcome=1; run; /*except for 6205, all looks good, few missing info*/
+
+		/*outcome>=2*/
+		proc print data=pp.q2_t2_q12_pponly_30 noobs;
+		var study_id t2_q12a t2_q12b_2_date -- t2_q12b_2_outcome t2_q12b_2_sex  -- t2_q12b_2_breastfeed_wks_recode;
+		where  t2_q12b_2_outcome>=2; run; /*GOOD*/
+		/*Revisit and scan through 12b_1
+				/*outcome=0*/
+				proc print data=pp.q2_t2_q12_pponly_30 noobs;
+				var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_outcome t2_q12b_1_sex  -- t2_q12b_1_breastfeed_wks_recode;
+				where  t2_q12b_1_outcome=0; run; /*n=17*/
+
+				/*outcome=1*/
+				proc print data=pp.q2_t2_q12_pponly_30 noobs;
+				var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_outcome t2_q12b_1_sex  -- t2_q12b_1_breastfeed_wks_recode;
+				where  t2_q12b_1_outcome=1; run; /*some missing info but looks okay*/
+
+				/*outcome>=2*/
+				proc print data=pp.q2_t2_q12_pponly_30 noobs;
+				var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_outcome t2_q12b_1_sex  -- t2_q12b_1_breastfeed_wks_recode;
+				where  t2_q12b_1_outcome>=2; run; /*also looks okay!*/
+		/*Revisit and get rid of 7/0 for missing outcomes*/
+				proc print data=pp.q2_t2_q12_pponly_30 noobs;
+				var study_id t2_q12a t2_q12b_1_date -- t2_q12b_1_outcome t2_q12b_1_sex  -- t2_q12b_1_breastfeed_wks_recode;
+				where  t2_q12b_1_outcome=.; run; /*the one obs, 8148*/
+
+				proc print data=pp.q2_t2_q12_pponly_30 noobs;
+				where  t2_q12b_2_outcome=.; run;
+/***********/
+/*t2_q12b_3*/
+/***********/
+/*start with proc freq*/
+proc freq data= pp.q2_t2_q12_pponly_30;
+table t2_q12 t2_q12a t2_q12b_1_outcome t2_q12b_2_outcome t2_q12b_3_outcome/missing; run;
+
+		/*check for 12a=2 one last time*/
+		proc freq data= pp.q2_t2_q12_pponly_30;
+		table  t2_q12a t2_q12b_2_outcome/missing;
+		where t2_q12a>=2; run; /*n=262*/
+
+/*now for 12a=3*/
+	proc freq data= pp.q2_t2_q12_pponly_30;
+	table  t2_q12a t2_q12b_3_outcome/missing;
+	where t2_q12a>=3; run; /*n=4 missing, n=4 are zero, start with resolving those first*
+
+	/*III b_3 A*/
+	/*resolve missing*/
+		proc print data=pp.q2_t2_q12_pponly_30 noobs;
+		var study_id t2_q12a t2_q12b_3_date -- t2_q12b_3_breastfeed_wks_recode;
+		where t2_q12a>=3 and t2_q12b_3_outcome=.; run; /*n=4*/
+
+		/*reconcile one by one*/
+		proc print data=pp.q2_t2_q12_pponly_30 noobs;
+		where study_id=7107; run; /*can't assume, must code as outcome=0*/
+		data pp.q2_t2_q12_pponly_31; set pp.q2_t2_q12_pponly_30;
+		if study_id=7107 then t2_q12b_3_begin_mo=.;
+		if study_id=7107 then t2_q12b_3_begin_yr=.;
+		if study_id=7107 then t2_q12b_3_duration_wks=.;
+		if study_id=7107 then t2_q12b_3_duration_mos=.;
+		if study_id=7107 then t2_q12b_3_duration_wks_recode=.;
+		if study_id=7107 then t2_q12b_3_outcome=0;
+		if study_id=7107 then t2_q12b_3_breastfeed_wks=.;
+		if study_id=7107 then t2_q12b_3_breastfeed_mos=.;
+		if study_id=7107 then t2_q12b_3_breastfeed_wks_recode=.; run;
+		/*same with 8225*/
+		data pp.q2_t2_q12_pponly_31; set pp.q2_t2_q12_pponly_31;
+		if study_id=8225 then t2_q12b_3_begin_mo=.;
+		if study_id=8225 then t2_q12b_3_begin_yr=.;
+		if study_id=8225 then t2_q12b_3_duration_wks=.;
+		if study_id=8225 then t2_q12b_3_duration_mos=.;
+		if study_id=8225 then t2_q12b_3_duration_wks_recode=.;
+		if study_id=8225 then t2_q12b_3_outcome=0;
+		if study_id=8225 then t2_q12b_3_breastfeed_wks=.;
+		if study_id=8225 then t2_q12b_3_breastfeed_mos=.;
+		if study_id=8225 then t2_q12b_3_breastfeed_wks_recode=.; run;
+		/*8101 and 8271 have sex and BF data, will code for these outcome=1*/
+		data pp.q2_t2_q12_pponly_31; set pp.q2_t2_q12_pponly_31;
+		if study_id=8101 then t2_q12b_3_outcome=1;
+		if study_id=8271 then t2_q12b_3_outcome=1; run;
+		/*also if study_id=8271 then mo, yr vars=.*/
+		data pp.q2_t2_q12_pponly_31; set pp.q2_t2_q12_pponly_31;
+		if study_id=8271 then t2_q12b_3_begin_mo=.;
+		if study_id=8271 then t2_q12b_3_begin_yr=.; run;
+
+	/*resolve outcome=0*/
+	/*make sure these are the usual suspects*/
+		proc print data=pp.q2_t2_q12_pponly_31 noobs;
+		var study_id t2_q12a t2_q12b_3_date -- t2_q12b_3_breastfeed_wks_recode;
+		where t2_q12a>=3 and t2_q12b_3_outcome=0; run; /*usual plus 7107 and 8225*/
+	/*check proc freq*/
+	proc freq data= pp.q2_t2_q12_pponly_31;
+	table  t2_q12a t2_q12b_3_outcome/missing;
+	where t2_q12a>=3; run; /*no missings, n's of 132 checks out*/
+		/*bulk correct 7/0s*/
+			/*visually scan first*/
+			proc print data=pp.q2_t2_q12_pponly_31 noobs;
+			where t2_q12a<3; run; /*some in output -- narrow down*/
+
+			proc print data=pp.q2_t2_q12_pponly_31 noobs;
+			where t2_q12a<3 and t2_q12b_3_outcome ne .; run;
+			/*reconcile one by one again*/
+			/*6197*/
+			proc print data=pp.q2_t2_q12_pponly_31 noobs;
+			where study_id=6197; run;
+
+			/*12b_1 -- 12b_2 reconciled, ppt had outcome=3 for 12b_3
+			looking at data, t2_q12b_2_outcome is likely 3*/
+			/*change will be consistent as this is not changing 12a, aka the number of reported pregnancies*/
+
+			data pp.q2_t2_q12_pponly_32; set pp.q2_t2_q12_pponly_31;
+			if study_id=6197 then t2_q12b_2_outcome=3; run;
+
+				data pp.q2_t2_q12_pponly_32; set pp.q2_t2_q12_pponly_32;
+				array a(143) t2_q12b_3_begin_mo -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 143;
+				if study_id=6197 then a(i)=.;
+				else end;
+				drop i;
+				run;
+
+			/*7203*/
+			proc print data=pp.q2_t2_q12_pponly_32 noobs;
+			where study_id=7203; run;
+
+			/*ppt actually has data for 4 previous pregnancies -- outcomes durations and dates.
+			12a must be updated*/
+			data pp.q2_t2_q12_pponly_32; set pp.q2_t2_q12_pponly_32;
+			if study_id=7203 then t2_q12a=4; run;
+			/*reconcile remaining issues with 7203*/
+			data pp.q2_t2_q12_pponly_32; set pp.q2_t2_q12_pponly_32;
+			if study_id=7203 then t2_q12b_3_breastfeed_wks=.;
+			if study_id=7203 then t2_q12b_3_breastfeed_mos=.;
+			if study_id=7203 then t2_q12b_3_breastfeed_wks_recode=.; run;
+				data pp.q2_t2_q12_pponly_32; set pp.q2_t2_q12_pponly_32;
+				array a(115) t2_q12b_4_breastfeed_wks -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 115;
+				if study_id=7203 then a(i)=.;
+				else end;
+				drop i;
+				run;
+
+		/*8134*/
+		proc print data=pp.q2_t2_q12_pponly_32 noobs;
+		where t2_q12a<3 and t2_q12b_3_outcome ne .; run;
+		/*ppt actually has data for 5 previous pregnancies -- outcomes durations and dates.
+		  12a must be updated*/
+		data pp.q2_t2_q12_pponly_32; set pp.q2_t2_q12_pponly_32;
+		if study_id=8134 then t2_q12a=5;
+		if study_id=8134 then t2_q12b_3_duration_wks=.;
+		if study_id=8134 then t2_q12b_3_duration_mos=.;
+		if study_id=8134 then t2_q12b_3_duration_wks_recode=.;
+		if study_id=8134 then t2_q12b_3_breastfeed_wks=.;
+		if study_id=8134 then t2_q12b_3_breastfeed_mos=.;
+		if study_id=8134 then t2_q12b_3_breastfeed_wks_recode=.;
+
+		if study_id=8134 then t2_q12b_4_duration_wks=.;
+		if study_id=8134 then t2_q12b_4_duration_mos=.;
+		if study_id=8134 then t2_q12b_4_duration_wks_recode=.;
+		if study_id=8134 then t2_q12b_4_breastfeed_wks=.;
+		if study_id=8134 then t2_q12b_4_breastfeed_mos=.;
+		if study_id=8134 then t2_q12b_4_breastfeed_wks_recode=.;
+
+		if study_id=8134 then t2_q12b_5_duration_wks=.;
+		if study_id=8134 then t2_q12b_5_duration_mos=.;
+		if study_id=8134 then t2_q12b_5_duration_wks_recode=.; run;
+				data pp.q2_t2_q12_pponly_32; set pp.q2_t2_q12_pponly_32;
+				array a(99) t2_q12b_5_breastfeed_wks -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 99;
+				if study_id=8134 then a(i)=.;
+				else end;
+				drop i;
+				run;
+	/*Revisit proc freq*/
+		proc freq data= pp.q2_t2_q12_pponly_32;
+		table  t2_q12a t2_q12b_3_outcome/missing;
+		where t2_q12a>=3; run;
+
+		proc freq data= pp.q2_t2_q12_pponly_32;
+		table t2_q12b_3_outcome/missing;
+		where t2_q12b_3_outcome ne .; run; /*n=134 observations*/
+	/*return to correcting 7/0 issue*/
+		/*bulk correct 7/0s*/
+		proc print data=pp.q2_t2_q12_pponly_32 noobs;
+		where t2_q12a<3; run; /*looks clear*/
+			data pp.q2_t2_q12_pponly_33; set pp.q2_t2_q12_pponly_32;
+				array a(144) t2_q12b_3_date -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 144;
+				if t2_q12a<3 then a(i)=.;
+				else end;
+				drop i;
+				run;
+/*III b_1 B resolve 7/0 begin mo/yr*/
+	/*begin mo/yr*/
+		proc print data=pp.q2_t2_q12_pponly_33 noobs;
+		var study_id T2_Q12a t2_q12b_3_date -- t2_q12b_3_breastfeed_wks_recode;
+		where  t2_q12b_3_begin_yr=0; run;
+			/*set to .*/
+			data pp.q2_t2_q12_pponly_34; set pp.q2_t2_q12_pponly_33;
+			if  t2_q12b_3_begin_yr=0 then t2_q12b_3_begin_mo=.;
+			if t2_q12b_3_begin_yr=0 then t2_q12b_3_begin_yr=.; run;
+	/*resolve t2_q12b_3_duration_wks_recode=0*/
+		proc print data=pp.q2_t2_q12_pponly_34 noobs;
+		var study_id T2_Q12a t2_q12b_3_date -- t2_q12b_3_breastfeed_wks_recode;
+		where  t2_q12b_3_duration_wks_recode=0; run;
+
+			data pp.q2_t2_q12_pponly_34; set pp.q2_t2_q12_pponly_34;
+			if  t2_q12b_3_duration_wks_recode=0 then t2_q12b_3_duration_wks=.;
+			if t2_q12b_3_duration_wks_recode=0 then t2_q12b_3_duration_mos=.;
+			if t2_q12b_3_duration_wks_recode=0 then t2_q12b_3_duration_wks_recode=.;
+			run;
+
+/*III b_3 C check outcomes*/
+	/*outcomes=1*/
+		proc print data=pp.q2_t2_q12_pponly_34 noobs;
+		var study_id T2_Q12a t2_q12b_3_date -- t2_q12b_3_outcome t2_q12b_3_sex -- t2_q12b_3_breastfeed_wks_recode;
+		where  t2_q12b_3_outcome=1 and (t2_q12b_3_duration_wks_recode=. or t2_q12b_3_date=. or t2_q12b_3_sex=.); run;
+			/*focus on outcome=1 no sex*/
+			proc print data=pp.q2_t2_q12_pponly_34 noobs;
+			var study_id T2_Q12a t2_q12b_3_date -- t2_q12b_3_outcome t2_q12b_3_sex -- t2_q12b_3_breastfeed_wks_recode;
+			where  t2_q12b_3_outcome=1 and  t2_q12b_3_sex=.; run;
+				/*From Age 4/6 data
+				6014 t2_q12b_3_sex=1
+				6212 t2_q12b_3_sex=2
+				8267 t2_q12b_3_sex=1
+				9031 t2_q12b_3_sex=2
+				8270 t2_q12b_3_sex=2*/
+				data pp.q2_t2_q12_pponly_35; set pp.q2_t2_q12_pponly_34;
+			 	if study_id=6014 then t2_q12b_3_sex=1;
+				if study_id=6212 then t2_q12b_3_sex=2;
+				if study_id=8267 then t2_q12b_3_sex=1;
+				if study_id=9031 then t2_q12b_3_sex=2;
+				if study_id=8270 then t2_q12b_3_sex=2; run;
+				/*don't know 8012, 8271*/
+				/*9213 reported  pregnancies, is accounted for in 12b_1 and 12b_2, has previous female child reported on Age 4/6 born in 2005.
+				Will flesh out info and approximate guesses and add sex*/
+			data pp.q2_t2_q12_pponly_35; set pp.q2_t2_q12_pponly_35;
+			if study_id=9213 then t2_q12b_3_begin_mo=7;
+			if study_id=9213 then t2_q12b_3_begin_yr=2004;
+			if study_id=9213 then t2_q12b_3_sex=2; run;
+		/*rerun initial proc print*/
+		proc print data=pp.q2_t2_q12_pponly_35 noobs;
+		var study_id T2_Q12a t2_q12b_3_date -- t2_q12b_3_outcome t2_q12b_3_sex -- t2_q12b_3_breastfeed_wks_recode;
+		where  t2_q12b_3_outcome=1; run; /*n=59 with outcome=1*/
+		proc print data=pp.q2_t2_q12_pponly_35 noobs;
+		var study_id T2_Q12a t2_q12b_3_date -- t2_q12b_3_outcome t2_q12b_3_sex -- t2_q12b_3_breastfeed_wks_recode;
+		where  t2_q12b_3_outcome=1 and (t2_q12b_3_duration_wks_recode=. or t2_q12b_3_date=. or t2_q12b_3_sex=.); run; /*n=11 with incomplete data but enough data to say there is a child*/
+
+	/*outcomes>=2*/
+	proc print data=pp.q2_t2_q12_pponly_35 noobs;
+	var study_id T2_Q12a t2_q12b_3_date -- t2_q12b_3_outcome t2_q12b_3_sex -- t2_q12b_3_breastfeed_wks_recode;
+	where  t2_q12b_3_outcome>=2; run;
+		/*clear BF data and fix child sex for 6225, duration of pregnancy less than 15 weeks*/
+		data pp.q2_t2_q12_pponly_35; set pp.q2_t2_q12_pponly_35;
+		if study_id=6225 then t2_q12b_3_sex=.; run;
+
+		data pp.q2_t2_q12_pponly_36; set pp.q2_t2_q12_pponly_35;
+		if t2_q12b_3_outcome>=2 then t2_q12b_3_breastfeed_wks=.;
+		if t2_q12b_3_outcome>=2 then t2_q12b_3_breastfeed_mos=.;
+		if t2_q12b_3_outcome>=2 then t2_q12b_3_breastfeed_wks_recode=.; run;
+
+/*check 12b_3 section*/
+	proc print data=pp.q2_t2_q12_pponly_36 noobs;
+	var study_id T2_Q12a t2_q12b_3_date -- t2_q12b_3_outcome t2_q12b_3_sex -- t2_q12b_3_breastfeed_wks_recode;
+	where  t2_q12a>=3; run; /*fine*/
+
+/***********/
+/*t2_q12b_4*/
+/***********/
+/*start with proc freq*/
+proc freq data= pp.q2_t2_q12_pponly_36;
+table  t2_q12a t2_q12b_4_outcome/missing;
+where t2_q12a>=4; run;
+
+proc freq data= pp.q2_t2_q12_pponly_36;
+table t2_q12b_4_outcome/missing;
+where t2_q12b_4_outcome ne .; run;
+
+/*III b_3 A*/
+	/*resolve missing*/
+		proc print data=pp.q2_t2_q12_pponly_36 noobs;
+		var study_id t2_q12a t2_q12b_4_date -- t2_q12b_4_breastfeed_wks_recode;
+		where t2_q12a>=4 and t2_q12b_4_outcome=.; run; /*n=5*/
+		/*all but 8059 have to be t2_q12b_4_outcome=0*/
+		data pp.q2_t2_q12_pponly_37; set pp.q2_t2_q12_pponly_36;
+		if study_id=8059 then t2_q12b_4_outcome=1; run;
+
+		proc print data=pp.q2_t2_q12_pponly_37 noobs;
+		var study_id t2_q12a t2_q12b_4_date -- t2_q12b_4_breastfeed_wks_recode;
+		where t2_q12a>=4 and t2_q12b_4_outcome=.; run;
+
+		data pp.q2_t2_q12_pponly_37; set pp.q2_t2_q12_pponly_37;
+		if t2_q12a>=4 and t2_q12b_4_outcome=. then  t2_q12b_4_outcome=0; run;
+
+			/*clear 7/0s for 7045, 7137, 8070, here*/
+				data pp.q2_t2_q12_pponly_37; set pp.q2_t2_q12_pponly_37;
+				array a(5) t2_q12b_4_begin_mo -- t2_q12b_4_duration_wks_recode;
+				do i=1 to 5; if study_id=7045 then a(i)=.; else end; drop i; run;
+					data pp.q2_t2_q12_pponly_37; set pp.q2_t2_q12_pponly_37;
+					array a(3) t2_q12b_4_breastfeed_wks -- t2_q12b_4_breastfeed_wks_recode;
+					do i=1 to 3; if study_id=7045 then a(i)=.; else end; drop i; run;
+
+				data pp.q2_t2_q12_pponly_37; set pp.q2_t2_q12_pponly_37;
+				array a(5) t2_q12b_4_begin_mo -- t2_q12b_4_duration_wks_recode;
+				do i=1 to 5; if study_id=7137 then a(i)=.; else end; drop i; run;
+					data pp.q2_t2_q12_pponly_37; set pp.q2_t2_q12_pponly_37;
+					array a(3) t2_q12b_4_breastfeed_wks -- t2_q12b_4_breastfeed_wks_recode;
+					do i=1 to 3; if study_id=7137 then a(i)=.; else end; drop i; run;
+
+				data pp.q2_t2_q12_pponly_37; set pp.q2_t2_q12_pponly_37;
+				array a(5) t2_q12b_4_begin_mo -- t2_q12b_4_duration_wks_recode;
+				do i=1 to 5; if study_id=8070 then a(i)=.; else end; drop i; run;
+					data pp.q2_t2_q12_pponly_37; set pp.q2_t2_q12_pponly_37;
+					array a(3) t2_q12b_4_breastfeed_wks -- t2_q12b_4_breastfeed_wks_recode;
+					do i=1 to 3; if study_id=8070 then a(i)=.; else end; drop i; run;
+
+	proc print data=pp.q2_t2_q12_pponly_37 noobs;
+		var study_id t2_q12a t2_q12b_4_date -- t2_q12b_4_breastfeed_wks_recode;
+		where t2_q12a>=4 and t2_q12b_4_outcome=0; run;
+
+/*12b_4 B resolve outcome=0*/
+	/*make sure these are the usual suspects*/
+		proc print data=pp.q2_t2_q12_pponly_37 noobs;
+		var study_id t2_q12a t2_q12b_4_date -- t2_q12b_4_breastfeed_wks_recode;
+		where t2_q12a>=4 and t2_q12b_4_outcome=0; run;
+
+	/*check proc freq*/
+	proc freq data= pp.q2_t2_q12_pponly_37;
+	table  t2_q12a t2_q12b_4_outcome/missing;
+	where t2_q12a>=4; run; /*no missings, n's of 132 checks out*/
+		/*bulk correct 7/0s*/
+			/*visually scan first*/
+			proc print data=pp.q2_t2_q12_pponly_37 noobs;
+			var study_id t2_q12b_4_date -- t2_q12b_4_breastfeed_wks_recode;
+			where t2_q12a<4; run; /*some in output -- narrow down*/
+
+			proc print data=pp.q2_t2_q12_pponly_37 noobs;
+			where t2_q12a<4 and t2_q12b_4_outcome ne .; run;
+			/*both have outcome_4=4 and other info, will correct 12a*/
+			data pp.q2_t2_q12_pponly_38; set pp.q2_t2_q12_pponly_37;
+			if study_id=6014 then t2_q12a=4;
+			if study_id=9039 then t2_q12a=4; run;
+
+			proc print data=pp.q2_t2_q12_pponly_38 noobs;
+			var study_id t2_q12a t2_q12b_4_date -- t2_q12b_11_breastfeed_wks_recode;
+			where t2_q12a<4; run;
+				/*good to clear*/
+				data pp.q2_t2_q12_pponly_38; set pp.q2_t2_q12_pponly_38;
+				array a(128) t2_q12b_4_date -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 128;
+				if t2_q12a<4 then a(i)=.;
+				else end;
+				drop i;
+				run;
+/*revisit proc freq one last time*/
+	proc freq data= pp.q2_t2_q12_pponly_38;
+	table  t2_q12a t2_q12b_4_outcome/missing;
+	where t2_q12a>=4; run;
+
+	proc freq data= pp.q2_t2_q12_pponly_38;
+	table t2_q12b_4_outcome/missing;
+		where t2_q12b_4_outcome ne .; run; /*n=84 and 84*/
+
+/*III b_4 C check yr=0 and duration=0*/
+		proc print data=pp.q2_t2_q12_pponly_38 noobs;
+		var study_id t2_q12b_4_date -- t2_q12b_4_duration_wks_recode;
+		where t2_q12b_4_begin_yr=0; run;
+
+		data pp.q2_t2_q12_pponly_39; set pp.q2_t2_q12_pponly_38;
+		if  t2_q12b_4_begin_yr=0 then t2_q12b_4_begin_mo=.;
+		if  t2_q12b_4_begin_yr=0 then t2_q12b_4_begin_yr=.; run;
+
+		proc print data=pp.q2_t2_q12_pponly_39 noobs;
+		var study_id t2_q12b_4_date -- t2_q12b_4_duration_wks_recode t2_q12b_4_outcome ;
+		where t2_q12b_4_duration_wks_recode=0; run;
+
+		data pp.q2_t2_q12_pponly_39; set pp.q2_t2_q12_pponly_39;
+		if t2_q12b_4_duration_wks_recode=0 then t2_q12b_4_duration_wks=.;
+		if t2_q12b_4_duration_wks_recode=0 then t2_q12b_4_duration_mos=.;
+		if t2_q12b_4_duration_wks_recode=0 then t2_q12b_4_duration_wks_recode=.; run;
+
+
+/*III b_4 D check outcomes*/
+		/*outcome=1 but missing sex*/
+			proc print data=pp.q2_t2_q12_pponly_38 noobs;
+			var study_id t2_q12a t2_q12b_4_begin_mo t2_q12b_4_begin_yr t2_q12b_4_duration_wks_recode t2_q12b_4_outcome t2_q12b_4_sex t2_q12b_4_breastfeed_wks_recode;
+			where t2_q12b_4_outcome=1 and t2_q12b_4_sex=.; run;
+
+			data pp.q2_t2_q12_pponly_39; set pp.q2_t2_q12_pponly_39;
+			if study_id=6149 then t2_q12b_4_sex=1; /*age 6 data*/
+			if study_id=6150 then t2_q12b_4_sex=2; /*age 4 data*/ run;
+			/*8012 has no data*/
+			/*check all of 8267*/
+			proc print data=pp.q2_t2_q12_pponly_39 noobs;
+			where study_id=8267; run;
+			/*t2_q12b_4_sex for 8267 will have to remain unknown, child from that pregnancy not named in Age 4 or 6*/
+
+			proc print data=pp.q2_t2_q12_pponly_39 noobs;
+			var study_id t2_q12a t2_q12b_4_begin_mo t2_q12b_4_begin_yr t2_q12b_4_duration_wks_recode t2_q12b_4_outcome t2_q12b_4_sex t2_q12b_4_breastfeed_wks_recode;
+			where t2_q12b_4_outcome=1; run; /*some scattered missing, continue*/
+
+	/*outcome>=2 but missing sex*/
+	proc print data=pp.q2_t2_q12_pponly_39 noobs;
+	var study_id t2_q12a t2_q12b_4_date -- t2_q12b_4_breastfeed_wks_recode;
+	where t2_q12b_4_outcome>=2; run;
+
+	data pp.q2_t2_q12_pponly_40; set pp.q2_t2_q12_pponly_39;
+	if study_id=8178 then t2_q12b_4_sex=.;
+	if study_id=9122 then t2_q12b_4_sex=.; run;
+
+	data pp.q2_t2_q12_pponly_40; set pp.q2_t2_q12_pponly_40;
+	if t2_q12b_4_outcome>=2 then t2_q12b_4_breastfeed_wks=.;
+	if t2_q12b_4_outcome>=2 then t2_q12b_4_breastfeed_mos=.;
+	if t2_q12b_4_outcome>=2 then t2_q12b_4_breastfeed_wks_recode=.; run;
+
+/*final review for 12a=4*/
+	proc print data=pp.q2_t2_q12_pponly_40 noobs;
+	var study_id t2_q12a t2_q12b_4_date -- t2_q12b_4_breastfeed_wks_recode;
+	where t2_q12a>=4; run;
+
+/***********/
+/*t2_q12b_5*/
+/***********/
+/*start with proc freq*/
+proc freq data= pp.q2_t2_q12_pponly_40;
+table  t2_q12a t2_q12b_5_outcome/missing;
+where t2_q12a>=5; run;
+
+proc freq data= pp.q2_t2_q12_pponly_40;
+table t2_q12b_5_outcome/missing;
+where t2_q12b_5_outcome ne .; run;
+
+	/*q12b_5 A - resolve missings*/
+		proc print data=pp.q2_t2_q12_pponly_40 noobs;
+		/*var study_id t2_q12a t2_q12b_5_date -- t2_q12b_5_breastfeed_wks_recode;*/
+		where t2_q12a>=5 and t2_q12b_5_outcome=.; run;
+		/*clear data through t2_q12b_5_breastfeed_wks_recode, then set t2_q12b_5_outcome to 0*/
+				data pp.q2_t2_q12_pponly_41; set pp.q2_t2_q12_pponly_40;
+				array a(112) t2_q12b_5_date -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 112;
+				if study_id=8151 or study_id=8203 then a(i)=.;
+				else end;
+				drop i;
+				run;
+
+		data pp.q2_t2_q12_pponly_41; set pp.q2_t2_q12_pponly_41;
+		if study_id=8151 then t2_q12b_5_outcome=0;
+		if study_id=8203 then t2_q12b_5_outcome=0; run;
+
+		/*but 8151 reported 9 other pregnancies, set t2_q12b_6_outcome -- 9 to 0*/
+		data pp.q2_t2_q12_pponly_41; set pp.q2_t2_q12_pponly_41;
+		if study_id=8151 then t2_q12b_6_outcome=0;
+		if study_id=8151 then t2_q12b_7_outcome=0;
+		if study_id=8151 then t2_q12b_8_outcome=0;
+		if study_id=8151 then t2_q12b_9_outcome=0; run;
+
+		proc print data=pp.q2_t2_q12_pponly_41 noobs;
+		var study_id t2_q12a t2_q12b_5_date -- t2_q12b_5_breastfeed_wks_recode;
+		where t2_q12a>=5 and t2_q12b_5_outcome=.; run;
+
+	/*revisit proc freq*/
+		proc freq data= pp.q2_t2_q12_pponly_41;
+		table  t2_q12a t2_q12b_5_outcome/missing;
+		where t2_q12a>=5; run;
+
+		proc freq data= pp.q2_t2_q12_pponly_41;
+		table t2_q12b_5_outcome/missing;
+			where t2_q12b_5_outcome ne .; run;  /*find +1*/
+
+		proc print data=pp.q2_t2_q12_pponly_41 noobs;
+		/*var study_id t2_q12a t2_q12b_5_date -- t2_q12b_5_breastfeed_wks_recode;*/
+		/*where t2_q12b_5_outcome ne .;*/
+		where study_id=9031; run;
+		/*ppt report 4 pregnancies and all were reconciled. has no data in the 12b_5 variables.
+		 remove outcome=5*/
+	data pp.q2_t2_q12_pponly_41; set pp.q2_t2_q12_pponly_41;
+	if study_id=9031 then t2_q12b_5_outcome=.; run;
+
+	/*Is proc freq clear?*/
+		/*revisit proc freq*/
+		proc freq data= pp.q2_t2_q12_pponly_41;
+		table  t2_q12a t2_q12b_5_outcome/missing;
+		where t2_q12a>=5; run;
+
+		proc freq data= pp.q2_t2_q12_pponly_41;
+		table t2_q12b_5_outcome/missing;
+		where t2_q12b_5_outcome ne .; run;
+
+/*q12b_5 B bulk correct 7/0s*/
+	/*visually scan first*/
+	proc print data=pp.q2_t2_q12_pponly_41 noobs;
+	var study_id t2_Q12a t2_q12b_5_date -- t2_q12b_11_breastfeed_wks_recode;
+	where t2_q12a<5; run; /*some in output -- narrow down*/
+
+	data pp.q2_t2_q12_pponly_42; set pp.q2_t2_q12_pponly_41;
+	array a(112) t2_q12b_5_date -- t2_q12b_11_breastfeed_wks_recode;
+	do i=1 to 112;
+	if t2_q12a<5 then a(i)=.;
+	else end; drop i; run;
+
+/*III b_5 C check yr=0 and duration=0*/
+		proc print data=pp.q2_t2_q12_pponly_42 noobs;
+		var study_id t2_q12a t2_q12b_5_date -- t2_q12b_5_duration_wks_recode;
+		where t2_q12b_5_begin_yr=0; run;
+
+		data pp.q2_t2_q12_pponly_42; set pp.q2_t2_q12_pponly_42;
+		if  t2_q12b_5_begin_yr=0 then t2_q12b_5_begin_mo=.;
+		if  t2_q12b_5_begin_yr=0 then t2_q12b_5_begin_yr=.; run;
+
+		proc print data=pp.q2_t2_q12_pponly_42 noobs;
+		var study_id t2_q12b_5_date -- t2_q12b_5_duration_wks_recode t2_q12b_5_outcome ;
+		where t2_q12b_5_duration_wks_recode=0; run;
+
+		data pp.q2_t2_q12_pponly_42; set pp.q2_t2_q12_pponly_42;
+		if t2_q12b_5_duration_wks_recode=0 then t2_q12b_5_duration_wks=.;
+		if t2_q12b_5_duration_wks_recode=0 then t2_q12b_5_duration_mos=.;
+		if t2_q12b_5_duration_wks_recode=0 then t2_q12b_5_duration_wks_recode=.; run;
+
+/*III b_4 D check outcomes*/
+	/*outcome=1*/
+	proc print data=pp.q2_t2_q12_pponly_42 noobs;
+	var study_id t2_q12a t2_q12b_5_begin_mo t2_q12b_5_begin_yr t2_q12b_5_duration_wks_recode t2_q12b_5_outcome t2_q12b_5_sex t2_q12b_5_breastfeed_wks_recode;
+	where t2_q12b_5_outcome=1 and t2_q12b_5_sex=.; run; /*6205 and 8012, usual suspects, but clear remaining 7/0 data*/
+		proc print data=pp.q2_t2_q12_pponly_42 noobs;
+		where study_id=6205 or  study_id=8012; run; /*just use array for 8012*/
+				data pp.q2_t2_q12_pponly_43; set pp.q2_t2_q12_pponly_42;
+				array a(99) t2_q12b_5_breastfeed_wks -- t2_q12b_11_breastfeed_wks_recode;
+				do i=1 to 99;
+				if study_id=8012 then a(i)=.;
+				else end;
+				drop i;run;
+
+	proc print data=pp.q2_t2_q12_pponly_43 noobs;
+		var study_id t2_q12a t2_q12b_5_begin_mo t2_q12b_5_begin_yr t2_q12b_5_duration_wks_recode t2_q12b_5_outcome t2_q12b_5_sex t2_q12b_5_breastfeed_wks_recode;
+		where t2_q12b_5_outcome=1; run;
+	/*outcome>=2*/
+	proc print data=pp.q2_t2_q12_pponly_43 noobs;
+	var study_id t2_q12a t2_q12b_5_date -- t2_q12b_5_breastfeed_wks_recode;
+	where t2_q12b_5_outcome>=2; run;
+
+	/*just clear breastfeeding data*/
+	data pp.q2_t2_q12_pponly_43; set pp.q2_t2_q12_pponly_43;
+				array a(3) t2_q12b_5_breastfeed_wks -- t2_q12b_5_breastfeed_wks_recode;
+				do i=1 to 3;
+				if t2_q12b_5_outcome>=2 then a(i)=.;
+				else end;
+				drop i;run;
+
+/*final review for 12a=5*/
+	proc print data=pp.q2_t2_q12_pponly_43 noobs;
+	var study_id t2_q12a t2_q12b_5_date -- t2_q12b_5_breastfeed_wks_recode;
+	where t2_q12a>=5; run;
+
+/***********/
+/*t2_q12b_6*/
+/***********/
+/*start with proc freq*/
+	proc freq data= pp.q2_t2_q12_pponly_43;
+	table  t2_q12a t2_q12b_6_outcome/missing;
+	where t2_q12a>=6; run;
+
+	proc freq data= pp.q2_t2_q12_pponly_43;
+	table t2_q12b_6_outcome/missing;
+	where t2_q12b_6_outcome ne .; run;
+
+	/*q12b_6 A - resolve missings*/
+			proc print data=pp.q2_t2_q12_pponly_43 noobs;
+			var study_id t2_q12a t2_q12b_6_date -- t2_q12b_6_breastfeed_wks_recode;
+			where t2_q12a>=6 and t2_q12b_6_outcome=.; run; /*no obs*/
+
+	/*q12b_6 B bulk correct 7/0s*/
+		/*visually scan first*/
+		proc print data=pp.q2_t2_q12_pponly_43 noobs;
+		var study_id t2_Q12a t2_q12b_6_date -- t2_q12b_11_breastfeed_wks_recode;
+		where t2_q12a<6; run;
+
+		data pp.q2_t2_q12_pponly_44; set pp.q2_t2_q12_pponly_43;
+		array a(96) t2_q12b_6_date -- t2_q12b_11_breastfeed_wks_recode;
+		do i=1 to 96;
+		if t2_q12a<6 then a(i)=.;
+		else end; drop i; run;
+
+	/*III b_5 C check yr=0 and duration=0*/
+			proc print data=pp.q2_t2_q12_pponly_44 noobs;
+			var study_id t2_q12a t2_q12b_6_date -- t2_q12b_6_duration_wks_recode;
+			where t2_q12b_6_begin_yr=0; run;
+
+			data pp.q2_t2_q12_pponly_44; set pp.q2_t2_q12_pponly_44;
+			if  t2_q12b_6_begin_yr=0 then t2_q12b_6_begin_mo=.;
+			if  t2_q12b_6_begin_yr=0 then t2_q12b_6_begin_yr=.; run;
+
+			proc print data=pp.q2_t2_q12_pponly_44 noobs;
+			var study_id t2_q12b_6_date -- t2_q12b_6_duration_wks_recode t2_q12b_6_outcome ;
+			where t2_q12b_6_duration_wks_recode=0; run;
+
+			data pp.q2_t2_q12_pponly_44; set pp.q2_t2_q12_pponly_44;
+			if t2_q12b_6_duration_wks_recode=0 then t2_q12b_6_duration_wks=.;
+			if t2_q12b_6_duration_wks_recode=0 then t2_q12b_6_duration_mos=.;
+			if t2_q12b_6_duration_wks_recode=0 then t2_q12b_6_duration_wks_recode=.; run;
+
+	/*III b_6 D check outcomes*/
+		/*outcome=1*/
+		proc print data=pp.q2_t2_q12_pponly_44 noobs;
+		var study_id t2_q12a t2_q12b_6_begin_mo t2_q12b_6_begin_yr t2_q12b_6_duration_wks_recode t2_q12b_6_outcome t2_q12b_6_sex t2_q12b_6_breastfeed_wks_recode;
+		where t2_q12b_6_outcome=1 /*and t2_q12b_6_sex=.*/; run; /*all have sex*/
+
+		/*outcome>=2*/
+		proc print data=pp.q2_t2_q12_pponly_44 noobs;
+		var study_id t2_q12a t2_q12b_6_date -- t2_q12b_6_breastfeed_wks_recode;
+		where t2_q12b_6_outcome>=2; run;
+
+		/*just clear breastfeeding data*/
+		data pp.q2_t2_q12_pponly_45; set pp.q2_t2_q12_pponly_44;
+					array a(3) t2_q12b_6_breastfeed_wks -- t2_q12b_6_breastfeed_wks_recode;
+					do i=1 to 3;
+					if t2_q12b_6_outcome>=2 then a(i)=.;
+					else end;
+					drop i; run;
+
+	/*final review for 12a=6*/
+		proc print data=pp.q2_t2_q12_pponly_45 noobs;
+		var study_id t2_q12a t2_q12b_6_date -- t2_q12b_6_breastfeed_wks_recode;
+		where t2_q12a>=6; run;
+
+/***********/
+/*t2_q12b_7*/
+/***********/
+/*start with proc freq*/
+	proc freq data= pp.q2_t2_q12_pponly_45;
+	table  t2_q12a t2_q12b_7_outcome/missing;
+	where t2_q12a>=7; run;
+
+	proc freq data= pp.q2_t2_q12_pponly_45;
+	table t2_q12b_7_outcome/missing;
+	where t2_q12b_7_outcome ne .; run;
+
+/*q12b_7 A - resolve missings*/
+	proc print data=pp.q2_t2_q12_pponly_45 noobs;
+	var study_id t2_q12a t2_q12b_7_date -- t2_q12b_7_breastfeed_wks_recode;
+	where t2_q12a>=7 and t2_q12b_7_outcome=.; run; /*no obs*/
+
+	/*q12b_7 B bulk correct 7/0s*/
+		/*visually scan first*/
+		proc print data=pp.q2_t2_q12_pponly_45 noobs;
+		var study_id t2_Q12a t2_q12b_7_date -- t2_q12b_11_breastfeed_wks_recode;
+		where t2_q12a<7; run;
+
+		data pp.q2_t2_q12_pponly_45; set pp.q2_t2_q12_pponly_45;
+		array a(80) t2_q12b_7_date -- t2_q12b_11_breastfeed_wks_recode;
+		do i=1 to 80;
+		if t2_q12a<7 then a(i)=.;
+		else end; drop i; run;
+
+	/*III b_7 C check yr=0 and duration=0*/
+			proc print data=pp.q2_t2_q12_pponly_45 noobs;
+			var study_id t2_q12a t2_q12b_7_date -- t2_q12b_7_duration_wks_recode;
+			where t2_q12b_7_begin_yr=0; run;
+
+			data pp.q2_t2_q12_pponly_45; set pp.q2_t2_q12_pponly_45;
+			if  t2_q12b_7_begin_yr=0 then t2_q12b_7_begin_mo=.;
+			if  t2_q12b_7_begin_yr=0 then t2_q12b_7_begin_yr=.; run;
+
+			proc print data=pp.q2_t2_q12_pponly_45 noobs;
+			var study_id t2_q12b_7_date -- t2_q12b_7_duration_wks_recode t2_q12b_7_outcome ;
+			where t2_q12b_7_duration_wks_recode=0; run;
+
+			data pp.q2_t2_q12_pponly_45; set pp.q2_t2_q12_pponly_45;
+			if t2_q12b_7_duration_wks_recode=0 then t2_q12b_7_duration_wks=.;
+			if t2_q12b_7_duration_wks_recode=0 then t2_q12b_7_duration_mos=.;
+			if t2_q12b_7_duration_wks_recode=0 then t2_q12b_7_duration_wks_recode=.; run;
+
+	/*III b_6 D check outcomes*/
+		/*outcome=1*/
+		proc print data=pp.q2_t2_q12_pponly_45 noobs;
+		var study_id t2_q12a t2_q12b_7_begin_mo t2_q12b_7_begin_yr t2_q12b_7_duration_wks_recode t2_q12b_7_outcome t2_q12b_7_sex t2_q12b_7_breastfeed_wks_recode;
+		where t2_q12b_7_outcome=1 /*and t2_q12b_6_sex=.*/; run; /*all have sex*/
+
+		/*outcome>=2*/
+		proc print data=pp.q2_t2_q12_pponly_45 noobs;
+		var study_id t2_q12a t2_q12b_7_date -- t2_q12b_7_breastfeed_wks_recode;
+		where t2_q12b_7_outcome>=2; run;
+
+		/*just clear breastfeeding data*/
+		data pp.q2_t2_q12_pponly_45; set pp.q2_t2_q12_pponly_45;
+					array a(3) t2_q12b_7_breastfeed_wks -- t2_q12b_7_breastfeed_wks_recode;
+					do i=1 to 3;
+					if t2_q12b_7_outcome>=2 then a(i)=.;
+					else end;
+					drop i; run;
+
+	/*final review for 12a=7*/
+		proc print data=pp.q2_t2_q12_pponly_45 noobs;
+		var study_id t2_q12a t2_q12b_7_date -- t2_q12b_7_breastfeed_wks_recode;
+		where t2_q12a>=7; run;
+
+
+/***********/
+/*t2_q12b_8*/
+/***********/
+/*start with proc freq*/
+	proc freq data= pp.q2_t2_q12_pponly_45;
+	table  t2_q12a t2_q12b_8_outcome/missing;
+	where t2_q12a>=8; run;
+
+	proc freq data= pp.q2_t2_q12_pponly_45;
+	table t2_q12b_8_outcome/missing;
+	where t2_q12b_8_outcome ne .; run;
+
+/*q12b_8 A - resolve missings*/
+	proc print data=pp.q2_t2_q12_pponly_45 noobs;
+	var study_id t2_q12a t2_q12b_8_date -- t2_q12b_8_breastfeed_wks_recode;
+	where t2_q12a>=8 and t2_q12b_8_outcome=.; run;
+
+	/*6160, most definitely t2_q12b_8_outcome=1*/
+	data pp.q2_t2_q12_pponly_46; set pp.q2_t2_q12_pponly_45;
+	if study_id=6160 then t2_q12b_8_outcome=1; run;
+
+		proc freq data= pp.q2_t2_q12_pponly_46;
+		table  t2_q12a t2_q12b_8_outcome/missing;
+		where t2_q12a>=8; run;
+
+		proc freq data= pp.q2_t2_q12_pponly_46;
+		table t2_q12b_8_outcome/missing;
+		where t2_q12b_8_outcome ne .; run;
+
+	/*q12b_8 B bulk correct 7/0s*/
+		/*visually scan first*/
+		proc print data=pp.q2_t2_q12_pponly_46 noobs;
+		var study_id t2_Q12a t2_q12b_8_date -- t2_q12b_11_breastfeed_wks_recode;
+		where t2_q12a<8; run;
+
+		data pp.q2_t2_q12_pponly_46; set pp.q2_t2_q12_pponly_46;
+		array a(64) t2_q12b_8_date -- t2_q12b_11_breastfeed_wks_recode;
+		do i=1 to 64;
+		if t2_q12a<8 then a(i)=.;
+		else end; drop i; run;
+
+	/*III b_8 C check yr=0 and duration=0*/
+			proc print data=pp.q2_t2_q12_pponly_46 noobs;
+			var study_id t2_q12a t2_q12b_8_date -- t2_q12b_8_duration_wks_recode;
+			where t2_q12b_8_begin_yr=0; run;
+
+			proc print data=pp.q2_t2_q12_pponly_46 noobs;
+			var study_id t2_q12b_8_date -- t2_q12b_8_duration_wks_recode t2_q12b_8_outcome ;
+			where t2_q12b_8_duration_wks_recode=0; run;
+
+	/*III b_8 D check outcomes*/
+		/*outcome=1*/
+		proc print data=pp.q2_t2_q12_pponly_46 noobs;
+		var study_id t2_q12a t2_q12b_8_begin_mo t2_q12b_8_begin_yr t2_q12b_8_duration_wks_recode t2_q12b_8_outcome t2_q12b_8_sex t2_q12b_8_breastfeed_wks_recode;
+		where t2_q12b_8_outcome=1; run;
+
+		/*outcome>=2*/
+		proc print data=pp.q2_t2_q12_pponly_46 noobs;
+		var study_id t2_q12a t2_q12b_8_date -- t2_q12b_8_breastfeed_wks_recode;
+		where t2_q12b_8_outcome>=2; run;
+
+		/*just clear breastfeeding data*/
+		data pp.q2_t2_q12_pponly_46; set pp.q2_t2_q12_pponly_46;
+		array a(3) t2_q12b_8_breastfeed_wks -- t2_q12b_8_breastfeed_wks_recode;
+		do i=1 to 3; if study_id=6170 then a(i)=.;
+		else end; drop i; run;
+
+	/*final review for 12a=8*/
+		proc print data=pp.q2_t2_q12_pponly_46 noobs;
+		var study_id t2_q12a t2_q12b_8_date -- t2_q12b_8_breastfeed_wks_recode;
+		where t2_q12a>=8; run;
+
+/***********/
+/*t2_q12b_9*/
+/***********/
+/*start with proc freq*/
+	proc freq data= pp.q2_t2_q12_pponly_46;
+	table t2_q12a t2_q12b_9_outcome/missing;
+	where t2_q12a>=9; run;
+
+	proc freq data= pp.q2_t2_q12_pponly_46;
+	table t2_q12b_9_outcome/missing;
+	where t2_q12b_9_outcome ne .; run;
+
+/*q12b_9 A - resolve missings*/
+	proc print data=pp.q2_t2_q12_pponly_46 noobs;
+	var study_id t2_q12a t2_q12b_9_date -- t2_q12b_9_breastfeed_wks_recode;
+	where t2_q12a>=9 and t2_q12b_9_outcome=.; run; /*8178*/
+
+	/*clear then set t2_q12b_9_outcome=0*/
+			data pp.q2_t2_q12_pponly_47; set pp.q2_t2_q12_pponly_46;
+					array a(47) t2_q12b_9_begin_mo -- t2_q12b_11_breastfeed_wks_recode;
+					do i=1 to 47;
+					if study_id=8178 then a(i)=.;
+					else end;
+					drop i; run;
+			data pp.q2_t2_q12_pponly_47; set pp.q2_t2_q12_pponly_47;
+			if study_id=8178 then t2_q12b_9_outcome=0; run;
+
+
+		proc freq data= pp.q2_t2_q12_pponly_47;
+		table  t2_q12a t2_q12b_9_outcome/missing;
+		where t2_q12a>=9; run;
+
+		proc freq data= pp.q2_t2_q12_pponly_47;
+		table t2_q12b_9_outcome/missing;
+		where t2_q12b_9_outcome ne .; run;
+
+	/*q12b_8 B bulk correct 7/0s*/
+		/*visually scan first*/
+		proc print data=pp.q2_t2_q12_pponly_47 noobs;
+		var study_id t2_Q12a t2_q12b_9_date -- t2_q12b_11_breastfeed_wks_recode;
+		where t2_q12a<9; run;
+
+		/*ensure NO aberrant 7s and 0s*/
+		data pp.q2_t2_q12_pponly_47; set pp.q2_t2_q12_pponly_47;
+		array a(47) t2_q12b_9_begin_mo -- t2_q12b_11_breastfeed_wks_recode;
+		do i=1 to 47; if t2_q12a<9 then a(i)=.;
+		else end; drop i; run;
+
+	/*III b_9 C check yr=0 and duration=0*/
+			proc print data=pp.q2_t2_q12_pponly_47 noobs;
+			var study_id t2_q12a t2_q12b_9_date -- t2_q12b_9_duration_wks_recode;
+			where t2_q12b_9_begin_yr=0; run;
+
+			proc print data=pp.q2_t2_q12_pponly_47 noobs;
+			var study_id t2_q12b_9_date -- t2_q12b_9_duration_wks_recode t2_q12b_9_outcome ;
+			where t2_q12b_9_duration_wks_recode=0; run;
+
+	/*III b_9 D check outcomes*/
+		/*outcome=1*/
+		proc print data=pp.q2_t2_q12_pponly_47 noobs;
+		var study_id t2_q12a t2_q12b_9_begin_mo t2_q12b_9_begin_yr t2_q12b_9_duration_wks_recode t2_q12b_9_outcome t2_q12b_9_sex t2_q12b_9_breastfeed_wks_recode;
+		where t2_q12b_9_outcome=1; run;
+
+		/*outcome>=2*/
+		proc print data=pp.q2_t2_q12_pponly_47 noobs;
+		var study_id t2_q12a t2_q12b_9_date -- t2_q12b_9_breastfeed_wks_recode;
+		where t2_q12b_9_outcome>=2; run;
+
+		/*just clear breastfeeding data*/
+		data pp.q2_t2_q12_pponly_47; set pp.q2_t2_q12_pponly_47;
+		array a(3) t2_q12b_9_breastfeed_wks -- t2_q12b_9_breastfeed_wks_recode;
+		do i=1 to 3; if study_id=6170 then a(i)=.;
+		else end; drop i; run;
+
+	/*final review for 12a=9*/
+		proc print data=pp.q2_t2_q12_pponly_47 noobs;
+		var study_id t2_q12a t2_q12b_9_date -- t2_q12b_9_breastfeed_wks_recode;
+		where t2_q12a>=9; run;
+
+/********/
+/*12b_10*/
+/********/
+/*start with proc freq*/
+	proc freq data= pp.q2_t2_q12_pponly_47;
+	table t2_q12a t2_q12b_10_outcome/missing;
+	where t2_q12a>=10; run;
+
+	proc freq data= pp.q2_t2_q12_pponly_47;
+	table t2_q12b_10_outcome/missing;
+	where t2_q12b_10_outcome ne .; run;
+		/*just the one, skip to correcting last of the 7s and 0s*/
+
+	/*q12b_9 A bulk correct 7/0s*/
+		proc print data=pp.q2_t2_q12_pponly_47 noobs;
+		var study_id t2_Q12a t2_q12b_10_date -- t2_q12b_11_breastfeed_wks_recode;
+		where t2_q12a<10; run;
+
+		/*ensure NO aberrant 7s and 0s*/
+		data pp.q2_t2_q12_pponly_48; set pp.q2_t2_q12_pponly_47;
+		array a(31) t2_q12b_10_begin_mo -- t2_q12b_11_breastfeed_wks_recode;
+		do i=1 to 31; if t2_q12a<10 then a(i)=.;
+		else end; drop i; run;
+
+	/*III b_9 C check yr=0 and duration=0*/
+			proc print data=pp.q2_t2_q12_pponly_48 noobs;
+			var study_id t2_q12a t2_q12b_10_date -- t2_q12b_10_duration_wks_recode;
+			where t2_q12b_10_begin_yr=0; run;
+
+			proc print data=pp.q2_t2_q12_pponly_48 noobs;
+			var study_id t2_q12b_10_date -- t2_q12b_10_duration_wks_recode t2_q12b_10_outcome ;
+			where t2_q12b_10_duration_wks_recode=0; run;
+
+	/*since it's 1*/
+		proc print data=pp.q2_t2_q12_pponly_48 noobs;
+		var study_id t2_q12a t2_q12b_10_date -- t2_q12b_10_breastfeed_wks_recode;
+		where t2_q12a>=10; run; /*fine*/
+
+
+
+/*FINALLY*/
+/*since no one reported 10 or more except 6170, no need to run A, B, C, or find 7/0s
+  should have been cleared with the 12b_9 array*/
+
+/*check 6170 for 11*/
+		proc print data=pp.q2_t2_q12_pponly_48 noobs;
+		var study_id t2_q12a t2_q12b_11_date -- t2_q12b_11_breastfeed_wks_recode;
+		where t2_q12a>=11; run; /*data all filled out*/
+
+/******DONE******/
+/*run these tomorrow*/
+
+%macro last(outcome, num);
+	proc freq data= pp.q2_t2_q12_pponly_48;
+	table t2_q12a &outcome/missing;
+	where t2_q12a>=&num; run;
+
+	proc freq data= pp.q2_t2_q12_pponly_47;
+	table &outcome/missing;
+	where &outcome ne .; run;
+%mend;
+
+%last(t2_q12b_1_outcome, 1);
+
+proc print data=
