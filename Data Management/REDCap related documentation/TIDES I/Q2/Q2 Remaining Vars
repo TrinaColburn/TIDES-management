@@ -1,0 +1,476 @@
+/*remaining Q2*/
+
+proc contents data=q2.Q2_2020_sub order=varnum; run;
+
+data q2.Q2_2020_sub_1; set q2.Q2_2020_sub;
+drop T2_Q12 -- T2_Q12B_9_TX_OVINDUCT
+	 T2_Q4D -- T2_Q4J
+	 T2_Q14 -- T2_Q23F; run;
+
+proc contents data=q2.Q2_2020_sub_1 order=varnum; run;
+
+data q2.Q2_2020_sub_1;
+format study_id
+subject_id
+StudyID
+ID_NUM
+CENTER
+T2_COMPLETE
+T2_BYPASSED
+T2_OPENED
+T2_PAGENO
+T2_PAGE_1
+T2_PAGE_2
+T2_PAGE_3
+T2_PAGE_4
+T2_PAGE_5
+T2_PAGE_6
+T2_PAGE_7
+T2_LAST_PAGE
+T2_PAPERDT
+T2_PAPERUSERNAME
+T2_PAPERYN
+T2_Q_VERSION
+T2_RECORDCOUNT
+T2_SYSID
+T2_TIME_ENDED_RAW
+T2_TIME_END_RAW
+T2_TIME_STAMP
+T2_TIME_STARTED
+T2_TIME_STARTED_RAW
+T2_USERID
+Dropped
+T2_Q1_DAYS
+T2_Q1_DK
+T2_Q1_WKS
+T2_Q1_wks_recode
+T2_Q2_DK
+T2_Q2_WT_KG
+T2_Q2_WT_LBS
+T2_Q2_Date
+T2_Q2_wt_lbs_Recode
+T2_Q3
+T2_Q5
+T2_Q5_DK
+T2_Q6A_YN
+T2_Q6A_DRUGS
+T2_Q6A_SURG
+T2_Q6A_OTHER
+T2_Q6B_YN
+T2_Q6B_DRUGS
+T2_Q6B_SURG
+T2_Q6B_OTHER
+T2_Q6C_YN
+T2_Q6C_DRUGS
+T2_Q6C_SURG
+T2_Q6C_OTHER
+T2_Q6D_YN
+T2_Q6D_DRUGS
+T2_Q6D_SURG
+T2_Q6D_OTHER
+T2_Q6E_YN
+T2_Q6E_DRUGS
+T2_Q6E_SURG
+T2_Q6E_OTHER
+T2_Q6F_YN
+T2_Q6F_DRUGS
+T2_Q6F_SURG
+T2_Q6F_OTHER
+T2_Q6G_YN
+T2_Q6G_DRUGS
+T2_Q6G_SURG
+T2_Q6G_OTHER
+T2_Q6H_YN
+T2_Q6H_DRUGS
+T2_Q6H_SURG
+T2_Q6H_OTHER
+T2_Q6I_YN
+T2_Q6I_DRUGS
+T2_Q6I_SURG
+T2_Q6I_OTHER
+T2_Q6J_YN
+T2_Q6J_DRUGS
+T2_Q6J_SURG
+T2_Q6J_OTHER
+T2_Q6K_DRUGS
+T2_Q6K_OTHER
+T2_Q6K_SURG
+T2_Q6K_YN
+T2_Q6L_YN
+T2_Q6L_DRUGS
+T2_Q6L_SURG
+T2_Q6L_OTHER
+T2_Q7
+T2_Q8
+T2_Q9
+T2_Q9A
+T2_Q10
+T2_Q11
+T2_Q11A_YN
+T2_Q11B
+T2_Q13
+T2_Q24
+T2_Q25
+T2_Q53
+T2_Q53A
+T2_Q53B
+T2_Q54
+T2_Q54A;
+set q2.Q2_2020_sub_1; run;
+
+proc means data=q2.Q2_2020_sub_1;
+var T2_Q1_DAYS
+T2_Q1_DK
+T2_Q1_WKS
+T2_Q1_wks_recode
+T2_Q2_DK
+T2_Q2_WT_KG
+T2_Q2_WT_LBS
+T2_Q2_wt_lbs_Recode ; run;
+/*ranges from 63 to 353*/
+/*Far along in pregnancy ranges from 21 to 39, n=160 for those over 25 weeks*/
+
+	/*check T2_Q1_DK=0*/
+
+		proc freq data=q2.Q2_2020_sub_1;
+		table T2_Q1_DK; run;
+		proc print data=q2.Q2_2020_sub_1 noobs;
+		var study_id T2_Q1_DAYS  T2_Q1_WKS T2_Q1_wks_recode T2_Q1_DK;
+		where T2_Q1_DK=0; run;
+
+		/*replace with one*/
+
+		data q2.Q2_2020_sub_1; set q2.Q2_2020_sub_1;
+		if T2_Q1_DK=0 then T2_Q1_DK=.;
+		if T2_Q1_DAYS=. and T2_Q1_wks_recode=. and T2_Q1_WKS=. then T2_Q1_DK=1; run;
+
+proc freq data=q2.Q2_2020_sub_1;
+table T2_Q1_DK T2_Q3 T2_Q5 T2_Q5_DK; run;
+
+proc print data=q2.Q2_2020_sub_1 noobs;
+var study_id T2_Q5;
+where T2_Q5 > 16; run; /*6055 at 33, will keep but something to know*/
+
+/*Check T2_6A -- T2_Q6L_OTHER*/
+
+%macro six(yn, drugs, surg, other);
+proc print data=q2.Q2_2020_sub_1 noobs;
+var study_id &yn &drugs &surg &other;
+where &yn=0 and (&drugs=1 or &surg=1 or &other=1); run;
+
+proc print data=q2.Q2_2020_sub_1 noobs;
+var study_id &yn &drugs &surg &other;
+where &yn=1 and (&drugs ne 1 or &surg ne 1 or &other ne 1); run;
+
+proc print data=q2.Q2_2020_sub_1 noobs;
+var study_id &yn &drugs &surg &other;
+where &yn=1 and (&drugs=. and &surg=. and &other=.); run;
+%mend;
+
+%six(	T2_Q6A_YN,	T2_Q6A_DRUGS,	T2_Q6A_SURG,	T2_Q6A_OTHER); /*8159 and 8166 did not specify*/
+%six(	T2_Q6B_YN,	T2_Q6B_DRUGS,	T2_Q6B_SURG,	T2_Q6B_OTHER); /*n=9 DNS*/
+%six(	T2_Q6C_YN,	T2_Q6C_DRUGS,	T2_Q6C_SURG,	T2_Q6C_OTHER); /*n=6*/
+%six(	T2_Q6D_YN,	T2_Q6D_DRUGS,	T2_Q6D_SURG,	T2_Q6D_OTHER); /*8003*/
+%six(	T2_Q6E_YN,	T2_Q6E_DRUGS,	T2_Q6E_SURG,	T2_Q6E_OTHER); /*n=9*/
+%six(	T2_Q6F_YN,	T2_Q6F_DRUGS,	T2_Q6F_SURG,	T2_Q6F_OTHER); /*n=8*/
+%six(	T2_Q6G_YN,	T2_Q6G_DRUGS,	T2_Q6G_SURG,	T2_Q6G_OTHER); /*n=8*/
+%six(	T2_Q6H_YN,	T2_Q6H_DRUGS,	T2_Q6H_SURG,	T2_Q6H_OTHER); /*n=49*/
+%six(	T2_Q6I_YN,	T2_Q6I_DRUGS,	T2_Q6I_SURG,	T2_Q6I_OTHER); /*n=28*/
+%six(	T2_Q6J_YN,	T2_Q6J_DRUGS,	T2_Q6J_SURG,	T2_Q6J_OTHER); /*n=6*/
+%six(	T2_Q6K_YN,	T2_Q6K_DRUGS,	T2_Q6K_SURG,	T2_Q6K_OTHER); /*8272*/
+%six(	T2_Q6L_YN,	T2_Q6L_DRUGS,	T2_Q6L_SURG,	T2_Q6L_OTHER); /*8058, 8272*/
+/*Leave as is...DB has enough variables*/
+
+
+proc freq data=q2.Q2_2020_sub_1;
+table T2_Q7 T2_Q8 T2_Q9 T2_Q9A
+T2_Q10
+T2_Q11 T2_Q11A_YN T2_Q11B
+T2_Q13 T2_Q24 T2_Q25
+T2_Q53 T2_Q53A T2_Q53B; run;
+
+/*check 9 and 9A*/
+	proc print data=q2.Q2_2020_sub_1 noobs;
+	var study_id T2_Q9 T2_Q9A;
+	where T2_Q9<=3 and T2_Q9A=.;
+	run;
+
+	/*add did not specify for 7096 and 8040*/
+
+	data q2.Q2_2020_sub_2; set q2.Q2_2020_sub_1;
+	if study_id=7096 then T2_Q9A=9;
+	if study_id=8040 then T2_Q9A=9; run;
+
+	proc print data=q2.Q2_2020_sub_2 noobs;
+	var study_id T2_Q9 T2_Q9A;
+	where T2_Q9>3 and T2_Q9A ne .;
+	run; /*no obs*/
+
+/*Check 11, 11A, and 11B*/
+	proc print data=q2.Q2_2020_sub_2 noobs;
+	var study_id T2_Q11 T2_Q11A_YN T2_Q11B;
+	where T2_Q11=0 and (T2_Q11A_YN ne . or T2_Q11B ne .);
+	run; /*no obs*/
+
+		proc freq data=q2.Q2_2020_sub_2;
+		table T2_Q11 T2_Q11A_YN;
+		where  T2_Q11 ne 0; run; /*114, and 114*/
+
+	proc print data=q2.Q2_2020_sub_2 noobs;
+	var study_id T2_Q11 T2_Q11A_YN T2_Q11B;
+	where T2_Q11A_YN=1 and T2_Q11B=.; run; /*no obs*/
+
+		proc print data=q2.Q2_2020_sub_2 noobs;
+		var study_id T2_Q11 T2_Q11A_YN T2_Q11B;
+		where T2_Q11A_YN=1; run;
+
+/*check remaining vars*/
+proc freq data=q2.Q2_2020_sub_2;
+table T2_Q13 T2_Q24 T2_Q25
+T2_Q53 T2_Q53A T2_Q53B; run;
+
+/*T2_Q25=0, T2_Q53A=0, T2_Q53B=0 should not be codes*/
+	/*check original data*/
+	proc print data= q2.Q2_2020 noobs;
+	where T2_Q24=0; run; /*also n=17*/
+
+	proc print data= q2.Q2_2020 noobs;
+	where T2_Q25=0; run; /*also n=39*/
+
+	/*will set to missing, unclear why obs are 0*/
+	data q2.Q2_2020_sub_3; set q2.Q2_2020_sub_2;
+	if T2_Q24=0 then T2_Q24=.;
+	if T2_Q25=0 then T2_Q25=.;
+	if T2_Q53A=0 then  T2_Q53A=.;
+	if T2_Q53B=0 then T2_Q53B=.; run;
+
+/*check remaining vars*/
+proc freq data=q2.Q2_2020_sub_3;
+table T2_Q13 T2_Q24 T2_Q25
+T2_Q53 T2_Q53A T2_Q53B; run;
+
+/*there should not be so much missing for T2_Q53A T2_Q53B*/
+proc print data=q2.Q2_2020_sub_3 noobs;
+var study_id T2_Q53 T2_Q53A T2_Q53B;
+where T2_Q53=1 or T2_Q53A ne . or T2_Q53B ne . ; run;
+
+/*i suspect the reason why T2_Q53B has so much missing is because it was branched from the
+original data and it shuold not have been logically. so now there is only data for the ppt
+who said their marital status has changed*/
+/*unclear why the other 8 don't have data for T2_Q53A/T2_Q53B*/
+
+data q2.Q2_2020_sub_3; set q2.Q2_2020_sub_3;
+rename dropped=t2_dropped; run;
+
+/*reorder variables one more time*/
+data q2.Q2_2020_sub_3; format
+study_id
+t2_sysid
+t2_userid
+t2_qversion
+t2_paperdt
+t2_paperusername
+t2_time_stamp
+t2_time_started
+t2_time_started_raw
+t2_time_end_raw
+t2_dropped
+t2_bypassed
+t2_pageno
+t2_last_page
+t2_page_1
+t2_page_2
+t2_page_3
+t2_page_4
+t2_page_5
+t2_page_6
+t2_page_7
+t2_complete
+t2_paperyn
+t2_q2_date
+t2_q3
+t2_q1_days
+t2_q1_wks
+t2_q1_dk
+t2_q1_wks_recode
+t2_q2_wt_kg
+t2_q2_wt_lbs
+t2_q2_wt_lbs_recode
+t2_q5
+t2_q5_dk
+t2_q6a_yn
+t2_q6a_drugs
+t2_q6a_surg
+t2_q6a_other
+t2_q6b_yn
+t2_q6b_drugs
+t2_q6b_surg
+t2_q6b_other
+t2_q6c_yn
+t2_q6c_drugs
+t2_q6c_surg
+t2_q6c_other
+t2_q6d_yn
+t2_q6d_drugs
+t2_q6d_surg
+t2_q6d_other
+t2_q6e_yn
+t2_q6e_drugs
+t2_q6e_surg
+t2_q6e_other
+t2_q6f_yn
+t2_q6f_drugs
+t2_q6f_surg
+t2_q6f_other
+t2_q6g_yn
+t2_q6g_drugs
+t2_q6g_surg
+t2_q6g_other
+t2_q6h_yn
+t2_q6h_drugs
+t2_q6h_surg
+t2_q6h_other
+t2_q6i_yn
+t2_q6i_drugs
+t2_q6i_surg
+t2_q6i_other
+t2_q6j_yn
+t2_q6j_drugs
+t2_q6j_surg
+t2_q6j_other
+t2_q6k_yn
+t2_q6k_drugs
+t2_q6k_surg
+t2_q6k_other
+t2_q6l_yn
+t2_q6l_drugs
+t2_q6l_surg
+t2_q6l_other
+t2_q7
+t2_q8
+t2_q9
+t2_q9a
+t2_q10
+t2_q11
+t2_q11a_yn
+t2_q11b
+t2_q24
+t2_q25
+t2_q53
+t2_q53a
+t2_q53b
+t2_q54
+t2_q54a
+; set q2.Q2_2020_sub_3; run;
+
+proc contents data=q2.Q2_2020_sub_3 order=varnum; run;
+proc freq data=q2.Q2_2020_sub_3;
+table T2_Q1_DK T2_OPENED -- t2_q13; run;
+
+/*drop T2_OPENED -- t2_q13*/
+data q2.Q2_2020_sub_3; set q2.Q2_2020_sub_3;
+drop t2_bypassed T2_OPENED -- t2_q13; run;
+
+proc freq data=q2.Q2_2020_sub_3;
+table T2_Q1_DK T2_OPENED -- t2_q13; run;
+
+data q2.Q2_2020_sub_3; format
+study_id
+t2_sysid
+t2_userid
+t2_qversion
+t2_q2_date
+t2_paperdt
+t2_paperusername
+t2_time_stamp
+t2_time_started
+t2_time_started_raw
+t2_time_end_raw
+t2_paperyn
+t2_pageno
+t2_last_page
+t2_page_1
+t2_page_2
+t2_page_3
+t2_page_4
+t2_page_5
+t2_page_6
+t2_page_7
+t2_complete
+t2_dropped
+t2_q3
+t2_q1_days
+t2_q1_wks
+t2_q1_dk
+t2_q1_wks_recode
+t2_q2_wt_kg
+t2_q2_wt_lbs
+t2_q2_wt_lbs_recode
+t2_q5
+t2_q5_dk
+t2_q6a_yn
+t2_q6a_drugs
+t2_q6a_surg
+t2_q6a_other
+t2_q6b_yn
+t2_q6b_drugs
+t2_q6b_surg
+t2_q6b_other
+t2_q6c_yn
+t2_q6c_drugs
+t2_q6c_surg
+t2_q6c_other
+t2_q6d_yn
+t2_q6d_drugs
+t2_q6d_surg
+t2_q6d_other
+t2_q6e_yn
+t2_q6e_drugs
+t2_q6e_surg
+t2_q6e_other
+t2_q6f_yn
+t2_q6f_drugs
+t2_q6f_surg
+t2_q6f_other
+t2_q6g_yn
+t2_q6g_drugs
+t2_q6g_surg
+t2_q6g_other
+t2_q6h_yn
+t2_q6h_drugs
+t2_q6h_surg
+t2_q6h_other
+t2_q6i_yn
+t2_q6i_drugs
+t2_q6i_surg
+t2_q6i_other
+t2_q6j_yn
+t2_q6j_drugs
+t2_q6j_surg
+t2_q6j_other
+t2_q6k_yn
+t2_q6k_drugs
+t2_q6k_surg
+t2_q6k_other
+t2_q6l_yn
+t2_q6l_drugs
+t2_q6l_surg
+t2_q6l_other
+t2_q7
+t2_q8
+t2_q9
+t2_q9a
+t2_q10
+t2_q11
+t2_q11a_yn
+t2_q11b
+t2_q24
+t2_q25
+t2_q53
+t2_q53a
+t2_q53b
+t2_q54a; set q2.Q2_2020_sub_3; run;
+
+/*run freq for end variables*/
+
+/*export*/

@@ -647,3 +647,162 @@ t1_time_started hhmm.; run;
 
 /*add to first_trimester_questionnaire to _complete*/
 /*first successful import: 4/15/2020*/
+
+/*re-imported 1/5/2021*/
+
+/*1/24/2021  edit*/
+/*fix q8/q8a and 9/9a*/
+data  work.q1_REDCap_8_9; set work.q1_REDCap_2020;
+keep study_id t1_q8 t1_q8a t1_q8a1
+t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f
+	  t1_q9b
+t1_q10 t1_q11; run;
+
+proc freq data=work.q1_REDCap_8_9;
+table t1_q8 -- t1_q12; run;
+
+proc print data=work.q1_REDCap_8_9 noobs;
+var study_id t1_q8 t1_q8a t1_q8a1;
+where t1_q8=0 and (t1_q8a > 0 or t1_q8a1=1); run;
+
+	/*fix the n=1, 9002*/
+	data work.q1_REDCap_8_9; set work.q1_REDCap_8_9;
+	if study_id=9002 then t1_q8=1; run;
+
+proc print data=work.q1_REDCap_8_9 noobs;
+var study_id t1_q8 t1_q8a t1_q8a1;
+where t1_q8a=0 or t1_q8a=.; run;
+
+/*most are t1_q8=0 AND t1_q8a=0*/
+/*confirm*/
+	proc print data=work.q1_REDCap_8_9 noobs;
+	var study_id t1_q8 t1_q8a t1_q8a1;
+	where t1_q8=0 AND t1_q8a=0; run;
+
+	data work.q1_REDCap_89_1; set work.q1_REDCap_8_9;
+	if t1_q8=0 AND t1_q8a=0 then t1_q8a=.; run;
+
+proc freq data=work.q1_REDCap_89_1;
+table t1_q8 -- t1_q8a1; run;
+
+/*still n=30 with t1_q8a=0*/
+	proc print data=work.q1_REDCap_89_1 noobs;
+	var study_id t1_q8 t1_q8a t1_q8a1;
+	where t1_q8a=0; run;
+
+	/*Get the t1_q8=. and t1_q8a=0*/
+	data work.q1_REDCap_89_2; set work.q1_REDCap_89_1;
+	if t1_q8=. and t1_q8a=0 then t1_q8a=.; run;
+
+proc freq data=work.q1_REDCap_89_2;
+table t1_q8 -- t1_q8a1; run;
+	/*still n+1 with t1_q8a=0*/
+	proc print data=work.q1_REDCap_89_2 noobs;
+	var study_id t1_q8 t1_q8a t1_q8a1;
+	where t1_q8a=0; run; /*8148, set t1_q8a to missing*/
+
+	data work.q1_REDCap_89_2; set work.q1_REDCap_89_2;
+	if study_id=8148 then t1_q8a=.; run;
+
+proc freq data=work.q1_REDCap_89_2;
+table t1_q8 -- t1_q8a1/missing; run; /*n=723 for 0/. between t1_q8 and t1_q8a
+								       because of 8148*/
+
+proc freq data=work.q1_REDCap_89_2;
+table t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f
+	  t1_q9b; run;
+
+	  proc print data=work.q1_REDCap_89_2 noobs;
+	  var study_id t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f;
+	  where t1_q9=0; run; /*create new code for t1_q9a_yn, -3 did not specify*/
+
+	  proc print data=work.q1_REDCap_89_2 noobs;
+	  var study_id t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f;
+	  where t1_q9=0 and t1_q9a_yn=.; run; /*n=45*/
+
+data work.q1_REDCap_89_3; set work.q1_REDCap_89_2;
+if t1_q9=0 and t1_q9a_yn=. then t1_q9a_yn=-3; run;
+
+proc freq data=work.q1_REDCap_89_3;
+table t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f
+	  t1_q9b; run;
+
+	  proc print data=work.q1_REDCap_89_3 noobs;
+	  var study_id t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f;
+	  where t1_q9=1 and t1_q9a_yn=0; run; /*there ppt should have skipped to 9b, set to missing*/
+
+	  data work.q1_REDCap_89_4; set work.q1_REDCap_89_3;
+	  if  t1_q9=1 and t1_q9a_yn=0 then t1_q9a_yn=.; run;
+
+proc freq data=work.q1_REDCap_89_4;
+table t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f
+	  t1_q9b; run; /*still +1*/
+
+	  proc print data=work.q1_REDCap_89_4 noobs;
+	  var study_id t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f;
+	  where t1_q9 ne 0 and t1_q9a_yn ne .; run;
+
+	  proc print data=work.q1_REDCap_89_4 noobs;
+	  where study_id=8169; run; /*it's one ppt, will change t1_q9=0 to honor that they filled out
+	  							t1_q9a_yn and t1_q9a1_a*/
+	  data work.q1_REDCap_89_4; set work.q1_REDCap_89_4;
+	  if study_id=8169 then t1_q9=0; run;
+
+	  /*check to make sure those who said yes to t1_q9a1_a -- t1_q9a1_f
+	    is reflected in t1_q9a_yn*/
+
+	  proc print data=work.q1_REDCap_89_4 noobs;
+	  var study_id t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f;
+	  where t1_q9a_yn=1 and (t1_q9a1_a=. and
+							 t1_q9a1_b=. and
+							 t1_q9a1_c=. and
+							 t1_q9a1_d=. and
+							 t1_q9a1_e=. and
+							 t1_q9a1_f=.); run; /*no obs*/
+/*9b*/
+proc freq data=work.q1_REDCap_89_4;
+table t1_q9 t1_q9a_yn t1_q9b; run;
+/*unclear why there are n=606 for t1_q9 and 712 t1_q9b=0*/
+
+proc print data=work.q1_REDCap_89_4 noobs;
+var study_id t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f t1_q9b;
+where t1_q9 ne 1 and t1_q9b=0; run;
+
+	/*if t1_q9 -- t1_q9a1_f missing then t1_q9b should be missing*/
+	data work.q1_REDCap_89_5; set work.q1_REDCap_89_4;
+	if t1_q9=. and t1_q9a_yn=. and t1_q9b=0 then t1_q9b=.; run;
+
+proc freq data=work.q1_REDCap_89_5;
+table t1_q9 t1_q9a_yn t1_q9b; run;
+
+
+proc print data=work.q1_REDCap_89_5 noobs;
+var study_id t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f t1_q9b;
+where t1_q9=0 and t1_q9b=0; run; /*will set to missing*/
+
+data work.q1_REDCap_89_6; set work.q1_REDCap_89_5;
+if t1_q9=0 and t1_q9b=0 then t1_q9b=.; run;
+
+proc freq data=work.q1_REDCap_89_6;
+table t1_q9 t1_q9a_yn t1_q9b; run;
+
+proc print data=work.q1_REDCap_89_6 noobs;
+var study_id t1_q9 t1_q9a_yn t1_q9a1_a t1_q9a1_b t1_q9a1_c
+	  t1_q9a1_d t1_q9a1_e t1_q9a1_f t1_q9b;
+where t1_q9=0 and t1_q9b ne .; run;
+/*there are n=73 ppt who said that this pregnancy was unplanned,
+some said that they were using contraceptives, but still provided
+an answer to t1_q9b, some greater than 1*/
+
+/*reimport this section*/
