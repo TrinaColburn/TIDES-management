@@ -7,7 +7,6 @@
 libname q1 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\First";
 libname q2 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Second";
 libname q3 "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Third"; run;
-
 libname drugs "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Lifestyle_habits"; run;
 
 /*Pull smoking, drug and alcohol specific variables*/
@@ -130,7 +129,7 @@ libname drugs "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questio
 		%one(T1_Q30H_YN, T1_Q30h_week_Recode,	"soda");
 		%one(T1_Q30I_YN, T1_Q30i_week_Recode,	"marijuana");
 		%one(T1_Q30J_YN, T1_Q30j_week_Recode,	"cocaine");
-			/*Nos in the log*/
+			/*No observations in the log*/
 
 	/*Q2*/
 		%macro one(yn, last, name);
@@ -185,28 +184,31 @@ libname drugs "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questio
 		var study_id &yn -- &last;
 		title &name; run;
 		%mend;
+		ods excel file="J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Lifestyle_habits\reported use of substance but no frequency.xlsx";
 		%two(T1_Q30A_YN, T1_Q30a_week_Recode,	"cigarettes"); /*NONE*/
 		%two(T1_Q30B_YN, T1_Q30b_week_Recode,	"redwine"); 	 /*6124 and 9127 missing*/
 		%two(T1_Q30C_YN, T1_Q30c_week_Recode,	"otherwine");  /*8083*/
-		%two(T1_Q30D_YN, T1_Q30d_week_Recode,	"beer"); 			 /*NONE*/
+		%two(T1_Q30D_YN, T1_Q30d_week_Recode,	"beer"); 	/*NONE*/
 		%two(T1_Q30E_YN, T1_Q30e_week_Recode,	"liquor"); /*7213*/
 		%two(T1_Q30F_YN, T1_Q30f_week_Recode,	"coffee"); /*6026, 6136, 7213, 9127*/
 		%two(T1_Q30G_YN, T1_Q30g_week_Recode,	"tea"); /*7172, 8129, 8143*/
 		%two(T1_Q30H_YN, T1_Q30h_week_Recode,	"soda"); /*6007, 6124, 6135, 7053
-																 										 7106, 7172, 7205, 8089
-																 										 8129, 8143, 8160, 8180, 8234*/
+														   7106, 7172, 7205, 8089
+														   8129, 8143, 8160, 8180, 8234*/
 		%two(T1_Q30I_YN	,	T1_Q30i_week_Recode	,	"marijuana"	); /*8274, 9081*/
 		%two(T1_Q30J_YN	,	T1_Q30j_week_Recode	,	"cocaine"	); /*NONE*/
+		ods excel close;
 		/*MUST STAY AS MISSING -- we simply do not know*/
 
 		/*Q2*/
+		ods excel file="J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questionnaires\Lifestyle_habits\reported use of substance but no frequency.xlsx";
 			%macro two(yn, last, name);
 			proc print data = drugs.q2 noobs;
 			where &yn = 1 and &last < 1;
 			var study_id &yn -- &last;
 			title &name; run;
 			%mend;
-			%two(T2_Q20A_YN, T2_Q20A_WKS_Recode,	"cigarettes");
+			%two(T2_Q20A_YN, T2_Q20A_WKS_Recode, "cigarettes");
 			%two(T2_Q20B_YN, T2_Q20B_WKS_Recode, "redwine");
 			%two(T2_Q20C_YN, T2_Q20C_WKS_Recode, "otherwine");
 			%two(T2_Q20D_YN, T2_Q20D_WKS_Recode, "beer");
@@ -216,23 +218,95 @@ libname drugs "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questio
 			%two(T2_Q20H_YN, T2_Q20H_WKS_Recode, "soda");
 			%two(T2_Q20I_YN, T2_Q20I_WKS_Recode, "marijuana");
 			%two(T2_Q20J_YN, T2_Q20J_WKS_Recode, "cocaine");
-			/*YN is 1 but recode variables have 0 as values
-			  and no granular info*/
-			/*Keep YN as 1 but recode the recode vars from 0s to missing - because we don't know*/
-				data drugs.q2_v1; set drugs.q2; */change in raw data*/
-				if T2_Q20A_YN=1	and	T2_Q20A_WKS_Recode < 1	then T2_Q20A_WKS_Recode=.;
-				if T2_Q20B_YN=1	and	T2_Q20B_WKS_Recode < 1	then T2_Q20B_WKS_Recode=.;
-				if T2_Q20C_YN=1	and	T2_Q20C_WKS_Recode < 1	then T2_Q20C_WKS_Recode=.;
-				if T2_Q20D_YN=1	and	T2_Q20D_WKS_Recode < 1	then T2_Q20D_WKS_Recode=.;
-				if T2_Q20E_YN=1	and	T2_Q20E_WKS_Recode < 1	then T2_Q20E_WKS_Recode=.;
-				if T2_Q20F_YN=1	and	T2_Q20F_WKS_Recode < 1	then T2_Q20F_WKS_Recode=.;
-				if T2_Q20G_YN=1	and	T2_Q20G_WKS_Recode < 1	then T2_Q20G_WKS_Recode=.;
-				if T2_Q20H_YN=1	and	T2_Q20H_WKS_Recode < 1	then T2_Q20H_WKS_Recode=.;
-				if T2_Q20I_YN=1	and	T2_Q20I_WKS_Recode < 1	then T2_Q20I_WKS_Recode=.;
-				if T2_Q20J_YN=1	and	T2_Q20J_WKS_Recode < 1	then T2_Q20J_WKS_Recode=.; run;
+		ods excel close;
+			/*YN is 1 and recode variables have 0 as values
+			  but no granular info*/
+			/*Keep YN as 1 but recode the recode and granular variables 
+			from 0s to missing - because we don't know*/
+				/*Recode*/
+				
+				%macro q2miss(yn, recode, setmiss);
+				data drugs.q2; set drugs.q2;
+				if &yn=1 and &Recode < 1 then &setmiss=.; run;
+				%mend;
 
+				%q2miss(	T2_Q20A_YN	,	T2_Q20A_WKS_Recode	,	T2_Q20A_DAY	);
+				%q2miss(	T2_Q20A_YN	,	T2_Q20A_WKS_Recode	,	T2_Q20A_WEEK	);
+				%q2miss(	T2_Q20A_YN	,	T2_Q20A_WKS_Recode	,	T2_Q20A_WKS_Recode	);
+				%q2miss(	T2_Q20B_YN	,	T2_Q20B_WKS_Recode	,	T2_Q20B_DAY	);
+				%q2miss(	T2_Q20B_YN	,	T2_Q20B_WKS_Recode	,	T2_Q20B_WEEK	);
+				%q2miss(	T2_Q20B_YN	,	T2_Q20B_WKS_Recode	,	T2_Q20B_WKS_Recode	);
+				%q2miss(	T2_Q20C_YN	,	T2_Q20C_WKS_Recode	,	T2_Q20C_DAY	);
+				%q2miss(	T2_Q20C_YN	,	T2_Q20C_WKS_Recode	,	T2_Q20C_WEEK	);
+				%q2miss(	T2_Q20C_YN	,	T2_Q20C_WKS_Recode	,	T2_Q20C_WKS_Recode	);
+				%q2miss(	T2_Q20D_YN	,	T2_Q20D_WKS_Recode	,	T2_Q20D_DAY	);
+				%q2miss(	T2_Q20D_YN	,	T2_Q20D_WKS_Recode	,	T2_Q20D_WEEK	);
+				%q2miss(	T2_Q20D_YN	,	T2_Q20D_WKS_Recode	,	T2_Q20D_WKS_Recode	);
+				%q2miss(	T2_Q20E_YN	,	T2_Q20E_WKS_Recode	,	T2_Q20E_DAY	);
+				%q2miss(	T2_Q20E_YN	,	T2_Q20E_WKS_Recode	,	T2_Q20E_WEEK	);
+				%q2miss(	T2_Q20E_YN	,	T2_Q20E_WKS_Recode	,	T2_Q20E_WKS_Recode	);
+				%q2miss(	T2_Q20F_YN	,	T2_Q20F_WKS_Recode	,	T2_Q20F_DAY	);
+				%q2miss(	T2_Q20F_YN	,	T2_Q20F_WKS_Recode	,	T2_Q20F_WEEK	);
+				%q2miss(	T2_Q20F_YN	,	T2_Q20F_WKS_Recode	,	T2_Q20F_WKS_Recode	);
+				%q2miss(	T2_Q20G_YN	,	T2_Q20G_WKS_Recode	,	T2_Q20G_DAY	);
+				%q2miss(	T2_Q20G_YN	,	T2_Q20G_WKS_Recode	,	T2_Q20G_WEEK	);
+				%q2miss(	T2_Q20G_YN	,	T2_Q20G_WKS_Recode	,	T2_Q20G_WKS_Recode	);
+				%q2miss(	T2_Q20H_YN	,	T2_Q20H_WKS_Recode	,	T2_Q20H_DAY	);
+				%q2miss(	T2_Q20H_YN	,	T2_Q20H_WKS_Recode	,	T2_Q20H_WEEK	);
+				%q2miss(	T2_Q20H_YN	,	T2_Q20H_WKS_Recode	,	T2_Q20H_WKS_Recode	);
+				%q2miss(	T2_Q20I_YN	,	T2_Q20I_WKS_Recode	,	T2_Q20I_DAY	);
+				%q2miss(	T2_Q20I_YN	,	T2_Q20I_WKS_Recode	,	T2_Q20I_WEEK	);
+				%q2miss(	T2_Q20I_YN	,	T2_Q20I_WKS_Recode	,	T2_Q20I_WKS_Recode	);
+				%q2miss(	T2_Q20J_YN	,	T2_Q20J_WKS_Recode	,	T2_Q20J_DAY	);
+				%q2miss(	T2_Q20J_YN	,	T2_Q20J_WKS_Recode	,	T2_Q20J_WEEK	);
+				%q2miss(	T2_Q20J_YN	,	T2_Q20J_WKS_Recode	,	T2_Q20J_WKS_Recode	);
+
+								%macro two(yn, last, name);
+								proc print data = drugs.q2 noobs;
+								where &yn = 1 and &last < 1;
+								var study_id &yn -- &last;
+								title &name; run;
+								%mend;
+								%two(T2_Q20A_YN, T2_Q20A_WKS_Recode, "cigarettes");
+								%two(T2_Q20B_YN, T2_Q20B_WKS_Recode, "redwine");
+								%two(T2_Q20C_YN, T2_Q20C_WKS_Recode, "otherwine");
+								%two(T2_Q20D_YN, T2_Q20D_WKS_Recode, "beer");
+								%two(T2_Q20E_YN, T2_Q20E_WKS_Recode, "liquor");
+								%two(T2_Q20F_YN, T2_Q20F_WKS_Recode, "coffee");
+								%two(T2_Q20G_YN, T2_Q20G_WKS_Recode, "tea");
+								%two(T2_Q20H_YN, T2_Q20H_WKS_Recode, "soda");
+								%two(T2_Q20I_YN, T2_Q20I_WKS_Recode, "marijuana");
+								%two(T2_Q20J_YN, T2_Q20J_WKS_Recode, "cocaine");
+
+					/*reset drugs.q2*/
+					data drugs.q2; set q2.Q2_2020;
+					keep study_id
+					T2_Q20A_YN 		T2_Q20A_DAY 		T2_Q20A_WEEK 		T2_Q20A_WKS_Recode
+					T2_Q20B_YN 		T2_Q20B_DAY 		T2_Q20B_WEEK 		T2_Q20B_WKS_Recode
+					T2_Q20C_YN 		T2_Q20C_DAY 		T2_Q20C_WEEK 		T2_Q20C_WKS_Recode
+					T2_Q20D_YN 		T2_Q20D_DAY 		T2_Q20D_WEEK 		T2_Q20D_WKS_Recode
+					T2_Q20E_YN 		T2_Q20E_DAY 		T2_Q20E_WEEK 		T2_Q20E_WKS_Recode
+					T2_Q20F_YN 		T2_Q20F_DAY 		T2_Q20F_WEEK 		T2_Q20F_WKS_Recode
+					T2_Q20G_YN 		T2_Q20G_DAY 		T2_Q20G_WEEK 		T2_Q20G_WKS_Recode
+					T2_Q20H_YN 		T2_Q20H_DAY 		T2_Q20H_WEEK 		T2_Q20H_WKS_Recode
+					T2_Q20I_YN 		T2_Q20I_DAY 		T2_Q20I_WEEK 		T2_Q20I_WKS_Recode
+					T2_Q20J_YN 		T2_Q20J_DAY 		T2_Q20J_WEEK 		T2_Q20J_WKS_Recode
+					T2_Q21 T2_Q22; run;
+
+					data drugs.q2; format study_id
+					T2_Q20A_YN 		T2_Q20A_DAY 		T2_Q20A_WEEK 		T2_Q20A_WKS_Recode
+					T2_Q20B_YN 		T2_Q20B_DAY 		T2_Q20B_WEEK 		T2_Q20B_WKS_Recode
+					T2_Q20C_YN 		T2_Q20C_DAY 		T2_Q20C_WEEK 		T2_Q20C_WKS_Recode
+					T2_Q20D_YN 		T2_Q20D_DAY 		T2_Q20D_WEEK 		T2_Q20D_WKS_Recode
+					T2_Q20E_YN 		T2_Q20E_DAY 		T2_Q20E_WEEK 		T2_Q20E_WKS_Recode
+					T2_Q20F_YN 		T2_Q20F_DAY 		T2_Q20F_WEEK 		T2_Q20F_WKS_Recode
+					T2_Q20G_YN 		T2_Q20G_DAY 		T2_Q20G_WEEK 		T2_Q20G_WKS_Recode
+					T2_Q20H_YN 		T2_Q20H_DAY 		T2_Q20H_WEEK 		T2_Q20H_WKS_Recode
+					T2_Q20I_YN 		T2_Q20I_DAY 		T2_Q20I_WEEK 		T2_Q20I_WKS_Recode
+					T2_Q20J_YN 		T2_Q20J_DAY 		T2_Q20J_WEEK 		T2_Q20J_WKS_Recode
+					T2_Q21 T2_Q22; set drugs.q2; run;
 					%macro two(yn, last, name);
-					proc print data = drugs.q2_v1 noobs;
+					proc print data = drugs.q2 noobs;
 					where &yn = 1 and &last < 1;
 					var study_id &yn -- &last;
 					title &name; run;
@@ -252,7 +326,7 @@ libname drugs "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questio
 		/*Q3*/
 		%macro two(yn, last, name);
 		proc print data = drugs.q3 noobs;
-		where &yn = 2 and &last < 1; /*no=2 for this Trimester*/
+		where &yn = 2 and &last < 1; /*yes=2, no=1 for this Trimester*/
 		var study_id &yn -- &last;
 		title &name; run;
 		%mend;
@@ -267,25 +341,141 @@ libname drugs "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questio
 		%two(T3_Q19I_YN, T3_Q19I_WKS_Recode, "marijuana");
 		%two(T3_Q19J_YN, T3_Q19J_WKS_Recode, "cocaine");
 
-		/*scattered corrections*/
-		/*hold -- may not be no (2)*/
-		 	data drugs.q3; set drugs.q3;
-			if study_id=7235 then T3_Q19B_DAY=.;
-			if study_id=9110 then T3_Q19I_DAY=.;
-			if study_id=9110 then T3_Q19I_DAY=.; run;
+		/*scattered corrections for 7235 & 9110*/
+		/*reported 0 in granular variable, Yes in YN*/
+		/*check other trimester data*/
 				proc print data=drugs.q1 noobs;
 				var study_id T1_Q30b_YN T1_Q30b_week_Recode;
+				title "Red wine data for 7235 First Trimester";
+				where study_id=7235; run;
+				
+				proc print data=drugs.q2 noobs;
+				var study_id T2_Q20b_YN -- T2_Q20b_WKS_Recode;
+				title "Red wine data for 7235 Second Trimester";
 				where study_id=7235; run;
 
 				proc print data=drugs.q1 noobs;
 				var study_id T1_Q30I_YN -- T1_Q30j_week_Recode ;
+				title "MJ and Cocaine data for 9110 First Trimester";
 				where study_id=9110; run;
 
-				proc print data=drugs.q2_v1 noobs;
+				proc print data=drugs.q2 noobs;
 				var study_id T2_Q20I_YN -- T2_Q20J_WKS_Recode;
+				title "MJ and Cocaine data for 9110 Second Trimester";
 				where study_id=9110; run;
-				/*opt for "no"*/
 
+				proc print data=drugs.q1 noobs;
+				var study_id T1_Q30E_YN -- T1_Q30e_week_Recode 
+					T1_Q30I_YN -- T1_Q30j_week_Recode ;
+				title "MJ and Cocaine data for 9061 First Trimester";
+				where study_id=9061; run;
+
+				proc print data=drugs.q2 noobs;
+				var study_id T2_Q20E_YN -- T2_Q20E_WKS_Recode 
+							 T2_Q20I_YN -- T2_Q20J_WKS_Recode;
+				title "MJ and Cocaine data for 9061 Second Trimester";
+				where study_id=9061; run;
+
+		/*Fix 7235, 9110, 9061 (don't know)*/
+		/*V. unlikely 9061 started using liquor, marijuana, or cocaine*/
+
+			/*First recode data*/
+			/*Run frequency first*/
+				proc freq data=q3.Q3_22119;
+				table T3_Q19A_YN T3_Q19B_YN T3_Q19C_YN T3_Q19D_YN 
+				      T3_Q19E_YN T3_Q19F_YN T3_Q19G_YN T3_Q19H_YN 
+				      T3_Q19I_YN T3_Q19J_YN; run;
+
+				/*recode t3 Nos(1) to 0*/
+				data q3.Q3_2020; set q3.q3.Q3_22119;
+				if	T3_Q19A_YN=1 then cigarettes_yn=0;
+				if	T3_Q19B_YN=1 then redwine_yn=0;
+				if	T3_Q19C_YN=1 then otherwine_yn=0;
+				if	T3_Q19D_YN=1 then beer_yn=0;
+				if	T3_Q19E_YN=1 then liquor_yn=0;
+				if	T3_Q19F_YN=1 then coffee_yn=0;
+				if	T3_Q19G_YN=1 then tea_yn=0;
+				if	T3_Q19H_YN=1 then soda_yn=0;
+				if	T3_Q19I_YN=1 then marijuana_yn=0;
+				if	T3_Q19J_YN=1 then cocaine_yn=0; run;
+				/*Then recode 2s to 1 (yes)*/
+				data q3.Q3_2020; set q3.Q3_2020;
+				if	T3_Q19A_YN=2 then cigarettes_yn=1;
+				if	T3_Q19B_YN=2 then redwine_yn=1;
+				if	T3_Q19C_YN=2 then otherwine_yn=1;
+				if	T3_Q19D_YN=2 then beer_yn=1;
+				if	T3_Q19E_YN=2 then liquor_yn=1;
+				if	T3_Q19F_YN=2 then coffee_yn=1;
+				if	T3_Q19G_YN=2 then tea_yn=1;
+				if	T3_Q19H_YN=2 then soda_yn=1;
+				if	T3_Q19I_YN=2 then marijuana_yn=1;
+				if	T3_Q19J_YN=2 then cocaine_yn=1; run;
+					/*check*/
+					proc freq data=q3.Q3_2020;
+					table cigarettes_yn -- cocaine_yn; run;
+				/*same frequencies as original*/
+					data q3.Q3_2020; set q3.Q3_2020; 
+					if study_id=7235 then redwine_yn=0;
+					if study_id=7235 then T3_Q19B_WKS_Recode=0;
+					if study_id=9110 then marijuana_yn=0;
+					if study_id=9110 then T3_Q19I_WKS_Recode=0;
+					if study_id=9110 then cocaine_yn=0;
+					if study_id=9110 then T3_Q19J_WKS_Recode=0; 
+					if study_id=9061 then liquor_yn=0;
+					if study_id=9061 then marijuana_yn=0;
+					if study_id=9061 then cocaine_yn=0; run;
+				/*same frequencies as original*/
+
+			/***Must use new variable to look at q3 again****/
+				data drugs.q3 ; set q3.Q3_2020;
+				keep study_id
+				cigarettes_yn	T3_Q19A_DAY	T3_Q19A_WEEK	T3_Q19A_WKS_Recode
+				redwine_yn	T3_Q19B_DAY	T3_Q19B_WEEK	T3_Q19B_WKS_Recode
+				otherwine_yn	T3_Q19C_DAY	T3_Q19C_WEEK	T3_Q19C_WKS_Recode
+				beer_yn	T3_Q19D_DAY	T3_Q19D_WEEK	T3_Q19D_WKS_Recode
+				liquor_yn	T3_Q19E_DAY	T3_Q19E_WEEK	T3_Q19E_WKS_Recode
+				coffee_yn	T3_Q19F_DAY	T3_Q19F_WEEK	T3_Q19F_WKS_Recode
+				tea_yn	T3_Q19G_DAY	T3_Q19G_WEEK	T3_Q19G_WKS_Recode
+				soda_yn	T3_Q19H_DAY	T3_Q19H_WEEK	T3_Q19H_WKS_Recode
+				marijuana_yn	T3_Q19I_DAY	T3_Q19I_WEEK	T3_Q19I_WKS_Recode
+				cocaine_yn	T3_Q19J_DAY	T3_Q19J_WEEK	T3_Q19J_WKS_Recode
+				T3_Q20	T3_Q21		; run;
+
+				data drugs.q3;
+				format study_id
+				cigarettes_yn	T3_Q19A_DAY	T3_Q19A_WEEK	T3_Q19A_WKS_Recode
+				redwine_yn	T3_Q19B_DAY	T3_Q19B_WEEK	T3_Q19B_WKS_Recode
+				otherwine_yn	T3_Q19C_DAY	T3_Q19C_WEEK	T3_Q19C_WKS_Recode
+				beer_yn	T3_Q19D_DAY	T3_Q19D_WEEK	T3_Q19D_WKS_Recode
+				liquor_yn	T3_Q19E_DAY	T3_Q19E_WEEK	T3_Q19E_WKS_Recode
+				coffee_yn	T3_Q19F_DAY	T3_Q19F_WEEK	T3_Q19F_WKS_Recode
+				tea_yn	T3_Q19G_DAY	T3_Q19G_WEEK	T3_Q19G_WKS_Recode
+				soda_yn	T3_Q19H_DAY	T3_Q19H_WEEK	T3_Q19H_WKS_Recode
+				marijuana_yn	T3_Q19I_DAY	T3_Q19I_WEEK	T3_Q19I_WKS_Recode
+				cocaine_yn	T3_Q19J_DAY	T3_Q19J_WEEK	T3_Q19J_WKS_Recode
+				T3_Q20 T3_Q21; set drugs.q3; run;
+
+				/*Are there substance_yn=1 with missing days/weeks and recode info?*/
+				/*Q3*/
+				%macro two(yn, last, name);
+				proc print data = drugs.q3 noobs;
+				where &yn=1 and &last < 1;
+				var study_id &yn -- &last;
+				title &name; run;
+				%mend;
+				%two(cigarettes_yn,	T3_Q19A_WKS_Recode,	"cigarettes");
+				%two(redwine_yn,	T3_Q19B_WKS_Recode,	"redwine");
+				%two(otherwine_yn,	T3_Q19C_WKS_Recode,	"otherwine");
+				%two(beer_yn,	T3_Q19D_WKS_Recode,	"beer");
+				%two(liquor_yn,	T3_Q19E_WKS_Recode,	"liquor");
+				%two(coffee_yn,	T3_Q19F_WKS_Recode,	"coffee");
+				%two(tea_yn,	T3_Q19G_WKS_Recode,	"tea");
+				%two(soda_yn,	T3_Q19H_WKS_Recode,	"soda");
+				%two(marijuana_yn,	T3_Q19I_WKS_Recode,	"marijuana");
+				%two(cocaine_yn,	T3_Q19J_WKS_Recode,	"cocaine");
+
+/**************************************/
+/*******Part III.*********************/
 /*Are there missing yn and can they be recoded?*/
 	/*Q1*/
 		%macro no(yn, last, name);
@@ -305,84 +495,104 @@ libname drugs "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questio
 		%no(T1_Q30I_YN,	T1_Q30i_week_Recode, "marijuana");
 		%no(T1_Q30J_YN,	T1_Q30j_week_Recode, "cocaine");
 		/*likely moms who stopped study -- hold on recoding to no*/
-			/*check main data*/
-				data work.q1; set q1.Q1_20190514; run;
-				%macro miss(ppt);
-				data work.q1; set work.q1;
-				if study_id=&ppt then flag=1; run;
-				proc print data=work.q1 noobs;
-				where flag=1; run;
-				%mend;
-				%miss(6006);
-				%miss(6034);
-				%miss(6037);
-				%miss(6083);
-				%miss(7037);
-				%miss(7091);
-				%miss(7096);
-				%miss(7156);
-				%miss(7178);
-				%miss(7190);
-				%miss(7207);
-				%miss(8001);
-				%miss(8029);
-				%miss(8105);
-				%miss(8157);
-				%miss(8263);
-				%miss(9032);
-				%miss(9048);
-				%miss(9063);
-				%miss(9111);
-				%miss(9143);
-				%miss(9159);
-				%miss(9160);
-				%miss(9161);
-				%miss(9184);
-				%miss(9198);
-			data work.q1_26; set work.q1;
-			if flag=1; run;
+		/*leave as missing, code corresponding days and weeks as missing*/
+			
+			/*days*/
+			data q1.Q1_2020; set q1.Q1_20190514; run;
 
-			/*create new v1;
-			  Make flag for:
-				-Moms who have missing surveys (1)
-				-Moms who didn't finish (2)
-			 Then, code drug/alc data with moms who are N
-			 Specifically: 6034, 7037, 7091, 7096, 7156,
-						   7190, 8001, 8029, 8157, 9032*/
+			data q1.Q1_2020; set q1.Q1_2020;
+			rename	T1_Q30A_DAY	=	cigarettes_day	;
+			rename	T1_Q30B_DAY	=	redwine_day	;
+			rename	T1_Q30C_DAY	=	otherwine_day	;
+			rename	T1_Q30D_DAY	=	beer_day	;
+			rename	T1_Q30E_DAY	=	liquor_day	;
+			rename	T1_Q30F_DAY	=	coffee_day	;
+			rename	T1_Q30G_DAY	=	tea_day	;
+			rename	T1_Q30H_DAY	=	soda_day	;
+			rename	T1_Q30I_DAY	=	marijuana_day	;
+			rename	T1_Q30J_DAY	=	cocaine_day	;
+			rename	T1_Q30A_WEEK	=	cigarettes_week	;
+			rename	T1_Q30B_WEEK	=	redwine_week	;
+			rename	T1_Q30C_WEEK	=	otherwine_week	;
+			rename	T1_Q30D_WEEK	=	beer_week	;
+			rename	T1_Q30E_WEEK	=	liquor_week	;
+			rename	T1_Q30F_WEEK	=	coffee_week	;
+			rename	T1_Q30G_WEEK	=	tea_week	;
+			rename	T1_Q30H_WEEK	=	soda_week	;
+			rename	T1_Q30I_WEEK	=	marijuana_week	;
+			rename	T1_Q30J_WEEK	=	cocaine_week	; run;
 
-			data drugs.q1_v1; set drugs.q1; run;
- 			%macro miss(ppt);
-				data drugs.q1_v1; set drugs.q1_v1;
-				if study_id=&ppt then flag=1; run;
-				proc print data=work.q1 noobs;
-				where flag=1; run;
+
+			%macro q1missday(yn, recode, days);
+			data q1.Q1_2020; set q1.Q1_2020;
+			if &yn=. and &recode=. then &days=.; run;
 			%mend;
-				%miss(6006);
-				%miss(6034);
-				%miss(6037);
-				%miss(6083);
-				%miss(7037);
-				%miss(7091);
-				%miss(7096);
-				%miss(7156);
-				%miss(7178);
-				%miss(7190);
-				%miss(7207);
-				%miss(8001);
-				%miss(8029);
-				%miss(8105);
-				%miss(8157);
-				%miss(8263);
-				%miss(9032);
-				%miss(9048);
-				%miss(9063);
-				%miss(9111);
-				%miss(9143);
-				%miss(9159);
-				%miss(9160);
-				%miss(9161);
-				%miss(9184);
-				%miss(9198);
+			
+			%q1missday(T1_Q30A_YN,	T1_Q30a_week_Recode, cigarettes_day);
+			%q1missday(T1_Q30B_YN,	T1_Q30b_week_Recode, redwine_day);
+			%q1missday(T1_Q30C_YN,	T1_Q30c_week_Recode, otherwine_day);
+			%q1missday(T1_Q30D_YN,	T1_Q30d_week_Recode, beer_day);
+			%q1missday(T1_Q30E_YN,	T1_Q30e_week_Recode, liquor_day);
+			%q1missday(T1_Q30F_YN,	T1_Q30f_week_Recode, coffee_day);
+			%q1missday(T1_Q30G_YN,	T1_Q30g_week_Recode, tea_day);
+			%q1missday(T1_Q30H_YN,	T1_Q30h_week_Recode, soda_day);
+			%q1missday(T1_Q30I_YN,	T1_Q30i_week_Recode, marijuana_day);
+			%q1missday(T1_Q30J_YN,	T1_Q30j_week_Recode, cocaine_day);
+
+			/*weeks*/
+			%macro q1missweek(yn, recode, weeks);
+			data q1.Q1_2020; set q1.Q1_2020;
+			if &yn=. and &recode=. then &weeks=.; run;
+			%mend;
+
+			%q1missweek(	T1_Q30A_YN	,	T1_Q30a_week_Recode	,	cigarettes_week	);
+			%q1missweek(	T1_Q30B_YN	,	T1_Q30b_week_Recode	,	redwine_week	);
+			%q1missweek(	T1_Q30C_YN	,	T1_Q30c_week_Recode	,	otherwine_week	);
+			%q1missweek(	T1_Q30D_YN	,	T1_Q30d_week_Recode	,	beer_week	);
+			%q1missweek(	T1_Q30E_YN	,	T1_Q30e_week_Recode	,	liquor_week	);
+			%q1missweek(	T1_Q30F_YN	,	T1_Q30f_week_Recode	,	coffee_week	);
+			%q1missweek(	T1_Q30G_YN	,	T1_Q30g_week_Recode	,	tea_week	);
+			%q1missweek(	T1_Q30H_YN	,	T1_Q30h_week_Recode	,	soda_week	);
+			%q1missweek(	T1_Q30I_YN	,	T1_Q30i_week_Recode	,	marijuana_week	);
+			%q1missweek(	T1_Q30J_YN	,	T1_Q30j_week_Recode	,	cocaine_week	);
+
+			/*Fix part II issue where yn=1 but days/weeks=0 and recode=.*/
+			/*code days/weeks as missing because there is no way of knowing*/
+				%macro q1missday(yn, recode, days);
+				data q1.Q1_2020; set q1.Q1_2020;
+				if &yn=1 and &recode=. then &days=.; run;
+				%mend;
+				
+				%q1missday(T1_Q30A_YN,	T1_Q30a_week_Recode, cigarettes_day);
+				%q1missday(T1_Q30B_YN,	T1_Q30b_week_Recode, redwine_day);
+				%q1missday(T1_Q30C_YN,	T1_Q30c_week_Recode, otherwine_day);
+				%q1missday(T1_Q30D_YN,	T1_Q30d_week_Recode, beer_day);
+				%q1missday(T1_Q30E_YN,	T1_Q30e_week_Recode, liquor_day);
+				%q1missday(T1_Q30F_YN,	T1_Q30f_week_Recode, coffee_day);
+				%q1missday(T1_Q30G_YN,	T1_Q30g_week_Recode, tea_day);
+				%q1missday(T1_Q30H_YN,	T1_Q30h_week_Recode, soda_day);
+				%q1missday(T1_Q30I_YN,	T1_Q30i_week_Recode, marijuana_day);
+				%q1missday(T1_Q30J_YN,	T1_Q30j_week_Recode, cocaine_day);
+
+			/*weeks*/
+				%macro q1missweek(yn, recode, weeks);
+				data q1.Q1_2020; set q1.Q1_2020;
+				if &yn=1 and &recode=. then &weeks=.; run;
+				%mend;
+
+				%q1missweek(	T1_Q30A_YN	,	T1_Q30a_week_Recode	,	cigarettes_week	);
+				%q1missweek(	T1_Q30B_YN	,	T1_Q30b_week_Recode	,	redwine_week	);
+				%q1missweek(	T1_Q30C_YN	,	T1_Q30c_week_Recode	,	otherwine_week	);
+				%q1missweek(	T1_Q30D_YN	,	T1_Q30d_week_Recode	,	beer_week	);
+				%q1missweek(	T1_Q30E_YN	,	T1_Q30e_week_Recode	,	liquor_week	);
+				%q1missweek(	T1_Q30F_YN	,	T1_Q30f_week_Recode	,	coffee_week	);
+				%q1missweek(	T1_Q30G_YN	,	T1_Q30g_week_Recode	,	tea_week	);
+				%q1missweek(	T1_Q30H_YN	,	T1_Q30h_week_Recode	,	soda_week	);
+				%q1missweek(	T1_Q30I_YN	,	T1_Q30i_week_Recode	,	marijuana_week	);
+				%q1missweek(	T1_Q30J_YN	,	T1_Q30j_week_Recode	,	cocaine_week	);
+			/**Rerun Q1 with new variables**/
+			/*****Q1 done!****/
+
 
 /*Q2*/
 		%macro no(yn, last, name);
@@ -391,36 +601,97 @@ libname drugs "J:\PM\TIDES_Data\REDCap Master Database\TIDES I\Trimester Questio
 		var study_id &yn -- &last;
 		title &name; run;
 		%mend;
-		%no(	T2_Q20A_YN	,	T2_Q20A_WKS_Recode	,	"cigarettes");
-		%no(	T2_Q20B_YN	,	T2_Q20B_WKS_Recode	,	"redwine"); /*1 should be y - 9194*/
-		%no(	T2_Q20C_YN	,	T2_Q20C_WKS_Recode	,	"otherwine"); /*1 should be y - 9192*/
-		%no(	T2_Q20D_YN	,	T2_Q20D_WKS_Recode	,	"beer"	);
-		%no(	T2_Q20E_YN	,	T2_Q20E_WKS_Recode	,	"liquor"	);
-		%no(	T2_Q20F_YN	,	T2_Q20F_WKS_Recode	,	"coffee"	); /*some should be y 7093, 7131*/
-		%no(	T2_Q20G_YN	,	T2_Q20G_WKS_Recode	,	"tea"	);
-		%no(	T2_Q20H_YN	,	T2_Q20H_WKS_Recode	,	"soda"	); /*6168, 7057, 7163, 8075, 8238*/
-		%no(	T2_Q20I_YN	,	T2_Q20I_WKS_Recode	,	"marijuana"	);
-		%no(	T2_Q20J_YN	,	T2_Q20J_WKS_Recode	,	"cocaine"	);
+		%no(T2_Q20A_YN,	T2_Q20A_WKS_Recode,	"cigarettes");
+		%no(T2_Q20B_YN,	T2_Q20B_WKS_Recode,	"redwine"); /*1 should be y - 9194*/
+		%no(T2_Q20C_YN,	T2_Q20C_WKS_Recode,	"otherwine"); /*1 should be y - 9192*/
+		%no(T2_Q20D_YN,	T2_Q20D_WKS_Recode,	"beer");
+		%no(T2_Q20E_YN,	T2_Q20E_WKS_Recode,	"liquor");
+		%no(T2_Q20F_YN,	T2_Q20F_WKS_Recode,	"coffee"); /*some should be y 7093, 7131*/
+		%no(T2_Q20G_YN,	T2_Q20G_WKS_Recode,	"tea");
+		%no(T2_Q20H_YN,	T2_Q20H_WKS_Recode,	"soda"); /*6168, 7057, 7163, 8075, 8238*/
+		%no(T2_Q20I_YN,	T2_Q20I_WKS_Recode,	"marijuana");
+		%no(T2_Q20J_YN,	T2_Q20J_WKS_Recode,	"cocaine");
 
+		/*Last bit of corrections and recode in Q2*/
+		/*Fix yn for those who have granular info*/
+			data drugs.q2; set drugs.q2;
+			if study_id=9194 then T2_Q20B_YN=1;
+			if study_id=9192 then T2_Q20C_YN=1;
+			/*COFFEE*/
+			if study_id=7093 then T2_Q20F_YN=1;
+			if study_id=7131 then T2_Q20F_YN=1;
+			/*SODA*/
+			if study_id=6168 then T2_Q20H_YN=1;
+			if study_id=7057 then T2_Q20H_YN=1;
+			if study_id=7163 then T2_Q20H_YN=1;
+			if study_id=8075 then T2_Q20H_YN=1;
+			if study_id=8238 then T2_Q20H_YN=1; Run;
 
+		/*Code days/weeks=0 and recode=. to days/weeks=. if yn is missing
+			unlike part II where yn=1*/
+				%macro q2miss(yn, setmiss);
+				data drugs.q2; set drugs.q2;
+				if &yn=. then &setmiss=.; run;
+				%mend;
+				
+				%q2miss(T2_Q20A_YN, T2_Q20A_DAY);
+				%q2miss(T2_Q20A_YN,	T2_Q20A_WEEK);
+				%q2miss(T2_Q20A_YN,	T2_Q20A_WKS_Recode	);
+				%q2miss(T2_Q20B_YN,	T2_Q20B_DAY	);
+				%q2miss(T2_Q20B_YN, T2_Q20B_WEEK	);
+				%q2miss(T2_Q20B_YN, T2_Q20B_WKS_Recode	);
+				%q2miss(T2_Q20C_YN,	T2_Q20C_DAY	);
+				%q2miss(T2_Q20C_YN,	T2_Q20C_WEEK	);
+				%q2miss(T2_Q20C_YN, T2_Q20C_WKS_Recode	);
+				%q2miss(T2_Q20D_YN,	T2_Q20D_DAY	);
+				%q2miss(T2_Q20D_YN, T2_Q20D_WEEK	);
+				%q2miss(T2_Q20D_YN, T2_Q20D_WKS_Recode	);
+				%q2miss(T2_Q20E_YN, T2_Q20E_DAY	);
+				%q2miss(T2_Q20E_YN,	T2_Q20E_WEEK	);
+				%q2miss(T2_Q20E_YN, T2_Q20E_WKS_Recode	);
+				%q2miss(T2_Q20F_YN, T2_Q20F_DAY	);
+				%q2miss(T2_Q20F_YN,	T2_Q20F_WEEK	);
+				%q2miss(T2_Q20F_YN,	T2_Q20F_WKS_Recode	);
+				%q2miss(T2_Q20G_YN, T2_Q20G_DAY	);
+				%q2miss(T2_Q20G_YN, T2_Q20G_WEEK	);
+				%q2miss(T2_Q20G_YN, T2_Q20G_WKS_Recode	);
+				%q2miss(T2_Q20H_YN, T2_Q20H_DAY	);
+				%q2miss(T2_Q20H_YN, T2_Q20H_WEEK	);
+				%q2miss(T2_Q20H_YN,	T2_Q20H_WKS_Recode	);
+				%q2miss(T2_Q20I_YN, T2_Q20I_DAY	);
+				%q2miss(T2_Q20I_YN, T2_Q20I_WEEK	);
+				%q2miss(T2_Q20I_YN, T2_Q20I_WKS_Recode	);
+				%q2miss(T2_Q20J_YN,	T2_Q20J_DAY	);
+				%q2miss(T2_Q20J_YN, T2_Q20J_WEEK	);
+				%q2miss(T2_Q20J_YN,	T2_Q20J_WKS_Recode	);
+		/*Q2 DONE
+
+/*Q3*/
 		%macro no(yn, last, name);
 		proc print data = drugs.q3 noobs;
 		where &yn = .;
 		var study_id &yn -- &last;
 		title &name; run;
 		%mend;
-		%no(T3_Q19A_YN,	T3_Q19A_WKS_Recode,	"cigarettes"); /*6232 should be Y*/
-		%no(T3_Q19B_YN,	T3_Q19B_WKS_Recode,	"redwine"); /*6232 should be Y*/
-		%no(T3_Q19C_YN,	T3_Q19C_WKS_Recode,	"otherwine");
-		%no(T3_Q19D_YN,	T3_Q19D_WKS_Recode,	"beer");
-		%no(T3_Q19E_YN,	T3_Q19E_WKS_Recode,	"liquor");
-		%no(T3_Q19F_YN,	T3_Q19F_WKS_Recode,	"coffee"); /*7240, 8215, 9201, some should be Y*/
-		%no(T3_Q19G_YN,	T3_Q19G_WKS_Recode,	"tea");
-		%no(T3_Q19H_YN,	T3_Q19H_WKS_Recode,	"soda"); /*7063*/
-		%no(T3_Q19I_YN,	T3_Q19I_WKS_Recode,	"marijuana");
-		%no(T3_Q19J_YN,	T3_Q19J_WKS_Recode,	"cocaine");
+		%no(cigarettes_yn,	T3_Q19A_WKS_Recode,	"cigarettes"); /*6232 should be Y*/
+		%no(redwine_yn,	T3_Q19B_WKS_Recode,	"redwine"); /*6232 should be Y*/
+		%no(otherwine_yn,	T3_Q19C_WKS_Recode,	"otherwine");
+		%no(beer_yn,	T3_Q19D_WKS_Recode,	"beer");
+		%no(liquor_yn,	T3_Q19E_WKS_Recode,	"liquor");
+		%no(coffee_yn,	T3_Q19F_WKS_Recode,	"coffee"); /*7240, 8215, 9201, some should be Y*/
+		%no(tea_yn,	T3_Q19G_WKS_Recode,	"tea");
+		%no(soda_yn,	T3_Q19H_WKS_Recode,	"soda"); /*7063*/
+		%no(marijuana_yn,	T3_Q19I_WKS_Recode,	"marijuana");
+		%no(cocaine_yn,	T3_Q19J_WKS_Recode,	"cocaine");
 
-	/*recode t3 Nos(1) to 0*/
-	data drugs.q3_v1; set drugs.q3;
-	if T3_Q19A_YN = 2 then
-	/*Then recode 2s to 1 (yes)*/
+		/*hardcode in copy of original data*/
+		data q3.q3_2020; set q3.q3_2020;
+		if study_id=6232 then cigarettes_yn=1;
+		if study_id=6232 then redwine_yn=1;
+		if study_id=7240 then coffee_yn=1;
+		if study_id=8215 then coffee_yn=1;
+		if study_id=9201 then coffee_yn=1;
+		if study_id=7063 then coffee_yn=1; run;
+/*Q3 Done*/
+
+/*See rerun for complete replication*/
