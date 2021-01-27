@@ -1,0 +1,26 @@
+library(dplyr)
+library(haven)
+
+# Read in T2 survey data
+# (assuming outcome zeros=missing and coding parity=0 for six participants with missing Q12 but Q12A=0)
+surveyt2 <- read_sas("~/Desktop/TIDES/Data/tides_q2_renamed_var_082213.sas7bdat") %>%
+  rename(studyid=StudyID) %>%
+  mutate(studyid=as.character(studyid),
+         studyid=ifelse(grepl("P",studyid),substr(studyid,2,5),studyid)) %>%
+  select(studyid,contains("Q12")) %>%
+  mutate_at(vars(contains("OUTCOME")),function(var) {ifelse(var==0,NA,var)}) %>%
+  mutate(took_T2survey=1)
+surveyt2 = mutate(surveyt2,parity = surveyt2 %>% select(contains("OUTCOME")) %>% 
+                    apply(1,function(vect) {ifelse(sum(is.na(vect))==length(vect),NA,sum(vect==1,na.rm=T))}))
+
+# if Q12=0, parity=0
+surveyt2$parity = ifelse(surveyt2$T2_Q12%in%0,0,surveyt2$parity)
+
+# if Q12A=0 and no pregnancies listed in table, parity=0
+surveyt2$parity = ifelse(surveyt2$T2_Q12A%in%0 & !(surveyt2$parity%in%1),0,surveyt2$parity)
+
+# increase parity for pregnancies w/ missing outcome but breastfeeding weeks >0
+surveyt2 = mutate(surveyt2,
+                  parity=ifelse(studyid %in% c(6138,6229),1,
+                                ifelse(studyid %in% c(8081,9077,9131,9173,9188,8101,8059,6160),parity+1,
+                                       parity)))
