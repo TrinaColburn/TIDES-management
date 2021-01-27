@@ -139,7 +139,7 @@ if t2_q12=0 and t2_q12a=. then parity=0; run;
 /****Amending Kate Christenbury/Kelly Ferguson NIEHS Code*****/
 /**Created temporary variables parity1 through parity12 and summed
    to create final parity variable*/
-/*will add duration condition for pregnancies greater than 25 weeks and any still births*/
+/*will add duration condition for pregnancies greater than 24 weeks and any still births*/
 /*Defintion of parity will include pregnancies that last 24 weeks or more*/
 
 %macro parity(outcome, duration, par_num);
