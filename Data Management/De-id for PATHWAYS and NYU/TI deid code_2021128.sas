@@ -250,15 +250,11 @@ PROC EXPORT DATA= TI_PWNYU.Q1_2021128_pwnyu
             OUTFILE= "J:\PM\TIDES_Data\Data Management\Data sharing history - NEED TO CLEAN\Last Data Share to PATHWAYS and NYU\Final datasets\Q1_2021128.csv" 
             DBMS=CSV REPLACE;
      PUTNAMES=YES; RUN;
-quit;
 
 PROC EXPORT DATA= TI_PWNYU.Q2_2021128_pwnyu
             OUTFILE= "J:\PM\TIDES_Data\Data Management\Data sharing history - NEED TO CLEAN\Last Data Share to PATHWAYS and NYU\Final datasets\Q2_2021128.csv" 
             DBMS=CSV REPLACE;
      PUTNAMES=YES; RUN;
-
-
-quit;
 
 PROC EXPORT DATA= TI_PWNYU.Q3_2021128_pwnyu
             OUTFILE= "J:\PM\TIDES_Data\Data Management\Data sharing history - NEED TO CLEAN\Last Data Share to PATHWAYS and NYU\Final datasets\Q3_2021128.csv" 
