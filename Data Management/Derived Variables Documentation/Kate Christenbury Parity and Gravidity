@@ -1,0 +1,98 @@
+**parity**;
+if t2_prevpreg_yn=1 then do;
+**Create temporary variables parity1 through parity12**;
+if t2_prevpreg_1_outcome =1 then parity1=1; else if t2_prevpreg_1_outcome in (0,2,3,4,5) then parity1=0;
+	if t2_prevpreg_2_outcome =1 then parity2=1; else if t2_prevpreg_2_outcome in (0,2,3,4,5) then parity2=0;
+	if t2_prevpreg_3_outcome =1 then parity3=1; else if t2_prevpreg_3_outcome in (0,2,3,4,5) then parity3=0;
+	if t2_prevpreg_4_outcome =1 then parity4=1; else if t2_prevpreg_4_outcome in (0,2,3,4,5) then parity4=0;
+	if t2_prevpreg_5_outcome =1 then parity5=1; else if t2_prevpreg_5_outcome in (0,2,3,4,5) then parity5=0;
+	if t2_prevpreg_6_outcome =1 then parity6=1; else if t2_prevpreg_6_outcome in (0,2,3,4,5) then parity6=0;
+	if t2_prevpreg_7_outcome =1 then parity7=1; else if t2_prevpreg_7_outcome in (0,2,3,4,5) then parity7=0;
+	if t2_prevpreg_8_outcome =1 then parity8=1; else if t2_prevpreg_8_outcome in (0,2,3,4,5) then parity8=0;
+	if t2_prevpreg_9_outcome =1 then parity9=1; else if t2_prevpreg_9_outcome in (0,2,3,4,5) then parity9=0;
+	if t2_prevpreg_10_outcome =1 then parity10=1; else if t2_prevpreg_10_outcome in (0,2,3,4,5) then parity10=0;
+	if t2_prevpreg_11_outcome =1 then parity11=1; else if t2_prevpreg_11_outcome in (0,2,3,4,5) then parity11=0;
+	if t2_prevpreg_12_outcome =1 then parity12=1; else if t2_prevpreg_12_outcome in (0,2,3,4,5) then parity12=0;
+  end;
+
+Parity =sum(of parity1-parity12);
+
+if t2_prevpreg_yn =0 then Parity =0;
+   
+**If we have a value for duration but outcome is 0 or missing set parity to missing**;
+	if 
+    (T2_prevpreg_1_dur_wks_der ne . and t2_prevpreg_1_outcome in (0,.)) or
+	(T2_prevpreg_2_dur_wks_der ne . and t2_prevpreg_2_outcome in (0,.)) or
+	(T2_prevpreg_3_dur_wks_der ne . and t2_prevpreg_3_outcome in (0,.)) or
+	(T2_prevpreg_4_dur_wks_der ne . and t2_prevpreg_4_outcome in (0,.)) or
+	(T2_prevpreg_5_dur_wks_der ne . and t2_prevpreg_5_outcome in (0,.)) or
+	(T2_prevpreg_6_dur_wks_der ne . and t2_prevpreg_6_outcome in (0,.)) or
+	(T2_prevpreg_7_dur_wks_der ne . and t2_prevpreg_7_outcome in (0,.)) or
+	(T2_prevpreg_8_dur_wks_der ne . and t2_prevpreg_8_outcome in (0,.)) or
+	(T2_prevpreg_9_dur_wks_der ne . and t2_prevpreg_9_outcome in (0,.)) or
+	(T2_prevpreg_10_dur_wks_der ne . and t2_prevpreg_10_outcome in (0,.))or
+	(T2_prevpreg_11_dur_wks_der ne . and t2_prevpreg_11_outcome in (0,.))or
+	(T2_prevpreg_12_dur_wks_der ne . and t2_prevpreg_12_outcome in (0,.)) 
+	then parity =.;
+
+**gravidity**;
+if t2_prevpreg_yn=1 then do;
+	**Create temporary variables gravidity1 through gravidity12**;
+	if t2_prevpreg_1_outcome in (1,2,3,4,5) then gravidity1=1; 
+    else if t2_prevpreg_1_outcome in (.,0) and T2_prevpreg_1_dur_wks_der not in (0,.) then gravidity1=1; 
+    else if t2_prevpreg_1_outcome =0 then gravidity1=0;
+
+	if t2_prevpreg_2_outcome in (1,2,3,4,5) then gravidity2=1; 
+    else if t2_prevpreg_2_outcome in (.,0) and T2_prevpreg_2_dur_wks_der not in (0,.) then gravidity2=1; 
+    else if t2_prevpreg_2_outcome =0 then gravidity2=0;
+
+	if t2_prevpreg_3_outcome in (1,2,3,4,5) then gravidity3=1; 
+    else if t2_prevpreg_3_outcome in (.,0) and T2_prevpreg_3_dur_wks_der not in (0,.) then gravidity3=1; 
+    else if t2_prevpreg_3_outcome =0 then gravidity3=0;
+
+	if t2_prevpreg_4_outcome in (1,2,3,4,5) then gravidity4=1; 
+    else if t2_prevpreg_4_outcome in (.,0) and T2_prevpreg_4_dur_wks_der not in (0,.) then gravidity4=1; 
+    else if t2_prevpreg_4_outcome =0 then gravidity4=0;
+
+	if t2_prevpreg_5_outcome in (1,2,3,4,5) then gravidity5=1; 
+    else if t2_prevpreg_5_outcome in (.,0) and T2_prevpreg_5_dur_wks_der not in (0,.) then gravidity5=1; 
+    else if t2_prevpreg_5_outcome =0 then gravidity5=0;
+
+	if t2_prevpreg_6_outcome in (1,2,3,4,5) then gravidity6=1; 
+    else if t2_prevpreg_6_outcome in (.,0) and T2_prevpreg_6_dur_wks_der not in (0,.) then gravidity6=1; 
+    else if t2_prevpreg_6_outcome =0 then gravidity6=0;
+
+	if t2_prevpreg_7_outcome in (1,2,3,4,5) then gravidity7=1; 
+    else if t2_prevpreg_7_outcome in (.,0) and T2_prevpreg_7_dur_wks_der not in (0,.) then gravidity7=1; 
+    else if t2_prevpreg_7_outcome =0 then gravidity7=0;
+
+	if t2_prevpreg_8_outcome in (1,2,3,4,5) then gravidity8=1; 
+    else if t2_prevpreg_8_outcome in (.,0) and T2_prevpreg_8_dur_wks_der not in (0,.) then gravidity8=1; 
+    else if t2_prevpreg_8_outcome =0 then gravidity8=0;
+
+	if t2_prevpreg_9_outcome in (1,2,3,4,5) then gravidity9=1; 
+    else if t2_prevpreg_9_outcome in (.,0) and T2_prevpreg_9_dur_wks_der not in (0,.) then gravidity9=1; 
+    else if t2_prevpreg_9_outcome =0 then gravidity9=0;
+
+	if t2_prevpreg_10_outcome in (1,2,3,4,5) then gravidity10=1; 
+    else if t2_prevpreg_10_outcome in (.,0) and T2_prevpreg_10_dur_wks_der not in (0,.) then gravidity10=1; 
+    else if t2_prevpreg_10_outcome =0 then gravidity10=0;
+
+	if t2_prevpreg_11_outcome in (1,2,3,4,5) then gravidity11=1; 
+    else if t2_prevpreg_11_outcome in (.,0) and T2_prevpreg_11_dur_wks_der not in (0,.) then gravidity11=1; 
+    else if t2_prevpreg_11_outcome =0 then gravidity11=0;
+
+	if t2_prevpreg_12_outcome in (1,2,3,4,5) then gravidity12=1; 
+    else if t2_prevpreg_12_outcome in (.,0) and T2_prevpreg_12_dur_wks_der not in (0,.) then gravidity12=1; 
+    else if t2_prevpreg_12_outcome =0 then gravidity12=0;
+
+  end;
+
+	gravidity_new=sum(of gravidity1-gravidity12);
+if t2_prevpreg_yn =0 then gravidity =0;
+
+**This person had t2_prevpreg_yn=1 but all outcomes are missing. Set to missing**;
+if studyid=9214 then do;
+gravidity = .;
+parity=.;
+end;
